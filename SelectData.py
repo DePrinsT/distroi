@@ -1,18 +1,24 @@
+"""
+File: SelectData.py
+Author: Dr. Akke Corporaal and Dr. Jacques Kluska, modified by Toon De Prins
+Description: Modification of the original file stored at '/STER/akke/Python/Image2OIFITS' in the local system of
+KU Leuven's Institute of Astronomy. Used to read in data from OIFITS files within certain limits.
+"""
+
 import numpy as np
 from astropy.io import fits
 import ReadOIFITS as oifits
 
-
 # This is used to select OIFITS data within certain limits and returns it as a ReadOIFITS 'data' object.
 # Mostly used to calculate chi2 from observation OIFITS VS model image OIFITS files
-def SelectData(data_dir, data_file, wave_1=False, wave_2=False, lim_V_err=False, lim_V=False, base_1=False,
+def SelectData(data_dir, data_file, wave_1=False, wave_2=False, lim_V2_err=False, lim_V2=False, base_1=False,
                base_2=False, lim_T3_err=False):
     ''' Returns the data that is selected based on:
     wave_1: the lower bound of the wavelength range
     that should be taken into account (in micron)
     wave_2: the upper bound of the wavelength range (in micron)
-    lim_V_err: limit up to which the errors on the visibility should be taken into account
-    lim_V: limit up to which the visibility should be taken into account. Can be used if some
+    lim_V2_err: limit up to which the errors on the visibility should be taken into account
+    lim_V2: limit up to which the visibility should be taken into account. Can be used if some
     visibilities are negative.
     base_1 and base_2: lower and upper limit, respectively, of bases taken into account
     (baseline should be in B/lambda)
@@ -20,11 +26,11 @@ def SelectData(data_dir, data_file, wave_1=False, wave_2=False, lim_V_err=False,
     All defaults are set to False. Set to a number if applicable
     '''
     data = oifits.read(data_dir, data_file, removeFlagged=True)
-    if lim_V_err != False:
-        Select_viserr(data, lim_V_err)
+    if lim_V2_err != False:
+        Select_viserr(data, lim_V2_err)
 
-    if lim_V != False:
-        Select_vis_lim(data, lim_V)
+    if lim_V2 != False:
+        Select_vis2_lim(data, lim_V2)
     if wave_1 != False and wave_2 != False or wave_1 != False and wave_2 == False or wave_1 == False and wave_2 != False:
         Select_vis_t3_wavelength(data, wave_1, wave_2)
     if lim_T3_err != False:
@@ -34,14 +40,14 @@ def SelectData(data_dir, data_file, wave_1=False, wave_2=False, lim_V_err=False,
     return data
 
 
-def SelectData_data_and_image(data_dir, data_file, img_dir, img_file, wave_1=False, wave_2=False, lim_V_err=False,
-                              lim_V=False, base_1=False, base_2=False, lim_T3_err=False):
+def SelectData_data_and_image(data_dir, data_file, img_dir, img_file, wave_1=False, wave_2=False, lim_V2_err=False,
+                              lim_V2=False, base_1=False, base_2=False, lim_T3_err=False):
     ''' Returns the data that is selected based on:
     wave_1: the lower bound of the wavelength range
     that should be taken into account (in micron)
     wave_2: the upper bound of the wavelength range (in micron)
-    lim_V_err: limit up to which the errors on the visibility should be taken into account
-    lim_V: limit up to which the visibility should be taken into account. Can be used if some
+    lim_V2_err: limit up to which the errors on the visibility should be taken into account
+    lim_V2: limit up to which the visibility should be taken into account. Can be used if some
     visibilities are negative.
     base_1 and base_2: lower and upper limit, respectively, of bases taken into account
     (baseline should be in B/lambda)
@@ -50,11 +56,11 @@ def SelectData_data_and_image(data_dir, data_file, img_dir, img_file, wave_1=Fal
     '''
     data = oifits.read(data_dir, data_file, removeFlagged=True)
     img_data = oifits.read(img_dir, img_file, removeFlagged=True)
-    if lim_V_err != False:
-        Select_viserr(data, lim_V_err, img_data)
+    if lim_V2_err != False:
+        Select_viserr(data, lim_V2_err, img_data)
 
-    if lim_V != False:
-        Select_vis_lim(data, lim_V, img_data)
+    if lim_V2 != False:
+        Select_vis2_lim(data, lim_V2, img_data)
     if wave_1 != False and wave_2 != False or wave_1 != False and wave_2 == False or wave_1 == False and wave_2 != False:
         Select_vis_t3_wavelength(data, wave_1, wave_2, img_data)
     if lim_T3_err != False:
@@ -64,13 +70,13 @@ def SelectData_data_and_image(data_dir, data_file, img_dir, img_file, wave_1=Fal
     return data, img_data
 
 
-def Select_viserr(data, lim_V_err, img_data=False):
+def Select_viserr(data, lim_V2_err, img_data=False):
     try:
         if data.vis2:
-            print('Selecting data up to V2err of {}'.format(lim_V_err))
+            print('Selecting data up to V2err of {}'.format(lim_V2_err))
             for i in np.arange(len(data.vis2)):
                 print(i)
-                maskv2 = data.vis2[i].vis2err < lim_V_err
+                maskv2 = data.vis2[i].vis2err < lim_V2_err
                 data.vis2[i].vis2data = data.vis2[i].vis2data[maskv2]
 
                 data.vis2[i].vis2err = data.vis2[i].vis2err[maskv2]
@@ -90,9 +96,9 @@ def Select_viserr(data, lim_V_err, img_data=False):
 
     try:
         if data.vis:
-            print('Selecting data up to visibility amplitudes errors of {}'.format(lim_V_err))
+            print('Selecting data up to visibility amplitudes errors of {}'.format(lim_V2_err))
             for i in np.arange(len(data.vis)):
-                maskv = data.vis[i].visamp < lim_V_err
+                maskv = data.vis[i].visamp < lim_V2_err
                 data.vis[i].visamp = data.vis[i].visamp[maskv]
                 data.vis[i].visamperr = data.vis[i].visamperr[maskv]
                 data.vis[i].effwave = data.vis[i].effwave[maskv]
@@ -105,12 +111,12 @@ def Select_viserr(data, lim_V_err, img_data=False):
     return data, img_data
 
 
-def Select_vis_lim(data, lim_V, img_data=False):
+def Select_vis2_lim(data, lim_V2, img_data=False):
     try:
         if data.vis2:
-            print('Selecting data up to V2 of {}'.format(lim_V))
+            print('Selecting data up to V2 of {}'.format(lim_V2))
             for i in np.arange(len(data.vis2)):
-                maskv2 = data.vis2[i].vis2data > lim_V
+                maskv2 = data.vis2[i].vis2data > lim_V2
                 data.vis2[i].vis2data = data.vis2[i].vis2data[maskv2]
                 data.vis2[i].vis2err = data.vis2[i].vis2err[maskv2]
                 data.vis2[i].effwave = data.vis2[i].effwave[maskv2]
@@ -129,9 +135,9 @@ def Select_vis_lim(data, lim_V, img_data=False):
 
     try:
         if data.vis:
-            print('Selecting data up to visibility amplitudes of {}'.format(lim_V))
+            print('Selecting data up to visibility amplitudes of {}'.format(lim_V2))
             for i in np.arange(len(data.vis)):
-                maskv = data.vis[i].visamp > lim_V
+                maskv = data.vis[i].visamp > lim_V2
                 data.vis[i].visamp = data.vis[i].visamp[maskv]
                 data.vis[i].visamperr = data.vis[i].visamperr[maskv]
                 data.vis[i].effwave = data.vis[i].effwave[maskv]
@@ -310,7 +316,7 @@ def Select_vis_t3_base(data, base_1, base_2, img_data=False):
                     C = np.where(data.vis[i].base > base_1)[0]
                     print('Selecting data from wave {} to max data wavelength {} m'.format(base_1))
                 elif base_1 != False and base_2 != False:
-                    C = np.where((data.vis[i].base < wave_2) & (data.t3[i].baSe > base_1))[0]
+                    C = np.where((data.vis[i].base < base_2) & (data.t3[i].baSe > base_1))[0]
                     print('Selecting data from wave {} to wave {} m'.format(base_1, base_2))
                 elif base_1 == False and base_2 != False:
                     C = np.where(data.vis[i].base < base_2)[0]

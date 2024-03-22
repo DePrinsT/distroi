@@ -1,9 +1,15 @@
+"""
+File: SelectData.py
+Author: Dr. Akke Corporaal and Dr. Jacques Kluska, modified by Toon De Prins
+Description: Modification of the original file stored at https://github.com/kluskaj/ReadOIFITS on GitHub.
+Provides a class to read in observation data from OIFITS files.
+"""
+
 import astropy.io.fits as fits
 import os
 import fnmatch
 import numpy as np
 import matplotlib.pyplot as plt
-
 
 # OIFITS READING MODULE
 

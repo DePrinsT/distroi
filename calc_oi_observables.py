@@ -1,16 +1,34 @@
+"""
+File: calc_oi_observables.py
+Author: Toon De Prins
+Description: Contains functions to take MCFOST model images and convert them to interferometric observables at the
+spatial frequencies of selected observational data stored in the  OIFITS format. NOTE: Assumes MCFOST images are
+calculated under a single inclination/azimuthal viewing angle.
+"""
+
 import os
 import glob
 
 import numpy as np
 from astropy.io import fits
 from scipy.interpolate import RegularGridInterpolator
+from scipy import constants
 import matplotlib.pyplot as plt
 
 import SelectData
 
+# setting some matplotlib parameters
+plt.rc('font', size=10)  # controls default text sizes
+plt.rc('axes', titlesize=12)  # fontsize of the axes title
+plt.rc('axes', labelsize=12)  # fontsize of the x and y labels
+plt.rc('xtick', labelsize=12)  # fontsize of the tick labels
+plt.rc('ytick', labelsize=12)  # fontsize of the tick labels
+plt.rc('legend', fontsize=10)  # legend fontsize
+plt.rc('figure', titlesize=12)  # fontsize of the figure title
+
 
 def perform_fft(mod_dir, img_dir, plotting=False, addinfo=False, fig_dir=None,
-                log_plotv=False, disk_only=False):
+                log_plotv=False, log_ploti=False, disk_only=False, fcorr=False, ebminv=0.0):
     """
     Function that takes an MCFOST model image .fits file, performs Fast Fourier Transform (FFT) and
     returns the image wavelength, fourier frequencies and FFT, allowing to make interpolators and calculate the
@@ -21,12 +39,13 @@ def perform_fft(mod_dir, img_dir, plotting=False, addinfo=False, fig_dir=None,
 
     rad_to_mas = 206264806.2471  # radian to mili-arcsecond conversion
     mum_to_m = 1e-6  # micrometer to meter conversion
+    spol = 299792458  # speed of light in m/s
 
     # open the required fits file + get some header info
     hdul = fits.open(f'{mod_dir}/{img_dir}/RT.fits.gz')
 
     # read in the wavelength, pixelscale and 'window size' (e.g. size of axis images in radian)
-    wave = hdul[0].header['WAVE']
+    wave = hdul[0].header['WAVE']  # wavelength in micron
     pixelscale_x = abs(hdul[0].header['CDELT1']) * np.pi / 180  # loaded in degrees, converted to radian
     pixelscale_y = abs(hdul[0].header['CDELT2']) * np.pi / 180
     num_pix_x = hdul[0].header['NAXIS1']  # number of pixels
@@ -34,29 +53,36 @@ def perform_fft(mod_dir, img_dir, plotting=False, addinfo=False, fig_dir=None,
     image_size_x = pixelscale_x * num_pix_x  # image size along 1 axis directly in radian
     image_size_y = pixelscale_y * num_pix_y
 
-    img_array = hdul[0].data / wave
+    img_array = hdul[0].data  # read in image data in lam x F_lam units W m^-2
     img_array = np.flip(img_array, axis=3)  # flip y-array (to match numpy axis convention)
 
-    img_tot = img_array[0, az, inc, :, :]
+    img_tot = img_array[0, az, inc, :, :]  # full total flux image
     img_star = img_array[4, az, inc, :, :]
     img_disk = (img_tot - img_star)
 
     if disk_only:
-        img = img_disk / np.max(img_disk)
+        img = img_disk
     else:
-        img = img_tot / np.max(img_tot)
+        img = img_tot
 
-    # normalized fft
-    ftot_lam = np.sum(img)
-    img_fft_norm = np.fft.fftshift(np.fft.fft2(np.fft.fftshift(img))) / ftot_lam
+    # image normalized by peak flux
+    img_norm = img/np.max(img)
+
+    # calculate fft normalized by total flux if the fcorr option is set to False, otherwise return the fft in
+    # Jansky units
+    if not fcorr:
+        img_fft = np.fft.fftshift(np.fft.fft2(np.fft.fftshift(img))) / np.sum(img)
+        print(f'wave {wave} total flux {np.sum(img)}')
+    else:
+        print('nullshit')
 
     # extract info on the frequencies, note this is in units of 1/pixel
     # !!! NOTE: the first axis in a numpy array is the y-axis of the image, the second axis is the x-axis
     # !!! NOTE: we add a minus because the positive x- and y-axis convention in numpy
     # is the reverse of the interferometric one !!!
 
-    w_x = -np.fft.fftshift(np.fft.fftfreq(img_fft_norm.shape[1]))  # also use fftshift so the 0 frequency can lie
-    w_y = -np.fft.fftshift(np.fft.fftfreq(img_fft_norm.shape[0]))  # in the middle of the returned array
+    w_x = -np.fft.fftshift(np.fft.fftfreq(img_fft.shape[1]))  # also use fftshift so the 0 frequency can lie
+    w_y = -np.fft.fftshift(np.fft.fftfreq(img_fft.shape[0]))  # in the middle of the returned array
 
     # convert to uv-baseline units (i.e. 1st a conversion to 1/radian, then express in terms of baseline length
     # in MegaLambda). NOTE: strictly speaking we're expresing baseline 'length' as MegaLambda is a unit of length,
@@ -79,13 +105,22 @@ def perform_fft(mod_dir, img_dir, plotting=False, addinfo=False, fig_dir=None,
         if not os.path.exists(fig_dir):
             os.mkdir(fig_dir)
 
+        if log_plotv:
+            normv = 'log'
+        else:
+            normv = 'linear'
+        if log_ploti:
+            normi = 'log'
+        else:
+            normi = 'linear'
+
         # do some plotting
         fig, ax = plt.subplots(2, 3, figsize=(12, 8))
         color_map = 'inferno'
 
         # normalized intensity plotted in pixel scale
         # also set the extent of the image when you plot it, take care that the number of pixels is even
-        img_plot = ax[0][0].imshow(img, cmap=color_map,
+        img_plot = ax[0][0].imshow(img_norm, cmap=color_map, norm=normi,
                                    extent=(num_pix_x / 2 + 0.5, -num_pix_x / 2 + 0.5,
                                            -num_pix_y / 2 + 0.5, num_pix_y / 2 + 0.5))
         fig.colorbar(img_plot, ax=ax[0][0], label='$I/I_{max}$', fraction=0.046, pad=0.04)
@@ -102,16 +137,11 @@ def perform_fft(mod_dir, img_dir, plotting=False, addinfo=False, fig_dir=None,
         ax[0][0].axvline(x=0, lw=0.2, color='white')
 
         # squared visibility of the direct fourier transform in pixel scale
-        if log_plotv:
-            v2plot = ax[0][1].imshow(np.log10(abs(img_fft_norm) ** 2), cmap=color_map,
-                                     extent=(num_pix_x / 2 + 0.5, -num_pix_x / 2 + 0.5,
-                                             -num_pix_y / 2 + 0.5, num_pix_y / 2 + 0.5))
-            fig.colorbar(v2plot, ax=ax[0][1], label='$log_{10} V^2$', fraction=0.046, pad=0.04)
-        else:
-            v2plot = ax[0][1].imshow(abs(img_fft_norm) ** 2, cmap=color_map,
-                                     extent=(num_pix_x / 2 + 0.5, -num_pix_x / 2 + 0.5,
-                                             -num_pix_y / 2 + 0.5, num_pix_y / 2 + 0.5))
-            fig.colorbar(v2plot, ax=ax[0][1], label='$V^2$', fraction=0.046, pad=0.04)
+        v2plot = ax[0][1].imshow(abs(img_fft) ** 2, cmap=color_map, norm=normv,
+                                 extent=(num_pix_x / 2 + 0.5, -num_pix_x / 2 + 0.5,
+                                         -num_pix_y / 2 + 0.5, num_pix_y / 2 + 0.5))
+        fig.colorbar(v2plot, ax=ax[0][1], label='$V^2$', fraction=0.046, pad=0.04)
+
         ax[0][1].axhline(y=0, lw=0.2, color='black')
         ax[0][1].axvline(x=0, lw=0.2, color='black')
 
@@ -120,7 +150,7 @@ def perform_fft(mod_dir, img_dir, plotting=False, addinfo=False, fig_dir=None,
         ax[0][1].set_ylabel(r"$v \rightarrow$ [1/pixel]")
 
         # complex phase of the direct fourier transform in pixel scale
-        phi_plot = ax[0][2].imshow(np.angle(img_fft_norm, deg=True), cmap=color_map,
+        phi_plot = ax[0][2].imshow(np.angle(img_fft, deg=True), cmap=color_map,
                                    extent=(num_pix_x / 2 + 0.5, -num_pix_x / 2 + 0.5,
                                            -num_pix_y / 2 + 0.5, num_pix_y / 2 + 0.5))
         fig.colorbar(phi_plot, ax=ax[0][2], label=r'$\phi$ [$^\circ$]', fraction=0.046, pad=0.04)
@@ -132,7 +162,7 @@ def perform_fft(mod_dir, img_dir, plotting=False, addinfo=False, fig_dir=None,
         ax[0][2].set_ylabel(r"$v \rightarrow$ [1/pixel]")
 
         # normalized intensity plotted in angle scale
-        img_plot = ax[1][0].imshow(img, cmap=color_map, aspect='auto',
+        img_plot = ax[1][0].imshow(img_norm, cmap=color_map, aspect='auto', norm=normi,
                                    extent=((num_pix_x / 2) * pixelscale_x * rad_to_mas,
                                            (-num_pix_x / 2) * pixelscale_x * rad_to_mas,
                                            (-num_pix_y / 2) * pixelscale_y * rad_to_mas,
@@ -152,16 +182,10 @@ def perform_fft(mod_dir, img_dir, plotting=False, addinfo=False, fig_dir=None,
         ax[1][0].axvline(x=0, lw=0.2, color='white')
 
         # squared visibility of the direct fourier transform in MegaLambda (baseline length) scale
-        if log_plotv:
-            v2plot = ax[1][1].imshow(np.log10(abs(img_fft_norm) ** 2), cmap=color_map,
-                                     extent=((num_pix_x / 2 + 0.5) * step_baseu, (-num_pix_x / 2 + 0.5) * step_baseu,
-                                             (-num_pix_y / 2 + 0.5) * step_basev, (num_pix_y / 2 + 0.5) * step_basev))
-            fig.colorbar(v2plot, ax=ax[1][1], label='$log_{10} V^2$', fraction=0.046, pad=0.04)
-        else:
-            v2plot = ax[1][1].imshow(abs(img_fft_norm) ** 2, cmap=color_map,
-                                     extent=((num_pix_x / 2 + 0.5) * step_baseu, (-num_pix_x / 2 + 0.5) * step_baseu,
-                                             (-num_pix_y / 2 + 0.5) * step_basev, (num_pix_y / 2 + 0.5) * step_basev))
-            fig.colorbar(v2plot, ax=ax[1][1], label='$V^2$', fraction=0.046, pad=0.04)
+        v2plot = ax[1][1].imshow(abs(img_fft) ** 2, cmap=color_map, norm=normv,
+                                 extent=((num_pix_x / 2 + 0.5) * step_baseu, (-num_pix_x / 2 + 0.5) * step_baseu,
+                                         (-num_pix_y / 2 + 0.5) * step_basev, (num_pix_y / 2 + 0.5) * step_basev))
+        fig.colorbar(v2plot, ax=ax[1][1], label='$V^2$', fraction=0.046, pad=0.04)
         ax[1][1].axhline(y=0, lw=0.2, color='black')
         ax[1][1].axvline(x=0, lw=0.2, color='black')
 
@@ -170,7 +194,7 @@ def perform_fft(mod_dir, img_dir, plotting=False, addinfo=False, fig_dir=None,
         ax[1][1].set_ylabel(r"$B_v \rightarrow$ [$\mathrm{M \lambda}$]")
 
         # complex phase of the direct fourier transform in MegaLambda (baseline length) scale
-        phi_plot = ax[1][2].imshow(np.angle(img_fft_norm, deg=True), cmap=color_map,
+        phi_plot = ax[1][2].imshow(np.angle(img_fft, deg=True), cmap=color_map,
                                    extent=((num_pix_x / 2 + 0.5) * step_baseu, (-num_pix_x / 2 + 0.5) * step_baseu,
                                            (-num_pix_y / 2 + 0.5) * step_basev, (num_pix_y / 2 + 0.5) * step_basev))
         fig.colorbar(phi_plot, ax=ax[1][2], label=r'$\phi$ [$^\circ$]', fraction=0.046, pad=0.04)
@@ -192,7 +216,7 @@ def perform_fft(mod_dir, img_dir, plotting=False, addinfo=False, fig_dir=None,
         plt.tight_layout()
 
         if fig_dir is not None:
-            plt.savefig(f"{fig_dir}/fft2d_maps_{wave}mum.png", dpi=300)
+            plt.savefig(f"{fig_dir}/fft2d_maps_{wave}mum.png", dpi=300, bbox_inches='tight')
 
         # Some plots of specific cuts in frequency space
         fig2, ax2 = plt.subplots(2, 1, figsize=(6, 6))
@@ -201,12 +225,12 @@ def perform_fft(mod_dir, img_dir, plotting=False, addinfo=False, fig_dir=None,
         # note we cut away the point furthest along positive u-axis since it contains a strong artefact due to
         # the FFT algorithm, otherwise we move down to spatial frequency 0
         v2hor = abs(
-            img_fft_norm[int(num_pix_y / 2), 1:int(num_pix_x / 2) + 1]) ** 2  # extract squared visibility along u-axis
-        phi_hor = np.angle(img_fft_norm[int(num_pix_y / 2), 1:], deg=True)  # extract complex phase
+            img_fft[int(num_pix_y / 2), 1:int(num_pix_x / 2) + 1]) ** 2  # extract squared visibility along u-axis
+        phi_hor = np.angle(img_fft[int(num_pix_y / 2), 1:], deg=True)  # extract complex phase
 
         v2ver = abs(
-            img_fft_norm[1:int(num_pix_y / 2) + 1, int(num_pix_x / 2)]) ** 2  # extract squared visibility along u-axis
-        phi_basever = np.angle(img_fft_norm[1:, int(num_pix_x / 2)], deg=True)  # extract complex phase
+            img_fft[1:int(num_pix_y / 2) + 1, int(num_pix_x / 2)]) ** 2  # extract squared visibility along u-axis
+        phi_basever = np.angle(img_fft[1:, int(num_pix_x / 2)], deg=True)  # extract complex phase
 
         ax2[0].plot(baseu[1:int(num_pix_x / 2) + 1], v2hor, c='b', label="along u-axis", lw=0.7, zorder=1000)
         ax2[1].plot(baseu[1:], phi_hor, c='b', lw=0.7, zorder=1000)
@@ -238,7 +262,7 @@ def perform_fft(mod_dir, img_dir, plotting=False, addinfo=False, fig_dir=None,
         plt.tight_layout()
 
         if fig_dir is not None:
-            plt.savefig(f"{fig_dir}/fft1d_cuts_{wave}mum.png", dpi=300)
+            plt.savefig(f"{fig_dir}/fft1d_cuts_{wave}mum.png", dpi=300, bbox_inches='tight')
 
     if addinfo:
         print("FREQUENCY INFORMATION IN PIXEL UNITS: \n" + "=====================================")
@@ -274,120 +298,122 @@ def perform_fft(mod_dir, img_dir, plotting=False, addinfo=False, fig_dir=None,
         print("===================================== \n")
         print(r"FREQUENCY INFORMATION IN TERMS OF CORRESPONDING BASELINE LENGTH: " +
               "\n" + "===========================================================================")
-        print("Maximum baseline resolvable under current pixel sampling E-W [Mlambda]: " +
+        print("maximum projected baseline resolvable under current pixel sampling E-W [Mlambda]: " +
               str((np.max(w_x) * 1 / pixelscale_x) / 1e6))
-        print("Spacing in baseline length corresponding to frequency sampling E-W [Mlambda]: " +
+        print("spacing in projected baseline length corresponding to frequency sampling E-W [Mlambda]: " +
               str(abs(((w_x[1] - w_x[0]) * 1 / pixelscale_x) / 1e6)))
-        print("Maximum baseline resolvable under current pixel sampling S-N [Mlambda]: " +
+        print("maximum projected baseline resolvable under current pixel sampling S-N [Mlambda]: " +
               str((np.max(w_y) * 1 / pixelscale_y) / 1e6))
-        print("Spacing in baseline length corresponding to frequency sampling S-N [Mlambda]: " +
+        print("spacing in projected baseline length corresponding to frequency sampling S-N [Mlambda]: " +
               str(abs(((w_y[1] - w_y[0]) * 1 / pixelscale_y) / 1e6)))
         print("-----------------------------------")
-        print("Maximum baseline resolvable under current pixel sampling E-W [m]: " +
+        print("maximum projected baseline resolvable under current pixel sampling E-W [m]: " +
               str(((np.max(w_x) * 1 / pixelscale_x) / 1e6) * 1e6 * wave * mum_to_m))
-        print("Spacing in baseline length corresponding to frequency sampling E-W [m]: " +
+        print("spacing in projected baseline length corresponding to frequency sampling E-W [m]: " +
               str(abs((((w_x[1] - w_x[0]) * 1 / pixelscale_x) / 1e6) * 1e6 * wave * mum_to_m)))
-        print("Maximum baseline resolvable under current pixel sampling S-N [m]: " +
+        print("maximum projected baseline resolvable under current pixel sampling S-N [m]: " +
               str(((np.max(w_y) * 1 / pixelscale_y) / 1e6) * 1e6 * wave * mum_to_m))
-        print("Spacing in baseline length corresponding to frequency sampling S-N [m]: " +
+        print("spacing in projected baseline length corresponding to frequency sampling S-N [m]: " +
               str(abs((((w_y[1] - w_y[0]) * 1 / pixelscale_y) / 1e6) * 1e6 * wave * mum_to_m)))
         print("=========================================================================== \n")
 
-    return wave, uf, vf, img_fft_norm
+    return wave, uf, vf, img_fft
 
 
-def get_observation_data(data_dir, data_file, wavelim_lower=None, wavelim_upper=None):
+def get_observation_data(data_dir, data_file, wavelim_lower=False, wavelim_upper=False, v2lim=False):
     """
     Function to retrieve observation data from OIFITS files and return it as raveled numpy arrays in a dictionary.
     This is basically a wrapper around ReadOIFITS.py and SelectData.py, but the raveled numpy arrays make things
     easier to calculate/interpolate using numpy/scipy. wave_1 and 2 are wavelength limits in meter to be applied.
     """
-    if wavelim_lower is None and wavelim_upper is None:
-        oidata = SelectData.SelectData(data_dir=data_dir, data_file=data_file)
-    else:
+    # if condition because / 1e6 fails if wavelimits are False
+    if wavelim_lower is not False and wavelim_upper is not False:
         oidata = SelectData.SelectData(data_dir=data_dir, data_file=data_file,
-                                       wave_1=wavelim_lower / 1e6, wave_2=wavelim_upper / 1e6)
+                                       wave_1=wavelim_lower / 1e6, wave_2=wavelim_upper / 1e6, lim_V2=v2lim)
+    else:
+        oidata = SelectData.SelectData(data_dir=data_dir, data_file=data_file, lim_V2=v2lim)
 
     obsvbs_dat = {}
 
     # arrays to store all necessary variables in a 1d array
-    ufdat = []
-    vfdat = []
-    wavedat = []
+    v2ufdat = []
+    v2vfdat = []
+    v2wavedat = []
     v2dat = []
     v2err = []
 
-    u1fdat = []
-    v1fdat = []
-    u2fdat = []
-    v2fdat = []
+    uf1dat = []
+    vf1dat = []
+    uf2dat = []
+    vf2dat = []
     t3wavedat = []
     t3phidat = []
     t3phierr = []
 
     # get V2 data
     for vis2table in oidata.vis2:
-        ufdat.extend(np.ravel(vis2table.uf))  # unravel the arrays to make them 1d
-        vfdat.extend(np.ravel(vis2table.vf))
-        wavedat.extend(np.ravel(vis2table.effwave))
+        v2ufdat.extend(np.ravel(vis2table.uf))  # unravel the arrays to make them 1d
+        v2vfdat.extend(np.ravel(vis2table.vf))
+        v2wavedat.extend(np.ravel(vis2table.effwave))
         v2dat.extend(np.ravel(vis2table.vis2data))
         v2err.extend(np.ravel(vis2table.vis2err))
 
         # get phi_closure data
     for t3table in oidata.t3[0:]:
-        u1fdat.extend(t3table.uf1)
-        v1fdat.extend(t3table.vf1)
-        u2fdat.extend(np.ravel(t3table.uf2))
-        v2fdat.extend(np.ravel(t3table.vf2))
+        uf1dat.extend(t3table.uf1)
+        vf1dat.extend(t3table.vf1)
+        uf2dat.extend(np.ravel(t3table.uf2))
+        vf2dat.extend(np.ravel(t3table.vf2))
         t3wavedat.extend(np.ravel(t3table.effwave))
         t3phidat.extend(np.ravel(t3table.t3phi))
         t3phierr.extend(np.ravel(t3table.t3phierr))
 
-    ufdat = np.array(ufdat)  # transfer into numpy arrays
-    vfdat = np.array(vfdat)
-    wavedat = np.array(wavedat)
+    v2ufdat = np.array(v2ufdat)  # transfer into numpy arrays
+    v2vfdat = np.array(v2vfdat)
+    v2wavedat = np.array(v2wavedat)
     v2dat = np.array(v2dat)
     v2err = np.array(v2err)
-    base = np.sqrt(ufdat ** 2 + vfdat ** 2) / 1e6  # uv baseline length in MegaLambda
+    v2base = np.sqrt(v2ufdat ** 2 + v2vfdat ** 2) / 1e6  # uv baseline length in MegaLambda
 
-    u1fdat = np.array(u1fdat)
-    v1fdat = np.array(v1fdat)
-    u2fdat = np.array(u2fdat)
-    v2fdat = np.array(v2fdat)
+    uf1dat = np.array(uf1dat)
+    vf1dat = np.array(vf1dat)
+    uf2dat = np.array(uf2dat)
+    vf2dat = np.array(vf2dat)
     t3wavedat = np.array(t3wavedat)
     t3phidat = np.array(t3phidat)
     t3phierr = np.array(t3phierr)
 
-    u3fdat = u1fdat + u2fdat  # 3d baseline (frequency) and max baseline of closure triangle (in MegaLambda)
-    v3fdat = v1fdat + v2fdat
-    bmax = np.maximum(np.sqrt(u3fdat ** 2 + v3fdat ** 2),
-                      np.maximum(np.sqrt(u1fdat ** 2 + v1fdat ** 2),
-                                 np.sqrt(u2fdat ** 2 + v2fdat ** 2))) / 1e6
+    uf3dat = uf1dat + uf2dat  # 3d baseline (frequency) and max baseline of closure triangle (in MegaLambda)
+    vf3dat = vf1dat + vf2dat
+    t3bmax = np.maximum(np.sqrt(uf3dat ** 2 + vf3dat ** 2),
+                        np.maximum(np.sqrt(uf1dat ** 2 + vf1dat ** 2),
+                                   np.sqrt(uf2dat ** 2 + vf2dat ** 2))) / 1e6
 
     # fill in data observables dictionary
-    obsvbs_dat['uf'] = ufdat  # spatial freqs in 1/rad
-    obsvbs_dat['vf'] = vfdat
-    obsvbs_dat['wave'] = wavedat  # wavelengths in meter
+    obsvbs_dat['v2uf'] = v2ufdat  # spatial freqs in 1/rad
+    obsvbs_dat['v2vf'] = v2vfdat
+    obsvbs_dat['v2wave'] = v2wavedat  # wavelengths in meter
     obsvbs_dat['v2'] = v2dat
     obsvbs_dat['v2err'] = v2err  # baseline length in MegaLambda
-    obsvbs_dat['base'] = base
+    obsvbs_dat['v2base'] = v2base
 
-    obsvbs_dat['u1f'] = u1fdat  # spatial freqs in 1/rad
-    obsvbs_dat['v1f'] = v1fdat
-    obsvbs_dat['u2f'] = u2fdat
-    obsvbs_dat['v2f'] = v2fdat
-    obsvbs_dat['u3f'] = u3fdat
-    obsvbs_dat['v3f'] = v3fdat
+    obsvbs_dat['t3uf1'] = uf1dat  # spatial freqs in 1/rad
+    obsvbs_dat['t3vf1'] = vf1dat
+    obsvbs_dat['t3uf2'] = uf2dat
+    obsvbs_dat['t3vf2'] = vf2dat
+    obsvbs_dat['t3uf3'] = uf3dat
+    obsvbs_dat['t3vf3'] = vf3dat
     obsvbs_dat['t3wave'] = t3wavedat  # wavelengths in meter
     obsvbs_dat['t3phi'] = t3phidat  # closure phases in degrees
     obsvbs_dat['t3phierr'] = t3phierr
-    obsvbs_dat['bmax'] = bmax  # max baseline lengths in MegaLambda
+    obsvbs_dat['t3bmax'] = t3bmax  # max baseline lengths in MegaLambda
 
     return obsvbs_dat
 
 
 def calc_model_oi_observables(data_dir, data_file, mod_dir, img_dir, monochr=False, disk_only=False,
-                              wavelim_lower=None, wavelim_upper=None, plotting=False, fig_dir=None):
+                              wavelim_lower=False, wavelim_upper=False, v2lim=False, plotting=False, fig_dir=None,
+                              log_plotv=False, fcorr=False, ebminv=0.0):
     """
     Function that loads in the OIFITS observations and calculates MCFOST model interferometry observables at the same
     spatial frequencies. The monochromatism 'monochr' argument can be used to use only observation data between the
@@ -406,29 +432,22 @@ def calc_model_oi_observables(data_dir, data_file, mod_dir, img_dir, monochr=Fal
 
     # retrieve dictionary observation observables
     obsvbs_dat = get_observation_data(data_dir, data_file, wavelim_lower=wavelim_lower,
-                                      wavelim_upper=wavelim_upper)
+                                      wavelim_upper=wavelim_upper, v2lim=v2lim)
 
     # Return model observables in a nice dictionary format
     obsvbs_mod = {}
 
     if monochr:
         # perform FFT on single image and return spatial frequencies and normalized FFT
-        wave, uf, vf, img_fft_norm = perform_fft(mod_dir, img_dir, plotting=False, addinfo=False,
-                                                 disk_only=disk_only, fig_dir=fig_dir)
-        # calculate squared visibilities and complex phases
-        img_fft_norm_v2 = abs(img_fft_norm) ** 2
-        img_fft_norm_phi = np.angle(img_fft_norm, deg=True)
+        wave, uf, vf, img_fft = perform_fft(mod_dir, img_dir, plotting=False, addinfo=False,
+                                            disk_only=disk_only, fig_dir=fig_dir)
 
-        # make interpolator for V2, note coordinates of numpy array are implied to be in order (vf, uf)
-        interp_v2 = RegularGridInterpolator((vf, uf), img_fft_norm_v2)
-        # make interpolator for complex phase
-        interp_phi = RegularGridInterpolator((vf, uf), img_fft_norm_phi)
-
-        # model observables calculation
-        v2mod = interp_v2((obsvbs_dat['vf'], obsvbs_dat['uf']))  # interpolate model V2 at data uv coverage
-        phi1mod = interp_phi((obsvbs_dat['v1f'], obsvbs_dat['u1f']))  # interpolate model complex phases
-        phi2mod = interp_phi((obsvbs_dat['v2f'], obsvbs_dat['u2f']))
-        phi3mod = interp_phi((obsvbs_dat['v3f'], obsvbs_dat['u3f']))
+        #  make interpolator and calculate model observables
+        interpolator = RegularGridInterpolator((vf, uf), img_fft)
+        v2mod = abs(interpolator((obsvbs_dat['v2vf'], obsvbs_dat['v2uf']))) ** 2
+        phi1mod = np.angle(interpolator((obsvbs_dat['t3vf1'], obsvbs_dat['t3uf1'])), deg=True)
+        phi2mod = np.angle(interpolator((obsvbs_dat['t3vf2'], obsvbs_dat['t3uf2'])), deg=True)
+        phi3mod = np.angle(interpolator((obsvbs_dat['t3vf3'], obsvbs_dat['t3uf3'])), deg=True)
         # We use the convention such that triangle ABC -> (u1,v1) = AB; (u2,v2) = BC; (u3,v3) = AC, not CA
         # This causes a minus sign shift for 3rd baseline when calculating closure phase (for real images)
         t3phimod = phi1mod + phi2mod - phi3mod
@@ -443,30 +462,25 @@ def calc_model_oi_observables(data_dir, data_file, mod_dir, img_dir, monochr=Fal
         mod_img_subdirs = sorted(glob.glob(f'{img_dir}/data_*', root_dir=mod_dir))
 
         mod_waves = []  # model image wavelengths in meter
-        img_fft_norm_chromatic = []  # 3d array to store FFT at diferent wavelengths
+        img_fft_chromatic = []  # 3d array to store FFT at diferent wavelengths
 
         for img_subdir in mod_img_subdirs:
             # perform FFT on single image and return spatial frequencies and normalized FFT
-            wave, uf, vf, img_fft_norm = perform_fft(mod_dir, img_subdir, False, addinfo=False,
-                                                     disk_only=disk_only, fig_dir=fig_dir)
+            wave, uf, vf, img_fft = perform_fft(mod_dir, img_subdir, False, addinfo=False,
+                                                disk_only=disk_only, fig_dir=fig_dir)
             mod_waves.append(wave / 1e6)
-            img_fft_norm_chromatic.append(img_fft_norm)
+            img_fft_chromatic.append(img_fft)
 
-        img_fft_norm_chromatic = np.array(img_fft_norm_chromatic)
+        img_fft_chromatic = np.array(img_fft_chromatic)
 
-        # calculate squared visibilities and complex phases
-        img_fft_norm_v2 = abs(img_fft_norm_chromatic) ** 2
-        img_fft_norm_phi = np.angle(img_fft_norm_chromatic, deg=True)
-
-        # make interpolators, coordinates of numpy array are implied to be in order (wavelenght, vf, uf)
-        interp_v2 = RegularGridInterpolator((mod_waves, vf, uf), img_fft_norm_v2)
-        interp_phi = RegularGridInterpolator((mod_waves, vf, uf), img_fft_norm_phi)
-
-        # model observables calculation at observation wavelengths
-        v2mod = interp_v2((obsvbs_dat['wave'], obsvbs_dat['vf'], obsvbs_dat['uf']))  # calc mod V2
-        phi1mod = interp_phi((obsvbs_dat['t3wave'], obsvbs_dat['v1f'], obsvbs_dat['u1f']))  # calc mod phi_closure
-        phi2mod = interp_phi((obsvbs_dat['t3wave'], obsvbs_dat['v2f'], obsvbs_dat['u2f']))
-        phi3mod = interp_phi((obsvbs_dat['t3wave'], obsvbs_dat['v3f'], obsvbs_dat['u3f']))
+        #  make interpolator and calculate model observables
+        interpolator = RegularGridInterpolator((mod_waves, vf, uf), img_fft_chromatic)
+        v2mod = abs(interpolator((obsvbs_dat['v2wave'], obsvbs_dat['v2vf'], obsvbs_dat['v2uf']))) ** 2
+        phi1mod = np.angle(interpolator((obsvbs_dat['t3wave'], obsvbs_dat['t3vf1'], obsvbs_dat['t3uf1'])), deg=True)
+        phi2mod = np.angle(interpolator((obsvbs_dat['t3wave'], obsvbs_dat['t3vf2'], obsvbs_dat['t3uf2'])), deg=True)
+        phi3mod = np.angle(interpolator((obsvbs_dat['t3wave'], obsvbs_dat['t3vf3'], obsvbs_dat['t3uf3'])), deg=True)
+        # We use the convention such that triangle ABC -> (u1,v1) = AB; (u2,v2) = BC; (u3,v3) = AC, not CA
+        # This causes a minus sign shift for 3rd baseline when calculating closure phase (for real images)
         t3phimod = phi1mod + phi2mod - phi3mod
 
         obsvbs_mod['v2'] = v2mod  # fill in the model observables dictionary
@@ -484,8 +498,8 @@ def calc_model_oi_observables(data_dir, data_file, mod_dir, img_dir, monochr=Fal
         if monochr:
             fig, ax = plt.subplots(1, 1, figsize=(5, 5))
 
-            ax.scatter(obsvbs_dat['uf'] / 1e6, obsvbs_dat['vf'] / 1e6, s=1.5, color='royalblue')
-            ax.scatter(-obsvbs_dat['uf'] / 1e6, -obsvbs_dat['vf'] / 1e6, s=1.5, color='royalblue')
+            ax.scatter(obsvbs_dat['v2uf'] / 1e6, obsvbs_dat['v2vf'] / 1e6, s=1.5, color='royalblue')
+            ax.scatter(-obsvbs_dat['v2uf'] / 1e6, -obsvbs_dat['v2vf'] / 1e6, s=1.5, color='royalblue')
 
             ax.set_xlim(ax.get_xlim()[::-1])
             ax.set_title(f'uv coverage, data selected from {wavelim_lower}-{wavelim_upper} mum')
@@ -493,7 +507,7 @@ def calc_model_oi_observables(data_dir, data_file, mod_dir, img_dir, monochr=Fal
             ax.set_ylabel(r"$B_v \rightarrow$ ($\mathrm{M \lambda}$)")
             plt.tight_layout()
 
-            plt.savefig(f"{fig_dir}/monochromatic_uv_plane.png", dpi=300)
+            plt.savefig(f"{fig_dir}/monochromatic_uv_plane.png", dpi=300, bbox_inches='tight')
         elif not monochr:
             # color map for wavelengths
             color_map = 'gist_rainbow_r'
@@ -502,9 +516,9 @@ def calc_model_oi_observables(data_dir, data_file, mod_dir, img_dir, monochr=Fal
             fig.subplots_adjust(right=0.8)
             cax = fig.add_axes([0.85, 0.15, 0.02, 0.7])
 
-            ax.scatter(obsvbs_dat['uf'] / 1e6, obsvbs_dat['vf'] / 1e6, c=obsvbs_dat['wave'] * 1e6, s=1,
+            ax.scatter(obsvbs_dat['v2uf'] / 1e6, obsvbs_dat['v2vf'] / 1e6, c=obsvbs_dat['v2wave'] * 1e6, s=1,
                        cmap=color_map)
-            sc = ax.scatter(-obsvbs_dat['uf'] / 1e6, -obsvbs_dat['vf'] / 1e6, c=obsvbs_dat['wave'] * 1e6, s=1,
+            sc = ax.scatter(-obsvbs_dat['v2uf'] / 1e6, -obsvbs_dat['v2vf'] / 1e6, c=obsvbs_dat['v2wave'] * 1e6, s=1,
                             cmap=color_map)
             clb = fig.colorbar(sc, cax=cax)
             clb.set_label(r'$\lambda$ ($\mu$m)', rotation=270, labelpad=15)
@@ -514,111 +528,142 @@ def calc_model_oi_observables(data_dir, data_file, mod_dir, img_dir, monochr=Fal
             ax.set_xlabel(r"$\leftarrow B_u$ ($\mathrm{M \lambda}$)")
             ax.set_ylabel(r"$B_v \rightarrow$ ($\mathrm{M \lambda}$)")
 
-            plt.savefig(f"{fig_dir}/chromatic_uv_plane.png", dpi=300)
+            plt.savefig(f"{fig_dir}/chromatic_uv_plane.png", dpi=300, bbox_inches='tight')
 
         # plot V2
         fig = plt.figure(figsize=(6, 6))
         gs = fig.add_gridspec(2, hspace=0, height_ratios=[1, 0.3])
         ax = gs.subplots(sharex=True)
 
-        ax[0].errorbar(obsvbs_dat['base'], obsvbs_dat['v2'], obsvbs_dat['v2err'], label='data', mec='royalblue',
-                       marker='d', mfc='white', capsize=0, zorder=0, markersize=4, ls='', alpha=1, elinewidth=0.5)
-        ax[0].scatter(obsvbs_dat['base'], obsvbs_mod['v2'], label=f'MCFOST model at {wave} mum', marker='o',
-                      color='r', s=2, alpha=0.5)
-        ax[1].scatter(obsvbs_dat['base'], (obsvbs_mod['v2'] - obsvbs_dat['v2']) / obsvbs_dat['v2err'],
-                      marker='o', color='r', s=2, alpha=0.5)
+        ax[0].errorbar(obsvbs_dat['v2base'], obsvbs_dat['v2'], obsvbs_dat['v2err'], label='data', mec='royalblue',
+                       marker='o', capsize=0, zorder=0, markersize=2, ls='', alpha=0.8, elinewidth=0.5)
+        ax[0].scatter(obsvbs_dat['v2base'], obsvbs_mod['v2'], label=f'MCFOST model at {wave} mum', marker='o',
+                      facecolor='white', edgecolor='r', s=4, alpha=0.6)
+        ax[1].scatter(obsvbs_dat['v2base'], (obsvbs_mod['v2'] - obsvbs_dat['v2']) / obsvbs_dat['v2err'],
+                      marker='o', facecolor='white', edgecolor='r', s=4, alpha=0.6)
 
         ax[0].set_ylabel('$V^2$')
-        ax[0].set_ylim(0, 1)
         ax[0].legend()
         ax[0].set_title(f'Squared Visibilities, data selected from {wavelim_lower}-{wavelim_upper} mum')
         ax[0].tick_params(axis="x", direction="in", pad=-15)
 
-        ax[1].set_xlim(0, np.max(obsvbs_dat['base']) * 1.05)
+        if log_plotv:
+            ax[0].set_ylim(np.min(obsvbs_dat['v2']), 1)
+            ax[0].set_yscale('log')
+        else:
+            ax[0].set_ylim(0, 1)
+
+        ax[1].set_xlim(0, np.max(obsvbs_dat['v2base']) * 1.05)
         ax[1].axhline(y=0, c='k', ls='--', lw=1, zorder=0)
         ax[1].set_xlabel(r'$B$ ($\mathrm{M \lambda}$)')
         ax[1].set_ylabel(r'error $(\sigma_{V^2})$')
         if monochr:
-            plt.savefig(f"{fig_dir}/monochromatic_V2.png", dpi=300)
+            plt.savefig(f"{fig_dir}/monochromatic_V2.png", dpi=300, bbox_inches='tight')
         else:
-            plt.savefig(f"{fig_dir}/chromatic_V2.png", dpi=300)
+            plt.savefig(f"{fig_dir}/chromatic_V2.png", dpi=300, bbox_inches='tight')
 
         # plot phi_closure
         fig = plt.figure(figsize=(6, 6))
         gs = fig.add_gridspec(2, hspace=0, height_ratios=[1, 0.3])
         ax = gs.subplots(sharex=True)
 
-        ax[0].errorbar(obsvbs_dat['bmax'], obsvbs_dat['t3phi'], obsvbs_dat['t3phierr'], label='data', mec='royalblue',
-                       marker='d', mfc='white', capsize=0, zorder=0, markersize=4, ls='', alpha=1, elinewidth=0.5)
-        ax[0].scatter(obsvbs_dat['bmax'], obsvbs_mod['t3phi'], label=f'MCFOST model at {wave} mum', marker='o',
-                      color='r', s=2, alpha=0.5)
-        ax[1].scatter(obsvbs_dat['bmax'], (obsvbs_mod['t3phi'] - obsvbs_dat['t3phi']) / obsvbs_dat['t3phierr'],
-                      marker='o', color='r', s=2, alpha=0.5)
+        ax[0].errorbar(obsvbs_dat['t3bmax'], obsvbs_dat['t3phi'], obsvbs_dat['t3phierr'], label='data', mec='royalblue',
+                       marker='o', capsize=0, zorder=0, markersize=2, ls='', alpha=0.8, elinewidth=0.5)
+        ax[0].scatter(obsvbs_dat['t3bmax'], obsvbs_mod['t3phi'], label=f'MCFOST model at {wave} mum', marker='o',
+                      facecolor='white', edgecolor='r', s=4, alpha=0.6)
+        ax[1].scatter(obsvbs_dat['t3bmax'], (obsvbs_mod['t3phi'] - obsvbs_dat['t3phi']) / obsvbs_dat['t3phierr'],
+                      marker='o', facecolor='white', edgecolor='r', s=4, alpha=0.6)
 
         ax[0].set_ylabel(r'$\phi_{CP}$ ($^\circ$)')
         ax[0].legend()
         ax[0].set_title(f'Closure Phases, data selected from {wavelim_lower}-{wavelim_upper} mum')
         ax[0].tick_params(axis="x", direction="in", pad=-15)
 
-        ax[1].set_xlim(0, np.max(obsvbs_dat['bmax']) * 1.05)
+        ax[1].set_xlim(0, np.max(obsvbs_dat['t3bmax']) * 1.05)
         ax[1].axhline(y=0, c='k', ls='--', lw=1, zorder=0)
         ax[1].set_xlabel(r'$B_{max}$ ($\mathrm{M \lambda}$)')
         ax[1].set_ylabel(r'error $(\sigma_{\phi_{CP}})$')
         if monochr:
-            plt.savefig(f"{fig_dir}/monochromatic_t3phi.png", dpi=300)
+            plt.savefig(f"{fig_dir}/monochromatic_t3phi.png", dpi=300, bbox_inches='tight')
         else:
-            plt.savefig(f"{fig_dir}/chromatic_t3phi.png", dpi=300)
+            plt.savefig(f"{fig_dir}/chromatic_t3phi.png", dpi=300, bbox_inches='tight')
 
     return obsvbs_dat, obsvbs_mod
 
 
 if __name__ == '__main__':
-    # PIONIER tests
+    print('TESTS')
+    # # PIONIER tests
+    # # ------------------------
+    # print('PIONIER TESTS')
+    # data_dir = '/home/toond/Documents/phd/data/IRAS0844-4431/PIONIER/'
+    # data_file = '*.fits'
+    # mod_dir = '/home/toond/Documents/phd/MCFOST/recr_corporaal_et_al2023/models_akke_mcfost/best_model1_largeFOV/'
+    # img_dir = 'PIONIER/data_1.65/'
+    # fig_dir = '/home/toond/Downloads/figs/PIONIER/'
+    #
+    # # FFT test
+    # wave, uf, vf, img_fft = perform_fft(mod_dir, img_dir, plotting=True, addinfo=True,
+    #                                     disk_only=False, fig_dir=fig_dir)
+    #
+    # # Monochromatic model observables test
+    # obsvbs_dat, obsvbs_mod = calc_model_oi_observables(data_dir, data_file, mod_dir, img_dir,
+    #                                                    monochr=True, wavelim_lower=1.63, wavelim_upper=1.67,
+    #                                                    plotting=True, fig_dir=fig_dir)
+
+    # # Chromatic model observables test
+    # img_dir = 'PIONIER'
+    # obsvbs_dat, obsvbs_mod = calc_model_oi_observables(data_dir, data_file, mod_dir, img_dir, monochr=False,
+    #                                                    wavelim_lower=False, wavelim_upper=False, plotting=True,
+    #                                                    fig_dir=fig_dir)
     # ------------------------
-    print('PIONIER TESTS')
-    data_dir = '/home/toond/Documents/phd/data/IRAS0844-4431/PIONIER/'
+
+    # # GRAVITY tests
+    # # ------------------------
+    # print('GRAVITY TESTS')
+    # data_dir = '/home/toond/Documents/phd/data/IRAS0844-4431/GRAVITY/'
+    # data_file = '*1.fits'
+    # mod_dir = '/home/toond/Documents/phd/MCFOST/recr_corporaal_et_al2023/models_akke_mcfost/best_model1_largeFOV/'
+    # img_dir = 'GRAVITY/data_2.22/'
+    # fig_dir = '/home/toond/Downloads/figs/GRAVITY/'
+    # #
+    # # FFT test
+    # wave, uf, vf, img_fft = perform_fft(mod_dir, img_dir, plotting=True, addinfo=True,
+    #                                     disk_only=False, fig_dir=fig_dir)
+    # #
+    # # Monochromatic model observables test
+    # obsvbs_dat, obsvbs_mod = calc_model_oi_observables(data_dir, data_file, mod_dir, img_dir,
+    #                                                    monochr=True, wavelim_lower=2.17, wavelim_upper=2.27,
+    #                                                    plotting=True, fig_dir=fig_dir)
+    #
+    # # Chromatic model observables test
+    # img_dir = 'GRAVITY'
+    # obsvbs_dat, obsvbs_mod = calc_model_oi_observables(data_dir, data_file, mod_dir, img_dir, monochr=False,
+    #                                                    wavelim_lower=False, wavelim_upper=False, plotting=True,
+    #                                                    fig_dir=fig_dir)
+    # # ------------------------
+
+    # MATISSE L-BAND tests
+    # ------------------------
+    print('MATISSE L-BAND')
+    data_dir = '/home/toond/Documents/phd/data/IRAS0844-4431/MATISSE_L/'
     data_file = '*.fits'
     mod_dir = '/home/toond/Documents/phd/MCFOST/recr_corporaal_et_al2023/models_akke_mcfost/best_model1_largeFOV/'
-    img_dir = 'PIONIER/data_1.65/'
-    fig_dir = '/home/toond/Downloads/figs/'
-
-    # FFT test
-    wave, uf, vf, img_fft_norm = perform_fft(mod_dir, img_dir, plotting=True, addinfo=True,
-                                             disk_only=False, fig_dir=fig_dir)
-
-    # Monochromatic model observables test
-    obsvbs_dat, obsvbs_mod = calc_model_oi_observables(data_dir, data_file, mod_dir, img_dir,
-                                                       monochr=True, wavelim_lower=1.63, wavelim_upper=1.67,
-                                                       plotting=True, fig_dir=fig_dir)
-
-    # Chromatic model observables test
-    img_dir = 'PIONIER'
-    obsvbs_dat, obsvbs_mod = calc_model_oi_observables(data_dir, data_file, mod_dir, img_dir, monochr=False,
-                                                       wavelim_lower=None, wavelim_upper=None, plotting=True,
-                                                       fig_dir=fig_dir)
-    # ------------------------
-
-    # GRAVITY tests
-    # ------------------------
-    print('GRAVITY TESTS')
-    data_dir = '/home/toond/Documents/phd/data/IRAS0844-4431/GRAVITY/'
-    data_file = '*1.fits'
-    mod_dir = '/home/toond/Documents/phd/MCFOST/recr_corporaal_et_al2023/models_akke_mcfost/best_model1_largeFOV/'
-    img_dir = 'GRAVITY/data_2.22/'
-    fig_dir = '/home/toond/Downloads/figs/'
+    img_dir = 'MATISSE_L/data_3.55/'
+    fig_dir = '/home/toond/Downloads/figs/MATISSE_L/'
     #
     # FFT test
-    wave, uf, vf, img_fft_norm = perform_fft(mod_dir, img_dir, plotting=True, addinfo=True,
-                                             disk_only=False, fig_dir=fig_dir)
+    wave, uf, vf, img_fft = perform_fft(mod_dir, img_dir, plotting=True, addinfo=True,
+                                        disk_only=False, fig_dir=fig_dir)
     #
     # Monochromatic model observables test
     obsvbs_dat, obsvbs_mod = calc_model_oi_observables(data_dir, data_file, mod_dir, img_dir,
-                                                       monochr=True, wavelim_lower=2.17, wavelim_upper=2.27,
-                                                       plotting=True, fig_dir=fig_dir)
-
+                                                       monochr=True, wavelim_lower=3.48, wavelim_upper=3.55,
+                                                       plotting=True, fig_dir=fig_dir, log_plotv=True)
     # Chromatic model observables test
-    img_dir = 'GRAVITY'
+    img_dir = 'MATISSE_L'
+    # cut off the wavelength range edges because data is bad there
     obsvbs_dat, obsvbs_mod = calc_model_oi_observables(data_dir, data_file, mod_dir, img_dir, monochr=False,
-                                                       wavelim_lower=None, wavelim_upper=None, plotting=True,
-                                                       fig_dir=fig_dir)
-    # ------------------------
+                                                       wavelim_lower=2.95, wavelim_upper=3.95, v2lim=1e-20,
+                                                       plotting=True, log_plotv=True, fig_dir=fig_dir)
+    # # ------------------------
