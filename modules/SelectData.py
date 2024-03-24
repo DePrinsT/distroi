@@ -6,13 +6,13 @@ KU Leuven's Institute of Astronomy. Used to read in data from OIFITS files withi
 """
 
 import numpy as np
-from astropy.io import fits
 import ReadOIFITS as oifits
+
 
 # This is used to select OIFITS data within certain limits and returns it as a ReadOIFITS 'data' object.
 # Mostly used to calculate chi2 from observation OIFITS VS model image OIFITS files
-def SelectData(data_dir, data_file, wave_1=False, wave_2=False, lim_V2_err=False, lim_V2=False, base_1=False,
-               base_2=False, lim_T3_err=False):
+def SelectData(data_dir, data_file, wave_1=None, wave_2=None, lim_V2_err=None, lim_V2=None, base_1=None,
+               base_2=None, lim_T3_err=None):
     ''' Returns the data that is selected based on:
     wave_1: the lower bound of the wavelength range
     that should be taken into account (in micron)
@@ -26,22 +26,22 @@ def SelectData(data_dir, data_file, wave_1=False, wave_2=False, lim_V2_err=False
     All defaults are set to False. Set to a number if applicable
     '''
     data = oifits.read(data_dir, data_file, removeFlagged=True)
-    if lim_V2_err != False:
+    if lim_V2_err != None:
         Select_viserr(data, lim_V2_err)
 
-    if lim_V2 != False:
+    if lim_V2 != None:
         Select_vis2_lim(data, lim_V2)
-    if wave_1 != False and wave_2 != False or wave_1 != False and wave_2 == False or wave_1 == False and wave_2 != False:
+    if wave_1 != None and wave_2 != None or wave_1 != None and wave_2 == None or wave_1 == None and wave_2 != None:
         Select_vis_t3_wavelength(data, wave_1, wave_2)
-    if lim_T3_err != False:
+    if lim_T3_err != None:
         Select_T3err(data, lim_T3_err)
-    if base_1 != False and base_2 != False or base_1 != False and base_2 == False or base_1 == False and base_2 != False:
+    if base_1 != None and base_2 != None or base_1 != None and base_2 == None or base_1 == None and base_2 != None:
         Select_vis_t3_base(data, base_1, base_2)
     return data
 
 
-def SelectData_data_and_image(data_dir, data_file, img_dir, img_file, wave_1=False, wave_2=False, lim_V2_err=False,
-                              lim_V2=False, base_1=False, base_2=False, lim_T3_err=False):
+def SelectData_data_and_image(data_dir, data_file, img_dir, img_file, wave_1=None, wave_2=None, lim_V2_err=None,
+                              lim_V2=None, base_1=None, base_2=None, lim_T3_err=None):
     ''' Returns the data that is selected based on:
     wave_1: the lower bound of the wavelength range
     that should be taken into account (in micron)
@@ -56,21 +56,21 @@ def SelectData_data_and_image(data_dir, data_file, img_dir, img_file, wave_1=Fal
     '''
     data = oifits.read(data_dir, data_file, removeFlagged=True)
     img_data = oifits.read(img_dir, img_file, removeFlagged=True)
-    if lim_V2_err != False:
+    if lim_V2_err != None:
         Select_viserr(data, lim_V2_err, img_data)
 
-    if lim_V2 != False:
+    if lim_V2 != None:
         Select_vis2_lim(data, lim_V2, img_data)
-    if wave_1 != False and wave_2 != False or wave_1 != False and wave_2 == False or wave_1 == False and wave_2 != False:
+    if wave_1 != None and wave_2 != None or wave_1 != None and wave_2 == None or wave_1 == None and wave_2 != None:
         Select_vis_t3_wavelength(data, wave_1, wave_2, img_data)
-    if lim_T3_err != False:
+    if lim_T3_err != None:
         Select_T3err(data, lim_T3_err, img_data)
-    if base_1 != False and base_2 != False or base_1 != False and base_2 == False or base_1 == False and base_2 != False:
+    if base_1 != None and base_2 != None or base_1 != None and base_2 == None or base_1 == None and base_2 != None:
         Select_vis_t3_base(data, base_1, base_2, img_data)
     return data, img_data
 
 
-def Select_viserr(data, lim_V2_err, img_data=False):
+def Select_viserr(data, lim_V2_err, img_data=None):
     try:
         if data.vis2:
             print('Selecting data up to V2err of {}'.format(lim_V2_err))
@@ -83,7 +83,7 @@ def Select_viserr(data, lim_V2_err, img_data=False):
                 data.vis2[i].effwave = data.vis2[i].effwave[maskv2]
                 data.vis2[i].uf = data.vis2[i].uf[maskv2]
                 data.vis2[i].vf = data.vis2[i].vf[maskv2]
-                if img_data != False:
+                if img_data != None:
                     img_data.vis2[i].vis2data = img_data.vis2[i].vis2data[maskv2]
                     img_data.vis2[i].vis2err = img_data.vis2[i].vis2err[maskv2]
                     img_data.vis2[i].effwave = img_data.vis2[i].effwave[maskv2]
@@ -111,7 +111,7 @@ def Select_viserr(data, lim_V2_err, img_data=False):
     return data, img_data
 
 
-def Select_vis2_lim(data, lim_V2, img_data=False):
+def Select_vis2_lim(data, lim_V2, img_data=None):
     try:
         if data.vis2:
             print('Selecting data up to V2 of {}'.format(lim_V2))
@@ -122,7 +122,7 @@ def Select_vis2_lim(data, lim_V2, img_data=False):
                 data.vis2[i].effwave = data.vis2[i].effwave[maskv2]
                 data.vis2[i].uf = data.vis2[i].uf[maskv2]
                 data.vis2[i].vf = data.vis2[i].vf[maskv2]
-                if img_data != False:
+                if img_data != None:
                     img_data.vis2[i].vis2data = img_data.vis2[i].vis2data[maskv2]
                     img_data.vis2[i].vis2err = img_data.vis2[i].vis2err[maskv2]
                     img_data.vis2[i].effwave = img_data.vis2[i].effwave[maskv2]
@@ -143,7 +143,7 @@ def Select_vis2_lim(data, lim_V2, img_data=False):
                 data.vis[i].effwave = data.vis[i].effwave[maskv]
                 data.vis[i].uf = data.vis[i].uf[maskv]
                 data.vis[i].vf = data.vis[i].vf[maskv]
-                if img_data != False:
+                if img_data != None:
                     img_data.vis[i].visamp = img_data.vis[i].visamp[maskv]
                     img_data.vis[i].visamperr = img_data.vis[i].visamperr[maskv]
                     img_data.vis[i].effwave = img_data.vis[i].effwave[maskv]
@@ -156,18 +156,18 @@ def Select_vis2_lim(data, lim_V2, img_data=False):
     return data, img_data
 
 
-def Select_vis_t3_wavelength(data, wave_1, wave_2, img_data=False):
+def Select_vis_t3_wavelength(data, wave_1, wave_2, img_data=None):
     try:
         if data.vis2:
 
             for i in np.arange(len(data.vis2)):
-                if wave_1 != False and wave_2 == False:
+                if wave_1 != None and wave_2 == None:
                     C = np.where(data.vis2[i].effwave > wave_1)[0]
-                    print('Selecting data from wave {} to max data wavelength {} m'.format(wave_1))
-                elif wave_1 != False and wave_2 != False:
+                    print('Selecting data from wave {} to max data wavelength {} m'.format(wave_1, wave_2))
+                elif wave_1 != None and wave_2 != None:
                     C = np.where((data.vis2[i].effwave < wave_2) & (data.vis2[i].effwave > wave_1))[0]
                     print('Selecting data from wave {} to wave {} m'.format(wave_1, wave_2))
-                elif wave_1 == False and wave_2 != False:
+                elif wave_1 == None and wave_2 != None:
                     C = np.where(data.vis2[i].effwave < wave_2)[0]
                     print('Selecting data from min data wavelength to {} m'.format(wave_2))
                 data.vis2[i].vis2data = data.vis2[i].vis2data[C]
@@ -175,7 +175,7 @@ def Select_vis_t3_wavelength(data, wave_1, wave_2, img_data=False):
                 data.vis2[i].effwave = data.vis2[i].effwave[C]
                 data.vis2[i].uf = data.vis2[i].uf[C]
                 data.vis2[i].vf = data.vis2[i].vf[C]
-                if img_data != False:
+                if img_data != None:
                     img_data.vis2[i].vis2data = img_data.vis2[i].vis2data[C]
                     img_data.vis2[i].vis2err = img_data.vis2[i].vis2err[C]
                     img_data.vis2[i].effwave = img_data.vis2[i].effwave[C]
@@ -189,13 +189,13 @@ def Select_vis_t3_wavelength(data, wave_1, wave_2, img_data=False):
     try:
         if data.vis:
             for i in np.arange(len(data.vis)):
-                if wave_1 != False and wave_2 == False:
+                if wave_1 != None and wave_2 == None:
                     C = np.where(data.vis[i].effwave > wave_1)[0]
-                    print('Selecting data from wave {} to max data wavelength {} m'.format(wave_1))
-                elif wave_1 != False and wave_2 != False:
+                    print('Selecting data from wave {} to max data wavelength {} m'.format(wave_1, wave_2))
+                elif wave_1 != None and wave_2 != None:
                     C = np.where((data.vis[i].effwave < wave_2) & (data.vis[i].effwave > wave_1))[0]
                     print('Selecting data from wave {} to wave {} m'.format(wave_1, wave_2))
-                elif wave_1 == False and wave_2 != False:
+                elif wave_1 == None and wave_2 != None:
                     C = np.where(data.vis[i].effwave < wave_2)[0]
                     print('Selecting data from min data wavelength to {} m'.format(wave_2))
                 data.vis[i].visamp = data.vis[i].visamp[C]
@@ -203,7 +203,7 @@ def Select_vis_t3_wavelength(data, wave_1, wave_2, img_data=False):
                 data.vis[i].effwave = data.vis[i].effwave[C]
                 data.vis[i].uf = data.vis[i].uf[C]
                 data.vis[i].vf = data.vis[i].vf[C]
-                if img_data != False:
+                if img_data != None:
                     img_data.vis[i].visamp = img_data.vis[i].visamp[C]
                     img_data.vis[i].visamperr = img_data.vis[i].visamperr[C]
                     img_data.vis[i].effwave = img_data.vis[i].effwave[C]
@@ -217,13 +217,13 @@ def Select_vis_t3_wavelength(data, wave_1, wave_2, img_data=False):
     try:
         if data.t3:
             for i in np.arange(len(data.t3)):
-                if wave_1 != False and wave_2 == False:
+                if wave_1 != None and wave_2 == None:
                     C = np.where(data.t3[i].effwave > wave_1)[0]
-                    print('Selecting data from wave {} to max data wavelength {} m'.format(wave_1))
-                elif wave_1 != False and wave_2 != False:
+                    print('Selecting data from wave {} to max data wavelength {} m'.format(wave_1, wave_2))
+                elif wave_1 != None and wave_2 != None:
                     C = np.where((data.t3[i].effwave < wave_2) & (data.t3[i].effwave > wave_1))[0]
                     print('Selecting data from wave {} to wave {} m'.format(wave_1, wave_2))
-                elif wave_1 == False and wave_2 != False:
+                elif wave_1 == None and wave_2 != None:
                     C = np.where(data.t3[i].effwave < wave_2)[0]
                     print('Selecting data from min data wavelength to {} m'.format(wave_2))
                 data.t3[i].t3amp = data.t3[i].t3amp[C]
@@ -235,7 +235,7 @@ def Select_vis_t3_wavelength(data, wave_1, wave_2, img_data=False):
                 data.t3[i].vf1 = data.t3[i].vf1[C]
                 data.t3[i].uf2 = data.t3[i].uf2[C]
                 data.t3[i].vf2 = data.t3[i].vf2[C]
-                if img_data != False:
+                if img_data != None:
                     img_data.t3[i].t3amp = img_data.t3[i].t3amp[C]
                     img_data.t3[i].t3amperr = img_data.t3[i].t3amperr[C]
                     img_data.t3[i].t3phi = img_data.t3[i].t3phi[C]
@@ -252,7 +252,7 @@ def Select_vis_t3_wavelength(data, wave_1, wave_2, img_data=False):
     return data, img_data
 
 
-def Select_T3err(data, lim_T3_err, img_data=False):
+def Select_T3err(data, lim_T3_err, img_data=None):
     try:
         if data.t3:
             print('Selecting data up to T3 of {}'.format(lim_T3_err))
@@ -267,7 +267,7 @@ def Select_T3err(data, lim_T3_err, img_data=False):
                 data.t3[i].vf1 = data.t3[i].vf1[maskT3]
                 data.t3[i].uf2 = data.t3[i].uf2[maskT3]
                 data.t3[i].vf2 = data.t3[i].vf2[maskT3]
-                if img_data != False:
+                if img_data != None:
                     img_data.t3[i].t3amp = img_data.t3[i].t3amp[maskT3]
                     img_data.t3[i].t3amperr = img_data.t3[i].t3amperr[maskT3]
                     img_data.t3[i].t3phi = img_data.t3[i].t3phi[maskT3]
@@ -285,18 +285,18 @@ def Select_T3err(data, lim_T3_err, img_data=False):
     return data, img_data
 
 
-def Select_vis_t3_base(data, base_1, base_2, img_data=False):
+def Select_vis_t3_base(data, base_1, base_2, img_data=None):
     try:
         if data.vis2:
             for i in np.arange(len(data.vis2)):
                 base = np.sqrt(data.vis2[i].uf ** 2 + data.vis2[i].vf ** 2)
-                if base_1 != False and base_2 == False:
+                if base_1 != None and base_2 == None:
                     C = np.where(base > base_1)[0]
                     print('Selecting data from data baseline {} to the maximum baseline'.format(base_1))
-                elif base_1 != False and base_2 != False:
+                elif base_1 != None and base_2 != None:
                     C = np.where((base < base_2) & (base > base_1))[0]
                     print('Selecting data from base {} to base {} m'.format(base_1, base_2))
-                elif base_1 == False and base_2 != False:
+                elif base_1 == None and base_2 != None:
                     C = np.where(base < base_2)[0]
                     print('Selecting data from min data baseline to {} m'.format(base_2))
                 data.vis2[i].vis2data = data.vis2[i].vis2data[C]
@@ -312,13 +312,13 @@ def Select_vis_t3_base(data, base_1, base_2, img_data=False):
     try:
         if data.vis:
             for i in np.arange(len(data.vis)):
-                if base_1 != False and base_2 == False:
+                if base_1 != None and base_2 == None:
                     C = np.where(data.vis[i].base > base_1)[0]
-                    print('Selecting data from wave {} to max data wavelength {} m'.format(base_1))
-                elif base_1 != False and base_2 != False:
+                    print('Selecting data from wave {} to max data wavelength {} m'.format(base_1, base_2))
+                elif base_1 != None and base_2 != None:
                     C = np.where((data.vis[i].base < base_2) & (data.t3[i].baSe > base_1))[0]
                     print('Selecting data from wave {} to wave {} m'.format(base_1, base_2))
-                elif base_1 == False and base_2 != False:
+                elif base_1 == None and base_2 != None:
                     C = np.where(data.vis[i].base < base_2)[0]
                     print('Selecting data from min data wavelength to {} m'.format(base_2))
                 data.vis[i].visamp = data.vis[i].visamp[C]
@@ -335,13 +335,13 @@ def Select_vis_t3_base(data, base_1, base_2, img_data=False):
     # try:
     #     if data.t3:
     #         for i in np.arange(len(data.t3)):
-    #             if wave_1!=False and wave_2==False:
+    #             if wave_1!=None and wave_2==None:
     #                 C=np.where(data.t3[i].effwave>wave_1)[0]
     #                 print('Selecting data from wave {} to max data wavelength {} m'.format(wave_1))
-    #             elif wave_1!=False and wave_2!=False:
+    #             elif wave_1!=None and wave_2!=None:
     #                 C=np.where((data.t3[i].effwave<wave_2) & (data.t3[i].effwave>wave_1))[0]
     #                 print('Selecting data from wave {} to wave {} m'.format(wave_1, wave_2))
-    #             elif wave_1==False and wave_2!=False:
+    #             elif wave_1==None and wave_2!=None:
     #                 C=np.where(data.t3[i].effwave<wave_2)[0]
     #                 print('Selecting data from min data wavelength to {} m'.format(wave_2))
     #             data.t3[i].t3amp=data.t3[i].t3amp[C]
