@@ -39,7 +39,7 @@ def read_sed_data(filename):
     """
     # open up the observed photometric data, note that the units are in erg/s/cm2/AA
     # cut out the laste points, these often overlap with the next column
-    df = pd.read_csv(filename, delim_whitespace=True, header=3,
+    df = pd.read_csv(filename, sep='\s+', header=3,
                      names=['meas', 'e_meas', 'flag', 'unit', 'photband', 'source',
                             '_r', '_RAJ2000', '_DEJ2000', 'cwave', 'cmeas', 'e_cmeas',
                             'cunit', 'color', 'include', 'phase', 'bibcode', 'comments'])
@@ -114,7 +114,7 @@ def redden_flux(lam, flux, reddening_law_path, ebminv):
     else:
         # read in the ISM reddening law wavelengths in Angström and A/E in magnitude
         df_law = pd.read_csv(reddening_law_path, header=2, names=['WAVE', 'A/E'],
-                             delim_whitespace=True, engine='python')
+                             sep='\s+', engine='python')
         # set wavelength to micrometer
         lam_law = np.array(df_law['WAVE'])*10**-4
         ae_law = np.array(df_law['A/E'])
