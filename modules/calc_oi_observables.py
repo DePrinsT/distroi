@@ -3,7 +3,9 @@ File: calc_oi_observables.py
 Author: Toon De Prins
 Description: Contains functions to take MCFOST model images and convert them to interferometric observables at the
 spatial frequencies of selected observational data stored in the  OIFITS format. NOTE: Assumes MCFOST images are
-calculated under a single inclination/azimuthal viewing angle.
+calculated under a single inclination/azimuthal viewing angle. Currently supports the following combinations of
+obsevrables: Squared visibilities - Closure phases ; Correlated fluxes (formaly stored as visibilities) -
+Closure phases.
 """
 
 import os
@@ -39,7 +41,6 @@ def perform_fft(mod_dir, img_dir, plotting=False, addinfo=False, fig_dir=None,
 
     rad_to_mas = 206264806.2471  # radian to mili-arcsecond conversion
     mum_to_m = 1e-6  # micrometer to meter conversion
-    spol = 299792458  # speed of light in m/s
 
     # open the required fits file + get some header info
     hdul = fits.open(f'{mod_dir}/{img_dir}/RT.fits.gz')
@@ -582,7 +583,7 @@ def calc_model_oi_observables(data_dir, data_file, mod_dir, img_dir, monochr=Fal
         ax[0].tick_params(axis="x", direction="in", pad=-15)
 
         if log_plotv:
-            ax[0].set_ylim(np.min(obsvbs_dat['v2']), 1)
+            ax[0].set_ylim(0.5*np.min(obsvbs_dat['v2']), 1)
             ax[0].set_yscale('log')
         else:
             ax[0].set_ylim(0, 1)
@@ -627,30 +628,32 @@ def calc_model_oi_observables(data_dir, data_file, mod_dir, img_dir, monochr=Fal
 
 if __name__ == '__main__':
     print('TESTS')
-    # PIONIER tests
-    # ------------------------
-    print('PIONIER TESTS')
-    data_dir = '/home/toond/Documents/phd/data/IRAS0844-4431/PIONIER/'
-    data_file = '*.fits'
-    mod_dir = '/home/toond/Documents/phd/MCFOST/recr_corporaal_et_al2023/models_akke_mcfost/best_model1_largeFOV/'
-    img_dir = 'PIONIER/data_1.65/'
-    fig_dir = '/home/toond/Downloads/figs/PIONIER/'
+    print(np.linspace(7.9, 13.1, 6))
 
-    # FFT test
-    wave, uf, vf, img_fft = perform_fft(mod_dir, img_dir, plotting=True, addinfo=True,
-                                        disk_only=True, fig_dir=fig_dir)
-
-    # Monochromatic model observables test
-    obsvbs_dat, obsvbs_mod = calc_model_oi_observables(data_dir, data_file, mod_dir, img_dir,
-                                                       monochr=True, wavelim_lower=1.63, wavelim_upper=1.65,
-                                                       plotting=True, fig_dir=fig_dir)
-
-    # Chromatic model observables test
-    img_dir = 'PIONIER'
-    obsvbs_dat, obsvbs_mod = calc_model_oi_observables(data_dir, data_file, mod_dir, img_dir, monochr=False,
-                                                       wavelim_lower=None, wavelim_upper=None, plotting=True,
-                                                       fig_dir=fig_dir)
-    # ------------------------
+    # # PIONIER tests
+    # # ------------------------
+    # print('PIONIER TESTS')
+    # data_dir = '/home/toond/Documents/phd/data/IRAS0844-4431/PIONIER/'
+    # data_file = '*.fits'
+    # mod_dir = '/home/toond/Documents/phd/MCFOST/recr_corporaal_et_al2023/models_akke_mcfost/best_model1_largeFOV/'
+    # img_dir = 'PIONIER/data_1.65/'
+    # fig_dir = '/home/toond/Downloads/figs/PIONIER/'
+    #
+    # # FFT test
+    # wave, uf, vf, img_fft = perform_fft(mod_dir, img_dir, plotting=True, addinfo=True,
+    #                                     disk_only=True, fig_dir=fig_dir)
+    #
+    # # Monochromatic model observables test
+    # obsvbs_dat, obsvbs_mod = calc_model_oi_observables(data_dir, data_file, mod_dir, img_dir,
+    #                                                    monochr=True, wavelim_lower=1.63, wavelim_upper=1.65,
+    #                                                    plotting=True, fig_dir=fig_dir)
+    #
+    # # Chromatic model observables test
+    # img_dir = 'PIONIER'
+    # obsvbs_dat, obsvbs_mod = calc_model_oi_observables(data_dir, data_file, mod_dir, img_dir, monochr=False,
+    #                                                    wavelim_lower=None, wavelim_upper=None, plotting=True,
+    #                                                    fig_dir=fig_dir)
+    # # ------------------------
 
     # # GRAVITY tests
     # # ------------------------
@@ -658,7 +661,7 @@ if __name__ == '__main__':
     # data_dir = '/home/toond/Documents/phd/data/IRAS0844-4431/GRAVITY/'
     # data_file = '*1.fits'
     # mod_dir = '/home/toond/Documents/phd/MCFOST/recr_corporaal_et_al2023/models_akke_mcfost/best_model1_largeFOV/'
-    # img_dir = 'GRAVITY/data_2.22/'
+    # img_dir = 'GRAVITY/data_2.2/'
     # fig_dir = '/home/toond/Downloads/figs/GRAVITY/'
     # #
     # # FFT test
@@ -677,13 +680,13 @@ if __name__ == '__main__':
     #                                                    fig_dir=fig_dir)
     # # ------------------------
 
-    # MATISSE L-BAND tests
-    # ------------------------
+    # # MATISSE L-BAND tests
+    # # ------------------------
     # print('MATISSE L-BAND')
     # data_dir = '/home/toond/Documents/phd/data/IRAS0844-4431/MATISSE_L/'
     # data_file = '*.fits'
     # mod_dir = '/home/toond/Documents/phd/MCFOST/recr_corporaal_et_al2023/models_akke_mcfost/best_model1_largeFOV/'
-    # img_dir = 'MATISSE_L/data_3.55/'
+    # img_dir = 'MATISSE_L/data_3.5/'
     # fig_dir = '/home/toond/Downloads/figs/MATISSE_L/'
     #
     # # FFT test
@@ -704,26 +707,25 @@ if __name__ == '__main__':
 
     # MATISSE N-BAND tests
     # ------------------------
-    # print('MATISSE N-BAND')
-    # data_dir = '/home/toond/Documents/phd/data/IRAS0844-4431/MATISSE_N/'
-    # data_file = '*.fits'
-    # mod_dir = '/home/toond/Documents/phd/MCFOST/recr_corporaal_et_al2023/models_akke_mcfost/best_model1_largeFOV/'
-    # img_dir = 'MATISSE_N/data_10.0/'
-    # fig_dir = '/home/toond/Downloads/figs/MATISSE_L/'
+    print('MATISSE N-BAND')
+    data_dir = '/home/toond/Documents/phd/data/IRAS0844-4431/MATISSE_N/'
+    data_file = '*.fits'
+    mod_dir = '/home/toond/Documents/phd/MCFOST/recr_corporaal_et_al2023/models_akke_mcfost/best_model1_largeFOV/'
+    img_dir = 'MATISSE_N/data_10.0/'
+    fig_dir = '/home/toond/Downloads/figs/MATISSE_N/'
+
+    # FFT test
+    wave, uf, vf, img_fft = perform_fft(mod_dir, img_dir, plotting=True, addinfo=True,
+                                        disk_only=False, fig_dir=fig_dir, fcorr=True, log_ploti=True, log_plotv=True)
     #
-    # # FFT test
-    # wave, uf, vf, img_fft = perform_fft(mod_dir, img_dir, plotting=True, addinfo=True,
-    #                                     disk_only=False, fig_dir=fig_dir, fcorr=True, log_ploti=True, log_plotv=True)
-    # #
-    # # Monochromatic model observables test
-    # obsvbs_dat, obsvbs_mod = calc_model_oi_observables(data_dir, data_file, mod_dir, img_dir,
-    #                                                    monochr=True, wavelim_lower=9.75, wavelim_upper=10.20,
-    #                                                    plotting=True, fig_dir=fig_dir, log_plotv=True)
-    # # Chromatic model observables test
-    # img_dir = 'MATISSE_N'
-    # # cut off the wavelength range edges because data is bad there
-    # obsvbs_dat, obsvbs_mod = calc_model_oi_observables(data_dir, data_file, mod_dir, img_dir, monochr=False,
-    #                                                    wavelim_lower=8.5, wavelim_upper=12.0,
-    #                                                    plotting=True, log_plotv=True, fig_dir=fig_dir)
+    # Monochromatic model observables test
+    obsvbs_dat, obsvbs_mod = calc_model_oi_observables(data_dir, data_file, mod_dir, img_dir,
+                                                       monochr=True, wavelim_lower=9.75, wavelim_upper=10.20,
+                                                       plotting=True, fig_dir=fig_dir, log_plotv=True)
+    # Chromatic model observables test
+    img_dir = 'MATISSE_N'
+    # cut off the wavelength range edges because data is bad there
+    obsvbs_dat, obsvbs_mod = calc_model_oi_observables(data_dir, data_file, mod_dir, img_dir, monochr=False,
+                                                       wavelim_lower=8.5, wavelim_upper=12.0,
+                                                       plotting=True, log_plotv=True, fig_dir=fig_dir)
     # ------------------------
-    print(np.linspace(1.5, 1.8, 6))
