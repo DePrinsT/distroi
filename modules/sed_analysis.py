@@ -6,24 +6,18 @@ observed SEDs from the SED repository. NOTE: Assumes MCFOST SEDs calculated unde
 viewing angle.
 """
 
-import numpy as np
 import os
 import subprocess
+
 import scipy
+import numpy as np
 from astropy.io import fits
 from astropy import units as u
 import pandas as pd
+
 import matplotlib.pyplot as plt
-
-# setting some matplotlib parameters
-plt.rc('font',   size=10)          # controls default text sizes
-plt.rc('axes',   titlesize=12)     # fontsize of the axes title
-plt.rc('axes',   labelsize=12)     # fontsize of the x and y labels
-plt.rc('xtick',  labelsize=12)     # fontsize of the tick labels
-plt.rc('ytick',  labelsize=12)     # fontsize of the tick labels
-plt.rc('legend', fontsize=10)      # legend fontsize
-plt.rc('figure', titlesize=12)     # fontsize of the figure title
-
+import matplotlib_settings
+matplotlib_settings.set_matplotlib_params()  # set project matplotlib parameters
 
 def read_sed_data(filename):
     """
