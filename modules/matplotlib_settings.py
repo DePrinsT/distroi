@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 
+
 def set_matplotlib_params():
     # setting some matplotlib parameters
     plt.rc('font', size=9)  # controls default text sizes
