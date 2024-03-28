@@ -11,6 +11,7 @@ import fnmatch
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 # OIFITS READING MODULE
 
 # colour class used by Blender (svn.blender.org)

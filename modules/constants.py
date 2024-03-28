@@ -1,3 +1,7 @@
+"""
+File containing constants to be used throughout the project.
+"""
+
 import os
 import numpy as np
 

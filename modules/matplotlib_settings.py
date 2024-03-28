@@ -1,3 +1,6 @@
+"""
+General file to set the matplotlib settings to the values used as the
+"""
 import matplotlib.pyplot as plt
 
 

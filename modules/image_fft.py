@@ -1,16 +1,19 @@
 """
-Defines class and corresponding methods to load in and handle model images and their fast fourier transform.
+File: image_fft.py
+Author: Toon De Prins
+Description: Defines class and corresponding methods to load in and handle model disk images and their fast fourier
+transform.
 """
 import os
 
-import constants
-import sed_analysis
+import modules.constants as constants
+import modules.sed_analysis as sed_analysis
 
 import numpy as np
 from astropy.io import fits
 
 import matplotlib.pyplot as plt
-import matplotlib_settings
+import modules.matplotlib_settings as matplotlib_settings
 
 matplotlib_settings.set_matplotlib_params()  # set project matplotlib parameters
 
@@ -19,62 +22,74 @@ class ImageFFT:
     """
     Class containing information on a model image and its fast fourier transform. While default options are tuned to
     MCFOST model disk images, it can easily be generalized by adding an extra option for 'read_method' in the
-    initializer and defining a corresponding reader function analogous to 'read_from_mcfost'.
+    constructor and defining a corresponding image reader function analogous to 'read_img_mcfost'.
     """
 
     def __init__(self, img_path, read_method='mcfost', disk_only=False):
         """
-        Initializer that sets the instance's attributes to default values. Assigns all properties that are expected to
-        be contained in a singular instance in order to fully describe both the image and its fast fourier transform
-        (FFT). Note that these properties are expected if other class methods are to work. Uses class methods like
-        read_mcfost_image to read in a model image and assign useful values to the properties.
+        Constructor that creates an ImageFFT object and sets the instance's attributes. Assigns all properties that
+        are expected to be contained in a singular instance in order to fully describe both the image and its fast
+        fourier transform (FFT). Note that these properties are expected if other class methods are to work. Uses
+        class methods like read_mcfost_image to read in a model image and assign useful values to the properties.
 
         Parameters:
             img_path (str): path to the model image file to read in
             read_method (str): which reader method to use to read in a model image. Defaults to 'mcfost' to read
                 in MCFOST output images stored in .fits.gz files.
-        Properties:
-            wave (float): image wavelength in micron
-            pixelscale_x (float): pixelscale in radian in x direction
-            pixelscale_y (float): pixelscale in radian in y direction
-            num_pix_x (float): amount of pixels in x direction
-            num_pix_y (float): amount of pixels in y direction
-            img (array): 2D numpy array containing the image in Jansky. 1st index = image y-axis,
-                2nd index = image x-axis
-            ftot (float): total flux in Jansky
-            img_fft (array): numpy FFT of self.img in absolute flux (i.e. in Jansky)
-            w_x (array): numpy FFT x-axis frequencies returned by np.fft.fftshift(np.fft.fftfreq()), i.e. units 1/pixel
-            w_y (array): analogous to w_x but for the y-axis
-            uf (array): FFT spatial frequencies in 1/radian, i.e. uf = w_x/pixelscale_x
-            vf (array): FFT spatial frequencies in 1/radian, i.e. vf = w_y/pixelscale_y
+        Properties initialized:
+            self.wave (float): image wavelength in micron
+            self.pixelscale_x (float): pixelscale in radian in x (East-West) direction
+            self.pixelscale_y (float): pixelscale in radian in y (North-South) direction
+            self.num_pix_x (float): amount of pixels in x direction
+            self.num_pix_y (float): amount of pixels in y direction
+            self.img (2d array): 2D numpy array containing the image in Jansky. 1st index = image y-axis,
+                2nd index = image x-axis.
+            self.ftot (float): total flux in Jansky
+            self.img_fft (2d array): numpy FFT of self.img in absolute flux (i.e. in Jansky)
+            self.w_x (1d array): numpy FFT x-axis frequencies returned by np.fft.fftshift(np.fft.fftfreq()),
+                i.e. units 1/pixel
+            self.w_y (1d array): analogous to w_x but for the y-axis
+            self.uf (1d array): FFT spatial frequencies in 1/radian, i.e. uf = w_x/pixelscale_x
+            self.vf (1 darray): FFT spatial frequencies in 1/radian, i.e. vf = w_y/pixelscale_y
         """
         self.wave = None  # image wavelength in micron
 
         self.pixelscale_x = None  # pixelscale in radian in x direction
-        self.pixelscale_y = None
+        self.pixelscale_y = None  # pixelscale in radian in y direction
         self.num_pix_x = None  # number of pixels in x direction
-        self.num_pix_y = None
+        self.num_pix_y = None  # number of pixels in y direction
 
         self.img = None  # 2d numpy array containing the flux, 1st index = image y-axis, 2nd index = image x-axis
         self.ftot = None  # total flux in Jy
 
         self.img_fft = None  # numpy FFT of self.img in absolute flux (Jansky)
         self.w_x = None  # numpy FFT frequencies returned by np.fft.fftshift(np.fft.fftfreq()), i.e. units 1/pixel
-        self.w_y = None
+        self.w_y = None  # for x and y-axis respectively
         self.uf = None  # FFT spatial frequencies in 1/radian, i.e. uf = w_x/pixelscale_x; vf = w_y/pixelscale_y
-        self.vf = None
+        self.vf = None  # for x-axis (u in inteferometric convention) and y-axis (v in inteferometric convention)
 
-        # choose reader function and initialize
+        # choose reader function and initialize image properties, can add extra options here for different RT codes
         if read_method == 'mcfost':
-            self.read_from_mcfost(img_path, disk_only=disk_only)
+            self.read_img_mcfost(img_path, disk_only=disk_only)
 
-    def read_from_mcfost(self, img_path, disk_only=False):
+        # perform the fft
+        self.perform_fft()
+
+    def read_img_mcfost(self, img_path, disk_only=False):
         """
-        Initializes a DiskImage instance by reading in an MCFOST image run output file.
+        Initializes the required properties related to the image by reading an MCFOST image run output file.
 
         Parameters:
             img_path (str): path to an MCFOST output RT.fits.gz image file
             disk_only (bool): set to True if you only want to load in the flux from the disk
+        Properties affected:
+            wave
+            self.pixelscale_x
+            self.pixelscale_y
+            self.num_pix_x
+            self.num_pix_y
+            self.img
+            self.ftot
         """
         az, inc = 0, 0  # only load the first azimuthal/inc value image in the .fits file
 
@@ -95,6 +110,8 @@ class ImageFFT:
         img_star = img_array[4, az, inc, :, :]
         img_disk = (img_tot - img_star)
 
+        # Set all image-related class instance properties below.
+
         if disk_only:
             self.img = img_disk
         else:
@@ -105,6 +122,18 @@ class ImageFFT:
                      constants.SPEED_OF_LIGHT)  # convert to F_nu in SI units (W m^-2 Hz^-1)
         self.img *= constants.WATT_PER_METER2_HZ_2JY  # convert image to Jansky
         self.ftot = np.sum(self.img)  # total flux in Jansky
+
+    def perform_fft(self):
+        """
+        Perform the numpy FFT and set the required properties related to the image's FFT.
+
+        Properties affected:
+            self.img_fft
+            self.w_x
+            self.wy
+            self.uf
+            self.vf
+        """
         self.img_fft = np.fft.fftshift(np.fft.fft2(np.fft.fftshift(self.img)))  # complex fft in Jansky
 
         # extract info on the frequencies, note this is in units of 1/pixel
@@ -142,74 +171,79 @@ class ImageFFT:
 
     def freq_info(self):
         """
-        Prints out information on both the frequency domain/sampling and the corresponding projected baselines.
+        Returns string containing information on both the frequency domain/sampling and the corresponding projected
+        baselines.
+
+        Returns:
+            info_str (str): String containing frequency info which can be printed.
         """
         image_size_x = self.pixelscale_x * self.num_pix_x
         image_size_y = self.pixelscale_y * self.num_pix_y
 
-        print("FREQUENCY INFORMATION IN PIXEL UNITS: \n" + "=====================================")
-        print("Maximum frequency considered E-W [1/pixel]: " + str(np.max(self.w_x)))
-        print("Maximum frequency considered S-N [1/pixel]: " + str(np.max(self.w_y)))
-        print("This should equal the Nyquist frequency = 0.5 x 1/sampling_rate " +
-              "(sampling_rate = 1 pixel in pixel units, = 1 pixelscale in physical units)")
-        print("Spacing in frequency space E-W [1/pixel]: " + str(abs(self.w_x[1] - self.w_x[0])))
-        print("Spacing in frequency space South-North [1/pixel]: " + str(abs(self.w_y[1] - self.w_y[0])))
-        print("This should equal 1/window_size (i.e. = 1/(#pixels) in pixel units, " +
-              "= 1/image_size in physical units)")
-        print("===================================== \n")
-        print("FREQUENCY INFORMATION IN ANGULAR UNITS: \n" + "=======================================")
-        print("Pixel scale E-W [rad]: " + str(self.pixelscale_x))
-        print("Pixel scale S-N [rad]: " + str(self.pixelscale_y))
-        print("Image axes size E-W [rad]: " + str(image_size_x))
-        print("Image axes size S-N [rad]: " + str(image_size_y) + "\n")
-        print("Maximum frequency considered E-W [1/rad]: " + str(np.max(self.w_x) * 1 / self.pixelscale_x))
-        print("Maximum frequency considered S-N [1/rad]: " + str(np.max(self.w_y) * 1 / self.pixelscale_y))
-        print("Spacing in frequency space E-W [1/rad]: " + str(abs((self.w_x[1] - self.w_x[0]) * 1 /
-                                                                   self.pixelscale_x)))
-        print("Spacing in frequency space S-N [1/rad]: " + str(abs((self.w_y[1] - self.w_y[0]) * 1 /
-                                                                   self.pixelscale_y)))
-        print("-----------------------------------")
-        print("Pixel scale E-W [mas]: " + str(self.pixelscale_x * constants.RAD2MAS))  # 206264806.2471 mas in 1 rad
-        print("Pixel scale S-N [mas]: " + str(self.pixelscale_y * constants.RAD2MAS))
-        print("Image axes size E-W [mas]: " + str(image_size_x * constants.RAD2MAS))
-        print("Image axes size S-N [mas]: " + str(image_size_y * constants.RAD2MAS) + "\n")
-        print("Maximum frequency considered E-W [1/mas]: " + str(np.max(self.w_x) * 1 / (self.pixelscale_x *
-                                                                                         constants.RAD2MAS)))
-        print("Spacing in frequency space E-W [1/mas]: " +
-              str(abs((self.w_x[1] - self.w_x[0]) * 1 / (self.pixelscale_x * constants.RAD2MAS))))
-        print("Maximum frequency considered S-N [1/mas]: " + str(np.max(self.w_y) * 1 / (self.pixelscale_y *
-                                                                                         constants.RAD2MAS)))
-        print("Spacing in frequency space S-N [1/mas]: " +
-              str(abs((self.w_y[1] - self.w_y[0]) * 1 / (self.pixelscale_y * constants.RAD2MAS))))
-        print("===================================== \n")
-        print(r"FREQUENCY INFORMATION IN TERMS OF CORRESPONDING BASELINE LENGTH: " +
-              "\n" + "===========================================================================")
-        print("maximum projected baseline resolvable under current pixel sampling E-W [Mlambda]: " +
-              str((np.max(self.w_x) * 1 / self.pixelscale_x) / 1e6))
-        print("spacing in projected baseline length corresponding to frequency sampling E-W [Mlambda]: " +
-              str(abs(((self.w_x[1] - self.w_x[0]) * 1 / self.pixelscale_x) / 1e6)))
-        print("maximum projected baseline resolvable under current pixel sampling S-N [Mlambda]: " +
-              str((np.max(self.w_y) * 1 / self.pixelscale_y) / 1e6))
-        print("spacing in projected baseline length corresponding to frequency sampling S-N [Mlambda]: " +
-              str(abs(((self.w_y[1] - self.w_y[0]) * 1 / self.pixelscale_y) / 1e6)))
-        print("-----------------------------------")
-        print("maximum projected baseline resolvable under current pixel sampling E-W [m]: " +
-              str(((np.max(self.w_x) * 1 / self.pixelscale_x) / 1e6) * 1e6 * self.wave * constants.MICRON2M))
-        print("spacing in projected baseline length corresponding to frequency sampling E-W [m]: " +
-              str(abs((((self.w_x[1] - self.w_x[0]) * 1 / self.pixelscale_x) / 1e6) * 1e6 *
-                      self.wave * constants.MICRON2M)))
-        print("maximum projected baseline resolvable under current pixel sampling S-N [m]: " +
-              str(((np.max(self.w_y) * 1 / self.pixelscale_y) / 1e6) * 1e6 * self.wave * constants.MICRON2M))
-        print("spacing in projected baseline length corresponding to frequency sampling S-N [m]: " +
-              str(abs((((self.w_y[1] - self.w_y[0]) * 1 / self.pixelscale_y) / 1e6) * 1e6 *
-                      self.wave * constants.MICRON2M)))
-        print("=========================================================================== \n")
+        info_str = (f"===================================== \n"
+                    f"FREQUENCY INFORMATION IN PIXEL UNITS: \n"
+                    f"===================================== \n"
+                    f"Maximum frequency considered E-W [1/pixel]: {np.max(self.w_x)} \n"
+                    f"Maximum frequency considered S-N [1/pixel]: {np.max(self.w_y)} \n"
+                    f"This should equal the Nyquist frequency = 0.5 x 1/sampling_rate "
+                    f"(sampling_rate = 1 pixel in pixel units, = 1 pixelscale in physical units) \n"
+                    f"Spacing in frequency space E-W [1/pixel]: {abs(self.w_x[1] - self.w_x[0])} \n"
+                    f"Spacing in frequency space S-N [1/pixel]: {abs(self.w_y[1] - self.w_y[0])} \n"
+                    f"This should equal 1/window_size "
+                    f"(i.e. = 1/(#pixels) in pixel units = 1/image_size in physical units) \n\n"
+                    f"======================================= \n"
+                    f"FREQUENCY INFORMATION IN ANGULAR UNITS: \n"
+                    f"======================================= \n"
+                    f"Pixel scale E-W [rad]: {self.pixelscale_x} \n"
+                    f"Pixel scale S-N [rad]: {self.pixelscale_y} \n"
+                    f"Image axes size E-W [rad]: {image_size_x} \n"
+                    f"Image axes size S-N [rad]: {image_size_y} \n"
+                    f"Maximum frequency considered E-W [1/rad]: {np.max(self.w_x) * 1 / self.pixelscale_x} \n"
+                    f"Maximum frequency considered S-N [1/rad]: {np.max(self.w_y) * 1 / self.pixelscale_y} \n"
+                    f"Spacing in frequency space E-W [1/rad]: {abs((self.w_x[1] - self.w_x[0]) / self.pixelscale_x)} \n"
+                    f"Spacing in frequency space S-N [1/rad]: {abs((self.w_y[1] - self.w_y[0]) / self.pixelscale_y)} \n"
+                    f"--------------------------------------- \n"
+                    f"Pixel scale E-W [mas]: {self.pixelscale_x * constants.RAD2MAS} \n"
+                    f"Pixel scale S-N [mas]: {self.pixelscale_y * constants.RAD2MAS} \n"
+                    f"Image axes size E-W [mas]: {image_size_x * constants.RAD2MAS} \n"
+                    f"Image axes size S-N [mas]: {image_size_y * constants.RAD2MAS} \n"
+                    f"Maximum frequency considered E-W [1/mas]: "
+                    f"{np.max(self.w_x) * 1 / (self.pixelscale_x * constants.RAD2MAS)} \n"
+                    f"Maximum frequency considered S-N [1/mas]: "
+                    f"{np.max(self.w_y) * 1 / (self.pixelscale_y * constants.RAD2MAS)} \n"
+                    f"Spacing in frequency space E-W [1/mas]: "
+                    f"{abs((self.w_x[1] - self.w_x[0]) * 1 / (self.pixelscale_x * constants.RAD2MAS))} \n"
+                    f"Spacing in frequency space S-N [1/mas]: "
+                    f"{abs((self.w_y[1] - self.w_y[0]) * 1 / (self.pixelscale_y * constants.RAD2MAS))} \n\n"
+                    f"================================================================ \n"
+                    f"FREQUENCY INFORMATION IN TERMS OF CORRESPONDING BASELINE LENGTH: \n"
+                    f"================================================================ \n"
+                    f"Maximum projected baseline resolvable under current pixel sampling E-W [Mlambda]: "
+                    f"{(np.max(self.w_x) * 1 / self.pixelscale_x) / 1e6} \n"
+                    f"Maximum projected baseline resolvable under current pixel sampling S-N [Mlambda]: "
+                    f"{(np.max(self.w_y) * 1 / self.pixelscale_y) / 1e6} \n"
+                    f"Spacing in projected baseline length corresponding to frequency sampling E-W [Mlambda]: "
+                    f"{abs(((self.w_x[1] - self.w_x[0]) * 1 / self.pixelscale_x) / 1e6)} \n"
+                    f"Spacing in projected baseline length corresponding to frequency sampling S-N [Mlambda]: "
+                    f"{abs(((self.w_y[1] - self.w_y[0]) * 1 / self.pixelscale_y) / 1e6)} \n"
+                    f"---------------------------------------------------------------- \n"
+                    f"Maximum projected baseline resolvable under current pixel sampling E-W [m]: "
+                    f"{((np.max(self.w_x) * 1 / self.pixelscale_x) / 1e6) * 1e6 * self.wave * constants.MICRON2M} \n"
+                    f"Maximum projected baseline resolvable under current pixel sampling S-N [m]: "
+                    f"{((np.max(self.w_y) * 1 / self.pixelscale_y) / 1e6) * 1e6 * self.wave * constants.MICRON2M} \n"
+                    f"Spacing in projected baseline length corresponding to frequency sampling E-W [m]: "
+                    f"{abs(((self.w_x[1] - self.w_x[0]) * 1 / self.pixelscale_x) * self.wave * constants.MICRON2M)} \n"
+                    f"Spacing in projected baseline length corresponding to frequency sampling S-N [m]: "
+                    f"{abs(((self.w_y[1] - self.w_y[0]) * 1 / self.pixelscale_y) * self.wave * constants.MICRON2M)} \n"
+                    f"================================================================ \n"
+                    )
+        return info_str
 
     def diagnostic_plot(self, fig_dir, plot_vistype='vis2', log_plotv=False, log_ploti=False):
         """
         Makes diagnostic plots showing both the model image and the FFT of the DiskImage objct.
         Parameters:
-            fig_dir (str): path to folder where plots are saved0
+            fig_dir (str): path to folder where plots are saved
             plot_vistype (str): type of visibility to be plotted, options are 'vis2', 'vis' or 'fcorr'
             log_plotv (bool): set to True to plot the visibilities on a logarithmic scale
             log_ploti (bool): set to True to plot the model image on a logarithmic scale
@@ -222,7 +256,7 @@ class ImageFFT:
 
         # create plotting directory if it doesn't exist yet
         if not os.path.exists(fig_dir):
-            os.mkdir(fig_dir)
+            os.makedirs(fig_dir)
 
         if log_plotv:
             normv = 'log'
@@ -404,21 +438,8 @@ class ImageFFT:
         ax2[1].axhline(y=0, c='k', lw=0.3, ls="-", zorder=0)
         ax2[1].axhline(y=180, c='k', lw=0.3, ls="--", zorder=0)
         ax2[1].axhline(y=-180, c='k', lw=0.3, ls="--", zorder=0)
-
         ax2[0].legend()
-
         plt.tight_layout()
 
         if fig_dir is not None:
             plt.savefig(f"{fig_dir}/fft1d_cuts_{self.wave}mum.png", dpi=300, bbox_inches='tight')
-
-
-# if __name__ == "__main__":
-#     mod_dir = '/home/toond/Documents/phd/MCFOST/recr_corporaal_et_al2023/models_akke_mcfost/best_model1_largeFOV/'
-#     img_dir = 'PIONIER/data_1.65/'
-#     fig_dir = '/home/toond/Downloads/'
-#
-#     image = ImageFFT(f'{mod_dir}{img_dir}RT.fits.gz', read_method='mcfost', disk_only=True)  # load in image
-#     image.redden(ebminv=0)
-#     image.diagnostic_plot(fig_dir, plot_vistype='fcorr', log_plotv=True, log_ploti=False)
-#     image.freq_info()
