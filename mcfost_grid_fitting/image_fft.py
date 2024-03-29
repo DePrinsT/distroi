@@ -6,14 +6,14 @@ transform.
 """
 import os
 
-import modules.constants as constants
-import modules.sed_analysis as sed_analysis
+import mcfost_grid_fitting.constants as constants
+import mcfost_grid_fitting.sed_analysis as sed_analysis
 
 import numpy as np
 from astropy.io import fits
 
 import matplotlib.pyplot as plt
-import modules.matplotlib_settings as matplotlib_settings
+import mcfost_grid_fitting.matplotlib_settings as matplotlib_settings
 
 matplotlib_settings.set_matplotlib_params()  # set project matplotlib parameters
 
@@ -23,6 +23,8 @@ class ImageFFT:
     Class containing information on a model image and its fast fourier transform. While default options are tuned to
     MCFOST model disk images, it can easily be generalized by adding an extra option for 'read_method' in the
     constructor and defining a corresponding image reader function analogous to 'read_img_mcfost'.
+
+    :param img_path:
     """
 
     def __init__(self, img_path, read_method='mcfost', disk_only=False):
@@ -31,7 +33,6 @@ class ImageFFT:
         are expected to be contained in a singular instance in order to fully describe both the image and its fast
         fourier transform (FFT). Note that these properties are expected if other class methods are to work. Uses
         class methods like read_mcfost_image to read in a model image and assign useful values to the properties.
-
         Parameters:
             img_path (str): path to the model image file to read in
             read_method (str): which reader method to use to read in a model image. Defaults to 'mcfost' to read
@@ -150,17 +151,17 @@ class ImageFFT:
     def redden(self, ebminv, reddening_law_path=constants.PROJECT_ROOT + '/utils/ISM_reddening'
                                                                          '/ISMreddening_law_Cardelli1989.dat'):
         """
-        Further reddens the model image according to the approriate E(B-V) and a corresponding reddening law.
+        Further reddens the model image according to the approriate E(B-V) and a corresponding reddening law file.
 
         Parameters:
-            ebminv (Float):
-            reddening_law_path (str): path to reddening law to be used. Defaults to ISM reddening law by
-                Cardelli (1989) in the package's utils/ISM_reddening folder. See this file for the formatting of
-                the reddening law.
+        ebminv (Float):
+        reddening_law_path (str): path to reddening law to be used. Defaults to ISM reddening law by
+        Cardelli (1989) in the package's utils/ISM_reddening folder. See this file for the formatting of
+        the reddening law.
         Properties affected:
-            self.img
-            self.img_fft
-            self.ftot
+        self.img
+        self.img_fft
+        self.ftot
         """
         self.img = sed_analysis.redden_flux(self.wave, self.img,
                                             reddening_law_path, ebminv)  # apply ISM reddening to the image
@@ -243,10 +244,10 @@ class ImageFFT:
         """
         Makes diagnostic plots showing both the model image and the FFT of the DiskImage objct.
         Parameters:
-            fig_dir (str): path to folder where plots are saved
-            plot_vistype (str): type of visibility to be plotted, options are 'vis2', 'vis' or 'fcorr'
-            log_plotv (bool): set to True to plot the visibilities on a logarithmic scale
-            log_ploti (bool): set to True to plot the model image on a logarithmic scale
+        fig_dir (str): path to folder where plots are saved
+        plot_vistype (str): type of visibility to be plotted, options are 'vis2', 'vis' or 'fcorr'
+        log_plotv (bool): set to True to plot the visibilities on a logarithmic scale
+        log_ploti (bool): set to True to plot the model image on a logarithmic scale
         """
         baseu = self.uf / 1e6  # Baseline length u in MegaLambda
         basev = self.vf / 1e6  # Baseline length v in MegaLambda

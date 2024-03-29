@@ -1,0 +1,508 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>mcfost_grid_fitting package &#8212; DISKFITTER5000  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="mcfost_grid_fitting.external package" href="mcfost_grid_fitting.external.html" />
+    <link rel="prev" title="Welcome to DISKFITTER5000’s documentation!" href="index.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="index.html">DISKFITTER5000  documentation</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="index.html" title="Welcome to DISKFITTER5000’s documentation!"
+             accesskey="P">previous</a> |
+          <a href="mcfost_grid_fitting.external.html" title="mcfost_grid_fitting.external package"
+             accesskey="N">next</a> |
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-mcfost_grid_fitting">
+<span id="mcfost-grid-fitting-package"></span><h1>mcfost_grid_fitting package<a class="headerlink" href="#module-mcfost_grid_fitting" title="Permalink to this heading">¶</a></h1>
+<p>Everybody in the house tonight.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="mcfost_grid_fitting.having_good_time">
+<span class="sig-prename descclassname"><span class="pre">mcfost_grid_fitting.</span></span><span class="sig-name descname"><span class="pre">having_good_time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.having_good_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="mcfost_grid_fitting.external.html">mcfost_grid_fitting.external package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mcfost_grid_fitting.external.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcfost_grid_fitting.external.html#module-mcfost_grid_fitting.external.ReadOIFITS">mcfost_grid_fitting.external.ReadOIFITS module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mcfost_grid_fitting.external.html#module-mcfost_grid_fitting.external.SelectData">mcfost_grid_fitting.external.SelectData module</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-mcfost_grid_fitting.constants">
+<span id="mcfost-grid-fitting-constants-module"></span><h2>mcfost_grid_fitting.constants module<a class="headerlink" href="#module-mcfost_grid_fitting.constants" title="Permalink to this heading">¶</a></h2>
+<p>File containing constants to be used throughout the project.</p>
+</section>
+<section id="module-mcfost_grid_fitting.image_fft">
+<span id="mcfost-grid-fitting-image-fft-module"></span><h2>mcfost_grid_fitting.image_fft module<a class="headerlink" href="#module-mcfost_grid_fitting.image_fft" title="Permalink to this heading">¶</a></h2>
+<p>File: image_fft.py
+Author: Toon De Prins
+Description: Defines class and corresponding methods to load in and handle model disk images and their fast fourier
+transform.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="mcfost_grid_fitting.image_fft.ImageFFT">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mcfost_grid_fitting.image_fft.</span></span><span class="sig-name descname"><span class="pre">ImageFFT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mcfost'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disk_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.image_fft.ImageFFT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class containing information on a model image and its fast fourier transform. While default options are tuned to
+MCFOST model disk images, it can easily be generalized by adding an extra option for ‘read_method’ in the
+constructor and defining a corresponding image reader function analogous to ‘read_img_mcfost’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>img_path</strong> – </p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="mcfost_grid_fitting.image_fft.ImageFFT.diagnostic_plot">
+<span class="sig-name descname"><span class="pre">diagnostic_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_vistype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vis2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_plotv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_ploti</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.image_fft.ImageFFT.diagnostic_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes diagnostic plots showing both the model image and the FFT of the DiskImage objct.
+Parameters:
+fig_dir (str): path to folder where plots are saved
+plot_vistype (str): type of visibility to be plotted, options are ‘vis2’, ‘vis’ or ‘fcorr’
+log_plotv (bool): set to True to plot the visibilities on a logarithmic scale
+log_ploti (bool): set to True to plot the model image on a logarithmic scale</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mcfost_grid_fitting.image_fft.ImageFFT.freq_info">
+<span class="sig-name descname"><span class="pre">freq_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.image_fft.ImageFFT.freq_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns string containing information on both the frequency domain/sampling and the corresponding projected
+baselines.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>info_str (str): String containing frequency info which can be printed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mcfost_grid_fitting.image_fft.ImageFFT.perform_fft">
+<span class="sig-name descname"><span class="pre">perform_fft</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.image_fft.ImageFFT.perform_fft" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform the numpy FFT and set the required properties related to the image’s FFT.</p>
+<dl class="simple">
+<dt>Properties affected:</dt><dd><p>self.img_fft
+self.w_x
+self.wy
+self.uf
+self.vf</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mcfost_grid_fitting.image_fft.ImageFFT.read_img_mcfost">
+<span class="sig-name descname"><span class="pre">read_img_mcfost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disk_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.image_fft.ImageFFT.read_img_mcfost" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes the required properties related to the image by reading an MCFOST image run output file.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>img_path (str): path to an MCFOST output RT.fits.gz image file
+disk_only (bool): set to True if you only want to load in the flux from the disk</p>
+</dd>
+<dt>Properties affected:</dt><dd><p>wave
+self.pixelscale_x
+self.pixelscale_y
+self.num_pix_x
+self.num_pix_y
+self.img
+self.ftot</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mcfost_grid_fitting.image_fft.ImageFFT.redden">
+<span class="sig-name descname"><span class="pre">redden</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ebminv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reddening_law_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/home/toond/Documents/phd/python/mcfost_grid_fitting/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.image_fft.ImageFFT.redden" title="Permalink to this definition">¶</a></dt>
+<dd><p>Further reddens the model image according to the approriate E(B-V) and a corresponding reddening law file.</p>
+<p>Parameters:
+ebminv (Float):
+reddening_law_path (str): path to reddening law to be used. Defaults to ISM reddening law by
+Cardelli (1989) in the package’s utils/ISM_reddening folder. See this file for the formatting of
+the reddening law.
+Properties affected:
+self.img
+self.img_fft
+self.ftot</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-mcfost_grid_fitting.matplotlib_settings">
+<span id="mcfost-grid-fitting-matplotlib-settings-module"></span><h2>mcfost_grid_fitting.matplotlib_settings module<a class="headerlink" href="#module-mcfost_grid_fitting.matplotlib_settings" title="Permalink to this heading">¶</a></h2>
+<p>General file to set the matplotlib settings to the values used as the</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="mcfost_grid_fitting.matplotlib_settings.set_matplotlib_params">
+<span class="sig-prename descclassname"><span class="pre">mcfost_grid_fitting.matplotlib_settings.</span></span><span class="sig-name descname"><span class="pre">set_matplotlib_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.matplotlib_settings.set_matplotlib_params" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-mcfost_grid_fitting.oi_observables">
+<span id="mcfost-grid-fitting-oi-observables-module"></span><h2>mcfost_grid_fitting.oi_observables module<a class="headerlink" href="#module-mcfost_grid_fitting.oi_observables" title="Permalink to this heading">¶</a></h2>
+<p>Contains a class to store optical inteferometric (OI) observables and additional functions to take radiative
+transfer (RT) model disk images and convert them to interferometric observables at the spatial frequencies of data
+stored in the OIFITS format. Currently supports the following combinations of obsevrables: Squared visibilities -
+Closure phases ; Visibilities - Closure phases ; Correlated fluxes (formaly stored as visibilities) - Closure phases.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="mcfost_grid_fitting.oi_observables.OIContainer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mcfost_grid_fitting.oi_observables.</span></span><span class="sig-name descname"><span class="pre">OIContainer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observables</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.oi_observables.OIContainer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to contain optical interferometry observables, where each observable is stored in the form of raveled 1D
+numpy arrays. Based on the Data class in ReadOIFITS.py, where the observables are stored per OIFITS table,
+but the raveled form makes calculations easier and less prone to error. Currenlty supports visibilities (both in
+normalized and correlated flux form), squared visibilities and closure phases. In this format this class and the
+methods below can be expanded to accomodate for different kinds of observables (i.e. addition of differntial
+visibilities).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>observables</strong> (<em>dict</em>) – Dictionary containing arrays representing the observables described below.</p>
+</dd>
+<dt class="field-even">Variables<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>vuf</strong> (<em>numpy.ndarray</em>) – u-axis spatial freqs in 1/rad for visibility data.</p></li>
+<li><p><strong>vvf</strong> (<em>numpy.ndarray</em>) – v-axis spatial freqs in 1/rad for visibility data.</p></li>
+<li><p><strong>vwave</strong> (<em>numpy.ndarray</em>) – Wavelengths in meter for visibility data.</p></li>
+<li><p><strong>v</strong> (<em>numpy.ndarray</em>) – Visibilities, either normalized visibilities or correlated flux in Janksy.</p></li>
+<li><p><strong>verr</strong> (<em>numpy.ndarray</em>) – Error on visibilities.</p></li>
+<li><p><strong>vbase</strong> (<em>numpy.ndarray</em>) – Baseline length in MegaLambda for visibility data.</p></li>
+<li><p><strong>v2uf</strong> (<em>numpy.ndarray</em>) – u-axis spatial freqs in 1/rad for squared visibility data.</p></li>
+<li><p><strong>v2vf</strong> (<em>numpy.ndarray</em>) – v-axis spatial freqs in 1/rad for squared visibility data.</p></li>
+<li><p><strong>v2wave</strong> (<em>numpy.ndarray</em>) – Wavelengths in meter for squared visibility data.</p></li>
+<li><p><strong>v2</strong> (<em>numpy.ndarray</em>) – Squared visibilities.</p></li>
+<li><p><strong>v2err</strong> (<em>numpy.ndarray</em>) – Error on squared visibilities.</p></li>
+<li><p><strong>v2base</strong> (<em>numpy.ndarray</em>) – Baseline length in MegaLambda for squared visibility data.</p></li>
+<li><p><strong>t3uf1</strong> (<em>numpy.ndarray</em>) – u-axis spatial freqs in 1/rad for the 1st projected baseline along the closure triangle.</p></li>
+<li><p><strong>t3vf1</strong> (<em>numpy.ndarray</em>) – v-axis spatial freqs in 1/rad for the 1st projected baseline along the closure triangle.</p></li>
+<li><p><strong>t3uf3</strong> (<em>numpy.ndarray</em>) – u-axis spatial freqs in 1/rad for the 2nd projected baseline along the closure triangle.</p></li>
+<li><p><strong>t3vf2</strong> (<em>numpy.ndarray</em>) – v-axis spatial freqs in 1/rad for the 2nd projected baseline along the closure triangle.</p></li>
+<li><p><strong>t3uf3</strong> – u-axis spatial freqs in 1/rad for the 3d projected baseline along the closure triangle.</p></li>
+<li><p><strong>t3vf3</strong> (<em>numpy.ndarray</em>) – v-axis spatial freqs in 1/rad for the 3d projected baseline along the closure triangle.</p></li>
+<li><p><strong>t3wave</strong> (<em>numpy.ndarray</em>) – Wavelengths in meter for closure phase data.</p></li>
+<li><p><strong>t3phi</strong> (<em>numpy.ndarray</em>) – Closure phases in degrees.</p></li>
+<li><p><strong>t3phierr</strong> (<em>numpy.ndarray</em>) – Error on closure phases.</p></li>
+<li><p><strong>t3bmax</strong> (<em>numpy.ndarray</em>) – Maximum baseline length along the closure triangle in units of MegaLambda.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mcfost_grid_fitting.oi_observables.calc_model_observables">
+<span class="sig-prename descclassname"><span class="pre">mcfost_grid_fitting.oi_observables.</span></span><span class="sig-name descname"><span class="pre">calc_model_observables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mod_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">monochr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fcorr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ebminv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mcfost'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disk_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.oi_observables.calc_model_observables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that loads in OI observables from an OIContainer, typically containing observational data,
+and calculates model image observables at the same coverage. In case monochr=False, expects the same amount of
+pixels and same pixelscale for every model image included. Currently only support MCFOST image file naming
+conventions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>container_data</strong> (<a class="reference internal" href="#mcfost_grid_fitting.oi_observables.OIContainer" title="mcfost_grid_fitting.oi_observables.OIContainer"><em>OIContainer</em></a>) – OIContainer at whose spatial frequencies we calculate model observables.</p></li>
+<li><p><strong>mod_dir</strong> (<em>str</em>) – Parent directory of model of interest.</p></li>
+<li><p><strong>img_dir</strong> (<em>str</em>) – Subdirectory containing model images. If (not) monochr, uses (all) file(s) in
+(subdirectories under) mod_dir+img_dir.</p></li>
+<li><p><strong>monochr</strong> (<em>bool</em>) – Set True if you want to use a monochromatic model, i.e. no interpolation is performed
+in the wavelength dimension. If False, the model images used must have a wider wavelength coverage than
+container_data.</p></li>
+<li><p><strong>fcorr</strong> (<em>bool</em>) – Set True if you want the visibilities to be calculated in correlated flux (unit Jy) format.</p></li>
+<li><p><strong>ebminv</strong> (<em>float</em>) – E(B-V) of additional reddening to be applied to the model images.</p></li>
+<li><p><strong>read_method</strong> (<em>str</em>) – Method used to read in images when creating ImageFFT instances.
+Currently only support ‘mcfost’.</p></li>
+<li><p><strong>disk_only</strong> (<em>bool</em>) – Set to True if you only want to include light from the disk in the model images.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return container_mod<span class="colon">:</span></dt>
+<dd class="field-even"><p>OIContainer for model image observables.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#mcfost_grid_fitting.oi_observables.OIContainer" title="mcfost_grid_fitting.oi_observables.OIContainer">OIContainer</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mcfost_grid_fitting.oi_observables.container_from_oifits">
+<span class="sig-prename descclassname"><span class="pre">mcfost_grid_fitting.oi_observables.</span></span><span class="sig-name descname"><span class="pre">container_from_oifits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wave_lims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v2lim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.oi_observables.container_from_oifits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to retrieve data from (multiple) OIFITS files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_dir</strong> (<em>str</em>) – Path to the directory where the files are stored.</p></li>
+<li><p><strong>data_file</strong> (<em>str</em>) – Data filename, including wildcards if needed to read in multiple files at once.</p></li>
+<li><p><strong>wave_lims</strong> (<em>tuple</em>) – The lower and upper wavelength limits in micron used when reading in data.</p></li>
+<li><p><strong>v2lim</strong> (<em>float</em>) – Upper limit on the squared visibility used when reading in data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return container<span class="colon">:</span></dt>
+<dd class="field-even"><p>OIContainer with the observables from the OIFITS file.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#mcfost_grid_fitting.oi_observables.OIContainer" title="mcfost_grid_fitting.oi_observables.OIContainer">OIContainer</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mcfost_grid_fitting.oi_observables.plot_data_vs_model">
+<span class="sig-prename descclassname"><span class="pre">mcfost_grid_fitting.oi_observables.</span></span><span class="sig-name descname"><span class="pre">plot_data_vs_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">container_mod</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_plotv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_vistype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vis2'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.oi_observables.plot_data_vs_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-mcfost_grid_fitting.sed_analysis">
+<span id="mcfost-grid-fitting-sed-analysis-module"></span><h2>mcfost_grid_fitting.sed_analysis module<a class="headerlink" href="#module-mcfost_grid_fitting.sed_analysis" title="Permalink to this heading">¶</a></h2>
+<p>File: sed_analysis.py
+Author: Toon De Prins
+Description: Contains functions to analyse MCFOST model SEDs by comparing them to
+observed SEDs from the SED repository. NOTE: Assumes MCFOST SEDs calculated under a single inclination/azimuthal
+viewing angle.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="mcfost_grid_fitting.sed_analysis.chi2reddened">
+<span class="sig-prename descclassname"><span class="pre">mcfost_grid_fitting.sed_analysis.</span></span><span class="sig-name descname"><span class="pre">chi2reddened</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lam</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux_error</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lam_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reddening_law_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ebminv</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.sed_analysis.chi2reddened" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the chi2 value of an MCFOST model’s SED versus an observed SED.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>lam (numpy array): Array containing the observed data’s wavelength values in micron.
+flux (numpy array): The data’s flux values, in lam x F_lam format, in erg/s/cm2/micron.
+flux_error (numpy array): The data’s error values, in lam x F_lam format, in erg/s/cm2/micron.
+lam_model (numpy array): Same as lam but for the model SED.
+flux_model (numpy array): Same as flux but for the model SED.
+reddening_law_path (str): Path to the ISM reddening law to be used. In a two-column format:
+1) wavelength (Angstrom)  2) A(wavelength)/E(B-V) (magn.).
+Standard file used is the ISM law by Cardelli et al. 1989.
+ebminv (float): E(B-V) magnitude of the reddening to be applied.</p>
+</dd>
+<dt>Returns:</dt><dd><p>chi2 (float): The resulting chi2 value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mcfost_grid_fitting.sed_analysis.ism_reddening_fit">
+<span class="sig-prename descclassname"><span class="pre">mcfost_grid_fitting.sed_analysis.</span></span><span class="sig-name descname"><span class="pre">ism_reddening_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lam</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux_error</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lam_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reddening_law_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ebminv_guess</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.4</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.sed_analysis.ism_reddening_fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fits the ISM E(B-V) value to make the model SED match up to the observations as much as possible.
+Returns the full reddened model SED (at the model’s wavelengths),
+the fitted E(B-V) value and the resulting chi2.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>lam (numpy array): Array containing the observed data’s wavelength values in micron.
+flux (numpy array): The data’s flux values, in lam x F_lam format, in erg/s/cm2/micron.
+flux_error (numpy array): The data’s error values, in lam x F_lam format, in erg/s/cm2/micron.
+lam_model (numpy array): Same as lam but for the model SED.
+flux_model (numpy array): Same as flux but for the model SED.
+reddening_law_path (str): Path to the ISM reddening law to be used. In a two-column format:
+1) wavelength (Angstrom)  2) A(wavelength)/E(B-V) (magn.).
+Standard file used is the ISM law by Cardelli et al. 1989.
+ebminv_guess (float): Initial E(B-V) guess to be used for the scipy minimization routine to fit ISM reddening.</p>
+</dd>
+<dt>Returns:</dt><dd><p>model_sed_full_red (numpy array): Array containing the model’s reddened SED,
+using the fitted E(B-V) (lam x F_lam format, in erg/s/cm2/micron).
+ebminv_opt (float): The fitted E(B-V) value.
+chi2 (float): The corresponding chi2 value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mcfost_grid_fitting.sed_analysis.plot_reddened_model_fit">
+<span class="sig-prename descclassname"><span class="pre">mcfost_grid_fitting.sed_analysis.</span></span><span class="sig-name descname"><span class="pre">plot_reddened_model_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder_mcfost</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reddening_law_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ebminv_guess</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">az</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.sed_analysis.plot_reddened_model_fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes the paths to both an SED data .phot file from the SED repository and the directory of an MCFOST model run.
+Then performs a fit for the remaining ISM reddening, and plots the resulting SEDs.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>filepath_data (str): Path to the .phot filename.
+folder_mcfost (str): Path to the folder in which the MCFOST run results are stored.
+reddening_law_path (str): Path to the ISM reddening law to be used. In a two-column format:
+1) wavelength (Angstrom)  2) A(wavelength)/E(B-V) (magn.).
+Standard file used is the ISM law by Cardelli et al. 1989.
+ebminv_guess (float): Initial E(B-V) guess to be used for the minimization routine.
+fig_dir (str): Path to directory where the resulting figure is saved.
+az (int): Number of the azimuthal viewing angle value considered (MCFOST can output results for
+multiple angles simultaneously). Default = 0 (1st value).
+inc (int): Number of the inclination viewing angle value considered (MCFOST can output results for
+multiple angles simultaneously). Default = 0 (1st value).</p>
+</dd>
+<dt>Returns:</dt><dd><p>Nothing. A saved plot of the results is saved in the specified directory.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mcfost_grid_fitting.sed_analysis.plot_sed_decomp">
+<span class="sig-prename descclassname"><span class="pre">mcfost_grid_fitting.sed_analysis.</span></span><span class="sig-name descname"><span class="pre">plot_sed_decomp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folderpath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reddening_law_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redden_mag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">az</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.sed_analysis.plot_sed_decomp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to plot an SED directly from the MCFOST output in all its contributions
+(NOTE: no ISM reddening fitted to any data).
+Parameters:</p>
+<blockquote>
+<div><p>folderpath (str): Path to the previously ran MCFOST ‘Thermal’ run for which we want to make an image
+(e.g. the dir_out argument of run_mcfost_th()).
+reddening_law_path (str): Path to the ISM reddening law to be used. In a two-column format:
+1) wavelength (Angstrom)  2) A(wavelength)/E(B-V) (magn.).
+redden_mag (float): E(B-V) magnitude of applied ISM reddening.
+fig_dir (str): Path to directory where the resulting figure is saved.
+az (int): Number of the azimuthal viewing angle value considered (MCFOST can output results for
+multiple angles simultaneously). Default = 0 (1st value).
+inc (int): Number of the inclination viewing angle value considered (MCFOST can output results
+for multiple angles simultaneously). Default = 0 (1st value).</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Nothing. A saved plot of the results is saved in the specified directory.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mcfost_grid_fitting.sed_analysis.read_sed_data">
+<span class="sig-prename descclassname"><span class="pre">mcfost_grid_fitting.sed_analysis.</span></span><span class="sig-name descname"><span class="pre">read_sed_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.sed_analysis.read_sed_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the SED data contained in the .phot files from the SED repository (see Hans Van Winkcel’s /STER folder).</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>filename (str): Path to the .phot filename.</p>
+</dd>
+<dt>Returns:</dt><dd><p>data_wave (numpy array): Array containing the wavelength values in micron.
+data_flux (numpy array): Array containing the SED in lam x F_lam format, units in to erg/s/cm2/micron.
+data_err (numpy array): Array containing the measured error on lam x F_lam format, units in to erg/s/cm2/micron.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mcfost_grid_fitting.sed_analysis.read_sed_mcfost">
+<span class="sig-prename descclassname"><span class="pre">mcfost_grid_fitting.sed_analysis.</span></span><span class="sig-name descname"><span class="pre">read_sed_mcfost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">az</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.sed_analysis.read_sed_mcfost" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the SED of an MCFOST radiative transfer run.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>folder (str): Path to the folder in which the MCFOST run results are stored
+(i.e. the superdirectory of e.g. the data_th directory).
+az (int): Number of the azimuthal viewing angle value considered (MCFOST can output results for multiple angles
+simultaneously). Default = 0 (1st value).
+inc (int): Number of the inclination viewing angle value considered (MCFOST can output results for
+multiple angles simultaneously). Default = 0 (1st value).</p>
+</dd>
+<dt>Returns:</dt><dd><p>lam (numpy array): Array containing the wavelength values in micron.
+full_sed (numpy array): Array containing the SED in lam x F_lam format, units in to erg/s/cm2/micron.
+star_sed (numpy array): Same as full_sed but only the direct contribution from the central star,
+in erg/s/cm2/micron.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mcfost_grid_fitting.sed_analysis.redden_flux">
+<span class="sig-prename descclassname"><span class="pre">mcfost_grid_fitting.sed_analysis.</span></span><span class="sig-name descname"><span class="pre">redden_flux</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lam</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reddening_law_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ebminv</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.sed_analysis.redden_flux" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes an SED’s flux values (typically an MCFOST model SED) and returns the SED after ISM redenning.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>lam (numpy array): Array containing the wavelength values in micron.
+flux (numpy array): Flux values, in lam x F_lam format, to be redenned, in erg/s/cm2/micron
+reddening_law_path (str): Path to the ISM reddening law to be used. In a two-column format:
+1) wavelength (Angstrom)  2) A(wavelength)/E(B-V) (magn.).
+Standard file used is the ISM law by Cardelli et al. 1989.
+ebminv (float): E(B-V) magnitude of the reddening to be applied.</p>
+</dd>
+<dt>Returns:</dt><dd><p>flux_reddened (numpy array): Reddened flux values, in lam x F_lam format, in erg/s/cm2/micron.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">mcfost_grid_fitting package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#mcfost_grid_fitting.having_good_time"><code class="docutils literal notranslate"><span class="pre">having_good_time()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-mcfost_grid_fitting.constants">mcfost_grid_fitting.constants module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-mcfost_grid_fitting.image_fft">mcfost_grid_fitting.image_fft module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-mcfost_grid_fitting.matplotlib_settings">mcfost_grid_fitting.matplotlib_settings module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-mcfost_grid_fitting.oi_observables">mcfost_grid_fitting.oi_observables module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-mcfost_grid_fitting.sed_analysis">mcfost_grid_fitting.sed_analysis module</a></li>
+</ul>
+</li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="index.html" title="Welcome to DISKFITTER5000’s documentation!"
+              >previous</a> |
+            <a href="mcfost_grid_fitting.external.html" title="mcfost_grid_fitting.external package"
+              >next</a> |
+            <a href="py-modindex.html" title="Python Module Index"
+              >modules</a> |
+            <a href="genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="_sources/mcfost_grid_fitting.rst.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2024, Toon De Prins.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

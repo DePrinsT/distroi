@@ -4,7 +4,7 @@ Author: Dr. Akke Corporaal and Dr. Jacques Kluska, modified by Toon De Prins
 Description: Modification of the original file stored at '/STER/akke/Python/Image2OIFITS' in the local system of
 KU Leuven's Institute of Astronomy. Used to read in data from OIFITS files within certain limits.
 """
-from modules.external import ReadOIFITS as oifits
+from mcfost_grid_fitting.external import ReadOIFITS as oifits
 import numpy as np
 
 

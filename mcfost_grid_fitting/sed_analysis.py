@@ -16,7 +16,7 @@ from astropy import units as u
 import pandas as pd
 
 import matplotlib.pyplot as plt
-import modules.matplotlib_settings as matplotlib_settings
+import mcfost_grid_fitting.matplotlib_settings as matplotlib_settings
 
 matplotlib_settings.set_matplotlib_params()  # set project matplotlib parameters
 
