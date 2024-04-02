@@ -3,7 +3,7 @@
 Python package to compute optical interferometry observables from radiative transfer model images and compare to optical
 interferometry observations.
 
-#License
+# License
 Copyright 2024 Toon De Prins
 
 DISTROI is free software: you can redistribute it and/or modify
