@@ -6,14 +6,14 @@
 # Path info
 import os
 import sys
-for x in os.walk('../../mcfost_grid_fitting'):
+for x in os.walk('../../distroi'):
   sys.path.insert(0, x[0])
 
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'DISKFITTER5000'
+project = 'DISTROI'
 copyright = '2024, Toon De Prins'
 author = 'Toon De Prins'
 

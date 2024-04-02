@@ -74,8 +74,8 @@ Author: Toon De Prins
 Description: Defines class and corresponding methods to load in and handle model disk images and their fast fourier
 transform.</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="mcfost_grid_fitting.image_fft.ImageFFT">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mcfost_grid_fitting.image_fft.</span></span><span class="sig-name descname"><span class="pre">ImageFFT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mcfost'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disk_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.image_fft.ImageFFT" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="mcfost_grid_fitting.image_fft.Image">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mcfost_grid_fitting.image_fft.</span></span><span class="sig-name descname"><span class="pre">Image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mcfost'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disk_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.image_fft.Image" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Class containing information on a model image and its fast fourier transform. While default options are tuned to
 MCFOST model disk images, it can easily be generalized by adding an extra option for ‘read_method’ in the
@@ -86,8 +86,8 @@ constructor and defining a corresponding image reader function analogous to ‘r
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="mcfost_grid_fitting.image_fft.ImageFFT.diagnostic_plot">
-<span class="sig-name descname"><span class="pre">diagnostic_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_vistype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vis2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_plotv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_ploti</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.image_fft.ImageFFT.diagnostic_plot" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="mcfost_grid_fitting.image_fft.Image.diagnostic_plot">
+<span class="sig-name descname"><span class="pre">diagnostic_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_vistype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vis2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_plotv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_ploti</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.image_fft.Image.diagnostic_plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Makes diagnostic plots showing both the model image and the FFT of the DiskImage objct.
 Parameters:
 fig_dir (str): path to folder where plots are saved
@@ -97,8 +97,8 @@ log_ploti (bool): set to True to plot the model image on a logarithmic scale</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="mcfost_grid_fitting.image_fft.ImageFFT.freq_info">
-<span class="sig-name descname"><span class="pre">freq_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.image_fft.ImageFFT.freq_info" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="mcfost_grid_fitting.image_fft.Image.freq_info">
+<span class="sig-name descname"><span class="pre">freq_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.image_fft.Image.freq_info" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns string containing information on both the frequency domain/sampling and the corresponding projected
 baselines.</p>
 <dl class="simple">
@@ -108,8 +108,8 @@ baselines.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="mcfost_grid_fitting.image_fft.ImageFFT.perform_fft">
-<span class="sig-name descname"><span class="pre">perform_fft</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.image_fft.ImageFFT.perform_fft" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="mcfost_grid_fitting.image_fft.Image.perform_fft">
+<span class="sig-name descname"><span class="pre">perform_fft</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.image_fft.Image.perform_fft" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform the numpy FFT and set the required properties related to the image’s FFT.</p>
 <dl class="simple">
 <dt>Properties affected:</dt><dd><p>self.img_fft
@@ -122,8 +122,8 @@ self.vf</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="mcfost_grid_fitting.image_fft.ImageFFT.read_img_mcfost">
-<span class="sig-name descname"><span class="pre">read_img_mcfost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disk_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.image_fft.ImageFFT.read_img_mcfost" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="mcfost_grid_fitting.image_fft.Image.read_img_mcfost">
+<span class="sig-name descname"><span class="pre">read_img_mcfost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disk_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.image_fft.Image.read_img_mcfost" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initializes the required properties related to the image by reading an MCFOST image run output file.</p>
 <dl class="simple">
 <dt>Parameters:</dt><dd><p>img_path (str): path to an MCFOST output RT.fits.gz image file
@@ -141,8 +141,8 @@ self.ftot</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="mcfost_grid_fitting.image_fft.ImageFFT.redden">
-<span class="sig-name descname"><span class="pre">redden</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ebminv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reddening_law_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/home/toond/Documents/phd/python/mcfost_grid_fitting/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.image_fft.ImageFFT.redden" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="mcfost_grid_fitting.image_fft.Image.redden">
+<span class="sig-name descname"><span class="pre">redden</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ebminv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reddening_law_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/home/toond/Documents/phd/python/mcfost_grid_fitting/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mcfost_grid_fitting.image_fft.Image.redden" title="Permalink to this definition">¶</a></dt>
 <dd><p>Further reddens the model image according to the approriate E(B-V) and a corresponding reddening law file.</p>
 <p>Parameters:
 ebminv (Float):
@@ -235,7 +235,7 @@ in the wavelength dimension. If False, the model images used must have a wider w
 container_data.</p></li>
 <li><p><strong>fcorr</strong> (<em>bool</em>) – Set True if you want the visibilities to be calculated in correlated flux (unit Jy) format.</p></li>
 <li><p><strong>ebminv</strong> (<em>float</em>) – E(B-V) of additional reddening to be applied to the model images.</p></li>
-<li><p><strong>read_method</strong> (<em>str</em>) – Method used to read in images when creating ImageFFT instances.
+<li><p><strong>read_method</strong> (<em>str</em>) – Method used to read in images when creating Image instances.
 Currently only support ‘mcfost’.</p></li>
 <li><p><strong>disk_only</strong> (<em>bool</em>) – Set to True if you only want to include light from the disk in the model images.</p></li>
 </ul>

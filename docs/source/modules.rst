@@ -1,7 +1,7 @@
-mcfost_grid_fitting
-===================
+distroi
+=======
 
 .. toctree::
    :maxdepth: 2
 
-   mcfost_grid_fitting
+   distroi

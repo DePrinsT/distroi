@@ -7,10 +7,10 @@ Welcome to DISKFITTER5000's documentation!
 ==========================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
    
-   mcfost_grid_fitting
+   distroi
 
 Indices and tables
 ==================

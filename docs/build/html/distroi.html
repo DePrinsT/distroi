@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>distroi package &#8212; DISTROI  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="distroi.auxiliary package" href="distroi.auxiliary.html" />
+    <link rel="prev" title="Welcome to DISKFITTER5000’s documentation!" href="index.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="index.html">DISTROI  documentation</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="index.html" title="Welcome to DISKFITTER5000’s documentation!"
+             accesskey="P">previous</a> |
+          <a href="distroi.auxiliary.html" title="distroi.auxiliary package"
+             accesskey="N">next</a> |
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-distroi">
+<span id="distroi-package"></span><h1>distroi package<a class="headerlink" href="#module-distroi" title="Permalink to this headline">¶</a></h1>
+<p>This package allows for the calculation of optical interferometry (OI) observables from radiative transfer images.</p>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="distroi.auxiliary.html">distroi.auxiliary package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="distroi.auxiliary.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distroi.auxiliary.html#distroi-auxiliary-readoifits-module">distroi.auxiliary.ReadOIFITS module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distroi.auxiliary.html#distroi-auxiliary-selectdata-module">distroi.auxiliary.SelectData module</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-distroi.constants">
+<span id="distroi-constants-module"></span><h2>distroi.constants module<a class="headerlink" href="#module-distroi.constants" title="Permalink to this headline">¶</a></h2>
+<p>Contains constant values, unit conversions and settings to be used throughout the project.</p>
+<dl class="field-list simple">
+<dt class="field-odd">var str PROJECT_ROOT</dt>
+<dd class="field-odd"><p>Path to the root of the distroi project on the user’s system.</p>
+</dd>
+<dt class="field-even">var float SPEED_OF_LIGHT</dt>
+<dd class="field-even"><p>In SI units.</p>
+</dd>
+<dt class="field-odd">var float DEG2RAD</dt>
+<dd class="field-odd"><p>Conversion of degree to radian.</p>
+</dd>
+<dt class="field-even">var float RAD2DEG</dt>
+<dd class="field-even"><p>Conversion of radian to degree.</p>
+</dd>
+<dt class="field-odd">var float MAS2RAD</dt>
+<dd class="field-odd"><p>Conversion of milli-arcsecond to radian.</p>
+</dd>
+<dt class="field-even">var float RAD2MAS</dt>
+<dd class="field-even"><p>Conversion of radian to milli-arcsecond.</p>
+</dd>
+<dt class="field-odd">var float MICRON2M</dt>
+<dd class="field-odd"><p>Conversion of meter to micrometer/micron.</p>
+</dd>
+<dt class="field-even">var float M2MICRON</dt>
+<dd class="field-even"><p>Conversion of micrometer/micron to meter.</p>
+</dd>
+<dt class="field-odd">var float WATT_PER_METER2_HZ_2JY</dt>
+<dd class="field-odd"><p>Flux desnity conversion of W m^-2 Hz^-1 to Jansky (Jy).</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.constants.set_matplotlib_params">
+<span class="sig-prename descclassname"><span class="pre">distroi.constants.</span></span><span class="sig-name descname"><span class="pre">set_matplotlib_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.constants.set_matplotlib_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to set matplotlib parametets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return None</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="distroi-image-module">
+<h2>distroi.image module<a class="headerlink" href="#distroi-image-module" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="distroi-oi-observables-module">
+<h2>distroi.oi_observables module<a class="headerlink" href="#distroi-oi-observables-module" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="distroi-sed-analysis-module">
+<h2>distroi.sed_analysis module<a class="headerlink" href="#distroi-sed-analysis-module" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">distroi package</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="index.html" title="Welcome to DISKFITTER5000’s documentation!"
+              >previous</a> |
+            <a href="distroi.auxiliary.html" title="distroi.auxiliary package"
+              >next</a> |
+            <a href="py-modindex.html" title="Python Module Index"
+              >modules</a> |
+            <a href="genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="_sources/distroi.rst.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2024, Toon De Prins.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.2.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

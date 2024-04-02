@@ -12,7 +12,7 @@ Subpackages
 .. toctree::
    :maxdepth: 2
 
-   mcfost_grid_fitting.external
+   mcfost_grid_fitting.auxiliary
 
 Submodules
 ----------
@@ -25,18 +25,10 @@ mcfost\_grid\_fitting.constants module
    :undoc-members:
    :show-inheritance:
 
-mcfost\_grid\_fitting.image\_fft module
----------------------------------------
+mcfost\_grid\_fitting.image module
+----------------------------------
 
-.. automodule:: mcfost_grid_fitting.image_fft
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-mcfost\_grid\_fitting.matplotlib\_settings module
--------------------------------------------------
-
-.. automodule:: mcfost_grid_fitting.matplotlib_settings
+.. automodule:: mcfost_grid_fitting.image
    :members:
    :undoc-members:
    :show-inheritance:
