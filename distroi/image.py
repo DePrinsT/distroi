@@ -4,14 +4,14 @@ img.
 """
 import os
 
-from mcfost_grid_fitting import constants
-from mcfost_grid_fitting import sed_analysis
+from distroi import constants
+from distroi import sed_analysis
 
 import numpy as np
 from astropy.io import fits
 
 import matplotlib.pyplot as plt
-from mcfost_grid_fitting.constants import set_matplotlib_params
+from distroi.constants import set_matplotlib_params
 
 set_matplotlib_params()  # set project matplotlib parameters
 

@@ -1,178 +1,581 @@
-
 <!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>distroi package &mdash; DISTROI  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
 
-    <title>distroi package &#8212; DISTROI  documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/agogo.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="distroi.auxiliary package" href="distroi.auxiliary.html" />
-    <link rel="prev" title="Welcome to DISKFITTER5000’s documentation!" href="index.html" /> 
-  </head><body>
-    <div class="header-wrapper" role="banner">
-      <div class="header">
-        <div class="headertitle"><a
-          href="index.html">DISTROI  documentation</a></div>
-        <div class="rel" role="navigation" aria-label="related navigation">
-          <a href="index.html" title="Welcome to DISKFITTER5000’s documentation!"
-             accesskey="P">previous</a> |
-          <a href="distroi.auxiliary.html" title="distroi.auxiliary package"
-             accesskey="N">next</a> |
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a>
-        </div>
-       </div>
-    </div>
+    <link rel="prev" title="Welcome to DISTROI’s documentation!" href="index.html" /> 
+</head>
 
-    <div class="content-wrapper">
-      <div class="content">
-        <div class="document">
-            
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            DISTROI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">distroi package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="distroi.auxiliary.html">distroi.auxiliary package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-distroi.constants">distroi.constants module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#distroi.constants.set_matplotlib_params"><code class="docutils literal notranslate"><span class="pre">set_matplotlib_params()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-distroi.image">distroi.image module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#distroi.image.Image"><code class="docutils literal notranslate"><span class="pre">Image</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#distroi.image.Image.fft_diagnostic_plot"><code class="docutils literal notranslate"><span class="pre">Image.fft_diagnostic_plot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#distroi.image.Image.freq_info"><code class="docutils literal notranslate"><span class="pre">Image.freq_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#distroi.image.Image.perform_fft"><code class="docutils literal notranslate"><span class="pre">Image.perform_fft()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#distroi.image.Image.read_img_mcfost"><code class="docutils literal notranslate"><span class="pre">Image.read_img_mcfost()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#distroi.image.Image.redden"><code class="docutils literal notranslate"><span class="pre">Image.redden()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-distroi.oi_observables">distroi.oi_observables module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#distroi.oi_observables.OIContainer"><code class="docutils literal notranslate"><span class="pre">OIContainer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#distroi.oi_observables.calc_model_observables"><code class="docutils literal notranslate"><span class="pre">calc_model_observables()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#distroi.oi_observables.container_from_oifits"><code class="docutils literal notranslate"><span class="pre">container_from_oifits()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#distroi.oi_observables.plot_data_vs_model"><code class="docutils literal notranslate"><span class="pre">plot_data_vs_model()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-distroi.sed_analysis">distroi.sed_analysis module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#distroi.sed_analysis.chi2reddened"><code class="docutils literal notranslate"><span class="pre">chi2reddened()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#distroi.sed_analysis.ism_reddening_fit"><code class="docutils literal notranslate"><span class="pre">ism_reddening_fit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#distroi.sed_analysis.plot_reddened_model_fit"><code class="docutils literal notranslate"><span class="pre">plot_reddened_model_fit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#distroi.sed_analysis.plot_sed_decomp"><code class="docutils literal notranslate"><span class="pre">plot_sed_decomp()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#distroi.sed_analysis.read_sed_data"><code class="docutils literal notranslate"><span class="pre">read_sed_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#distroi.sed_analysis.read_sed_mcfost"><code class="docutils literal notranslate"><span class="pre">read_sed_mcfost()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#distroi.sed_analysis.redden_flux"><code class="docutils literal notranslate"><span class="pre">redden_flux()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">DISTROI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">distroi package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/distroi.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
   <section id="module-distroi">
-<span id="distroi-package"></span><h1>distroi package<a class="headerlink" href="#module-distroi" title="Permalink to this headline">¶</a></h1>
+<span id="distroi-package"></span><h1>distroi package<a class="headerlink" href="#module-distroi" title="Permalink to this heading"></a></h1>
 <p>This package allows for the calculation of optical interferometry (OI) observables from radiative transfer images.</p>
 <section id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="distroi.auxiliary.html">distroi.auxiliary package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="distroi.auxiliary.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="distroi.auxiliary.html#distroi-auxiliary-readoifits-module">distroi.auxiliary.ReadOIFITS module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="distroi.auxiliary.html#distroi-auxiliary-selectdata-module">distroi.auxiliary.SelectData module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distroi.auxiliary.html#module-distroi.auxiliary.ReadOIFITS">distroi.auxiliary.ReadOIFITS module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distroi.auxiliary.html#module-distroi.auxiliary.SelectData">distroi.auxiliary.SelectData module</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </section>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
 </section>
 <section id="module-distroi.constants">
-<span id="distroi-constants-module"></span><h2>distroi.constants module<a class="headerlink" href="#module-distroi.constants" title="Permalink to this headline">¶</a></h2>
+<span id="distroi-constants-module"></span><h2>distroi.constants module<a class="headerlink" href="#module-distroi.constants" title="Permalink to this heading"></a></h2>
 <p>Contains constant values, unit conversions and settings to be used throughout the project.</p>
 <dl class="field-list simple">
-<dt class="field-odd">var str PROJECT_ROOT</dt>
+<dt class="field-odd">var str PROJECT_ROOT<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Path to the root of the distroi project on the user’s system.</p>
 </dd>
-<dt class="field-even">var float SPEED_OF_LIGHT</dt>
+<dt class="field-even">var float SPEED_OF_LIGHT<span class="colon">:</span></dt>
 <dd class="field-even"><p>In SI units.</p>
 </dd>
-<dt class="field-odd">var float DEG2RAD</dt>
+<dt class="field-odd">var float DEG2RAD<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Conversion of degree to radian.</p>
 </dd>
-<dt class="field-even">var float RAD2DEG</dt>
+<dt class="field-even">var float RAD2DEG<span class="colon">:</span></dt>
 <dd class="field-even"><p>Conversion of radian to degree.</p>
 </dd>
-<dt class="field-odd">var float MAS2RAD</dt>
+<dt class="field-odd">var float MAS2RAD<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Conversion of milli-arcsecond to radian.</p>
 </dd>
-<dt class="field-even">var float RAD2MAS</dt>
+<dt class="field-even">var float RAD2MAS<span class="colon">:</span></dt>
 <dd class="field-even"><p>Conversion of radian to milli-arcsecond.</p>
 </dd>
-<dt class="field-odd">var float MICRON2M</dt>
+<dt class="field-odd">var float MICRON2M<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Conversion of meter to micrometer/micron.</p>
 </dd>
-<dt class="field-even">var float M2MICRON</dt>
+<dt class="field-even">var float M2MICRON<span class="colon">:</span></dt>
 <dd class="field-even"><p>Conversion of micrometer/micron to meter.</p>
 </dd>
-<dt class="field-odd">var float WATT_PER_METER2_HZ_2JY</dt>
+<dt class="field-odd">var float WATT_PER_METER2_HZ_2JY<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Flux desnity conversion of W m^-2 Hz^-1 to Jansky (Jy).</p>
 </dd>
 </dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.constants.set_matplotlib_params">
-<span class="sig-prename descclassname"><span class="pre">distroi.constants.</span></span><span class="sig-name descname"><span class="pre">set_matplotlib_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.constants.set_matplotlib_params" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function to set matplotlib parametets.</p>
+<span class="sig-prename descclassname"><span class="pre">distroi.constants.</span></span><span class="sig-name descname"><span class="pre">set_matplotlib_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.constants.set_matplotlib_params" title="Permalink to this definition"></a></dt>
+<dd><p>Function to set project-wide matplotlib parameters.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return None</dt>
+<dt class="field-odd">Return None<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
 </dd></dl>
 
 </section>
-<section id="distroi-image-module">
-<h2>distroi.image module<a class="headerlink" href="#distroi-image-module" title="Permalink to this headline">¶</a></h2>
-</section>
-<section id="distroi-oi-observables-module">
-<h2>distroi.oi_observables module<a class="headerlink" href="#distroi-oi-observables-module" title="Permalink to this headline">¶</a></h2>
-</section>
-<section id="distroi-sed-analysis-module">
-<h2>distroi.sed_analysis module<a class="headerlink" href="#distroi-sed-analysis-module" title="Permalink to this headline">¶</a></h2>
-</section>
-</section>
+<section id="module-distroi.image">
+<span id="distroi-image-module"></span><h2>distroi.image module<a class="headerlink" href="#module-distroi.image" title="Permalink to this heading"></a></h2>
+<p>Defines a class and the corresponding methods to load in and handle model disk images and their fast fourier
+img.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="distroi.image.Image">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.image.</span></span><span class="sig-name descname"><span class="pre">Image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mcfost'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disk_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image.Image" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class containing information on a model img and its fast fourier img. While default options are tuned to
+MCFOST model disk images, it can easily be generalized by adding an extra option for ‘read_method’ in the
+constructor and defining a corresponding img reader function analogous to ‘read_img_mcfost’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>img_path</strong> – </p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="distroi.image.Image.fft_diagnostic_plot">
+<span class="sig-name descname"><span class="pre">fft_diagnostic_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_vistype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vis2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_plotv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_ploti</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_plots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image.Image.fft_diagnostic_plot" title="Permalink to this definition"></a></dt>
+<dd><p>Makes diagnostic plots showing both the model img and the FFT of the DiskImage objct.
+Parameters:
+fig_dir (str): path to folder where plots are saved
+:param str plot_vistype: Sets the type of visibility to be plotted. ‘vis2’ for squared visibilities or ‘vis’</p>
+<blockquote>
+<div><p>for visibilities, which are either normalized or correlated flux in Jy.</p>
+</div></blockquote>
+<p>log_plotv (bool): set to True to plot the visibilities on a logarithmic scale
+log_ploti (bool): set to True to plot the model img on a logarithmic scale</p>
+</dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="distroi.image.Image.freq_info">
+<span class="sig-name descname"><span class="pre">freq_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image.Image.freq_info" title="Permalink to this definition"></a></dt>
+<dd><p>Returns string containing information on both the spatial frequency domain/sampling and the corresponding
+projected baselines.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>info_str (str): String containing frequency info which can be printed.</p>
+</dd>
+</dl>
+</dd></dl>
 
-            <div class="clearer"></div>
-          </div>
-        </div>
-      </div>
-        </div>
-        <div class="sidebar">
-          
-          <h3>Table of Contents</h3>
-          <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">distroi package</a></li>
+<dl class="py method">
+<dt class="sig sig-object py" id="distroi.image.Image.perform_fft">
+<span class="sig-name descname"><span class="pre">perform_fft</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image.Image.perform_fft" title="Permalink to this definition"></a></dt>
+<dd><p>Perform the numpy FFT and set the required properties related to the img’s FFT.</p>
+<dl class="simple">
+<dt>Properties affected:</dt><dd><p>self.img_fft
+self.w_x
+self.wy
+self.uf
+self.vf</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="distroi.image.Image.read_img_mcfost">
+<span class="sig-name descname"><span class="pre">read_img_mcfost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disk_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image.Image.read_img_mcfost" title="Permalink to this definition"></a></dt>
+<dd><p>Initializes the required properties related to the img by reading an MCFOST img run output file.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>img_path (str): path to an MCFOST output RT.fits.gz img file
+disk_only (bool): set to True if you only want to load in the flux from the disk</p>
+</dd>
+<dt>Properties affected:</dt><dd><p>wave
+self.pixelscale_x
+self.pixelscale_y
+self.num_pix_x
+self.num_pix_y
+self.img
+self.ftot</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="distroi.image.Image.redden">
+<span class="sig-name descname"><span class="pre">redden</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ebminv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reddening_law_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/home/toond/Documents/phd/python/distroi/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image.Image.redden" title="Permalink to this definition"></a></dt>
+<dd><p>Further reddens the model img according to the approriate E(B-V) and a corresponding reddening law file.</p>
+<p>Parameters:
+ebminv (Float):
+reddening_law_path (str): path to reddening law to be used. Defaults to ISM reddening law by
+Cardelli (1989) in the package’s utils/ISM_reddening folder. See this file for the formatting of
+the reddening law.
+Properties affected:
+self.img
+self.img_fft
+self.ftot</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-distroi.oi_observables">
+<span id="distroi-oi-observables-module"></span><h2>distroi.oi_observables module<a class="headerlink" href="#module-distroi.oi_observables" title="Permalink to this heading"></a></h2>
+<p>Contains a class to store optical inteferometric (OI) observables and additional functions to take radiative
+transfer (RT) model disk images and convert them to interferometric observables at the spatial frequencies of data
+stored in the OIFITS format. Currently supports the following combinations of obsevrables: Squared visibilities -
+Closure phases ; Visibilities - Closure phases ; Correlated fluxes (formaly stored as visibilities) - Closure phases.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="distroi.oi_observables.OIContainer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.oi_observables.</span></span><span class="sig-name descname"><span class="pre">OIContainer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observables</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fcorr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.oi_observables.OIContainer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to contain optical interferometry observables, where each observable is stored in the form of raveled 1D
+numpy arrays. Based on the Data class in ReadOIFITS.py, where the observables are stored per OIFITS table,
+but the raveled form makes calculations easier and less prone to error. Currenlty supports visibilities (both in
+normalized and correlated flux form), squared visibilities and closure phases. In this format this class and the
+methods below can be expanded to accomodate for different kinds of observables (i.e. addition of differential
+visibilities).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observables</strong> (<em>dict</em>) – Dictionary containing arrays representing the observables described below.</p></li>
+<li><p><strong>fcorr</strong> (<em>bool</em>) – Set to True if the visibilities are to be stored as correlated fluxes in Jy.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Variables<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>vis_in_fcorr</strong> (<em>bool</em>) – Whether visibilities are stored in correlated flux or not.</p></li>
+<li><p><strong>vuf</strong> (<em>numpy.ndarray</em>) – u-axis spatial freqs in 1/rad for visibility data.</p></li>
+<li><p><strong>vvf</strong> (<em>numpy.ndarray</em>) – v-axis spatial freqs in 1/rad for visibility data.</p></li>
+<li><p><strong>vwave</strong> (<em>numpy.ndarray</em>) – Wavelengths in meter for visibility data.</p></li>
+<li><p><strong>v</strong> (<em>numpy.ndarray</em>) – Visibilities, either normalized visibilities or correlated flux in Janksy.</p></li>
+<li><p><strong>verr</strong> (<em>numpy.ndarray</em>) – Error on visibilities.</p></li>
+<li><p><strong>vbase</strong> (<em>numpy.ndarray</em>) – Baseline length in MegaLambda for visibility data.</p></li>
+<li><p><strong>v2uf</strong> (<em>numpy.ndarray</em>) – u-axis spatial freqs in 1/rad for squared visibility data.</p></li>
+<li><p><strong>v2vf</strong> (<em>numpy.ndarray</em>) – v-axis spatial freqs in 1/rad for squared visibility data.</p></li>
+<li><p><strong>v2wave</strong> (<em>numpy.ndarray</em>) – Wavelengths in meter for squared visibility data.</p></li>
+<li><p><strong>v2</strong> (<em>numpy.ndarray</em>) – Squared visibilities.</p></li>
+<li><p><strong>v2err</strong> (<em>numpy.ndarray</em>) – Error on squared visibilities.</p></li>
+<li><p><strong>v2base</strong> (<em>numpy.ndarray</em>) – Baseline length in MegaLambda for squared visibility data.</p></li>
+<li><p><strong>t3uf1</strong> (<em>numpy.ndarray</em>) – u-axis spatial freqs in 1/rad for the 1st projected baseline along the closure triangle.</p></li>
+<li><p><strong>t3vf1</strong> (<em>numpy.ndarray</em>) – v-axis spatial freqs in 1/rad for the 1st projected baseline along the closure triangle.</p></li>
+<li><p><strong>t3uf3</strong> (<em>numpy.ndarray</em>) – u-axis spatial freqs in 1/rad for the 2nd projected baseline along the closure triangle.</p></li>
+<li><p><strong>t3vf2</strong> (<em>numpy.ndarray</em>) – v-axis spatial freqs in 1/rad for the 2nd projected baseline along the closure triangle.</p></li>
+<li><p><strong>t3uf3</strong> – u-axis spatial freqs in 1/rad for the 3d projected baseline along the closure triangle.</p></li>
+<li><p><strong>t3vf3</strong> (<em>numpy.ndarray</em>) – v-axis spatial freqs in 1/rad for the 3d projected baseline along the closure triangle.</p></li>
+<li><p><strong>t3wave</strong> (<em>numpy.ndarray</em>) – Wavelengths in meter for closure phase data.</p></li>
+<li><p><strong>t3phi</strong> (<em>numpy.ndarray</em>) – Closure phases in degrees.</p></li>
+<li><p><strong>t3phierr</strong> (<em>numpy.ndarray</em>) – Error on closure phases.</p></li>
+<li><p><strong>t3bmax</strong> (<em>numpy.ndarray</em>) – Maximum baseline length along the closure triangle in units of MegaLambda.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
-          <div role="search">
-            <h3 style="margin-top: 1.5em;">Search</h3>
-            <form class="search" action="search.html" method="get">
-                <input type="text" name="q" />
-                <input type="submit" value="Go" />
-            </form>
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.oi_observables.calc_model_observables">
+<span class="sig-prename descclassname"><span class="pre">distroi.oi_observables.</span></span><span class="sig-name descname"><span class="pre">calc_model_observables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mod_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">monochr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ebminv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mcfost'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disk_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.oi_observables.calc_model_observables" title="Permalink to this definition"></a></dt>
+<dd><p>Loads in OI observables from an OIContainer, typically containing observational data, and calculates model img
+observables at the same coverage. In case monochr=False, expects the same amount of pixels and same pixelscale
+for every model img included. Currently only support MCFOST img file naming conventions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>container_data</strong> (<a class="reference internal" href="#distroi.oi_observables.OIContainer" title="distroi.oi_observables.OIContainer"><em>OIContainer</em></a>) – OIContainer at whose spatial frequencies we calculate model observables.</p></li>
+<li><p><strong>mod_dir</strong> (<em>str</em>) – Parent directory of model of interest.</p></li>
+<li><p><strong>img_dir</strong> (<em>str</em>) – Subdirectory containing model images. If (not) monochr, uses (all) file(s) in
+(subdirectories under) mod_dir+img_dir.</p></li>
+<li><p><strong>monochr</strong> (<em>bool</em>) – Set True if you want to use a monochromatic model, i.e. no interpolation is performed
+in the wavelength dimension. If False, the model images used must have a wider wavelength coverage than
+container_data.</p></li>
+<li><p><strong>ebminv</strong> (<em>float</em>) – E(B-V) of additional reddening to be applied to the model images.</p></li>
+<li><p><strong>read_method</strong> (<em>str</em>) – Method used to read in images when creating Image instances.
+Currently only support ‘mcfost’.</p></li>
+<li><p><strong>disk_only</strong> (<em>bool</em>) – Set to True if you only want to include light from the disk in the model images.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return container_mod<span class="colon">:</span></dt>
+<dd class="field-even"><p>OIContainer for model img observables.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#distroi.oi_observables.OIContainer" title="distroi.oi_observables.OIContainer">OIContainer</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.oi_observables.container_from_oifits">
+<span class="sig-prename descclassname"><span class="pre">distroi.oi_observables.</span></span><span class="sig-name descname"><span class="pre">container_from_oifits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wave_lims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v2lim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fcorr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.oi_observables.container_from_oifits" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieve data from (multiple) OIFITS files and return in an OIConatiner.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_dir</strong> (<em>str</em>) – Path to the directory where the files are stored.</p></li>
+<li><p><strong>data_file</strong> (<em>str</em>) – Data filename, including wildcards if needed to read in multiple files at once.</p></li>
+<li><p><strong>wave_lims</strong> (<em>tuple</em>) – The lower and upper wavelength limits in micron used when reading in data.</p></li>
+<li><p><strong>v2lim</strong> (<em>Union</em><em>[</em><em>float</em><em>, </em><em>None</em><em>]</em>) – Upper limit on the squared visibility used when reading in data.</p></li>
+<li><p><strong>fcorr</strong> (<em>bool</em>) – Set to True if visibility data is to be interpreted as correlated fluxes in Jy units.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return container<span class="colon">:</span></dt>
+<dd class="field-even"><p>OIContainer with the observables from the OIFITS file.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#distroi.oi_observables.OIContainer" title="distroi.oi_observables.OIContainer">OIContainer</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.oi_observables.plot_data_vs_model">
+<span class="sig-prename descclassname"><span class="pre">distroi.oi_observables.</span></span><span class="sig-name descname"><span class="pre">plot_data_vs_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">container_mod</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_plotv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_vistype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vis2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_plots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.oi_observables.plot_data_vs_model" title="Permalink to this definition"></a></dt>
+<dd><p>Plots the data agains the model OI observables. Currently, plots uv-coverage, a (squared) visibility curve and
+closure phases.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>container_data</strong> (<a class="reference internal" href="#distroi.oi_observables.OIContainer" title="distroi.oi_observables.OIContainer"><em>OIContainer</em></a>) – Container with data observables.</p></li>
+<li><p><strong>container_mod</strong> (<a class="reference internal" href="#distroi.oi_observables.OIContainer" title="distroi.oi_observables.OIContainer"><em>OIContainer</em></a>) – Container with model observables.</p></li>
+<li><p><strong>fig_dir</strong> (<em>str</em>) – Directory to store plots in.</p></li>
+<li><p><strong>log_plotv</strong> (<em>bool</em>) – Set to True for a logarithmic y-scale in the (squared) visibility plot.</p></li>
+<li><p><strong>plot_vistype</strong> (<em>str</em>) – Sets the type of visibility to be plotted. ‘vis2’ for squared visibilities or ‘vis’
+for visibilities, which are either normalized or correlated flux in Jy.</p></li>
+<li><p><strong>show_plots</strong> (<em>bool</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return None<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-distroi.sed_analysis">
+<span id="distroi-sed-analysis-module"></span><h2>distroi.sed_analysis module<a class="headerlink" href="#module-distroi.sed_analysis" title="Permalink to this heading"></a></h2>
+<p>Contains functions to analyse MCFOST model SEDs by comparing them to observed SEDs from the SED repository.
+NOTE: Assumes MCFOST SEDs are calculated under a single inclination/azimuthal viewing angle.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.sed_analysis.chi2reddened">
+<span class="sig-prename descclassname"><span class="pre">distroi.sed_analysis.</span></span><span class="sig-name descname"><span class="pre">chi2reddened</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lam</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux_error</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lam_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reddening_law_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ebminv</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.sed_analysis.chi2reddened" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the chi2 value of an MCFOST model’s SED versus an observed SED.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>lam (numpy array): Array containing the observed data’s wavelength values in micron.
+flux (numpy array): The data’s flux values, in lam x F_lam format, in erg/s/cm2/micron.
+flux_error (numpy array): The data’s error values, in lam x F_lam format, in erg/s/cm2/micron.
+lam_model (numpy array): Same as lam but for the model SED.
+flux_model (numpy array): Same as flux but for the model SED.
+reddening_law_path (str): Path to the ISM reddening law to be used. In a two-column format:
+1) wavelength (Angstrom)  2) A(wavelength)/E(B-V) (magn.).
+Standard file used is the ISM law by Cardelli et al. 1989.
+ebminv (float): E(B-V) magnitude of the reddening to be applied.</p>
+</dd>
+<dt>Returns:</dt><dd><p>chi2 (float): The resulting chi2 value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.sed_analysis.ism_reddening_fit">
+<span class="sig-prename descclassname"><span class="pre">distroi.sed_analysis.</span></span><span class="sig-name descname"><span class="pre">ism_reddening_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lam</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux_error</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lam_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reddening_law_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ebminv_guess</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.4</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.sed_analysis.ism_reddening_fit" title="Permalink to this definition"></a></dt>
+<dd><p>Fits the ISM E(B-V) value to make the model SED match up to the observations as much as possible.
+Returns the full reddened model SED (at the model’s wavelengths),
+the fitted E(B-V) value and the resulting chi2.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>lam (numpy array): Array containing the observed data’s wavelength values in micron.
+flux (numpy array): The data’s flux values, in lam x F_lam format, in erg/s/cm2/micron.
+flux_error (numpy array): The data’s error values, in lam x F_lam format, in erg/s/cm2/micron.
+lam_model (numpy array): Same as lam but for the model SED.
+flux_model (numpy array): Same as flux but for the model SED.
+reddening_law_path (str): Path to the ISM reddening law to be used. In a two-column format:
+1) wavelength (Angstrom)  2) A(wavelength)/E(B-V) (magn.).
+Standard file used is the ISM law by Cardelli et al. 1989.
+ebminv_guess (float): Initial E(B-V) guess to be used for the scipy minimization routine to fit ISM reddening.</p>
+</dd>
+<dt>Returns:</dt><dd><p>model_sed_full_red (numpy array): Array containing the model’s reddened SED,
+using the fitted E(B-V) (lam x F_lam format, in erg/s/cm2/micron).
+ebminv_opt (float): The fitted E(B-V) value.
+chi2 (float): The corresponding chi2 value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.sed_analysis.plot_reddened_model_fit">
+<span class="sig-prename descclassname"><span class="pre">distroi.sed_analysis.</span></span><span class="sig-name descname"><span class="pre">plot_reddened_model_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder_mcfost</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reddening_law_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ebminv_guess</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">az</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.sed_analysis.plot_reddened_model_fit" title="Permalink to this definition"></a></dt>
+<dd><p>Takes the paths to both an SED data .phot file from the SED repository and the directory of an MCFOST model run.
+Then performs a fit for the remaining ISM reddening, and plots the resulting SEDs.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>filepath_data (str): Path to the .phot filename.
+folder_mcfost (str): Path to the folder in which the MCFOST run results are stored.
+reddening_law_path (str): Path to the ISM reddening law to be used. In a two-column format:
+1) wavelength (Angstrom)  2) A(wavelength)/E(B-V) (magn.).
+Standard file used is the ISM law by Cardelli et al. 1989.
+ebminv_guess (float): Initial E(B-V) guess to be used for the minimization routine.
+fig_dir (str): Path to directory where the resulting figure is saved.
+az (int): Number of the azimuthal viewing angle value considered (MCFOST can output results for
+multiple angles simultaneously). Default = 0 (1st value).
+inc (int): Number of the inclination viewing angle value considered (MCFOST can output results for
+multiple angles simultaneously). Default = 0 (1st value).</p>
+</dd>
+<dt>Returns:</dt><dd><p>Nothing. A saved plot of the results is saved in the specified directory.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.sed_analysis.plot_sed_decomp">
+<span class="sig-prename descclassname"><span class="pre">distroi.sed_analysis.</span></span><span class="sig-name descname"><span class="pre">plot_sed_decomp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folderpath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reddening_law_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redden_mag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">az</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.sed_analysis.plot_sed_decomp" title="Permalink to this definition"></a></dt>
+<dd><p>Function to plot an SED directly from the MCFOST output in all its contributions
+(NOTE: no ISM reddening fitted to any data).
+Parameters:</p>
+<blockquote>
+<div><p>folderpath (str): Path to the previously ran MCFOST ‘Thermal’ run for which we want to make an img
+(e.g. the dir_out argument of run_mcfost_th()).
+reddening_law_path (str): Path to the ISM reddening law to be used. In a two-column format:
+1) wavelength (Angstrom)  2) A(wavelength)/E(B-V) (magn.).
+redden_mag (float): E(B-V) magnitude of applied ISM reddening.
+fig_dir (str): Path to directory where the resulting figure is saved.
+az (int): Number of the azimuthal viewing angle value considered (MCFOST can output results for
+multiple angles simultaneously). Default = 0 (1st value).
+inc (int): Number of the inclination viewing angle value considered (MCFOST can output results
+for multiple angles simultaneously). Default = 0 (1st value).</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Nothing. A saved plot of the results is saved in the specified directory.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.sed_analysis.read_sed_data">
+<span class="sig-prename descclassname"><span class="pre">distroi.sed_analysis.</span></span><span class="sig-name descname"><span class="pre">read_sed_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.sed_analysis.read_sed_data" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the SED data contained in the .phot files from the SED repository (see Hans Van Winkcel’s /STER folder).</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>filename (str): Path to the .phot filename.</p>
+</dd>
+<dt>Returns:</dt><dd><p>data_wave (numpy array): Array containing the wavelength values in micron.
+data_flux (numpy array): Array containing the SED in lam x F_lam format, units in to erg/s/cm2/micron.
+data_err (numpy array): Array containing the measured error on lam x F_lam format, units in to erg/s/cm2/micron.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.sed_analysis.read_sed_mcfost">
+<span class="sig-prename descclassname"><span class="pre">distroi.sed_analysis.</span></span><span class="sig-name descname"><span class="pre">read_sed_mcfost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">az</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.sed_analysis.read_sed_mcfost" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the SED of an MCFOST radiative transfer run.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>folder (str): Path to the folder in which the MCFOST run results are stored
+(i.e. the superdirectory of e.g. the data_th directory).
+az (int): Number of the azimuthal viewing angle value considered (MCFOST can output results for multiple angles
+simultaneously). Default = 0 (1st value).
+inc (int): Number of the inclination viewing angle value considered (MCFOST can output results for
+multiple angles simultaneously). Default = 0 (1st value).</p>
+</dd>
+<dt>Returns:</dt><dd><p>lam (numpy array): Array containing the wavelength values in micron.
+full_sed (numpy array): Array containing the SED in lam x F_lam format, units in to erg/s/cm2/micron.
+star_sed (numpy array): Same as full_sed but only the direct contribution from the central star,
+in erg/s/cm2/micron.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.sed_analysis.redden_flux">
+<span class="sig-prename descclassname"><span class="pre">distroi.sed_analysis.</span></span><span class="sig-name descname"><span class="pre">redden_flux</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lam</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reddening_law_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ebminv</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.sed_analysis.redden_flux" title="Permalink to this definition"></a></dt>
+<dd><p>Takes an SED’s flux values (typically an MCFOST model SED) and returns the SED after ISM redenning.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>lam (numpy array): Array containing the wavelength values in micron.
+flux (numpy array): Flux values, in lam x F_lam format, to be redenned, in erg/s/cm2/micron
+reddening_law_path (str): Path to the ISM reddening law to be used. In a two-column format:
+1) wavelength (Angstrom)  2) A(wavelength)/E(B-V) (magn.).
+Standard file used is the ISM law by Cardelli et al. 1989.
+ebminv (float): E(B-V) magnitude of the reddening to be applied.</p>
+</dd>
+<dt>Returns:</dt><dd><p>flux_reddened (numpy array): Reddened flux values, in lam x F_lam format, in erg/s/cm2/micron.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
           </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to DISTROI’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="distroi.auxiliary.html" class="btn btn-neutral float-right" title="distroi.auxiliary package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Toon De Prins.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
         </div>
-        <div class="clearer"></div>
       </div>
-    </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
 
-    <div class="footer-wrapper">
-      <div class="footer">
-        <div class="left">
-          <div role="navigation" aria-label="related navigaton">
-            <a href="index.html" title="Welcome to DISKFITTER5000’s documentation!"
-              >previous</a> |
-            <a href="distroi.auxiliary.html" title="distroi.auxiliary package"
-              >next</a> |
-            <a href="py-modindex.html" title="Python Module Index"
-              >modules</a> |
-            <a href="genindex.html" title="General Index"
-              >index</a>
-          </div>
-          <div role="note" aria-label="source link">
-              <br/>
-              <a href="_sources/distroi.rst.txt"
-                rel="nofollow">Show Source</a>
-          </div>
-        </div>
-
-        <div class="right">
-          
-    <div class="footer" role="contentinfo">
-        &#169; Copyright 2024, Toon De Prins.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.2.
-    </div>
-        </div>
-        <div class="clearer"></div>
-      </div>
-    </div>
-
-  </body>
+</body>
 </html>

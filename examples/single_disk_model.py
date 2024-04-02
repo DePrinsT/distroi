@@ -4,8 +4,8 @@ VLTI data of the IRAS 08544-4431 system, which hosts a circumbinary disk.
 """
 
 if __name__ == '__main__':
-    from mcfost_grid_fitting import image
-    from mcfost_grid_fitting import oi_observables
+    from distroi import image
+    from distroi import oi_observables
 
     # PIONIER tests
     # ------------------------

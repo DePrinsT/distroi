@@ -5,9 +5,9 @@ stored in the OIFITS format. Currently supports the following combinations of ob
 Closure phases ; Visibilities - Closure phases ; Correlated fluxes (formaly stored as visibilities) - Closure phases.
 """
 
-from mcfost_grid_fitting import constants
-from mcfost_grid_fitting import image
-from mcfost_grid_fitting.auxiliary import SelectData
+from distroi import constants
+from distroi import image
+from distroi.auxiliary import SelectData
 
 import os
 import glob
@@ -16,7 +16,7 @@ import numpy as np
 from scipy.interpolate import RegularGridInterpolator
 
 import matplotlib.pyplot as plt
-from mcfost_grid_fitting.constants import set_matplotlib_params
+from distroi.constants import set_matplotlib_params
 
 set_matplotlib_params()  # set project matplotlib parameters
 

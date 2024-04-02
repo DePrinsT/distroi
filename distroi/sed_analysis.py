@@ -1,9 +1,6 @@
 """
-File: sed_analysis.py
-Author: Toon De Prins
-Description: Contains functions to analyse MCFOST model SEDs by comparing them to
-observed SEDs from the SED repository. NOTE: Assumes MCFOST SEDs calculated under a single inclination/azimuthal
-viewing angle.
+Contains functions to analyse MCFOST model SEDs by comparing them to observed SEDs from the SED repository.
+NOTE: Assumes MCFOST SEDs are calculated under a single inclination/azimuthal viewing angle.
 """
 
 import os
@@ -16,7 +13,7 @@ from astropy import units as u
 import pandas as pd
 
 import matplotlib.pyplot as plt
-from mcfost_grid_fitting.constants import set_matplotlib_params
+from distroi.constants import set_matplotlib_params
 
 set_matplotlib_params()  # set project matplotlib parameters
 

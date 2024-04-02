@@ -32,7 +32,7 @@ WATT_PER_METER2_HZ_2JY = 1e26  # conversion spectral flux density from SI W m^-2
 
 def set_matplotlib_params():
     """
-    Function to set matplotlib parametets.
+    Function to set project-wide matplotlib parameters.
 
     :return None:
     """

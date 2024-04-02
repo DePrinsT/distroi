@@ -1,8 +1,6 @@
 """
-File: SelectData.py
-Author: Dr. Akke Corporaal and Dr. Jacques Kluska, modified by Toon De Prins
-Description: Modification of the original file stored at https://github.com/kluskaj/ReadOIFITS on GitHub.
-Provides a class to read in observation data from OIFITS files.
+Provides a class to read in observation data from OIFITS files. This is a modification of the original module stored at
+https://github.com/kluskaj/ReadOIFITS on GitHub.
 """
 
 import astropy.io.fits as fits
