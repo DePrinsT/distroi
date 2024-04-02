@@ -167,10 +167,12 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.constants.set_matplotlib_params">
 <span class="sig-prename descclassname"><span class="pre">distroi.constants.</span></span><span class="sig-name descname"><span class="pre">set_matplotlib_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.constants.set_matplotlib_params" title="Permalink to this definition"></a></dt>
-<dd><p>Function to set project-wide matplotlib parameters.</p>
+<dd><p>Function to set project-wide matplotlib parameters. To be used at the top of a module if plotting functionalities
+are included in it.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return None<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -183,35 +185,69 @@ img.</p>
 <dt class="sig sig-object py" id="distroi.image.Image">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.image.</span></span><span class="sig-name descname"><span class="pre">Image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mcfost'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disk_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image.Image" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Class containing information on a model img and its fast fourier img. While default options are tuned to
-MCFOST model disk images, it can easily be generalized by adding an extra option for ‘read_method’ in the
-constructor and defining a corresponding img reader function analogous to ‘read_img_mcfost’.</p>
+<p>Class containing information on a model image and its fast fourier imgage (FFT). Contains all properties in order
+to fully describe both the image and its FFT. Note that all these properties are expected if all class methods
+are to work. While default options are tuned to MCFOST model disk images, it can easily be generalized by adding
+an extra option for ‘read_method’ in the constructor and defining a corresponding img reader function analogous
+to ‘read_img_mcfost’.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>img_path</strong> – </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img_path</strong> (<em>str</em>) – Path to the model image file to be read.</p></li>
+<li><p><strong>read_method</strong> (<em>str</em>) – Which reader method to use to read in the image. Defaults to ‘mcfost’ to read in MCFOST
+output images (stored in .fits.gz files).</p></li>
+<li><p><strong>disk_only</strong> (<em>bool</em>) – Set to True if you only want to read in the flux from the disk.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Variables<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>wave</strong> (<em>float</em>) – Image wavelength in micron.</p></li>
+<li><p><strong>pixelscale_x</strong> (<em>float</em>) – Pixelscale in radian in x (East-West) direction.</p></li>
+<li><p><strong>pixelscale_y</strong> (<em>float</em>) – Pixelscale in radian in y (North-South) direction.</p></li>
+<li><p><strong>img</strong> (<em>numpy.ndarray</em>) – 2D numpy array containing the image flux in Jy. 1st index = img y-axis,
+2nd index = img x-axis.</p></li>
+<li><p><strong>ftot</strong> (<em>float</em>) – Total image flux in Jy</p></li>
+<li><p><strong>img_fft</strong> (<em>numpy.ndarray</em>) – 2D numpy FFT of img in Jy.</p></li>
+<li><p><strong>w_x</strong> (<em>numpy.ndarray</em>) – 1D array with numpy FFT x-axis frequencies in units of 1/pixelscale_x.</p></li>
+<li><p><strong>w_y</strong> (<em>numpy.ndarray</em>) – 1D array with numpy FFT y-axis frequencies in units of 1/pixelscale_y.</p></li>
+<li><p><strong>uf</strong> (<em>numpy.ndarray</em>) – 1D array with FFT spatial x-axis frequencies in 1/radian, i.e. uf = w_x/pixelscale_x.</p></li>
+<li><p><strong>vf</strong> (<em>numpy.ndarray</em>) – 1D array with FFT spatial y-axis frequencies in 1/radian, i.e. vf = w_y/pixelscale_y.</p></li>
+</ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.image.Image.fft_diagnostic_plot">
 <span class="sig-name descname"><span class="pre">fft_diagnostic_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_vistype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vis2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_plotv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_ploti</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_plots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image.Image.fft_diagnostic_plot" title="Permalink to this definition"></a></dt>
-<dd><p>Makes diagnostic plots showing both the model img and the FFT of the DiskImage objct.
-Parameters:
-fig_dir (str): path to folder where plots are saved
-:param str plot_vistype: Sets the type of visibility to be plotted. ‘vis2’ for squared visibilities or ‘vis’</p>
-<blockquote>
-<div><p>for visibilities, which are either normalized or correlated flux in Jy.</p>
-</div></blockquote>
-<p>log_plotv (bool): set to True to plot the visibilities on a logarithmic scale
-log_ploti (bool): set to True to plot the model img on a logarithmic scale</p>
+<dd><p>Makes diagnostic plots showing both the model image and the FFT (squared) visibilities and complex phases.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fig_dir</strong> (<em>str</em>) – Directory to store plots in.</p></li>
+<li><p><strong>plot_vistype</strong> (<em>str</em>) – Sets the type of visibility to be plotted. ‘vis2’ for squared visibilities, ‘vis’
+for visibilities or ‘fcorr’ for correlated flux in Jy.</p></li>
+<li><p><strong>log_plotv</strong> (<em>bool</em>) – Set to True for a logarithmic y-scale in the (squared) visibility plot.</p></li>
+<li><p><strong>log_ploti</strong> (<em>bool</em>) – Set to True for a logarithmic intensity scale in the model image plot.</p></li>
+<li><p><strong>show_plots</strong> (<em>bool</em>) – Set to True if you want the plots to be shown during your python instance. Note that
+this freazes further code execution until the plot windows are closed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.image.Image.freq_info">
 <span class="sig-name descname"><span class="pre">freq_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image.Image.freq_info" title="Permalink to this definition"></a></dt>
-<dd><p>Returns string containing information on both the spatial frequency domain/sampling and the corresponding
+<dd><p>Returns a string containing information on both the spatial frequency domain/sampling and the corresponding
 projected baselines.</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>info_str (str): String containing frequency info which can be printed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return info_str<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String containing frequency info which can be printed.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
 </dd>
 </dl>
 </dd></dl>
@@ -219,32 +255,23 @@ projected baselines.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.image.Image.perform_fft">
 <span class="sig-name descname"><span class="pre">perform_fft</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image.Image.perform_fft" title="Permalink to this definition"></a></dt>
-<dd><p>Perform the numpy FFT and set the required properties related to the img’s FFT.</p>
-<dl class="simple">
-<dt>Properties affected:</dt><dd><p>self.img_fft
-self.w_x
-self.wy
-self.uf
-self.vf</p>
-</dd>
-</dl>
+<dd><p>Perform the numpy FFT and set the required properties related to the image’s FFT.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.image.Image.read_img_mcfost">
 <span class="sig-name descname"><span class="pre">read_img_mcfost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disk_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image.Image.read_img_mcfost" title="Permalink to this definition"></a></dt>
-<dd><p>Initializes the required properties related to the img by reading an MCFOST img run output file.</p>
-<dl class="simple">
-<dt>Parameters:</dt><dd><p>img_path (str): path to an MCFOST output RT.fits.gz img file
-disk_only (bool): set to True if you only want to load in the flux from the disk</p>
+<dd><p>Initializes the required instance properties related to the model image by reading an MCFOST -img run output
+file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img_path</strong> (<em>str</em>) – Path to an MCFOST output RT.fits.gz model image file.</p></li>
+<li><p><strong>disk_only</strong> (<em>bool</em>) – Set to True if you only want to read in the flux from the disk.</p></li>
+</ul>
 </dd>
-<dt>Properties affected:</dt><dd><p>wave
-self.pixelscale_x
-self.pixelscale_y
-self.num_pix_x
-self.num_pix_y
-self.img
-self.ftot</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -252,16 +279,20 @@ self.ftot</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.image.Image.redden">
 <span class="sig-name descname"><span class="pre">redden</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ebminv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reddening_law_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/home/toond/Documents/phd/python/distroi/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image.Image.redden" title="Permalink to this definition"></a></dt>
-<dd><p>Further reddens the model img according to the approriate E(B-V) and a corresponding reddening law file.</p>
-<p>Parameters:
-ebminv (Float):
-reddening_law_path (str): path to reddening law to be used. Defaults to ISM reddening law by
-Cardelli (1989) in the package’s utils/ISM_reddening folder. See this file for the formatting of
-the reddening law.
-Properties affected:
-self.img
-self.img_fft
-self.ftot</p>
+<dd><p>Further reddens the model image according to the approriate E(B-V) and a corresponding reddening law file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ebminv</strong> (<em>float</em>) – E(B-V) reddening factor to be applied.</p></li>
+<li><p><strong>reddening_law_path</strong> (<em>str</em>) – Path to the reddening law to be used. Defaults to the ISM reddening law by
+Cardelli (1989) in the package’s ‘utils/ISM_reddening folder’. See this file for the expected formatting
+of your own reddening laws.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -387,12 +418,14 @@ closure phases.</p>
 <li><p><strong>fig_dir</strong> (<em>str</em>) – Directory to store plots in.</p></li>
 <li><p><strong>log_plotv</strong> (<em>bool</em>) – Set to True for a logarithmic y-scale in the (squared) visibility plot.</p></li>
 <li><p><strong>plot_vistype</strong> (<em>str</em>) – Sets the type of visibility to be plotted. ‘vis2’ for squared visibilities or ‘vis’
-for visibilities, which are either normalized or correlated flux in Jy.</p></li>
-<li><p><strong>show_plots</strong> (<em>bool</em>) – </p></li>
+for visibilities (either normalized or correlated flux in Jy, as implied by the OIContainer objects).</p></li>
+<li><p><strong>show_plots</strong> (<em>bool</em>) – Set to True if you want the plots to be shown during your python instance. Note that this
+freazes further code execution until the plot windows are closed.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return None<span class="colon">:</span></dt>
-<dd class="field-even"><p></p></dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -473,10 +506,9 @@ multiple angles simultaneously). Default = 0 (1st value).</p>
 <dt class="sig sig-object py" id="distroi.sed_analysis.plot_sed_decomp">
 <span class="sig-prename descclassname"><span class="pre">distroi.sed_analysis.</span></span><span class="sig-name descname"><span class="pre">plot_sed_decomp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folderpath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reddening_law_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redden_mag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">az</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.sed_analysis.plot_sed_decomp" title="Permalink to this definition"></a></dt>
 <dd><p>Function to plot an SED directly from the MCFOST output in all its contributions
-(NOTE: no ISM reddening fitted to any data).
-Parameters:</p>
-<blockquote>
-<div><p>folderpath (str): Path to the previously ran MCFOST ‘Thermal’ run for which we want to make an img
+(NOTE: no ISM reddening fitted to any data).</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>folderpath (str): Path to the previously ran MCFOST ‘Thermal’ run for which we want to make an img
 (e.g. the dir_out argument of run_mcfost_th()).
 reddening_law_path (str): Path to the ISM reddening law to be used. In a two-column format:
 1) wavelength (Angstrom)  2) A(wavelength)/E(B-V) (magn.).
@@ -486,8 +518,7 @@ az (int): Number of the azimuthal viewing angle value considered (MCFOST can out
 multiple angles simultaneously). Default = 0 (1st value).
 inc (int): Number of the inclination viewing angle value considered (MCFOST can output results
 for multiple angles simultaneously). Default = 0 (1st value).</p>
-</div></blockquote>
-<dl class="simple">
+</dd>
 <dt>Returns:</dt><dd><p>Nothing. A saved plot of the results is saved in the specified directory.</p>
 </dd>
 </dl>

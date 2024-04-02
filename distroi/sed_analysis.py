@@ -244,6 +244,7 @@ def plot_sed_decomp(folderpath, reddening_law_path, redden_mag=0, fig_dir='./', 
     """
     Function to plot an SED directly from the MCFOST output in all its contributions
     (NOTE: no ISM reddening fitted to any data).
+
     Parameters:
         folderpath (str): Path to the previously ran MCFOST 'Thermal' run for which we want to make an img
         (e.g. the dir_out argument of run_mcfost_th()).

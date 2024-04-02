@@ -32,16 +32,23 @@ WATT_PER_METER2_HZ_2JY = 1e26  # conversion spectral flux density from SI W m^-2
 
 def set_matplotlib_params():
     """
-    Function to set project-wide matplotlib parameters.
+    Function to set project-wide matplotlib parameters. To be used at the top of a module if plotting functionalities
+    are included in it.
 
-    :return None:
+    :rtype: None
     """
     # setting some matplotlib parameters
-    plt.rc('font', size=9)  # controls default text sizes
+    plt.rcParams['font.family'] = 'serif'
+    plt.rcParams['mathtext.fontset'] = 'dejavuserif'
+    plt.rcParams['legend.frameon'] = False
+    plt.rcParams['lines.markersize'] = 4
+    plt.rcParams['lines.linewidth'] = 1.0
+
+    plt.rc('font', size=10)  # controls default text sizes
     plt.rc('axes', titlesize=11)  # fontsize of the axes title
     plt.rc('axes', labelsize=11)  # fontsize of the x and y labels
     plt.rc('xtick', labelsize=10)  # fontsize of the tick labels
     plt.rc('ytick', labelsize=10)  # fontsize of the tick labels
-    plt.rc('legend', fontsize=8)  # legend fontsize
+    plt.rc('legend', fontsize=9)  # legend fontsize
     plt.rc('figure', titlesize=12)  # fontsize of the figure title
     return

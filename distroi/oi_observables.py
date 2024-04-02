@@ -59,7 +59,7 @@ class OIContainer:
 
     def __init__(self, observables, fcorr=False):
         """
-        Constructor method.
+        Constructor method. See class docstring for information on instance properties.
         """
         self.vis_in_fcorr = fcorr  # set if visibilities are in correlated flux
 
@@ -345,9 +345,10 @@ def plot_data_vs_model(container_data, container_mod, fig_dir=None, log_plotv=Fa
     :param str fig_dir: Directory to store plots in.
     :param bool log_plotv: Set to True for a logarithmic y-scale in the (squared) visibility plot.
     :param str plot_vistype: Sets the type of visibility to be plotted. 'vis2' for squared visibilities or 'vis'
-        for visibilities, which are either normalized or correlated flux in Jy.
-    :param bool show_plots:
-    :return None:
+        for visibilities (either normalized or correlated flux in Jy, as implied by the OIContainer objects).
+    :param bool show_plots: Set to True if you want the plots to be shown during your python instance. Note that this
+        freazes further code execution until the plot windows are closed.
+    :rtype: None
     """
     # create plotting directory if it doesn't exist yet
     if not os.path.exists(fig_dir):

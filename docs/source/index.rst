@@ -5,6 +5,8 @@
 
 Welcome to DISTROI's documentation!
 ===================================
+**DISTROI** (Disk Inner STructure Reconnaisance through Optical Inteferometry) is a Python package intended to compute optical interferometry (OI) observables
+from radiative transfer model images and compare them to observations from modern OI observatories (VLTI, CHARA, ...). You can read about the DISTROI API below.
 
 .. toctree::
    :maxdepth: 1
@@ -12,11 +14,12 @@ Welcome to DISTROI's documentation!
 
    distroi
 
-
-
 Indices and tables
 ==================
 
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+.. note::
+   This project is under active development. Its current structure is bound to change significantly with upcoming releases.

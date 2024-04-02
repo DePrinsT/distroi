@@ -18,38 +18,32 @@ set_matplotlib_params()  # set project matplotlib parameters
 
 class Image:
     """
-    Class containing information on a model img and its fast fourier img. While default options are tuned to
-    MCFOST model disk images, it can easily be generalized by adding an extra option for 'read_method' in the
-    constructor and defining a corresponding img reader function analogous to 'read_img_mcfost'.
+    Class containing information on a model image and its fast fourier imgage (FFT). Contains all properties in order
+    to fully describe both the image and its FFT. Note that all these properties are expected if all class methods
+    are to work. While default options are tuned to MCFOST model disk images, it can easily be generalized by adding
+    an extra option for 'read_method' in the constructor and defining a corresponding img reader function analogous
+    to 'read_img_mcfost'.
 
-    :param img_path:
+    :param str img_path: Path to the model image file to be read.
+    :param str read_method: Which reader method to use to read in the image. Defaults to 'mcfost' to read in MCFOST
+        output images (stored in .fits.gz files).
+    :param bool disk_only: Set to True if you only want to read in the flux from the disk.
+    :ivar float wave: Image wavelength in micron.
+    :ivar float pixelscale_x: Pixelscale in radian in x (East-West) direction.
+    :ivar float pixelscale_y: Pixelscale in radian in y (North-South) direction.
+    :ivar numpy.ndarray img: 2D numpy array containing the image flux in Jy. 1st index = img y-axis,
+        2nd index = img x-axis.
+    :ivar float ftot: Total image flux in Jy
+    :ivar numpy.ndarray img_fft: 2D numpy FFT of img in Jy.
+    :ivar numpy.ndarray w_x: 1D array with numpy FFT x-axis frequencies in units of 1/pixelscale_x.
+    :ivar numpy.ndarray w_y: 1D array with numpy FFT y-axis frequencies in units of 1/pixelscale_y.
+    :ivar numpy.ndarray uf: 1D array with FFT spatial x-axis frequencies in 1/radian, i.e. uf = w_x/pixelscale_x.
+    :ivar numpy.ndarray vf: 1D array with FFT spatial y-axis frequencies in 1/radian, i.e. vf = w_y/pixelscale_y.
     """
 
     def __init__(self, img_path, read_method='mcfost', disk_only=False):
         """
-        Constructor that creates an Image object and sets the instance's attributes. Assigns all properties that
-        are expected to be contained in a singular instance in order to fully describe both the img and its fast
-        fourier img (FFT). Note that these properties are expected if other class methods are to work. Uses
-        class methods like read_mcfost_image to read in a model img and assign useful values to the properties.
-        Parameters:
-            img_path (str): path to the model img file to read in
-            read_method (str): which reader method to use to read in a model img. Defaults to 'mcfost' to read
-                in MCFOST output images stored in .fits.gz files.
-        Properties initialized:
-            self.wave (float): img wavelength in micron
-            self.pixelscale_x (float): pixelscale in radian in x (East-West) direction
-            self.pixelscale_y (float): pixelscale in radian in y (North-South) direction
-            self.num_pix_x (float): amount of pixels in x direction
-            self.num_pix_y (float): amount of pixels in y direction
-            self.img (2d array): 2D numpy array containing the img in Jansky. 1st index = img y-axis,
-                2nd index = img x-axis.
-            self.ftot (float): total flux in Jansky
-            self.img_fft (2d array): numpy FFT of self.img in absolute flux (i.e. in Jansky)
-            self.w_x (1d array): numpy FFT x-axis frequencies returned by np.fft.fftshift(np.fft.fftfreq()),
-                i.e. units 1/pixel
-            self.w_y (1d array): analogous to w_x but for the y-axis
-            self.uf (1d array): FFT spatial frequencies in 1/radian, i.e. uf = w_x/pixelscale_x
-            self.vf (1 darray): FFT spatial frequencies in 1/radian, i.e. vf = w_y/pixelscale_y
+        Constructor method. See class docstring for information on instance properties.
         """
         self.wave = None  # img wavelength in micron
 
@@ -76,19 +70,12 @@ class Image:
 
     def read_img_mcfost(self, img_path, disk_only=False):
         """
-        Initializes the required properties related to the img by reading an MCFOST img run output file.
+        Initializes the required instance properties related to the model image by reading an MCFOST -img run output
+        file.
 
-        Parameters:
-            img_path (str): path to an MCFOST output RT.fits.gz img file
-            disk_only (bool): set to True if you only want to load in the flux from the disk
-        Properties affected:
-            wave
-            self.pixelscale_x
-            self.pixelscale_y
-            self.num_pix_x
-            self.num_pix_y
-            self.img
-            self.ftot
+        :param str img_path: Path to an MCFOST output RT.fits.gz model image file.
+        :param bool disk_only: Set to True if you only want to read in the flux from the disk.
+        :rtype: None
         """
         az, inc = 0, 0  # only load the first azimuthal/inc value img in the .fits file
 
@@ -124,14 +111,7 @@ class Image:
 
     def perform_fft(self):
         """
-        Perform the numpy FFT and set the required properties related to the img's FFT.
-
-        Properties affected:
-            self.img_fft
-            self.w_x
-            self.wy
-            self.uf
-            self.vf
+        Perform the numpy FFT and set the required properties related to the image's FFT.
         """
         self.img_fft = np.fft.fftshift(np.fft.fft2(np.fft.fftshift(self.img)))  # complex fft in Jansky
 
@@ -140,7 +120,7 @@ class Image:
         # !!! NOTE: we add a minus because the positive x- and y-axis convention in numpy
         # is the reverse of the interferometric one !!!
 
-        self.w_x = -np.fft.fftshift(np.fft.fftfreq(self.img_fft.shape[1]))  # also use fftshift so the 0 frequency can
+        self.w_x = -np.fft.fftshift(np.fft.fftfreq(self.img_fft.shape[1]))  # also use fftshift so the 0 frequency
         self.w_y = -np.fft.fftshift(np.fft.fftfreq(self.img_fft.shape[0]))  # lie in the middle of the returned array
 
         self.uf = self.w_x / self.pixelscale_x  # spatial frequencies in units of 1/radian
@@ -149,17 +129,13 @@ class Image:
     def redden(self, ebminv, reddening_law_path=constants.PROJECT_ROOT + '/utils/ISM_reddening'
                                                                          '/ISMreddening_law_Cardelli1989.dat'):
         """
-        Further reddens the model img according to the approriate E(B-V) and a corresponding reddening law file.
+        Further reddens the model image according to the approriate E(B-V) and a corresponding reddening law file.
 
-        Parameters:
-        ebminv (Float):
-        reddening_law_path (str): path to reddening law to be used. Defaults to ISM reddening law by
-        Cardelli (1989) in the package's utils/ISM_reddening folder. See this file for the formatting of
-        the reddening law.
-        Properties affected:
-        self.img
-        self.img_fft
-        self.ftot
+        :param float ebminv: E(B-V) reddening factor to be applied.
+        :param str reddening_law_path: Path to the reddening law to be used. Defaults to the ISM reddening law by
+            Cardelli (1989) in the package's 'utils/ISM_reddening folder'. See this file for the expected formatting
+            of your own reddening laws.
+        :rtype: None
         """
         self.img = sed_analysis.redden_flux(self.wave, self.img,
                                             reddening_law_path, ebminv)  # apply ISM reddening to the img
@@ -170,11 +146,11 @@ class Image:
 
     def freq_info(self):
         """
-        Returns string containing information on both the spatial frequency domain/sampling and the corresponding
+        Returns a string containing information on both the spatial frequency domain/sampling and the corresponding
         projected baselines.
 
-        Returns:
-            info_str (str): String containing frequency info which can be printed.
+        :return info_str: String containing frequency info which can be printed.
+        :rtype: str
         """
         image_size_x = self.pixelscale_x * self.num_pix_x
         image_size_y = self.pixelscale_y * self.num_pix_y
@@ -241,13 +217,16 @@ class Image:
     def fft_diagnostic_plot(self, fig_dir, plot_vistype='vis2', log_plotv=False, log_ploti=False,
                             show_plots=False):
         """
-        Makes diagnostic plots showing both the model img and the FFT of the DiskImage objct.
-        Parameters:
-        fig_dir (str): path to folder where plots are saved
-        :param str plot_vistype: Sets the type of visibility to be plotted. 'vis2' for squared visibilities or 'vis'
-            for visibilities, which are either normalized or correlated flux in Jy.
-        log_plotv (bool): set to True to plot the visibilities on a logarithmic scale
-        log_ploti (bool): set to True to plot the model img on a logarithmic scale
+        Makes diagnostic plots showing both the model image and the FFT (squared) visibilities and complex phases.
+
+        :param str fig_dir: Directory to store plots in.
+        :param str plot_vistype: Sets the type of visibility to be plotted. 'vis2' for squared visibilities, 'vis'
+            for visibilities or 'fcorr' for correlated flux in Jy.
+        :param bool log_plotv: Set to True for a logarithmic y-scale in the (squared) visibility plot.
+        :param bool log_ploti: Set to True for a logarithmic intensity scale in the model image plot.
+        :param bool show_plots: Set to True if you want the plots to be shown during your python instance. Note that
+            this freazes further code execution until the plot windows are closed.
+        :rtype: None
         """
         baseu = self.uf / 1e6  # Baseline length u in MegaLambda
         basev = self.vf / 1e6  # Baseline length v in MegaLambda
@@ -391,7 +370,6 @@ class Image:
                       ls='--')
         ax[1][2].plot(baseu[1:int(self.num_pix_x / 2) + 1], np.zeros_like(baseu[1:int(self.num_pix_x / 2) + 1]),
                       c='b', lw=2)
-
         plt.tight_layout()
 
         if fig_dir is not None:
