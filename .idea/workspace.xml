@@ -4,25 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="58406770-33a2-415d-85da-ce2b89629f19" name="Changes" comment="Extended and properly formatted the documentation for image.py.">
-      <change afterPath="$PROJECT_DIR$/distroiEnv.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/distroi.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/distroi.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="58406770-33a2-415d-85da-ce2b89629f19" name="Changes" comment="Extended the documentation, added requirements.txt file and distroiEnv.yml file to create suitable conda environment.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/distroi/oi_observables.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/oi_observables.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/build/doctrees/environment.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/doctrees/environment.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/build/doctrees/index.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/doctrees/index.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/build/html/_sources/index.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/_sources/index.rst.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/build/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/build/html/searchindex.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/searchindex.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/source/index.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/source/index.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/closure_phases.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/closure_phases.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/fft1d_cuts_1.65mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/fft1d_cuts_1.65mum.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/fft2d_maps_1.65mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/fft2d_maps_1.65mum.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/uv_plane.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/uv_plane.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/visibilities.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/visibilities.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/closure_phases.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/closure_phases.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/fft1d_cuts_2.2mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/fft1d_cuts_2.2mum.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/fft2d_maps_2.2mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/fft2d_maps_2.2mum.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/uv_plane.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/uv_plane.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/visibilities.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/visibilities.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/closure_phases.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/closure_phases.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/fft1d_cuts_3.5mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/fft1d_cuts_3.5mum.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/fft2d_maps_3.5mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/fft2d_maps_3.5mum.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/uv_plane.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/uv_plane.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/visibilities.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/visibilities.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/examples/single_disk_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/single_disk_model.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -217,7 +211,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712070817471</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Extended the documentation, added requirements.txt file and distroiEnv.yml file to create suitable conda environment.">
+      <option name="closed" value="true" />
+      <created>1712076991298</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1712076991298</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -237,6 +239,7 @@
     <MESSAGE value="Addapted the documentation to match the new name." />
     <MESSAGE value="Extra change to README" />
     <MESSAGE value="Extended and properly formatted the documentation for image.py." />
-    <option name="LAST_COMMIT_MESSAGE" value="Extended and properly formatted the documentation for image.py." />
+    <MESSAGE value="Extended the documentation, added requirements.txt file and distroiEnv.yml file to create suitable conda environment." />
+    <option name="LAST_COMMIT_MESSAGE" value="Extended the documentation, added requirements.txt file and distroiEnv.yml file to create suitable conda environment." />
   </component>
 </project>
