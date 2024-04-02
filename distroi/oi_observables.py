@@ -391,7 +391,7 @@ def plot_data_vs_model(container_data, container_mod, fig_dir=None, log_plotv=Fa
 
     fig, ax = plt.subplots(1, 1, figsize=(5, 5))
     fig.subplots_adjust(right=0.8)
-    cax = fig.add_axes([0.85, 0.15, 0.02, 0.7])
+    cax = fig.add_axes([0.82, 0.15, 0.02, 0.7])
 
     ax.scatter(ufdata / 1e6, vfdata / 1e6,
                c=wavedata * constants.M2MICRON, s=1,
