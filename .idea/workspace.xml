@@ -4,20 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="58406770-33a2-415d-85da-ce2b89629f19" name="Changes" comment="Extended the documentation, added requirements.txt file and distroiEnv.yml file to create suitable conda environment.">
+    <list default="true" id="58406770-33a2-415d-85da-ce2b89629f19" name="Changes" comment="Added info on the example script in the readme.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/closure_phases.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/closure_phases.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/fft1d_cuts_2.2mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/fft1d_cuts_2.2mum.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/fft2d_maps_2.2mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/fft2d_maps_2.2mum.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/uv_plane.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/uv_plane.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/visibilities.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/visibilities.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/closure_phases.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/closure_phases.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/fft1d_cuts_3.5mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/fft1d_cuts_3.5mum.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/fft2d_maps_3.5mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/fft2d_maps_3.5mum.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/uv_plane.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/uv_plane.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/visibilities.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/visibilities.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/doctrees/distroi.auxiliary.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/doctrees/distroi.auxiliary.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/doctrees/distroi.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/doctrees/distroi.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/doctrees/environment.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/doctrees/environment.pickle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/_static/basic.css" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/_static/basic.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/_static/doctools.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/_static/doctools.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/_static/documentation_options.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/_static/documentation_options.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/_static/pygments.css" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/_static/pygments.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/_static/searchtools.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/_static/searchtools.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/distroi.auxiliary.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/distroi.auxiliary.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/distroi.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/distroi.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/genindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/genindex.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/modules.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/modules.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/py-modindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/py-modindex.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/search.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/searchindex.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/searchindex.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/examples/single_disk_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/single_disk_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +67,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;
   }
 }</component>
   <component name="RunManager">
@@ -219,7 +225,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712076991298</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Added info on the example script in the readme.">
+      <option name="closed" value="true" />
+      <created>1712077664697</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1712077664697</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -240,6 +254,7 @@
     <MESSAGE value="Extra change to README" />
     <MESSAGE value="Extended and properly formatted the documentation for image.py." />
     <MESSAGE value="Extended the documentation, added requirements.txt file and distroiEnv.yml file to create suitable conda environment." />
-    <option name="LAST_COMMIT_MESSAGE" value="Extended the documentation, added requirements.txt file and distroiEnv.yml file to create suitable conda environment." />
+    <MESSAGE value="Added info on the example script in the readme." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added info on the example script in the readme." />
   </component>
 </project>

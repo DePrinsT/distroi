@@ -107,8 +107,7 @@ if __name__ == '__main__':
 
     # Monochromatic model observables test
     img_dir = 'MATISSE_N/data_10.0/'
-    container_data = oi_observables.container_from_oifits(data_dir, data_file, wave_lims=(9.75, 10.20), v2lim=None,
-                                                          fcorr=True)
+    container_data = oi_observables.container_from_oifits(data_dir, data_file, wave_lims=(9.75, 10.20), fcorr=True)
     container_model = oi_observables.calc_model_observables(container_data, mod_dir, img_dir, monochr=True,
                                                             ebminv=1.4, read_method='mcfost', disk_only=False)
     oi_observables.plot_data_vs_model(container_data, container_model, fig_dir=fig_dir, log_plotv=True,
@@ -116,8 +115,7 @@ if __name__ == '__main__':
 
     # Chromatic model observables test
     img_dir = 'MATISSE_N/'
-    container_data = oi_observables.container_from_oifits(data_dir, data_file, wave_lims=(8.5, 12.0), v2lim=None,
-                                                          fcorr=True)
+    container_data = oi_observables.container_from_oifits(data_dir, data_file, wave_lims=(8.5, 12.0), fcorr=True)
     container_model = oi_observables.calc_model_observables(container_data, mod_dir, img_dir, monochr=False,
                                                             ebminv=1.4, read_method='mcfost', disk_only=False)
     oi_observables.plot_data_vs_model(container_data, container_model, fig_dir=fig_dir, log_plotv=True,
