@@ -6,8 +6,10 @@
 # Path info
 import os
 import sys
-sys.path.append('../..')  # add project root
-for x in os.walk('../../distroi'):  # add all submodules to the path just to be sure
+# add project root to path, needs to be added so ReadTheDocs can find the modules when building documentation
+sys.path.append('../..')  
+# add all submodules to the path just to be sure, needs to be added to sphinx autodoc can find all files 
+for x in os.walk('../../distroi'):
   sys.path.insert(0, x[0])
 
 

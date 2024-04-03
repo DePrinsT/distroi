@@ -4,7 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="58406770-33a2-415d-85da-ce2b89629f19" name="Changes" comment="Fixed mistake in .readthedocs.yaml" />
+    <list default="true" id="58406770-33a2-415d-85da-ce2b89629f19" name="Changes" comment="Appended project root to conf.py in Sphinx sources">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/distroi/image.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/image.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/distroi/oi_observables.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/oi_observables.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/source/conf.py" beforeDir="false" afterPath="$PROJECT_DIR$/docs/source/conf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/closure_phases.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/closure_phases.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/uv_plane.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/uv_plane.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/visibilities.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/visibilities.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/closure_phases.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/closure_phases.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/fft2d_maps_1.65mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/fft2d_maps_1.65mum.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/uv_plane.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/uv_plane.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/visibilities.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/visibilities.png" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -230,7 +243,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712136757177</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Appended project root to conf.py in Sphinx sources">
+      <option name="closed" value="true" />
+      <created>1712140703354</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1712140703354</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -254,6 +275,7 @@
     <MESSAGE value="Added info on the example script in the readme." />
     <MESSAGE value="Added a .readthedocs.yaml file to test if the documentation builds on readthedocs." />
     <MESSAGE value="Fixed mistake in .readthedocs.yaml" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed mistake in .readthedocs.yaml" />
+    <MESSAGE value="Appended project root to conf.py in Sphinx sources" />
+    <option name="LAST_COMMIT_MESSAGE" value="Appended project root to conf.py in Sphinx sources" />
   </component>
 </project>

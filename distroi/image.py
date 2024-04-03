@@ -257,7 +257,7 @@ class Image:
                                    extent=(self.num_pix_x / 2 + 0.5, -self.num_pix_x / 2 + 0.5,
                                            -self.num_pix_y / 2 + 0.5, self.num_pix_y / 2 + 0.5))
         fig.colorbar(img_plot, ax=ax[0][0], label='$I$ (Jy/pixel)', fraction=0.046, pad=0.04)
-        ax[0][0].set_title('Disk intensity')
+        ax[0][0].set_title('Intensity')
         ax[0][0].set_xlabel("E-W [pixel]")
         ax[0][0].set_ylabel("S-N [pixel]")
         ax[0][0].arrow(0.90, 0.80, -0.1, 0, color='white', transform=ax[0][0].transAxes,

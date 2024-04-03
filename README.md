@@ -1,6 +1,6 @@
 # DISTROI
 
-DISTROI, or **D**isk **I**nner **ST**ructure **R**econnaisance through **O**ptical **I**nteferometry, is a Python 
+**DISTROI**, or **D**isk **I**nner **ST**ructure **R**econnaissance through **O**ptical **I**nteferometry, is a Python 
 package intended to compute optical interferometry (OI) observables  from radiative transfer model images and compare 
 them to observations from modern OI observatories (VLTI, CHARA, ...).
 

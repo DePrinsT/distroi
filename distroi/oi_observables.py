@@ -416,7 +416,7 @@ def plot_data_vs_model(container_data, container_mod, fig_dir=None, log_plotv=Fa
 
     ax[0].errorbar(basedata, visdata, viserrdata, label='data', mec='royalblue',
                    marker='o', capsize=0, zorder=0, markersize=2, ls='', alpha=0.8, elinewidth=0.5)
-    ax[0].scatter(basedata, vismod, label=f'MCFOST model', marker='o',
+    ax[0].scatter(basedata, vismod, label=f'model', marker='o',
                   facecolor='white', edgecolor='r', s=4, alpha=0.6)
     ax[1].scatter(basedata, (vismod - visdata) / viserrdata,
                   marker='o', facecolor='white', edgecolor='r', s=4, alpha=0.6)
@@ -445,7 +445,7 @@ def plot_data_vs_model(container_data, container_mod, fig_dir=None, log_plotv=Fa
 
     ax[0].errorbar(container_data.t3bmax, container_data.t3phi, container_data.t3phierr, label='data', mec='royalblue',
                    marker='o', capsize=0, zorder=0, markersize=2, ls='', alpha=0.8, elinewidth=0.5)
-    ax[0].scatter(container_data.t3bmax, container_mod.t3phi, label=f'MCFOST model', marker='o',
+    ax[0].scatter(container_data.t3bmax, container_mod.t3phi, label=f'model', marker='o',
                   facecolor='white', edgecolor='r', s=4, alpha=0.6)
     ax[1].scatter(container_data.t3bmax, (container_mod.t3phi - container_data.t3phi) / container_data.t3phierr,
                   marker='o', facecolor='white', edgecolor='r', s=4, alpha=0.6)
