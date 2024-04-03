@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="58406770-33a2-415d-85da-ce2b89629f19" name="Changes" comment="Added a .readthedocs.yaml file to test if the documentation builds on readthedocs.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.readthedocs.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/.readthedocs.yaml" afterDir="false" />
-    </list>
+    <list default="true" id="58406770-33a2-415d-85da-ce2b89629f19" name="Changes" comment="Fixed mistake in .readthedocs.yaml" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -225,7 +222,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712135690129</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Fixed mistake in .readthedocs.yaml">
+      <option name="closed" value="true" />
+      <created>1712136757177</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1712136757177</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -248,6 +253,7 @@
     <MESSAGE value="Extended the documentation, added requirements.txt file and distroiEnv.yml file to create suitable conda environment." />
     <MESSAGE value="Added info on the example script in the readme." />
     <MESSAGE value="Added a .readthedocs.yaml file to test if the documentation builds on readthedocs." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added a .readthedocs.yaml file to test if the documentation builds on readthedocs." />
+    <MESSAGE value="Fixed mistake in .readthedocs.yaml" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed mistake in .readthedocs.yaml" />
   </component>
 </project>

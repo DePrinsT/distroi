@@ -6,7 +6,8 @@
 # Path info
 import os
 import sys
-for x in os.walk('../../distroi'):
+sys.path.append('../..')  # add project root
+for x in os.walk('../../distroi'):  # add all submodules to the path just to be sure
   sys.path.insert(0, x[0])
 
 
