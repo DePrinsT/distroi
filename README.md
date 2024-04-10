@@ -26,3 +26,9 @@ DISTROI is distributed in the hope that it will be useful, but WITHOUT ANY WARRA
 of  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the  GNU General Public License for more details. 
 You should have received a copy of the GNU General Public License along with DISTROI. If not, see 
 <https://www.gnu.org/licenses/>.
+
+---
+**NOTE**
+
+This project is under active development. Its current structure is bound to change significantly in the near future.
+---

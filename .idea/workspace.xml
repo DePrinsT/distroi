@@ -4,19 +4,50 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="58406770-33a2-415d-85da-ce2b89629f19" name="Changes" comment="Appended project root to conf.py in Sphinx sources">
+    <list default="true" id="58406770-33a2-415d-85da-ce2b89629f19" name="Changes" comment="Fixed typo in word 'reconnaissance'">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/distroi/auxiliary/SelectData.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/auxiliary/SelectData.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/distroi/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/constants.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/distroi/image.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/image.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/distroi/oi_observables.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/oi_observables.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/source/conf.py" beforeDir="false" afterPath="$PROJECT_DIR$/docs/source/conf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/distroi/sed_analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/sed.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/doctrees/distroi.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/doctrees/distroi.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/doctrees/environment.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/doctrees/environment.pickle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/doctrees/index.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/doctrees/index.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/_sources/distroi.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/_sources/distroi.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/_sources/index.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/_sources/index.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/distroi.auxiliary.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/distroi.auxiliary.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/distroi.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/distroi.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/genindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/genindex.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/modules.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/modules.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/objects.inv" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/objects.inv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/py-modindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/py-modindex.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/searchindex.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/searchindex.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/source/distroi.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/source/distroi.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/source/index.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/source/index.rst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/closure_phases.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/closure_phases.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/fft1d_cuts_2.2mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/fft1d_cuts_2.2mum.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/fft2d_maps_2.2mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/fft2d_maps_2.2mum.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/uv_plane.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/uv_plane.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/visibilities.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/visibilities.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/closure_phases.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/closure_phases.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/fft1d_cuts_3.5mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/fft1d_cuts_3.5mum.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/fft2d_maps_3.5mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/fft2d_maps_3.5mum.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/uv_plane.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/uv_plane.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/visibilities.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/visibilities.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/closure_phases.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/closure_phases.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/fft1d_cuts_10.0mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/fft1d_cuts_10.0mum.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/fft2d_maps_10.0mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/fft2d_maps_10.0mum.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/uv_plane.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/uv_plane.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/visibilities.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/visibilities.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/closure_phases.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/closure_phases.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/fft1d_cuts_1.65mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/fft1d_cuts_1.65mum.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/fft2d_maps_1.65mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/fft2d_maps_1.65mum.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/uv_plane.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/uv_plane.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/visibilities.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/visibilities.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/single_disk_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/single_disk_model.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,6 +70,9 @@
     </excluded-from-favorite>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/distroi/image.py" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -57,6 +91,7 @@
     "Python.constants.executor": "Run",
     "Python.image.executor": "Run",
     "Python.oi_observables.executor": "Run",
+    "Python.sed.executor": "Run",
     "Python.single_disk_model.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -251,7 +286,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712140703354</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Fixed typo in word 'reconnaissance'">
+      <option name="closed" value="true" />
+      <created>1712149138497</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1712149138497</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -276,6 +319,7 @@
     <MESSAGE value="Added a .readthedocs.yaml file to test if the documentation builds on readthedocs." />
     <MESSAGE value="Fixed mistake in .readthedocs.yaml" />
     <MESSAGE value="Appended project root to conf.py in Sphinx sources" />
-    <option name="LAST_COMMIT_MESSAGE" value="Appended project root to conf.py in Sphinx sources" />
+    <MESSAGE value="Fixed typo in word 'reconnaissance'" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed typo in word 'reconnaissance'" />
   </component>
 </project>

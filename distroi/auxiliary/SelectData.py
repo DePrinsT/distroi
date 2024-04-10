@@ -7,7 +7,7 @@ import numpy as np
 
 
 # This is used to select OIFITS data within certain limits and returns it as a ReadOIFITS 'data' object.
-# Mostly used to calculate chi2 from observation OIFITS VS model img OIFITS files
+# Mostly used to calculate chi2 from observation OIFITS VS model image OIFITS files
 def SelectData(data_dir, data_file, wave_1=None, wave_2=None, lim_V2_err=None, lim_V2=None, base_1=None,
                base_2=None, lim_T3_err=None):
     ''' Returns the data that is selected based on:

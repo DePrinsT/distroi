@@ -22,4 +22,4 @@ Indices and tables
 * :ref:`search`
 
 .. note::
-   This project is under active development. Its current structure is bound to change significantly with upcoming releases.
+   This project is under active development. Its current structure is bound to change significantly in the near future.

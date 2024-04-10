@@ -1,11 +1,11 @@
 """
-Defines a class and the corresponding methods to load in and handle model disk images and their fast fourier
-img.
+Defines a class and the corresponding methods to load in and handle model images and their fast fourier
+transform (FFT).
 """
 import os
 
 from distroi import constants
-from distroi import sed_analysis
+from distroi import sed
 
 import numpy as np
 from astropy.io import fits
@@ -18,100 +18,65 @@ set_matplotlib_params()  # set project matplotlib parameters
 
 class Image:
     """
-    Class containing information on a model image and its fast fourier imgage (FFT). Contains all properties in order
-    to fully describe both the image and its FFT. Note that all these properties are expected if all class methods
-    are to work. While default options are tuned to MCFOST model disk images, it can easily be generalized by adding
-    an extra option for 'read_method' in the constructor and defining a corresponding img reader function analogous
-    to 'read_img_mcfost'.
+    Class containing information on a model image and its FFT. Contains all properties in order to fully describe both
+    the image and its FFT. Note that all these properties are expected if all class methods are to work. While
+    default options are tuned to MCFOST model disk images, it can easily be generalized to different RT codes by
+    defining a corresponding image reader function analogous to 'read_image_mcfost'. Can handle any dimensions of image,
+    as long as the amount of pixels in each dimension is even.
 
-    :param str img_path: Path to the model image file to be read.
-    :param str read_method: Which reader method to use to read in the image. Defaults to 'mcfost' to read in MCFOST
-        output images (stored in .fits.gz files).
-    :param bool disk_only: Set to True if you only want to read in the flux from the disk.
-    :ivar float wave: Image wavelength in micron.
+    :param dict dictionary: Dictionary containing keys and values representing several instance variables described
+        below. Should include 'wavelength', 'pixelscale_x'/'y', 'num_pix_x'/'y', 'img', and 'ftot'. The other required
+        instance variables (related to the FFT) are set automatically through perform_fft().
+    :ivar float wavelength: Image wavelength in micron.
     :ivar float pixelscale_x: Pixelscale in radian in x (East-West) direction.
     :ivar float pixelscale_y: Pixelscale in radian in y (North-South) direction.
-    :ivar numpy.ndarray img: 2D numpy array containing the image flux in Jy. 1st index = img y-axis,
-        2nd index = img x-axis.
+    :ivar int num_pix_x: Amount of pixels in the x direction.
+    :ivar int num_pix_y: Amount of pixels in the y direction.
+    :ivar numpy.ndarray img: 2D numpy array containing the image flux in Jy. 1st index = image y-axis,
+        2nd index = image x-axis.
     :ivar float ftot: Total image flux in Jy
-    :ivar numpy.ndarray img_fft: 2D numpy FFT of img in Jy.
+    :ivar numpy.ndarray img_fft: Complex 2D numpy FFT of img in Jy.
     :ivar numpy.ndarray w_x: 1D array with numpy FFT x-axis frequencies in units of 1/pixelscale_x.
     :ivar numpy.ndarray w_y: 1D array with numpy FFT y-axis frequencies in units of 1/pixelscale_y.
     :ivar numpy.ndarray uf: 1D array with FFT spatial x-axis frequencies in 1/radian, i.e. uf = w_x/pixelscale_x.
     :ivar numpy.ndarray vf: 1D array with FFT spatial y-axis frequencies in 1/radian, i.e. vf = w_y/pixelscale_y.
     """
 
-    def __init__(self, img_path, read_method='mcfost', disk_only=False):
+    def __init__(self, dictionary):
         """
         Constructor method. See class docstring for information on instance properties.
         """
-        self.wave = None  # img wavelength in micron
+        self.wavelength = None  # image wavelength in micron
 
         self.pixelscale_x = None  # pixelscale in radian in x direction
         self.pixelscale_y = None  # pixelscale in radian in y direction
         self.num_pix_x = None  # number of pixels in x direction
         self.num_pix_y = None  # number of pixels in y direction
 
-        self.img = None  # 2d numpy array containing the flux, 1st index = img y-axis, 2nd index = img x-axis
+        self.img = None  # 2d numpy array containing the flux, 1st index = image y-axis, 2nd index = image x-axis
         self.ftot = None  # total flux in Jy
 
-        self.img_fft = None  # numpy FFT of self.img in absolute flux (Jansky)
+        self.img_fft = None  # complex numpy FFT of self.img in absolute flux units (Jansky)
         self.w_x = None  # numpy FFT frequencies returned by np.fft.fftshift(np.fft.fftfreq()), i.e. units 1/pixel
         self.w_y = None  # for x and y-axis respectively
         self.uf = None  # FFT spatial frequencies in 1/radian, i.e. uf = w_x/pixelscale_x; vf = w_y/pixelscale_y
         self.vf = None  # for x-axis (u in inteferometric convention) and y-axis (v in inteferometric convention)
 
-        # choose reader function and initialize img properties, can add extra options here for different RT codes
-        if read_method == 'mcfost':
-            self.read_img_mcfost(img_path, disk_only=disk_only)
-
-        # perform the fft
-        self.perform_fft()
-
-    def read_img_mcfost(self, img_path, disk_only=False):
-        """
-        Initializes the required instance properties related to the model image by reading an MCFOST -img run output
-        file.
-
-        :param str img_path: Path to an MCFOST output RT.fits.gz model image file.
-        :param bool disk_only: Set to True if you only want to read in the flux from the disk.
-        :rtype: None
-        """
-        az, inc = 0, 0  # only load the first azimuthal/inc value img in the .fits file
-
-        # open the required fits file + get some header info
-        hdul = fits.open(img_path)
-
-        # read in the wavelength, pixelscale and 'window size' (e.g. size of axis images in radian)
-        self.wave = hdul[0].header['WAVE']  # wavelength in micron
-        self.pixelscale_x = abs(hdul[0].header['CDELT1']) * constants.DEG2RAD  # loaded in degrees, converted to radian
-        self.pixelscale_y = abs(hdul[0].header['CDELT2']) * constants.DEG2RAD
-        self.num_pix_x = hdul[0].header['NAXIS1']  # number of pixels
-        self.num_pix_y = hdul[0].header['NAXIS2']
-
-        img_array = hdul[0].data  # read in img data in lam x F_lam units W m^-2
-        img_array = np.flip(img_array, axis=3)  # flip y-array (to match numpy axis convention)
-
-        img_tot = img_array[0, az, inc, :, :]  # full total flux img
-        img_star = img_array[4, az, inc, :, :]
-        img_disk = (img_tot - img_star)
-
-        # Set all img-related class instance properties below.
-
-        if disk_only:
-            self.img = img_disk
-        else:
-            self.img = img_tot
-
-        # calculate fft in Jy units
-        self.img *= ((self.wave * constants.MICRON2M) /
-                     constants.SPEED_OF_LIGHT)  # convert to F_nu in SI units (W m^-2 Hz^-1)
-        self.img *= constants.WATT_PER_METER2_HZ_2JY  # convert img to Jansky
-        self.ftot = np.sum(self.img)  # total flux in Jansky
+        if dictionary is not None:
+            # read in from dictionary
+            self.wavelength = dictionary['wavelength']
+            self.pixelscale_x, self.pixelscale_y = dictionary['pixelscale_x'], dictionary['pixelscale_y']
+            self.num_pix_x, self.num_pix_y = dictionary['num_pix_x'], dictionary['num_pix_y']
+            self.img = dictionary['img']
+            self.ftot = dictionary['ftot']
+            # perform the fft to set the other instance variables
+            self.perform_fft()
 
     def perform_fft(self):
         """
         Perform the numpy FFT and set the required properties related to the image's FFT.
+
+        :rtype: None
         """
         self.img_fft = np.fft.fftshift(np.fft.fft2(np.fft.fftshift(self.img)))  # complex fft in Jansky
 
@@ -137,11 +102,11 @@ class Image:
             of your own reddening laws.
         :rtype: None
         """
-        self.img = sed_analysis.redden_flux(self.wave, self.img,
-                                            reddening_law_path, ebminv)  # apply ISM reddening to the img
+        self.img = sed.redden_flux(self.wavelength, self.img,
+                                   reddening_law_path, ebminv)  # apply ISM reddening to the image
         if self.img_fft is not None:
-            self.img_fft = sed_analysis.redden_flux(self.wave, self.img_fft,
-                                                    reddening_law_path, ebminv)  # apply ISM reddening to the fft
+            self.img_fft = sed.redden_flux(self.wavelength, self.img_fft,
+                                           reddening_law_path, ebminv)  # apply ISM reddening to the fft
         self.ftot = np.sum(self.img)  # recalculate total flux
 
     def freq_info(self):
@@ -203,16 +168,46 @@ class Image:
                     f"{abs(((self.w_y[1] - self.w_y[0]) * 1 / self.pixelscale_y) / 1e6)} \n"
                     f"---------------------------------------------------------------- \n"
                     f"Maximum projected baseline resolvable under current pixel sampling E-W [m]: "
-                    f"{((np.max(self.w_x) * 1 / self.pixelscale_x) / 1e6) * 1e6 * self.wave * constants.MICRON2M} \n"
+                    f"{(np.max(self.w_x) * 1 / self.pixelscale_x) * self.wavelength * constants.MICRON2M} \n"
                     f"Maximum projected baseline resolvable under current pixel sampling S-N [m]: "
-                    f"{((np.max(self.w_y) * 1 / self.pixelscale_y) / 1e6) * 1e6 * self.wave * constants.MICRON2M} \n"
+                    f"{(np.max(self.w_y) * 1 / self.pixelscale_y) * self.wavelength * constants.MICRON2M} \n"
                     f"Spacing in projected baseline length corresponding to frequency sampling E-W [m]: "
-                    f"{abs(((self.w_x[1] - self.w_x[0]) * 1 / self.pixelscale_x) * self.wave * constants.MICRON2M)} \n"
+                    f"{abs(((self.w_x[1] - self.w_x[0]) * 1 / self.pixelscale_x) *
+                           self.wavelength * constants.MICRON2M)} \n"
                     f"Spacing in projected baseline length corresponding to frequency sampling S-N [m]: "
-                    f"{abs(((self.w_y[1] - self.w_y[0]) * 1 / self.pixelscale_y) * self.wave * constants.MICRON2M)} \n"
+                    f"{abs(((self.w_y[1] - self.w_y[0]) * 1 / self.pixelscale_y) *
+                           self.wavelength * constants.MICRON2M)} \n"
                     f"================================================================ \n"
                     )
         return info_str
+
+    # todo: add function to add overresolved flux and point source flux
+    def add_point_and_overresolved_blackbody(self, sed, f_ps, f_ov, temp_ps, temp_ov, ref_wavelength=1.65):
+        """
+        Function that adds the effect of an additional point source and/or overresolved flux component to the Image
+        instance. The flux scaling of both additional components is modeled as a blackbody. Note that the addition of a
+        point source affects both the instance variables 'img_fft' and
+
+        :param sed:
+        :param f_ps:
+        :param f_ov:
+        :param temp_ps:
+        :param temp_ov:
+        :param ref_wavelength:
+        :return:
+        """
+
+
+    def half_light_radius(self):
+        """
+        Calculate the half light radius of the Image. Note that if you want only the half light radius of e.g. an MCFOST
+        model disk, one should use
+
+        :return hlr: The half light radius in milli-arcsecond.
+        :rtype: float
+        """
+        # todo: implement the calculation
+        return
 
     def fft_diagnostic_plot(self, fig_dir, plot_vistype='vis2', log_plotv=False, log_ploti=False,
                             show_plots=False):
@@ -252,7 +247,7 @@ class Image:
         color_map = 'inferno'
 
         # normalized intensity plotted in pixel scale
-        # also set the extent of the img when you plot it, take care that the number of pixels is even
+        # also set the extent of the image when you plot it, take care that the number of pixels is even
         img_plot = ax[0][0].imshow(self.img, cmap=color_map, norm=normi,
                                    extent=(self.num_pix_x / 2 + 0.5, -self.num_pix_x / 2 + 0.5,
                                            -self.num_pix_y / 2 + 0.5, self.num_pix_y / 2 + 0.5))
@@ -269,7 +264,7 @@ class Image:
         ax[0][0].axhline(y=0, lw=0.2, color='white')
         ax[0][0].axvline(x=0, lw=0.2, color='white')
 
-        # set the (squared) visibility of the discrete fourier img
+        # set the (squared) visibility of the FFT
         if plot_vistype == 'vis2':
             vislabel = '$V^2$'
             vis = abs(self.img_fft / self.ftot) ** 2
@@ -299,7 +294,7 @@ class Image:
         ax[0][1].set_xlabel(r"$\leftarrow u$ [1/pixel]")
         ax[0][1].set_ylabel(r"$v \rightarrow$ [1/pixel]")
 
-        # complex phase of the direct fourier img in pixel scale
+        # complex phase of the FFT in pixel scale
         phi_plot = ax[0][2].imshow(cphi, cmap=color_map,
                                    extent=(self.num_pix_x / 2 + 0.5, -self.num_pix_x / 2 + 0.5,
                                            -self.num_pix_y / 2 + 0.5, self.num_pix_y / 2 + 0.5))
@@ -331,7 +326,7 @@ class Image:
         ax[1][0].axhline(y=0, lw=0.2, color='white')
         ax[1][0].axvline(x=0, lw=0.2, color='white')
 
-        # (squared) visibility of the direct fourier img in MegaLambda (baseline length) scale
+        # (squared) visibility of the FFT in MegaLambda (baseline length) scale
         v2plot = ax[1][1].imshow(vis, cmap=color_map, norm=normv,
                                  extent=((self.num_pix_x / 2 + 0.5) * step_baseu, (-self.num_pix_x / 2 + 0.5) *
                                          step_baseu,
@@ -345,7 +340,7 @@ class Image:
         ax[1][1].set_xlabel(r"$\leftarrow B_u$ [$\mathrm{M \lambda}$]")
         ax[1][1].set_ylabel(r"$B_v \rightarrow$ [$\mathrm{M \lambda}$]")
 
-        # complex phase of the direct fourier img in MegaLambda (baseline length) scale
+        # complex phase of the FFT in MegaLambda (baseline length) scale
         phi_plot = ax[1][2].imshow(cphi, cmap=color_map,
                                    extent=((self.num_pix_x / 2 + 0.5) * step_baseu, (-self.num_pix_x / 2 + 0.5) *
                                            step_baseu,
@@ -373,7 +368,7 @@ class Image:
         plt.tight_layout()
 
         if fig_dir is not None:
-            plt.savefig(f"{fig_dir}/fft2d_maps_{self.wave}mum.png", dpi=300, bbox_inches='tight')
+            plt.savefig(f"{fig_dir}/fft2d_maps_{self.wavelength}mum.png", dpi=300, bbox_inches='tight')
 
         # Some plots of specific cuts in frequency space
         fig2, ax2 = plt.subplots(2, 1, figsize=(6, 6))
@@ -421,6 +416,54 @@ class Image:
         plt.tight_layout()
 
         if fig_dir is not None:
-            plt.savefig(f"{fig_dir}/fft1d_cuts_{self.wave}mum.png", dpi=300, bbox_inches='tight')
+            plt.savefig(f"{fig_dir}/fft1d_cuts_{self.wavelength}mum.png", dpi=300, bbox_inches='tight')
         if show_plots:
             plt.show()
+
+
+def read_image_mcfost(img_path, disk_only=False):
+    """
+    Retrieve image data from an MCFOST model image and return it as an Image class instance.
+
+    :param str img_path: Path to an MCFOST output RT.fits.gz model image file.
+    :param bool disk_only: Set to True if you only want to read in the flux from the disk.
+    :return image: Image instance containing the information on the MCFOST RT image.
+    :rtype: Image
+    """
+    dictionary = {}  # dictionary to construct Image instance
+
+    az, inc = 0, 0  # only load the first azimuthal/inc value image in the .fits file
+
+    # open the required fits file + get some header info
+    hdul = fits.open(img_path)
+
+    # read in the wavelength, pixelscale and 'window size' (e.g. size of axis images in radian)
+    dictionary['wavelength'] = hdul[0].header['WAVE']  # wavelength in micron
+    dictionary['pixelscale_x'] = abs(hdul[0].header['CDELT1']) * constants.DEG2RAD  # loads degrees, converted to radian
+    dictionary['pixelscale_y'] = abs(hdul[0].header['CDELT2']) * constants.DEG2RAD
+    dictionary['num_pix_x'] = hdul[0].header['NAXIS1']  # number of pixels
+    dictionary['num_pix_y'] = hdul[0].header['NAXIS2']
+
+    img_array = hdul[0].data  # read in image data in lam x F_lam units W m^-2
+    img_array = np.flip(img_array, axis=3)  # flip y-array (to match numpy axis convention)
+
+    img_tot = img_array[0, az, inc, :, :]  # full total flux
+    img_star = img_array[4, az, inc, :, :]
+    img_disk = (img_tot - img_star)
+
+    # Set all image-related class instance properties below.
+
+    if disk_only:
+        dictionary['img'] = img_disk
+    else:
+        dictionary['img'] = img_tot
+
+    # calculate fft in Jy units
+    dictionary['img'] *= ((dictionary['wavelength'] * constants.MICRON2M) /
+                          constants.SPEED_OF_LIGHT)  # convert to F_nu in SI units (W m^-2 Hz^-1)
+    dictionary['img'] *= constants.WATT_PER_METER2_HZ_2JY  # convert image to Jansky
+    dictionary['ftot'] = np.sum(dictionary['img'])  # total flux in Jansky
+
+    # return an Image object
+    image = Image(dictionary=dictionary)
+    return image

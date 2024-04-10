@@ -41,10 +41,10 @@ distroi.oi\_observables module
    :undoc-members:
    :show-inheritance:
 
-distroi.sed\_analysis module
-----------------------------
+distroi.sed module
+------------------
 
-.. automodule:: distroi.sed_analysis
+.. automodule:: distroi.sed
    :members:
    :undoc-members:
    :show-inheritance:
