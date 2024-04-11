@@ -6,7 +6,7 @@ Closure phases ; Visibilities - Closure phases ; Correlated fluxes (formaly stor
 """
 
 from distroi import constants
-from distroi import image
+from distroi import image_fft
 from distroi.auxiliary import SelectData
 
 import os
@@ -237,10 +237,11 @@ def read_oicontainer_oifits(data_dir, data_file, wave_lims=None, v2lim=None, fco
 
 def calc_model_observables(container_data, mod_dir, img_dir, monochr=False, ebminv=0.0,
                            read_method='mcfost'):
+    #todo: add support for adding point source or overresolved flux to the observabled calculation
     """
     Loads in OI observables from an OIContainer, typically containing observational data, and calculates model image
     observables at the same uv coverage. In case monochr=False, expects the same amount of pixels and same pixelscale
-    for every model image included. TODO: Only supports MCFOST image file naming convention, make more general.
+    for every model image included.
 
     :param OIContainer container_data: OIContainer at whose spatial frequencies we calculate model observables.
     :param str mod_dir: Parent directory of the RT model of interest.
@@ -248,79 +249,80 @@ def calc_model_observables(container_data, mod_dir, img_dir, monochr=False, ebmi
         in 'mod_dir+img_dir'. If False, then all image files in the subdirectories of 'mod_dir+img_dir' are used.
     :param bool monochr: Set True if you want to use a monochromatic model, i.e. no interpolation is performed
         in the wavelength dimension. If False, multiple images are loaded in and interpolation of the model image FFTs
-        along wavelength is performed. In this case the model images used must collectively  have a wider wavelength
+        along wavelength is performed. In this case the model images used must collectively have a wider wavelength
         coverage than 'container_data'.
     :param float ebminv: E(B-V) of additional reddening to be applied to the model images. Only useful if
         the visibilities in 'container_data' are expressed in correlated flux.
-    :param str read_method: Type of method used to read in RT model images when creating Image class instances.
+    :param str read_method: Type of method used to read in RT model images when creating ImageFFT class instances.
         Currently only supports 'mcfost'.
     :return container_mod: OIContainer for model image observables.
     :rtype: OIContainer
     """
 
-    if monochr:
-        # load in and perform FFT on a single image
-        if read_method == 'mcfost':
-            transform = image.read_image_mcfost(f'{mod_dir}{img_dir}/RT.fits.gz')
-        transform.redden(ebminv=ebminv)  # redden the image
-        wavelength, ftot, img_fft, uf, vf = (transform.wavelength, transform.ftot, transform.img_fft,
-                                             transform.uf, transform.vf)
+    img_fft_list = []  # list of ImageFFT objects to be held (1 element long in the case of monochr=True)
 
-        #  make interpolator from the absolute image (in Jansky) and calculate model observables from that
-        interpolator = RegularGridInterpolator((vf, uf), img_fft)
-        if not container_data.vis_in_fcorr:
-            vmod = abs(interpolator((container_data.vvf, container_data.vuf)) / ftot)  # visibilities normalized
+    if monochr:  # case for a single image
+
+        if read_method == 'mcfost':  # different ways to read ImageFFT from model image files
+            img_fft = image_fft.read_image_mcfost(f'{mod_dir}{img_dir}/RT.fits.gz')
         else:
-            vmod = abs(interpolator((container_data.vvf, container_data.vuf)))  # visibilities in correlated flux
-        v2mod = abs(interpolator((container_data.v2vf, container_data.v2uf)) / ftot) ** 2  # squared visibilities
-        # We use the convention such that triangle ABC -> (u1,v1) = AB; (u2,v2) = BC; (u3,v3) = AC, not CA
-        # This causes a minus sign shift for 3rd baseline when calculating closure phase (for real images),
-        # so we take the complex conjugate there.
-        t3phimod = np.angle(interpolator((container_data.t3vf1, container_data.t3uf1)) *
-                            interpolator((container_data.t3vf2, container_data.t3uf2)) *
-                            np.conjugate(interpolator((container_data.t3vf3, container_data.t3uf3))), deg=True)
+            print("read_method not recognized. Program will be terminated!")
+            exit(1)
 
-    else:
-        # list of MCFOST image subdirectories to use
-        mod_img_subdirs = sorted(glob.glob(f'{img_dir}/*data_*', root_dir=mod_dir),
-                                 key=lambda x: float(x.split("_")[-1]))
+        img_fft.redden(ebminv=ebminv)  # redden the ImageFFT object
+        img_fft_list.append(img_fft)  # append to the list of ImageFFT objects
 
-        mod_wavelengths = []  # model image wavelengths in meter
-        img_fft_norm_chromatic = []  # 3d array to store FFT normalized by total flux at diferent wavelengths
-        img_fft_chromatic = []  # 3d array to store absolute FFT (in Jansky)
+        # create interpolator for the normalized complex FFT
+        interp_norm = mod_complex_vis_interpolator(img_fft_list)
 
-        for img_subdir in mod_img_subdirs:
-            # load in and perform FFT on a single image
-            if read_method == 'mcfost':
-                transform = image.read_image_mcfost(f'{mod_dir}{img_subdir}/RT.fits.gz')
-            transform.redden(ebminv=ebminv)  # redden the image
-            wavelength, ftot, img_fft, uf, vf = (transform.wavelength, transform.ftot, transform.img_fft,
-                                                 transform.uf, transform.vf)
-
-            mod_wavelengths.append(wavelength * constants.MICRON2M)
-            img_fft_norm_chromatic.append(img_fft / ftot)
-            img_fft_chromatic.append(img_fft)
-
-        img_fft_norm_chromatic = np.array(img_fft_norm_chromatic)
-        img_fft_chromatic = np.array(img_fft_chromatic)
-
-        #  make interpolators (one for normalized and one for non-normalized FFT) and calculate model observables
-        #  the non-normalized one is only necessary if the data's visibilities in correlated flux
-        interpolator_norm = RegularGridInterpolator((mod_wavelengths, vf, uf), img_fft_norm_chromatic)
+        # Calculate visibilities (requires separate interpolator for correlated fluxes if needed).
         if container_data.vis_in_fcorr:
-            interpolator = RegularGridInterpolator((mod_wavelengths, vf, uf), img_fft_chromatic)
-            vmod = abs(interpolator((container_data.vwave, container_data.vvf, container_data.vuf)))
+            interp_fcorr = mod_complex_vis_interpolator(img_fft_list, fcorr=True)
+            vmod = abs(interp_fcorr((container_data.vvf, container_data.vuf)))
         else:
-            vmod = abs(interpolator_norm((container_data.vwave, container_data.vvf, container_data.vuf)))
+            vmod = abs(interp_norm((container_data.vvf, container_data.vuf)))
 
-        v2mod = abs(interpolator_norm((container_data.v2wave, container_data.v2vf, container_data.v2uf))) ** 2
-        # We use the convention such that triangle ABC -> (u1,v1) = AB; (u2,v2) = BC; (u3,v3) = AC, not CA
-        # This causes a minus sign shift for 3rd baseline when calculating closure phase (for real images),
-        # so we take the complex conjugate there.
-        t3phimod = np.angle(interpolator_norm((container_data.t3wave, container_data.t3vf1, container_data.t3uf1)) *
-                            interpolator_norm((container_data.t3wave, container_data.t3vf2, container_data.t3uf2)) *
-                            np.conjugate(interpolator_norm((container_data.t3wave, container_data.t3vf3,
-                                                            container_data.t3uf3))), deg=True)
+        # Calculate squared visibilities.
+        v2mod = abs(interp_norm((container_data.v2vf, container_data.v2uf))) ** 2
+        # Calculate closure phases. We use the convention such that triangle ABC -> (u1,v1) = AB; (u2,v2) = BC; (u3,
+        # v3) = AC, not CA This causes a minus sign shift for 3rd baseline when calculating closure phase (for real
+        # images), so we take the complex conjugate there.
+        t3phimod = np.angle(interp_norm((container_data.t3vf1, container_data.t3uf1)) *
+                            interp_norm((container_data.t3vf2, container_data.t3uf2)) *
+                            np.conjugate(interp_norm((container_data.t3vf3, container_data.t3uf3))), deg=True)
+
+    else:  # case for multiple images simultaneously
+
+        if read_method == 'mcfost':  # different ways to read in model image file paths
+            img_file_paths = sorted(glob.glob(f'{mod_dir}{img_dir}/**/*RT.fits.gz', recursive=True))
+            for img_path in img_file_paths:
+                img_fft = image_fft.read_image_mcfost(img_path)
+                img_fft.redden(ebminv=ebminv)  # redden the ImageFFT object
+                img_fft_list.append(img_fft)  # append to the list of ImageFFT objects
+        else:
+            print('read_method not recognized. Program will be terminated!')
+            exit(1)
+
+        # create interpolator for the normalized complex FFT
+        interp_norm = mod_complex_vis_interpolator(img_fft_list)
+
+        # Calculate visibilities (requires separate interpolator for correlated fluxes if needed).
+        if container_data.vis_in_fcorr:
+            interp_fcorr = mod_complex_vis_interpolator(img_fft_list, fcorr=True)
+            vmod = abs(interp_fcorr((container_data.vwave, container_data.vvf, container_data.vuf)))
+        else:
+            vmod = abs(interp_norm((container_data.vwave, container_data.vvf, container_data.vuf)))
+
+        # Calculate squared visibilities.
+        v2mod = abs(interp_norm((container_data.v2wave, container_data.v2vf, container_data.v2uf))) ** 2
+
+        # Calculate closure phases. We use the convention such that triangle ABC -> (u1,v1) = AB; (u2,v2) = BC; (u3,
+        # v3) = AC, not CA This causes a minus sign shift for 3rd baseline when calculating closure phase (for real
+        # images), so we take the complex conjugate there.
+        t3phimod = np.angle(interp_norm((container_data.t3wave, container_data.t3vf1, container_data.t3uf1)) *
+                            interp_norm((container_data.t3wave, container_data.t3vf2, container_data.t3uf2)) *
+                            np.conjugate(interp_norm((container_data.t3wave, container_data.t3vf3,
+                                                      container_data.t3uf3))), deg=True)
 
     # initialize dictionary to construct OIContainer for model observables
     observables_mod = {'vuf': container_data.vuf, 'vvf': container_data.vvf, 'vwave': container_data.vwave, 'v': vmod,
@@ -331,34 +333,66 @@ def calc_model_observables(container_data, mod_dir, img_dir, monochr=False, ebmi
                        't3uf3': container_data.t3uf3, 't3vf3': container_data.t3vf3, 't3wave': container_data.t3wave,
                        't3phi': t3phimod, 't3phierr': container_data.t3phierr, 't3bmax': container_data.t3bmax}
 
+    # return an OIContainer object
     container_mod = OIContainer(dictionary=observables_mod, fcorr=container_data.vis_in_fcorr)
-
     return container_mod
 
 
-# def get_complex_visibility_interpolator(mod_dir, img_dir, monochr=False, ebminv=0.0, fcorr=False,
-#                                         read_method='mcfost'):
-#     """
-#     Creates a scipy.interpolate.RegularGridInterpolator of RT model image(s) FFT(s), which can be used to interpolate
-#     the complex visibility to different spatial frequencies than those returned by the FFT algorithm and, optionally,
-#     different wavelengths than those of the RT model images themselves. Note that the interpolator will throw
-#     errors if arguments outside their bounds are supplied!
-#
-#     :param str mod_dir: Parent directory of the RT model of interest.
-#     :param str img_dir: Subdirectory containing RT model images. If 'monochr' is True, uses the first image file found
-#         in 'mod_dir+img_dir'. If False, then all image files in the subdirectories of 'mod_dir+img_dir' are used.
-#     :param bool monochr: Set True if you want to use a monochromatic imterpolator, i.e. the interpolator will only take
-#         the spatial frequencies as arguments and will not interpolate in wavelength. If False, the interpolator will
-#         take wavelength as a third argument as well and will be able to interpolate in wavelength.
-#     :param float ebminv: E(B-V) of additional reddening to be applied to the model images. Only useful if 'fcorr' is set
-#         to True.
-#     :param bool fcorr: Set to True if you want the returned interpolator to produce absolute, non-normalized
-#         complex visibilities, i.e. complex correlated fluxes, in units of Jy. By default, i.e. fcorr=False,
-#         the visibilities produced by the interpolator are normalized (i.e. for calculating squared visibilities).
-#     :param str read_method: Type of method used to read in RT model images when creating Image class instances.
-#         Currently only supports 'mcfost'.
-#     """
-#     return
+def mod_complex_vis_interpolator(img_fft_list, fcorr=False):
+    # todo: add support for adding point source and overresolved flux analytically
+    """
+    Creates a scipy RegularGridInterpolator from model ImageFFT objects, which can be used to interpolate the complex 
+    visibility to different spatial frequencies than those returned by the FFT algorithm and, optionally, 
+    different wavelengths than those of the RT model images themselves. Note: The interpolator will throw errors if 
+    arguments outside their bounds are supplied! Note: Expects, in case of multiple model images, that every image 
+    included has the same pixelscale and amount of pixels (in both x- and y-direction).
+
+    :param list img_fft_list: List of ImageFFT objects to create an interpolator from. If the list has length one,
+        i.e. a monochromatic model for the emission, the returned interpolator can only take the 2 spatial frequencies 
+        as arguments. If the list contains multiple objects, i.e. a chromatic model for the emission, the interpolator 
+        will also be able to take wavelength as an argument and will be able to interpolate along the wavelength
+        dimension.
+    :param bool fcorr: Set to True if you want the returned interpolator to produce absolute, non-normalized
+        complex visibilities, i.e. complex correlated fluxes (units Jy). By default, i.e. fcorr=False,
+        the visibilities produced by the interpolator are normalized (e.g. for calculating squared visibilities).
+    :return interpolator: Interpolator for the model image FFTs. If len(img_fft_list) == 1, only takes the uv spatial
+        frequencies (units 1/rad) as arguments as follows: interpolator(v, u).  If len(img_fft_list) > 1, then it also
+        can interpolate between wavelengths (units meter) as follows: interpolator(wavelength, v, u).
+    :rtype: scipy.interpolate.RegularGridInterpolator
+    """
+
+    if len(img_fft_list) == 1:  # single image -> monochromatic emission model
+        img = img_fft_list[0]
+        # todo: this should be the point where adding overresolved or point source flux to img should occur,
+        #  flux contribution should be passed on in absolute flux
+        wavelength, ftot, fft, uf, vf = (img.wavelength, img.ftot, img.fft, img.uf, img.vf)
+        if fcorr:  # create interpolator and normalize FFT to complex visibilities if needed
+            interpolator = RegularGridInterpolator((vf, uf), fft)  # make interpolator from absolute FFT
+        else:
+            interpolator = RegularGridInterpolator((vf, uf), fft / ftot)  # make interpolator from normalized FFT
+
+    else:  # multiple images -> chromatic emission model
+
+        mod_wavelengths = []  # list of model image wavelengths in meter
+        fft_chromatic = []  # 3d 'array' list to store the different model image FFTs accros wavelength
+
+        for img in img_fft_list:
+            # todo: this should be the point where adding overresolved or point source flux to img should occur
+            wavelength, ftot, fft, uf, vf = (img.wavelength, img.ftot, img.fft, img.uf, img.vf)
+            if fcorr:  # attach FFTs to chromatic list and normalize FFTs to complex visibilities if needed
+                fft_chromatic.append(fft)  # store image's FFT in chromatic list
+            else:
+                fft_chromatic.append(fft / ftot)
+            mod_wavelengths.append(wavelength * constants.MICRON2M)  # store image wavelength in meter
+
+        # sort lists according to ascending wavelength (required for making the interpolator) using zip and unpack zip
+        mod_wavelengths, fft_chromatic = list(zip(*sorted(zip(mod_wavelengths, fft_chromatic))))
+
+        # make interpolator from multiple FFTs, note this assumes all images have the same pixelscale 
+        # and amount of pixels (in both x and y directions)
+        fft_chromatic = np.array(fft_chromatic)
+        interpolator = RegularGridInterpolator((mod_wavelengths, vf, uf), fft_chromatic)
+    return interpolator
 
 
 def plot_data_vs_model(container_data, container_mod, fig_dir=None, log_plotv=False, plot_vistype='vis2',
@@ -478,6 +512,8 @@ def plot_data_vs_model(container_data, container_mod, fig_dir=None, log_plotv=Fa
     ax[0].legend()
     ax[0].set_title(f'Closure Phases')
     ax[0].tick_params(axis="x", direction="in", pad=-15)
+    ax[0].set_ylim(min(np.min(container_data.t3phi-container_data.t3phierr), np.min(container_mod.t3phi)),
+                   max(np.max(container_data.t3phi+container_data.t3phierr), np.max(container_mod.t3phi)))
 
     ax[1].set_xlim(0, np.max(container_data.t3bmax) * 1.05)
     ax[1].axhline(y=0, c='k', ls='--', lw=1, zorder=0)

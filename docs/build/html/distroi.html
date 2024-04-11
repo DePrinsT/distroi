@@ -153,8 +153,8 @@ are included in it.</p>
 <p>Defines a class and the corresponding methods to load in and handle model images and their fast fourier
 transform (FFT).</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="distroi.image.Image">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.image.</span></span><span class="sig-name descname"><span class="pre">Image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image.Image" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="distroi.image.ImageFFT">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.image.</span></span><span class="sig-name descname"><span class="pre">ImageFFT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image.ImageFFT" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Class containing information on a model image and its FFT Contains all properties in order to fully describe both
 the image and its FFT. Note that all these properties are expected if all class methods are to work. While
@@ -169,7 +169,7 @@ set automatically through perform_fft().</p>
 </dd>
 <dt class="field-even">Variables<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><strong>wavelength</strong> (<em>float</em>) – Image wavelength in micron.</p></li>
+<li><p><strong>wavelength</strong> (<em>float</em>) – ImageFFT wavelength in micron.</p></li>
 <li><p><strong>pixelscale_x</strong> (<em>float</em>) – Pixelscale in radian in x (East-West) direction.</p></li>
 <li><p><strong>pixelscale_y</strong> (<em>float</em>) – Pixelscale in radian in y (North-South) direction.</p></li>
 <li><p><strong>num_pix_x</strong> (<em>int</em>) – Amount of pixels in the x direction.</p></li>
@@ -186,8 +186,8 @@ set automatically through perform_fft().</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="distroi.image.Image.fft_diagnostic_plot">
-<span class="sig-name descname"><span class="pre">fft_diagnostic_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_vistype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vis2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_plotv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_ploti</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_plots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image.Image.fft_diagnostic_plot" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="distroi.image.ImageFFT.fft_diagnostic_plot">
+<span class="sig-name descname"><span class="pre">fft_diagnostic_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_vistype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vis2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_plotv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_ploti</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_plots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image.ImageFFT.fft_diagnostic_plot" title="Permalink to this definition"></a></dt>
 <dd><p>Makes diagnostic plots showing both the model image and the FFT (squared) visibilities and complex phases.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -208,8 +208,8 @@ this freazes further code execution until the plot windows are closed.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="distroi.image.Image.freq_info">
-<span class="sig-name descname"><span class="pre">freq_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image.Image.freq_info" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="distroi.image.ImageFFT.freq_info">
+<span class="sig-name descname"><span class="pre">freq_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image.ImageFFT.freq_info" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a string containing information on both the spatial frequency domain/sampling and the corresponding
 projected baselines.</p>
 <dl class="field-list simple">
@@ -223,14 +223,14 @@ projected baselines.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="distroi.image.Image.perform_fft">
-<span class="sig-name descname"><span class="pre">perform_fft</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image.Image.perform_fft" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="distroi.image.ImageFFT.perform_fft">
+<span class="sig-name descname"><span class="pre">perform_fft</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image.ImageFFT.perform_fft" title="Permalink to this definition"></a></dt>
 <dd><p>Perform the numpy FFT and set the required properties related to the image’s FFT.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="distroi.image.Image.redden">
-<span class="sig-name descname"><span class="pre">redden</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ebminv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reddening_law_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/home/toond/Documents/phd/python/distroi/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image.Image.redden" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="distroi.image.ImageFFT.redden">
+<span class="sig-name descname"><span class="pre">redden</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ebminv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reddening_law_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/home/toond/Documents/phd/python/distroi/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image.ImageFFT.redden" title="Permalink to this definition"></a></dt>
 <dd><p>Further reddens the model image according to the approriate E(B-V) and a corresponding reddening law file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -252,7 +252,7 @@ of your own reddening laws.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.image.read_image_mcfost">
 <span class="sig-prename descclassname"><span class="pre">distroi.image.</span></span><span class="sig-name descname"><span class="pre">read_image_mcfost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disk_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image.read_image_mcfost" title="Permalink to this definition"></a></dt>
-<dd><p>Retrieve image data from an MCFOST model image and return it as an Image class instance.</p>
+<dd><p>Retrieve image data from an MCFOST model image and return it as an ImageFFT class instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -261,10 +261,10 @@ of your own reddening laws.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return image<span class="colon">:</span></dt>
-<dd class="field-even"><p>Image instance containing the information on the MCFOST RT image.</p>
+<dd class="field-even"><p>ImageFFT instance containing the information on the MCFOST RT image.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#distroi.image.Image" title="distroi.image.Image">Image</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="#distroi.image.ImageFFT" title="distroi.image.ImageFFT">ImageFFT</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -341,7 +341,7 @@ for every model image included. TODO: Only supports MCFOST image file naming con
 in the wavelength dimension. If False, the model images used must have a wider wavelength coverage than
 container_data.</p></li>
 <li><p><strong>ebminv</strong> (<em>float</em>) – E(B-V) of additional reddening to be applied to the model images.</p></li>
-<li><p><strong>read_method</strong> (<em>str</em>) – Type of method used to read in RT images when creating Image class instances.
+<li><p><strong>read_method</strong> (<em>str</em>) – Type of method used to read in RT images when creating ImageFFT class instances.
 Currently only supports ‘mcfost’.</p></li>
 <li><p><strong>disk_only</strong> (<em>bool</em>) – Set to True if you only want to include light from the disk in the model images.</p></li>
 </ul>
