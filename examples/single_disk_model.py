@@ -9,6 +9,7 @@ if __name__ == '__main__':
 
     from distroi import image_fft
     from distroi import oi_observables
+    from time import time
 
     # PIONIER tests
     # ------------------------
@@ -19,22 +20,22 @@ if __name__ == '__main__':
 
     # FFT test + output info on frequencies
     img_dir = 'PIONIER/data_1.65/'
-    img = image_fft.read_image_mcfost(img_path=f'{mod_dir}{img_dir}/RT.fits.gz')
-    img.add_point_source(flux=25, x=-10.0, y=20.0)
+    img = image_fft.read_image_mcfost(img_path=f'{mod_dir}{img_dir}/RT.fits.gz', disk_only=False)
     img.fft_diagnostic_plot(fig_dir, plot_vistype='vis', log_plotv=False, show_plots=True)
-    print(img.freq_info())
-    #
-    # # Monochromatic model observables test
-    # img_dir = 'PIONIER/data_1.65/'
-    # container_data = oi_observables.read_oicontainer_oifits(data_dir, data_file, wave_lims=(1.63, 1.65))
-    # container_model = oi_observables.calc_model_observables(container_data, mod_dir, img_dir, monochr=True)
-    # oi_observables.plot_data_vs_model(container_data, container_model, fig_dir=fig_dir, show_plots=True)
 
-    # # Chromatic model observables test
-    # img_dir = 'PIONIER/'
-    # container_data = oi_observables.read_oicontainer_oifits(data_dir, data_file)
-    # container_model = oi_observables.calc_model_observables(container_data, mod_dir, img_dir, monochr=False)
-    # oi_observables.plot_data_vs_model(container_data, container_model, fig_dir=fig_dir, show_plots=True)
+    # Monochromatic model observables test
+    img_dir = 'PIONIER/data_1.65/'
+    container_data = oi_observables.read_oicontainer_oifits(data_dir, data_file, wave_lims=(1.63, 1.65))
+    img_fft_list = image_fft.get_image_fft_list(mod_dir, img_dir, ebminv=1.4)
+    container_model = oi_observables.calc_model_observables(container_data, img_fft_list)
+    oi_observables.plot_data_vs_model(container_data, container_model, fig_dir=fig_dir, show_plots=True)
+
+    # Chromatic model observables test
+    img_dir = 'PIONIER/'
+    container_data = oi_observables.read_oicontainer_oifits(data_dir, data_file)
+    img_fft_list = image_fft.get_image_fft_list(mod_dir, img_dir, ebminv=1.4)
+    container_model = oi_observables.calc_model_observables(container_data, img_fft_list)
+    oi_observables.plot_data_vs_model(container_data, container_model, fig_dir=fig_dir, show_plots=True)
 
     # # GRAVITY tests
     # # ------------------------

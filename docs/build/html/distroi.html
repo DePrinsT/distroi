@@ -53,7 +53,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-distroi.constants">distroi.constants module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-distroi.image">distroi.image module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-distroi.image_fft">distroi.image_fft module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-distroi.oi_observables">distroi.oi_observables module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-distroi.sed">distroi.sed module</a></li>
 </ul>
@@ -105,7 +105,8 @@
 </section>
 <section id="module-distroi.constants">
 <span id="distroi-constants-module"></span><h2>distroi.constants module<a class="headerlink" href="#module-distroi.constants" title="Permalink to this heading"></a></h2>
-<p>Contains constant values, unit conversions and settings to be used throughout the project.</p>
+<p>Contains constant values, unit conversions, functions and plotting settings to be uniformly used throughout the
+DISTROI project.</p>
 <dl class="field-list simple">
 <dt class="field-odd">var str PROJECT_ROOT<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Path to the root of the distroi project on the user’s system.</p>
@@ -128,18 +129,24 @@
 <dt class="field-odd">var float MICRON2M<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Conversion of meter to micrometer/micron.</p>
 </dd>
+<dt class="field-even">var float MICRON2AA<span class="colon">:</span></dt>
+<dd class="field-even"><p>Conversion of micrometer/micron to Angstrom.</p>
+</dd>
+<dt class="field-odd">var float AA2MICRON<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Conversion of Angstrom to micrometer/micron.</p>
+</dd>
 <dt class="field-even">var float M2MICRON<span class="colon">:</span></dt>
 <dd class="field-even"><p>Conversion of micrometer/micron to meter.</p>
 </dd>
 <dt class="field-odd">var float WATT_PER_METER2_HZ_2JY<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Flux desnity conversion of W m^-2 Hz^-1 to Jansky (Jy).</p>
+<dd class="field-odd"><p>Flux density conversion of W m^-2 Hz^-1 to Jansky (Jy).</p>
 </dd>
 </dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.constants.set_matplotlib_params">
 <span class="sig-prename descclassname"><span class="pre">distroi.constants.</span></span><span class="sig-name descname"><span class="pre">set_matplotlib_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.constants.set_matplotlib_params" title="Permalink to this definition"></a></dt>
-<dd><p>Function to set project-wide matplotlib parameters. To be used at the top of a module if plotting functionalities
-are included in it.</p>
+<dd><p>Function to set project-wide matplotlib parameters. To be used at the top of a distroi module if plotting
+functionalities are included in it.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
@@ -148,24 +155,24 @@ are included in it.</p>
 </dd></dl>
 
 </section>
-<section id="module-distroi.image">
-<span id="distroi-image-module"></span><h2>distroi.image module<a class="headerlink" href="#module-distroi.image" title="Permalink to this heading"></a></h2>
+<section id="module-distroi.image_fft">
+<span id="distroi-image-fft-module"></span><h2>distroi.image_fft module<a class="headerlink" href="#module-distroi.image_fft" title="Permalink to this heading"></a></h2>
 <p>Defines a class and the corresponding methods to load in and handle model images and their fast fourier
 transform (FFT).</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="distroi.image.ImageFFT">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.image.</span></span><span class="sig-name descname"><span class="pre">ImageFFT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image.ImageFFT" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="distroi.image_fft.ImageFFT">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.image_fft.</span></span><span class="sig-name descname"><span class="pre">ImageFFT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image_fft.ImageFFT" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Class containing information on a model image and its FFT Contains all properties in order to fully describe both
+<p>Class containing information on a model image and its FFT. Contains all properties in order to fully describe both
 the image and its FFT. Note that all these properties are expected if all class methods are to work. While
 default options are tuned to MCFOST model disk images, it can easily be generalized to different RT codes by
 defining a corresponding image reader function analogous to ‘read_image_mcfost’. Can handle any dimensions of image,
 as long as the amount of pixels in each dimension is even.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dictionary</strong> (<em>dict</em>) – Dictionary containing keys and values representing the instance variables described below.
-Should include wavelength, pixelscale_x/y, num_pix_x/y, img, and ftot. The other required instance variables are
-set automatically through perform_fft().</p>
+<dd class="field-odd"><p><strong>dictionary</strong> (<em>dict</em>) – Dictionary containing keys and values representing several instance variables described
+below. Should include ‘wavelength’, ‘pixelscale_x’/’y’, ‘num_pix_x’/’y’, ‘img’, and ‘ftot’. The other required
+instance variables (related to the FFT) are set automatically through perform_fft().</p>
 </dd>
 <dt class="field-even">Variables<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
@@ -177,7 +184,7 @@ set automatically through perform_fft().</p>
 <li><p><strong>img</strong> (<em>numpy.ndarray</em>) – 2D numpy array containing the image flux in Jy. 1st index = image y-axis,
 2nd index = image x-axis.</p></li>
 <li><p><strong>ftot</strong> (<em>float</em>) – Total image flux in Jy</p></li>
-<li><p><strong>img_fft</strong> (<em>numpy.ndarray</em>) – 2D numpy FFT of img in Jy.</p></li>
+<li><p><strong>fft</strong> (<em>numpy.ndarray</em>) – Complex 2D numpy FFT of img in Jy, i.e. in correlated flux formulation.</p></li>
 <li><p><strong>w_x</strong> (<em>numpy.ndarray</em>) – 1D array with numpy FFT x-axis frequencies in units of 1/pixelscale_x.</p></li>
 <li><p><strong>w_y</strong> (<em>numpy.ndarray</em>) – 1D array with numpy FFT y-axis frequencies in units of 1/pixelscale_y.</p></li>
 <li><p><strong>uf</strong> (<em>numpy.ndarray</em>) – 1D array with FFT spatial x-axis frequencies in 1/radian, i.e. uf = w_x/pixelscale_x.</p></li>
@@ -186,8 +193,62 @@ set automatically through perform_fft().</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="distroi.image.ImageFFT.fft_diagnostic_plot">
-<span class="sig-name descname"><span class="pre">fft_diagnostic_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_vistype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vis2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_plotv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_ploti</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_plots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image.ImageFFT.fft_diagnostic_plot" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="distroi.image_fft.ImageFFT.add_overresolved_flux">
+<span class="sig-name descname"><span class="pre">add_overresolved_flux</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flux</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image_fft.ImageFFT.add_overresolved_flux" title="Permalink to this definition"></a></dt>
+<dd><p>Function that adds the effect of an overresolved flux component to the ImageFFT instance. This affects the
+following instance variables: ‘img’, and ‘ftot’. The flux of the overresolved component is added to ‘img’,
+spread uniformly accross all its pixels. The flux is also added to ‘ftot’. Note that the complex visibilities
+in ‘fft’ remain unaffected. This is the exact, analytical formulation of infinitely extended flux,
+where the correlated flux of such a component is a direct delta at frequency 0. In this regime ad using the
+FFT, only ‘ftot’ is increased, while ‘fft’ remains unaffected. This only has an effect on (squared)
+visibilities if they are normalized. If they are expressed in correlated flux, this addition will have no
+effect. Note that this function causes a discrepancy between ‘fft’ and ‘img’, as the addition to the former
+assumes an infinitely extended uniform flux, while addition to the latter is spread over the finite image
+size. The addition to ‘img’ serves more for visualization, e.g. the plots created by fft_diagonstic_plot().
+As a result, be careful with future invocations of perform_fft(), the effect may not be as desired!</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>flux</strong> (<em>float</em>) – The flux value (in Jy) of the overresolved component at the wavelength of the ImageFFT
+instance.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="distroi.image_fft.ImageFFT.add_point_source">
+<span class="sig-name descname"><span class="pre">add_point_source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flux</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image_fft.ImageFFT.add_point_source" title="Permalink to this definition"></a></dt>
+<dd><p>Function that adds the effect of an additional point source to the ImageFFT instance. This affects the
+following instance variables: ‘img’, ‘ftot’ and ‘fft’. The flux of the point source is added to the pixel in
+‘img’ closest to the specified source position as well as to the value of ftot. ‘fft’ is modified by the
+analytical addition of the point-source’s complex correlated flux. Note that, after this function is called,
+there is thus a mismatch between ‘fft’ and ‘img’, since the effect of the source is added in an exact
+analytic manner in the former while it is added aproximately in the latter. For example, nothing prevents the
+addition of a point source far outside the image axes ranges. The addition to ‘fft’ will be analytically exact,
+while the point source flux will be added to the nearest border pixel in ‘img’. The addition to ‘img’ serves
+more for visualization, e.g. the plots created by fft_diagonstic_plot(). As a result, be careful with future
+invocations of perform_fft(), the effect may not be as desired!</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flux</strong> (<em>float</em>) – The flux value (in Jy) of the point source at the wavelength of the ImageFFT instance.</p></li>
+<li><p><strong>x</strong> (<em>float</em>) – The position of the point source in the x-direction compared to the image center
+(in milli-arcsecond).</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – The position of the point source in the y-direction compared to the image center
+(in milli-arcsecond).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="distroi.image_fft.ImageFFT.fft_diagnostic_plot">
+<span class="sig-name descname"><span class="pre">fft_diagnostic_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_vistype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vis2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_plotv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_ploti</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_plots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image_fft.ImageFFT.fft_diagnostic_plot" title="Permalink to this definition"></a></dt>
 <dd><p>Makes diagnostic plots showing both the model image and the FFT (squared) visibilities and complex phases.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -208,8 +269,8 @@ this freazes further code execution until the plot windows are closed.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="distroi.image.ImageFFT.freq_info">
-<span class="sig-name descname"><span class="pre">freq_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image.ImageFFT.freq_info" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="distroi.image_fft.ImageFFT.freq_info">
+<span class="sig-name descname"><span class="pre">freq_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image_fft.ImageFFT.freq_info" title="Permalink to this definition"></a></dt>
 <dd><p>Returns a string containing information on both the spatial frequency domain/sampling and the corresponding
 projected baselines.</p>
 <dl class="field-list simple">
@@ -223,14 +284,34 @@ projected baselines.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="distroi.image.ImageFFT.perform_fft">
-<span class="sig-name descname"><span class="pre">perform_fft</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image.ImageFFT.perform_fft" title="Permalink to this definition"></a></dt>
-<dd><p>Perform the numpy FFT and set the required properties related to the image’s FFT.</p>
+<dt class="sig sig-object py" id="distroi.image_fft.ImageFFT.half_light_radius">
+<span class="sig-name descname"><span class="pre">half_light_radius</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image_fft.ImageFFT.half_light_radius" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the half light radius of the image. Note that if you want only the half light radius of e.g. an
+MCFOST model disk, one should use</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return hlr<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The half light radius in milli-arcsecond.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="distroi.image.ImageFFT.redden">
-<span class="sig-name descname"><span class="pre">redden</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ebminv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reddening_law_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/home/toond/Documents/phd/python/distroi/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image.ImageFFT.redden" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="distroi.image_fft.ImageFFT.perform_fft">
+<span class="sig-name descname"><span class="pre">perform_fft</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image_fft.ImageFFT.perform_fft" title="Permalink to this definition"></a></dt>
+<dd><p>Perform the numpy FFT and set the required properties related to the image’s FFT.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="distroi.image_fft.ImageFFT.redden">
+<span class="sig-name descname"><span class="pre">redden</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ebminv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reddening_law_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/home/toond/Documents/phd/python/distroi/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image_fft.ImageFFT.redden" title="Permalink to this definition"></a></dt>
 <dd><p>Further reddens the model image according to the approriate E(B-V) and a corresponding reddening law file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -250,9 +331,9 @@ of your own reddening laws.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="distroi.image.read_image_mcfost">
-<span class="sig-prename descclassname"><span class="pre">distroi.image.</span></span><span class="sig-name descname"><span class="pre">read_image_mcfost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disk_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image.read_image_mcfost" title="Permalink to this definition"></a></dt>
-<dd><p>Retrieve image data from an MCFOST model image and return it as an ImageFFT class instance.</p>
+<dt class="sig sig-object py" id="distroi.image_fft.read_image_mcfost">
+<span class="sig-prename descclassname"><span class="pre">distroi.image_fft.</span></span><span class="sig-name descname"><span class="pre">read_image_mcfost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disk_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image_fft.read_image_mcfost" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieve image data from an MCFOST model image and return it as an Image class instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -261,10 +342,10 @@ of your own reddening laws.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return image<span class="colon">:</span></dt>
-<dd class="field-even"><p>ImageFFT instance containing the information on the MCFOST RT image.</p>
+<dd class="field-even"><p>Image instance containing the information on the MCFOST RT image.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#distroi.image.ImageFFT" title="distroi.image.ImageFFT">ImageFFT</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="#distroi.image_fft.ImageFFT" title="distroi.image_fft.ImageFFT">ImageFFT</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -285,7 +366,7 @@ numpy arrays. Based on the Data class in ReadOIFITS.py, where the observables ar
 but the raveled form makes calculations easier and less prone to error. Currenlty supports visibilities (both in
 normalized and correlated flux form), squared visibilities and closure phases. In this format this class and the
 methods below can be expanded to accomodate for different kinds of observables (i.e. addition of differential
-visibilities).</p>
+visibilities). Can contain observables either related to astronomical observations or model RT images.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -326,24 +407,25 @@ visibilities).</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.oi_observables.calc_model_observables">
-<span class="sig-prename descclassname"><span class="pre">distroi.oi_observables.</span></span><span class="sig-name descname"><span class="pre">calc_model_observables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mod_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">monochr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ebminv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mcfost'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disk_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.oi_observables.calc_model_observables" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">distroi.oi_observables.</span></span><span class="sig-name descname"><span class="pre">calc_model_observables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mod_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">monochr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ebminv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mcfost'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.oi_observables.calc_model_observables" title="Permalink to this definition"></a></dt>
 <dd><p>Loads in OI observables from an OIContainer, typically containing observational data, and calculates model image
 observables at the same uv coverage. In case monochr=False, expects the same amount of pixels and same pixelscale
-for every model image included. TODO: Only supports MCFOST image file naming convention, make more general.</p>
+for every model image included.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>container_data</strong> (<a class="reference internal" href="#distroi.oi_observables.OIContainer" title="distroi.oi_observables.OIContainer"><em>OIContainer</em></a>) – OIContainer at whose spatial frequencies we calculate model observables.</p></li>
-<li><p><strong>mod_dir</strong> (<em>str</em>) – Parent directory of model of interest.</p></li>
-<li><p><strong>img_dir</strong> (<em>str</em>) – Subdirectory containing model images. If (not) monochr, uses (all) file(s) in
-(subdirectories under) mod_dir+img_dir.</p></li>
+<li><p><strong>mod_dir</strong> (<em>str</em>) – Parent directory of the RT model of interest.</p></li>
+<li><p><strong>img_dir</strong> (<em>str</em>) – Subdirectory containing RT model images. If ‘monochr’ is True, uses the first image file found
+in ‘mod_dir+img_dir’. If False, then all image files in the subdirectories of ‘mod_dir+img_dir’ are used.</p></li>
 <li><p><strong>monochr</strong> (<em>bool</em>) – Set True if you want to use a monochromatic model, i.e. no interpolation is performed
-in the wavelength dimension. If False, the model images used must have a wider wavelength coverage than
-container_data.</p></li>
-<li><p><strong>ebminv</strong> (<em>float</em>) – E(B-V) of additional reddening to be applied to the model images.</p></li>
-<li><p><strong>read_method</strong> (<em>str</em>) – Type of method used to read in RT images when creating ImageFFT class instances.
+in the wavelength dimension. If False, multiple images are loaded in and interpolation of the model image FFTs
+along wavelength is performed. In this case the model images used must collectively have a wider wavelength
+coverage than ‘container_data’.</p></li>
+<li><p><strong>ebminv</strong> (<em>float</em>) – E(B-V) of additional reddening to be applied to the model images. Only useful if
+the visibilities in ‘container_data’ are expressed in correlated flux.</p></li>
+<li><p><strong>read_method</strong> (<em>str</em>) – Type of method used to read in RT model images when creating ImageFFT class instances.
 Currently only supports ‘mcfost’.</p></li>
-<li><p><strong>disk_only</strong> (<em>bool</em>) – Set to True if you only want to include light from the disk in the model images.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return container_mod<span class="colon">:</span></dt>
@@ -356,9 +438,41 @@ Currently only supports ‘mcfost’.</p></li>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="distroi.oi_observables.mod_complex_vis_interpolator">
+<span class="sig-prename descclassname"><span class="pre">distroi.oi_observables.</span></span><span class="sig-name descname"><span class="pre">mod_complex_vis_interpolator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_fft_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fcorr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.oi_observables.mod_complex_vis_interpolator" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a scipy RegularGridInterpolator from model ImageFFT objects, which can be used to interpolate the complex 
+visibility to different spatial frequencies than those returned by the FFT algorithm and, optionally, 
+different wavelengths than those of the RT model images themselves. Note: The interpolator will throw errors if 
+arguments outside their bounds are supplied! Note: Expects, in case of multiple model images, that every image 
+included has the same pixelscale and amount of pixels (in both x- and y-direction).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img_fft_list</strong> (<em>list</em>) – List of ImageFFT objects to create an interpolator from. If the list has length one,
+i.e. a monochromatic model for the emission, the returned interpolator can only take the 2 spatial frequencies 
+as arguments. If the list contains multiple objects, i.e. a chromatic model for the emission, the interpolator 
+will also be able to take wavelength as an argument and will be able to interpolate along the wavelength
+dimension.</p></li>
+<li><p><strong>fcorr</strong> (<em>bool</em>) – Set to True if you want the returned interpolator to produce absolute, non-normalized
+complex visibilities, i.e. complex correlated fluxes (units Jy). By default, i.e. fcorr=False,
+the visibilities produced by the interpolator are normalized (e.g. for calculating squared visibilities).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return interpolator<span class="colon">:</span></dt>
+<dd class="field-even"><p>Interpolator for the model image FFTs. If len(img_fft_list) == 1, only takes the uv spatial
+frequencies (units 1/rad) as arguments as follows: interpolator(v, u).  If len(img_fft_list) &gt; 1, then it also
+can interpolate between wavelengths (units meter) as follows: interpolator(wavelength, v, u).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>scipy.interpolate.RegularGridInterpolator</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="distroi.oi_observables.plot_data_vs_model">
 <span class="sig-prename descclassname"><span class="pre">distroi.oi_observables.</span></span><span class="sig-name descname"><span class="pre">plot_data_vs_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">container_mod</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_plotv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_vistype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vis2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_plots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.oi_observables.plot_data_vs_model" title="Permalink to this definition"></a></dt>
-<dd><p>Plots the data agains the model OI observables. Currently, plots uv-coverage, a (squared) visibility curve and
+<dd><p>Plots the data against the model OI observables. Currently, plots uv-coverage, a (squared) visibility curve and
 closure phases.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -388,8 +502,8 @@ freazes further code execution until the plot windows are closed.</p></li>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data_dir</strong> (<em>str</em>) – Path to the directory where the files are stored.</p></li>
 <li><p><strong>data_file</strong> (<em>str</em>) – Data filename, including wildcards if needed to read in multiple files at once.</p></li>
-<li><p><strong>wave_lims</strong> (<em>tuple</em>) – The lower and upper wavelength limits in micron used when reading in data.</p></li>
-<li><p><strong>v2lim</strong> (<em>Union</em><em>[</em><em>float</em><em>, </em><em>None</em><em>]</em>) – Upper limit on the squared visibility used when reading in data.</p></li>
+<li><p><strong>wave_lims</strong> (<em>tuple</em><em>(</em><em>float</em><em>)</em>) – The lower and upper wavelength limits in micron used when reading in data.</p></li>
+<li><p><strong>v2lim</strong> (<em>float</em>) – Upper limit on the squared visibility used when reading in data.</p></li>
 <li><p><strong>fcorr</strong> (<em>bool</em>) – Set to True if visibility data is to be interpreted as correlated fluxes in Jy units.</p></li>
 </ul>
 </dd>
@@ -407,6 +521,32 @@ freazes further code execution until the plot windows are closed.</p></li>
 <span id="distroi-sed-module"></span><h2>distroi.sed module<a class="headerlink" href="#module-distroi.sed" title="Permalink to this heading"></a></h2>
 <p>Defines a class and the corresponding methods to load in and handle both observed and model spectral energy
 distributions (SEDs).</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="distroi.sed.SED">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.sed.</span></span><span class="sig-name descname"><span class="pre">SED</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.sed.SED" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class containing information on an SED. Can contain SED information either related to astronomical observations
+or model RT images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dictionary</strong> (<em>dict</em>) – Dictionary containing keys and values representing several instance variables described
+below. Should include ‘wavelengths’, ‘flam’, and ‘flamerr’. The other required instance variables are set
+automatically through add_freq_vars().</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="distroi.sed.SED.add_freq_vars">
+<span class="sig-name descname"><span class="pre">add_freq_vars</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.sed.SED.add_freq_vars" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate and set frequency-based instance variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.sed.chi2reddened">
 <span class="sig-prename descclassname"><span class="pre">distroi.sed.</span></span><span class="sig-name descname"><span class="pre">chi2reddened</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lam</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux_error</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lam_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reddening_law_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ebminv</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.sed.chi2reddened" title="Permalink to this definition"></a></dt>
@@ -498,35 +638,44 @@ for multiple angles simultaneously). Default = 0 (1st value).</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="distroi.sed.read_sed_data">
-<span class="sig-prename descclassname"><span class="pre">distroi.sed.</span></span><span class="sig-name descname"><span class="pre">read_sed_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.sed.read_sed_data" title="Permalink to this definition"></a></dt>
-<dd><p>Returns the SED data contained in the .phot files from the SED repository (see Hans Van Winkcel’s /STER folder).</p>
-<dl class="simple">
-<dt>Parameters:</dt><dd><p>filename (str): Path to the .phot filename.</p>
+<dt class="sig sig-object py" id="distroi.sed.read_sed_mcfost">
+<span class="sig-prename descclassname"><span class="pre">distroi.sed.</span></span><span class="sig-name descname"><span class="pre">read_sed_mcfost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sed_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">star_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.sed.read_sed_mcfost" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieve SED data from an MCFOST model SED and return it as an SED class instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sed_path</strong> (<em>str</em>) – Path to an MCFOST output sed_rt.fits.gz model SED file.</p></li>
+<li><p><strong>star_only</strong> (<em>bool</em>) – Set to True if you only want to read in the flux from the star.</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>data_wave (numpy array): Array containing the wavelength values in micron.
-data_flux (numpy array): Array containing the SED in lam x F_lam format, units in to erg/s/cm2/micron.
-data_err (numpy array): Array containing the measured error on lam x F_lam format, units in to erg/s/cm2/micron.</p>
+<dt class="field-even">Return sed<span class="colon">:</span></dt>
+<dd class="field-even"><p>SED instance containing the information on the MCFOST model SED. Note that the errors on the flux
+‘flamerr’ are set to zero (since this is a model SED).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#distroi.sed.SED" title="distroi.sed.SED">SED</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="distroi.sed.read_sed_mcfost">
-<span class="sig-prename descclassname"><span class="pre">distroi.sed.</span></span><span class="sig-name descname"><span class="pre">read_sed_mcfost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">az</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.sed.read_sed_mcfost" title="Permalink to this definition"></a></dt>
-<dd><p>Returns the SED of an MCFOST radiative transfer run.</p>
-<dl class="simple">
-<dt>Parameters:</dt><dd><p>folder (str): Path to the folder in which the MCFOST run results are stored
-(i.e. the superdirectory of e.g. the data_th directory).
-az (int): Number of the azimuthal viewing angle value considered (MCFOST can output results for multiple angles
-simultaneously). Default = 0 (1st value).
-inc (int): Number of the inclination viewing angle value considered (MCFOST can output results for
-multiple angles simultaneously). Default = 0 (1st value).</p>
+<dt class="sig sig-object py" id="distroi.sed.read_sed_repo_phot">
+<span class="sig-prename descclassname"><span class="pre">distroi.sed.</span></span><span class="sig-name descname"><span class="pre">read_sed_repo_phot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sed_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wave_lims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.sed.read_sed_repo_phot" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieve observed SED data stored in a .phot file from the SED repository presented in Kluska et al. 2022 (
+A&amp;A, 658 (2022) A36). Such files are stored in the local system of KU Leuven’s Institute of Astronomy.
+Return it as an SED class instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sed_path</strong> (<em>str</em>) – Path to an MCFOST output sed_rt.fits.gz model SED file.</p></li>
+<li><p><strong>wave_lims</strong> (<em>tuple</em><em>(</em><em>float</em><em>)</em>) – The lower and upper wavelength limits in micron used when reading in data.</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>lam (numpy array): Array containing the wavelength values in micron.
-full_sed (numpy array): Array containing the SED in lam x F_lam format, units in to erg/s/cm2/micron.
-star_sed (numpy array): Same as full_sed but only the direct contribution from the central star,
-in erg/s/cm2/micron.</p>
+<dt class="field-even">Return sed<span class="colon">:</span></dt>
+<dd class="field-even"><p>SED instance containing the information on the MCFOST model SED.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#distroi.sed.SED" title="distroi.sed.SED">SED</a></p>
 </dd>
 </dl>
 </dd></dl>

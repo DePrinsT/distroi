@@ -3,6 +3,7 @@ Defines a class and the corresponding methods to load in and handle model images
 transform (FFT).
 """
 import os
+import glob
 
 from distroi import constants
 from distroi import sed
@@ -132,66 +133,67 @@ class ImageFFT:
         info_str = (f"===================================== \n"
                     f"FREQUENCY INFORMATION IN PIXEL UNITS: \n"
                     f"===================================== \n"
-                    f"Maximum frequency considered E-W [1/pixel]: {np.max(self.w_x)} \n"
-                    f"Maximum frequency considered S-N [1/pixel]: {np.max(self.w_y)} \n"
+                    f"Maximum frequency considered E-W [1/pixel]: {np.max(self.w_x):.4E} \n"
+                    f"Maximum frequency considered S-N [1/pixel]: {np.max(self.w_y):.4E} \n"
                     f"This should equal the Nyquist frequency = 0.5 x 1/sampling_rate "
                     f"(sampling_rate = 1 pixel in pixel units, = 1 pixelscale in physical units) \n"
-                    f"Spacing in frequency space E-W [1/pixel]: {abs(self.w_x[1] - self.w_x[0])} \n"
-                    f"Spacing in frequency space S-N [1/pixel]: {abs(self.w_y[1] - self.w_y[0])} \n"
+                    f"Spacing in frequency space E-W [1/pixel]: {abs(self.w_x[1] - self.w_x[0]):.4E} \n"
+                    f"Spacing in frequency space S-N [1/pixel]: {abs(self.w_y[1] - self.w_y[0]):.4E} \n"
                     f"This should equal 1/window_size "
                     f"(i.e. = 1/(#pixels) in pixel units = 1/image_size in physical units) \n\n"
                     f"======================================= \n"
                     f"FREQUENCY INFORMATION IN ANGULAR UNITS: \n"
                     f"======================================= \n"
-                    f"Pixel scale E-W [rad]: {self.pixelscale_x} \n"
-                    f"Pixel scale S-N [rad]: {self.pixelscale_y} \n"
-                    f"Image axis size E-W [rad]: {image_size_x} \n"
-                    f"Image axis size S-N [rad]: {image_size_y} \n"
-                    f"Maximum frequency considered E-W [1/rad]: {np.max(self.w_x) * 1 / self.pixelscale_x} \n"
-                    f"Maximum frequency considered S-N [1/rad]: {np.max(self.w_y) * 1 / self.pixelscale_y} \n"
-                    f"Spacing in frequency space E-W [1/rad]: {abs((self.w_x[1] - self.w_x[0]) / self.pixelscale_x)} \n"
-                    f"Spacing in frequency space S-N [1/rad]: {abs((self.w_y[1] - self.w_y[0]) / self.pixelscale_y)} \n"
+                    f"Pixel scale E-W [rad]: {self.pixelscale_x:.4E} \n"
+                    f"Pixel scale S-N [rad]: {self.pixelscale_y:.4E} \n"
+                    f"Image axis size E-W [rad]: {image_size_x:.4E} \n"
+                    f"Image axis size S-N [rad]: {image_size_y:.4E} \n"
+                    f"Maximum frequency considered E-W [1/rad]: {(np.max(self.w_x) * 1 / self.pixelscale_x):.4E} \n"
+                    f"Maximum frequency considered S-N [1/rad]: {(np.max(self.w_y) * 1 / self.pixelscale_y):.4E} \n"
+                    f"Spacing in frequency space E-W [1/rad]: {abs((self.w_x[1] - self.w_x[0]) /
+                                                                   self.pixelscale_x):.4E} \n"
+                    f"Spacing in frequency space S-N [1/rad]: {abs((self.w_y[1] - self.w_y[0]) /
+                                                                   self.pixelscale_y):.4E} \n"
                     f"--------------------------------------- \n"
-                    f"Pixel scale E-W [mas]: {self.pixelscale_x * constants.RAD2MAS} \n"
-                    f"Pixel scale S-N [mas]: {self.pixelscale_y * constants.RAD2MAS} \n"
-                    f"Image axis size E-W [mas]: {image_size_x * constants.RAD2MAS} \n"
-                    f"Image axis size S-N [mas]: {image_size_y * constants.RAD2MAS} \n"
+                    f"Pixel scale E-W [mas]: {(self.pixelscale_x * constants.RAD2MAS):.4E} \n"
+                    f"Pixel scale S-N [mas]: {(self.pixelscale_y * constants.RAD2MAS):.4E} \n"
+                    f"Image axis size E-W [mas]: {(image_size_x * constants.RAD2MAS):.4E} \n"
+                    f"Image axis size S-N [mas]: {(image_size_y * constants.RAD2MAS):.4E} \n"
                     f"Maximum frequency considered E-W [1/mas]: "
-                    f"{np.max(self.w_x) * 1 / (self.pixelscale_x * constants.RAD2MAS)} \n"
+                    f"{(np.max(self.w_x) * 1 / (self.pixelscale_x * constants.RAD2MAS)):.4E} \n"
                     f"Maximum frequency considered S-N [1/mas]: "
-                    f"{np.max(self.w_y) * 1 / (self.pixelscale_y * constants.RAD2MAS)} \n"
+                    f"{(np.max(self.w_y) * 1 / (self.pixelscale_y * constants.RAD2MAS)):.4E} \n"
                     f"Spacing in frequency space E-W [1/mas]: "
-                    f"{abs((self.w_x[1] - self.w_x[0]) * 1 / (self.pixelscale_x * constants.RAD2MAS))} \n"
+                    f"{abs((self.w_x[1] - self.w_x[0]) * 1 / (self.pixelscale_x * constants.RAD2MAS)):.4E} \n"
                     f"Spacing in frequency space S-N [1/mas]: "
-                    f"{abs((self.w_y[1] - self.w_y[0]) * 1 / (self.pixelscale_y * constants.RAD2MAS))} \n\n"
+                    f"{abs((self.w_y[1] - self.w_y[0]) * 1 / (self.pixelscale_y * constants.RAD2MAS)):.4E} \n\n"
                     f"================================================================ \n"
                     f"FREQUENCY INFORMATION IN TERMS OF CORRESPONDING BASELINE LENGTH: \n"
                     f"================================================================ \n"
                     f"Maximum projected baseline resolvable under current pixel sampling E-W [Mlambda]: "
-                    f"{(np.max(self.w_x) * 1 / self.pixelscale_x) / 1e6} \n"
+                    f"{((np.max(self.w_x) * 1 / self.pixelscale_x) / 1e6):.4E} \n"
                     f"Maximum projected baseline resolvable under current pixel sampling S-N [Mlambda]: "
-                    f"{(np.max(self.w_y) * 1 / self.pixelscale_y) / 1e6} \n"
+                    f"{((np.max(self.w_y) * 1 / self.pixelscale_y) / 1e6):.4E} \n"
                     f"Spacing in projected baseline length corresponding to frequency sampling E-W [Mlambda]: "
-                    f"{abs(((self.w_x[1] - self.w_x[0]) * 1 / self.pixelscale_x) / 1e6)} \n"
+                    f"{abs(((self.w_x[1] - self.w_x[0]) * 1 / self.pixelscale_x) / 1e6):.4E} \n"
                     f"Spacing in projected baseline length corresponding to frequency sampling S-N [Mlambda]: "
-                    f"{abs(((self.w_y[1] - self.w_y[0]) * 1 / self.pixelscale_y) / 1e6)} \n"
+                    f"{abs(((self.w_y[1] - self.w_y[0]) * 1 / self.pixelscale_y) / 1e6):.4E} \n"
                     f"---------------------------------------------------------------- \n"
                     f"Maximum projected baseline resolvable under current pixel sampling E-W [m]: "
-                    f"{(np.max(self.w_x) * 1 / self.pixelscale_x) * self.wavelength * constants.MICRON2M} \n"
+                    f"{((np.max(self.w_x) * 1 / self.pixelscale_x) * self.wavelength * constants.MICRON2M):.4E} \n"
                     f"Maximum projected baseline resolvable under current pixel sampling S-N [m]: "
-                    f"{(np.max(self.w_y) * 1 / self.pixelscale_y) * self.wavelength * constants.MICRON2M} \n"
+                    f"{((np.max(self.w_y) * 1 / self.pixelscale_y) * self.wavelength * constants.MICRON2M):.4E} \n"
                     f"Spacing in projected baseline length corresponding to frequency sampling E-W [m]: "
                     f"{abs(((self.w_x[1] - self.w_x[0]) * 1 / self.pixelscale_x) *
-                           self.wavelength * constants.MICRON2M)} \n"
+                           self.wavelength * constants.MICRON2M):.4E} \n"
                     f"Spacing in projected baseline length corresponding to frequency sampling S-N [m]: "
                     f"{abs(((self.w_y[1] - self.w_y[0]) * 1 / self.pixelscale_y) *
-                           self.wavelength * constants.MICRON2M)} \n"
+                           self.wavelength * constants.MICRON2M):.4E} \n"
                     f"================================================================ \n"
                     )
         return info_str
 
-    # todo: add function to add overresolved flux and point source flux
-    def add_point_source(self, flux, x, y):
+    def add_ps(self, flux, x, y):
         """
         Function that adds the effect of an additional point source to the ImageFFT instance. This affects the
         following instance variables: 'img', 'ftot' and 'fft'. The flux of the point source is added to the pixel in
@@ -219,7 +221,7 @@ class ImageFFT:
         coords_y = (np.linspace(self.num_pix_y / 2 - 0.5, -self.num_pix_y / 2 + 0.5, self.num_pix_y) *
                     self.pixelscale_y * constants.RAD2MAS)
         coords_mesh_x, coords_mesh_y = np.meshgrid(coords_x, coords_y)  # create a meshgrid
-        distances = np.sqrt((coords_mesh_x - x) ** 2 + (coords_mesh_y - y) ** 2)  # calc distances to pixel centres
+        distances = np.sqrt((coords_mesh_x - x) ** 2 + (coords_mesh_y - y) ** 2)  # calc distance pixel centres to point
 
         min_dist_indices = (np.where(distances == np.min(distances)))  # retrieve indices of where distance is minimum
         min_ind_x, min_ind_y = min_dist_indices[1][0], min_dist_indices[0][0]
@@ -233,7 +235,7 @@ class ImageFFT:
 
         return
 
-    def add_overresolved_flux(self, flux):
+    def add_ovr(self, flux):
         """
         Function that adds the effect of an overresolved flux component to the ImageFFT instance. This affects the
         following instance variables: 'img', and 'ftot'. The flux of the overresolved component is added to 'img',
@@ -259,14 +261,34 @@ class ImageFFT:
 
     def half_light_radius(self):
         """
-        Calculate the half light radius of the image. Note that if you want only the half light radius of e.g. an
-        MCFOST model disk, one should use
+        Calculate the half light radius of the image by adding up the fluxes of pixels within increasing circular
+        aperatures. If you want only the half light radius excluding the central source, e.g. the model disk in an
+        MCFOST model, one should exclude the central source when reading in the image file (e.g. using disk_only=True
+        with read_image_mcfost()). Due to the implimentation, the returned value's accuracy is inherently limited by
+        the model image pixelscale. Note also that the radius is calculated in the image plane, and thus depends on
+        e.g. inclination of the RT model.
 
-        :return hlr: The half light radius in milli-arcsecond.
+        :return hlr: The half light radius in milli-arcseconds.
         :rtype: float
         """
-        # todo: implement the calculation
-        return
+        # define numpy arrays with coordinates for pixel centres in milli-arcsecond
+        coords_x = (np.linspace(self.num_pix_x / 2 - 0.5, -self.num_pix_x / 2 + 0.5, self.num_pix_x) *
+                    self.pixelscale_x * constants.RAD2MAS)
+        coords_y = (np.linspace(self.num_pix_y / 2 - 0.5, -self.num_pix_y / 2 + 0.5, self.num_pix_y) *
+                    self.pixelscale_y * constants.RAD2MAS)
+        coords_mesh_x, coords_mesh_y = np.meshgrid(coords_x, coords_y)  # create a meshgrid
+        distances = np.sqrt(coords_mesh_x ** 2 + coords_mesh_y ** 2)  # calc distances of pixel centres to image origin
+
+        rcont = 0  # variable denoting the radius of the circular aperature in milli-arcsecond
+        fcont = 0  # variable containing the flux within ciruclar aperature contour
+        rcont_interval = min(self.pixelscale_x * constants.RAD2MAS,
+                             self.pixelscale_y * constants.RAD2MAS)  # interval to increase aperature radius
+        while fcont < 0.5 * self.ftot:
+            rcont += rcont_interval
+            fcont = np.sum(self.img[distances <= rcont])  # sum up all pixel fluxes in the aperature
+        hlr = rcont  # set the contour radius to be the half light radius
+
+        return hlr
 
     def fft_diagnostic_plot(self, fig_dir, plot_vistype='vis2', log_plotv=False, log_ploti=False,
                             show_plots=False):
@@ -527,3 +549,41 @@ def read_image_mcfost(img_path, disk_only=False):
     # return an ImageFFT object
     image = ImageFFT(dictionary=dictionary)
     return image
+
+
+def get_image_fft_list(mod_dir, img_dir, ebminv=0.0, read_method='mcfost'):
+    """
+    Function that takes the path to an RT model's directory and a subdirectory containing image files, and returns a
+    list of ImageFFT objects representing those model images.
+
+    :param str mod_dir: Parent directory of the RT model of interest.
+    :param str img_dir: Subdirectory containing RT model images. All image files recursively found in the subdirectories
+         of 'mod_dir+img_dir' are read.
+    :param float ebminv: E(B-V) of additional reddening to be applied to the model images. Only useful if
+        the visibilities need to be expressed in correlated flux at some point.
+    :param str read_method: Type of method used to read in RT model images when creating ImageFFT class instances.
+        Currently only supports 'mcfost', in which case all files ending on the sufix 'RT.fits.gz' are read in .
+    :return: img_fft_list: List of ImageFFT objects representing all model image files found under 'mod_dir+img_dir'.
+        Sorted by wavelength
+    :rtype: list(ImageFFT)
+    """
+
+    img_fft_list = []  # list of ImageFFT objects to be held (1 element long in the case of monochr=True)
+    wavelengths = []  # list of their wavelengths
+
+    if read_method == 'mcfost':  # different ways to read in model image file paths
+        img_file_paths = sorted(glob.glob(f'{mod_dir}{img_dir}/**/*RT.fits.gz', recursive=True))
+    else:
+        print('read_method not recognized. Program will be terminated!')
+        exit(1)
+
+    for img_path in img_file_paths:
+        if read_method == 'mcfost':  # choose reader function
+            img_fft = read_image_mcfost(img_path)
+        img_fft.redden(ebminv=ebminv)  # redden the ImageFFT object
+        img_fft_list.append(img_fft)  # append to the list of ImageFFT objects
+        wavelengths.append(img_fft.wavelength)  # append wavelength
+
+    wavelengths, img_fft_list = list(zip(*sorted(zip(wavelengths, img_fft_list))))  # sort the objects in wavelength
+
+    return img_fft_list

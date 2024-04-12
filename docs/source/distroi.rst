@@ -25,10 +25,10 @@ distroi.constants module
    :undoc-members:
    :show-inheritance:
 
-distroi.image module
---------------------
+distroi.image\_fft module
+-------------------------
 
-.. automodule:: distroi.image
+.. automodule:: distroi.image_fft
    :members:
    :undoc-members:
    :show-inheritance:
