@@ -3,6 +3,12 @@ matplotlib~=3.8.0
 astropy~=5.3.4
 scipy~=1.12.0
 pandas~=2.2.1
-sphinx==5.0.2
+sphinx==4.4.0
 sphinx-rtd-theme==1.1.0
 renku-sphinx-theme==0.4.0
+sphinxcontrib-applehelp==1.0.2
+sphinxcontrib-devhelp==1.0.2
+sphinxcontrib-htmlhelp==2.0.0
+sphinxcontrib-jsmath==1.0.1
+sphinxcontrib-qthelp==1.0.3
+

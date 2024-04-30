@@ -4,8 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="58406770-33a2-415d-85da-ce2b89629f19" name="Changes" comment="Added some more functionality to the SED file, downgraded version of sphinx and its rtd-theme (which fixed the margins in the html docs).">
+    <list default="true" id="58406770-33a2-415d-85da-ce2b89629f19" name="Changes" comment="ReadTheDocs build failed because of outdated version of sphinx, trying again with version 5.0.2 in the requirements.txt file. Not yet changed in the environment.yml.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/distroiEnv.yml" beforeDir="false" afterPath="$PROJECT_DIR$/distroiEnv.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/.buildinfo" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/.buildinfo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/distroi.auxiliary.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/distroi.auxiliary.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/distroi.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/distroi.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/genindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/genindex.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/modules.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/modules.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/py-modindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/py-modindex.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/search.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/distroiEnv.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/source/conf.py" beforeDir="false" afterPath="$PROJECT_DIR$/docs/source/conf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,21 +55,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Python.constants.executor": "Run",
-    "Python.image.executor": "Run",
-    "Python.image_fft.executor": "Run",
-    "Python.oi_observables.executor": "Run",
-    "Python.sed.executor": "Run",
-    "Python.single_disk_model.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Python.constants.executor&quot;: &quot;Run&quot;,
+    &quot;Python.image.executor&quot;: &quot;Run&quot;,
+    &quot;Python.image_fft.executor&quot;: &quot;Run&quot;,
+    &quot;Python.oi_observables.executor&quot;: &quot;Run&quot;,
+    &quot;Python.sed.executor&quot;: &quot;Run&quot;,
+    &quot;Python.single_disk_model.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="ENV_FILES" value="" />
@@ -285,7 +297,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714490063670</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="ReadTheDocs build failed because of outdated version of sphinx, trying again with version 5.0.2 in the requirements.txt file. Not yet changed in the environment.yml.">
+      <option name="closed" value="true" />
+      <created>1714490603828</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1714490603828</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -315,6 +335,7 @@
     <MESSAGE value="Cleaned up and modularized the model OI observables calculation some more and added functions to add overresolved flux and point source flux to ImageFFT instances." />
     <MESSAGE value="Cleaned up and modularized the model OI observables even more. Swiched to implementation based on lists of ImageFFT objects. Reduces amount of function arguments needed." />
     <MESSAGE value="Added some more functionality to the SED file, downgraded version of sphinx and its rtd-theme (which fixed the margins in the html docs)." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added some more functionality to the SED file, downgraded version of sphinx and its rtd-theme (which fixed the margins in the html docs)." />
+    <MESSAGE value="ReadTheDocs build failed because of outdated version of sphinx, trying again with version 5.0.2 in the requirements.txt file. Not yet changed in the environment.yml." />
+    <option name="LAST_COMMIT_MESSAGE" value="ReadTheDocs build failed because of outdated version of sphinx, trying again with version 5.0.2 in the requirements.txt file. Not yet changed in the environment.yml." />
   </component>
 </project>
