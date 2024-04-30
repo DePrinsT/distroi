@@ -4,28 +4,54 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="58406770-33a2-415d-85da-ce2b89629f19" name="Changes" comment="Cleaned up and modularized the model OI observables calculation some more and added functions to add overresolved flux and point source flux to ImageFFT instances.">
+    <list default="true" id="58406770-33a2-415d-85da-ce2b89629f19" name="Changes" comment="Cleaned up and modularized the model OI observables even more. Swiched to implementation based on lists of ImageFFT objects. Reduces amount of function arguments needed in exchange for one more function call on the user's end.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.readthedocs.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/.readthedocs.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/distroi/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/constants.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/distroi/image_fft.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/image_fft.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/distroi/oi_observables.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/oi_observables.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/distroi/sed.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/sed.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/doctrees/distroi.auxiliary.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/doctrees/distroi.auxiliary.doctree" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/build/doctrees/distroi.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/doctrees/distroi.doctree" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/build/doctrees/environment.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/doctrees/environment.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/build/html/_sources/distroi.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/_sources/distroi.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/doctrees/index.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/doctrees/index.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/doctrees/modules.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/doctrees/modules.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/.buildinfo" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/.buildinfo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/_static/basic.css" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/_static/basic.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/_static/doctools.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/_static/doctools.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/_static/documentation_options.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/_static/documentation_options.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/_static/jquery.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/_static/jquery.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/_static/language_data.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/_static/language_data.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/_static/searchtools.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/_static/searchtools.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/build/html/distroi.auxiliary.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/distroi.auxiliary.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/build/html/distroi.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/distroi.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/build/html/genindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/genindex.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/build/html/modules.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/modules.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/build/html/objects.inv" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/objects.inv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/build/html/py-modindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/py-modindex.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/html/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/search.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/build/html/searchindex.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/searchindex.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/source/distroi.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/source/distroi.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/closure_phases.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/closure_phases.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/fft1d_cuts_10.0mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/fft1d_cuts_10.0mum.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/fft2d_maps_10.0mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/fft2d_maps_10.0mum.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/closure_phases.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/closure_phases.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/fft1d_cuts_1.65mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/fft1d_cuts_1.65mum.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/fft2d_maps_1.65mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/fft2d_maps_1.65mum.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/source/conf.py" beforeDir="false" afterPath="$PROJECT_DIR$/docs/source/conf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/closure_phases.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/fft1d_cuts_2.2mum.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/fft2d_maps_2.2mum.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/uv_plane.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/visibilities.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/closure_phases.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/fft1d_cuts_3.5mum.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/fft2d_maps_3.5mum.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/uv_plane.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/visibilities.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/fft1d_cuts_10.0mum.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/fft2d_maps_10.0mum.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/closure_phases.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/fft1d_cuts_1.65mum.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/fft2d_maps_1.65mum.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/uv_plane.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/visibilities.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/examples/single_disk_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/single_disk_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,20 +89,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Python.constants.executor&quot;: &quot;Run&quot;,
-    &quot;Python.image.executor&quot;: &quot;Run&quot;,
-    &quot;Python.oi_observables.executor&quot;: &quot;Run&quot;,
-    &quot;Python.sed.executor&quot;: &quot;Run&quot;,
-    &quot;Python.single_disk_model.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Python.constants.executor": "Run",
+    "Python.image.executor": "Run",
+    "Python.image_fft.executor": "Run",
+    "Python.oi_observables.executor": "Run",
+    "Python.sed.executor": "Run",
+    "Python.single_disk_model.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="ENV_FILES" value="" />
@@ -288,7 +315,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712852745640</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Cleaned up and modularized the model OI observables even more. Swiched to implementation based on lists of ImageFFT objects. Reduces amount of function arguments needed.">
+      <option name="closed" value="true" />
+      <created>1712927665651</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1712927665651</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -316,6 +351,7 @@
     <MESSAGE value="Fixed typo in word 'reconnaissance'" />
     <MESSAGE value="Changes to how the Image constructor works (using a parameter dictionary based approach). Similar change is being implemented to sed (+ class-based approach). Started implementing functionality to add extra overresolved and point source flux to images and model OI observable calculations." />
     <MESSAGE value="Cleaned up and modularized the model OI observables calculation some more and added functions to add overresolved flux and point source flux to ImageFFT instances." />
-    <option name="LAST_COMMIT_MESSAGE" value="Cleaned up and modularized the model OI observables calculation some more and added functions to add overresolved flux and point source flux to ImageFFT instances." />
+    <MESSAGE value="Cleaned up and modularized the model OI observables even more. Swiched to implementation based on lists of ImageFFT objects. Reduces amount of function arguments needed." />
+    <option name="LAST_COMMIT_MESSAGE" value="Cleaned up and modularized the model OI observables even more. Swiched to implementation based on lists of ImageFFT objects. Reduces amount of function arguments needed." />
   </component>
 </project>

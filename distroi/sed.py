@@ -2,9 +2,10 @@
 Defines a class and the corresponding methods to load in and handle both observed and model spectral energy
 distributions (SEDs).
 """
-import os
 
 from distroi import constants
+
+import os
 
 import numpy as np
 import pandas as pd
@@ -12,9 +13,8 @@ from astropy.io import fits
 from scipy.interpolate import interp1d
 
 import matplotlib.pyplot as plt
-from distroi.constants import set_matplotlib_params
 
-set_matplotlib_params()  # set project matplotlib parameters
+constants.set_matplotlib_params()  # set project matplotlib parameters
 
 
 class SED:
@@ -23,7 +23,7 @@ class SED:
     or model RT images.
 
     :param dict dictionary: Dictionary containing keys and values representing several instance variables described
-        below. Should include 'wavelengths', 'flam', and 'flamerr'. The other required instance variables are set
+        below. Should include 'wavelengths', 'flam', and 'flam_err'. The other required instance variables are set
         automatically through add_freq_vars().
     """
 
@@ -34,22 +34,33 @@ class SED:
         self.wavelengths = None  # wavelengths in micron
         self.frequencies = None  # frequencies in Hz
         self.flam = None  # wavelength-based flux densities (F_lambda) in erg s^-1 cm^-2 micron^-1
-        self.flamerr = None  # error on flam
+        self.flam_err = None  # error on flam
         self.fnu = None  # frequency-based flux densities (F_nu) in Jansky
-        self.fnuerr = None  # error on fnu
+        self.fnu_err = None  # error on fnu
 
         if dictionary is not None:
-            self.wavelengths, self.flam, self.flamerr = (dictionary['wavelengths'], dictionary['flam'],
-                                                         dictionary['flamerr'])
+            self.wavelengths, self.flam, self.flam_err = (dictionary['wavelengths'], dictionary['flam'],
+                                                          dictionary['flam_err'])
             # calculate and add frequency-based variables
             self.add_freq_vars()
 
     def add_freq_vars(self):
         """
-        Calculate and set frequency-based instance variables.
+        Calculate and set frequency-based instance variables from the wavelength-based ones.
 
         :rtype: None
         """
+        wavelengths = self.wavelengths * constants.MICRON2M  # wavelength in SI
+        self.frequencies = constants.SPEED_OF_LIGHT / wavelengths  # set frequencies in Hz
+
+        flam = self.flam * constants.ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M  # flam in SI
+        flam_err = self.flam_err * constants.ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M  # flam_err in SI
+        fnu = flam * wavelengths**2 / constants.SPEED_OF_LIGHT  # fnu in SI units
+        fnu_err = flam_err * wavelengths ** 2 / constants.SPEED_OF_LIGHT  # fnu_err in SI units
+
+        self.fnu = fnu * constants.WATT_PER_M2_HZ_2JY  # set fnu in Jy
+        self.fnu_err = fnu_err * constants.WATT_PER_M2_HZ_2JY  # set fnu_err in Jy
+
         return
 
 
@@ -60,30 +71,36 @@ def read_sed_mcfost(sed_path, star_only=False):
     :param str sed_path: Path to an MCFOST output sed_rt.fits.gz model SED file.
     :param bool star_only: Set to True if you only want to read in the flux from the star.
     :return sed: SED instance containing the information on the MCFOST model SED. Note that the errors on the flux
-        'flamerr' are set to zero (since this is a model SED).
+        'flam_err' are set to zero (since this is a model SED).
     :rtype: SED
     """
-    #  TODO: implement
-    # open the required ray-traced SED fits file, add a slash to the folder's name if necessary
-    if folder[-1] != '/':
-        folder += '/'
-    hdul = fits.open(folder + 'data_th/sed_rt.fits.gz')
-    # read in entire sed array and corresponding wavelength array (in second HUD)
-    sed_array = hdul[0].data * 10 ** 3  # converted to cgs
-    lam = np.array(hdul[1].data)
-    # single out full sed lambda times flux values
-    # this is only so that the non-infinite minimum
-    # can be easily found for setting the y-axis limits
-    full_sed = np.array(sed_array[0, az, inc, :])
-    # single out the star only
-    star_sed = np.array(sed_array[1, az, inc, :])
+    dictionary = {}  # dictionary to construct SED instance
 
-    return lam, full_sed, star_sed
+    az, inc = 0, 0  # only load the first azimuthal/inc value image in the .fits file
+
+    # open the required ray-traced SED fits file
+    hdul = fits.open(sed_path)
+    # read in entire sed array containing all components and corresponding wavelength array (in second HUD)
+    sed_array = hdul[0].data  # lam*F_lam in SI (W m^-2)
+    wavelengths = np.array(hdul[1].data) * constants.MICRON2M  # wavelengths in SI units
+
+    dictionary['wavelengths'] = wavelengths * constants.M2MICRON  # store SED object wavelengths in micron
+    if not star_only:
+        flam = np.array(sed_array[0, az, inc, :]) / wavelengths  # flam in SI units (W m^-2 m^-1)
+        dictionary['flam'] = flam * constants.WATT_PER_M2_M_2ERG_PER_S_CM2_MICRON  # store in erg s^-1 cm^-2 micron^-1
+    else:
+        flam = np.array(sed_array[1, az, inc, :])  # single out the star only, flam in SI units (W m^-2 m^-1)
+        dictionary['flam'] = flam * constants.WATT_PER_M2_M_2ERG_PER_S_CM2_MICRON  # store in erg s^-1 cm^-2 micron^-1
+    dictionary['flam_err'] = np.zeros_like(flam)  # set errors to 0 since we're dealing with a model
+
+    # return an SED object
+    sed = SED(dictionary)
+    return sed
 
 
 def read_sed_repo_phot(sed_path, wave_lims=None):
     """
-    Retrieve observed SED data stored in a .phot file from the SED repository presented in Kluska et al. 2022 (
+    Retrieve observed SED data stored in a .phot file from the SED catalog presented in Kluska et al. 2022 (
     A&A, 658 (2022) A36). Such files are stored in the local system of KU Leuven's Institute of Astronomy.
     Return it as an SED class instance.
 
@@ -112,43 +129,11 @@ def read_sed_repo_phot(sed_path, wave_lims=None):
 
     dictionary['wavelengths'] = np.array(df['cwave'])
     dictionary['flam'] = np.array(df['cmeas'])
-    dictionary['flamerr'] = np.array(df['e_cmeas'])
+    dictionary['flam_err'] = np.array(df['e_cmeas'])
 
     # Return an SED object
     sed = SED(dictionary=dictionary)
     return sed
-
-
-def redden_flux(lam, flux, reddening_law_path, ebminv):
-    """
-    Takes an SED's flux values (typically an MCFOST model SED) and returns the SED after ISM redenning.
-
-    Parameters:
-        lam (numpy array): Array containing the wavelength values in micron.
-        flux (numpy array): Flux values, in lam x F_lam format, to be redenned, in erg/s/cm2/micron
-        reddening_law_path (str): Path to the ISM reddening law to be used. In a two-column format:
-        1) wavelength (Angstrom)  2) A(wavelength)/E(B-V) (magn.).
-        Standard file used is the ISM law by Cardelli et al. 1989.
-        ebminv (float): E(B-V) magnitude of the reddening to be applied.
-
-    Returns:
-        flux_reddened (numpy array): Reddened flux values, in lam x F_lam format, in erg/s/cm2/micron.
-    """
-    if ebminv == 0:
-        return flux
-    else:
-        # read in the ISM reddening law wavelengths in Angström and A/E in magnitude
-        df_law = pd.read_csv(reddening_law_path, header=2, names=['WAVE', 'A/E'],
-                             sep=r'\s+', engine='python')
-        # set wavelength to micrometer
-        lam_law = np.array(df_law['WAVE']) * 10 ** -4
-        ae_law = np.array(df_law['A/E'])
-        # linearly interpolate A/E(B-V) values to used wavelengths
-        f = interp1d(lam_law, ae_law, kind='linear', bounds_error=False, fill_value=0)
-        ae = f(lam)
-        flux_reddened = np.array(flux * 10 ** (-ae * ebminv / 2.5))
-
-        return flux_reddened
 
 
 # 'lam'=array of wavelengths of data 'flux'=flux values of data, lam_model=wavelengths of model,
@@ -272,76 +257,11 @@ def plot_reddened_model_fit(filepath_data, folder_mcfost, reddening_law_path, eb
     return
 
 
-def plot_sed_decomp(folderpath, reddening_law_path, redden_mag=0, fig_dir='./', az=0, inc=0):
-    """
-    Function to plot an SED directly from the MCFOST output in all its contributions
-    (NOTE: no ISM reddening fitted to any data).
-
-    Parameters:
-        folderpath (str): Path to the previously ran MCFOST 'Thermal' run for which we want to make an img
-        (e.g. the dir_out argument of run_mcfost_th()).
-        reddening_law_path (str): Path to the ISM reddening law to be used. In a two-column format:
-        1) wavelength (Angstrom)  2) A(wavelength)/E(B-V) (magn.).
-        redden_mag (float): E(B-V) magnitude of applied ISM reddening.
-        fig_dir (str): Path to directory where the resulting figure is saved.
-        az (int): Number of the azimuthal viewing angle value considered (MCFOST can output results for
-        multiple angles simultaneously). Default = 0 (1st value).
-        inc (int): Number of the inclination viewing angle value considered (MCFOST can output results
-        for multiple angles simultaneously). Default = 0 (1st value).
-
-    Returns:
-        Nothing. A saved plot of the results is saved in the specified directory.
-    """
-    # open the required ray-traced SED fits file
-    hdul = fits.open(folderpath + '/data_th/sed_rt.fits.gz')
-    # read in entire sed array and corresponding wavelength array (in second HUD). put flux in cgs units.
-    sed_array = hdul[0].data * 10 ** 3
-    lam = hdul[1].data
-    # single out full sed lambda times flux values
-    # this is only so that the non-infinite minimum
-    # can be easily found for setting the y-axis limits
-    full_sed = redden_flux(lam, sed_array[0, az, inc, :], reddening_law_path, redden_mag)
-    # single out the star only
-    star_sed = redden_flux(lam, sed_array[1, az, inc, :], reddening_law_path, redden_mag)
-    # sed of starlight scattered from the disk
-    # replaces zeros with 10**-40 so taking log space doesn't crash
-    starscatter_sed = redden_flux(lam, sed_array[2, az, inc, :], reddening_law_path, redden_mag)
-    starscatter_sed[starscatter_sed == 0] = 10 ** -40
-    # sed of disk thermal emission
-    # replaces zeros with 10**-40 so taking log space doesn't crash
-    diskthermal_sed = redden_flux(lam, sed_array[3, az, inc, :], reddening_law_path, redden_mag)
-    diskthermal_sed[diskthermal_sed == 0] = 10 ** -40
-    # sed of scattered thermal disk emission
-    thermalscatter_sed = redden_flux(lam, sed_array[4, az, inc, :], reddening_law_path, redden_mag)
-    thermalscatter_sed[thermalscatter_sed == 0] = 10 ** -40
-    # plotting
-    fig, ax = plt.subplots(figsize=(7, 7))
-    ax.plot(lam, full_sed, ls='-', c='k', label='full')
-    ax.plot(lam, star_sed, ls='-', c='grey', label='star', alpha=0.6)
-    ax.plot(lam, starscatter_sed, ls='--', c='b', label='starlight scattered', lw=0.8)
-    ax.plot(lam, diskthermal_sed, ls='dotted', c='r', label='disk thermal', lw=0.8)
-    ax.plot(lam, thermalscatter_sed, ls='-.', c='g', label='thermal scattered', lw=0.8)
-    ax.set_title('MCFOST SED' + ' #inclination ' + str(inc) + ', #azimuthal viewing angle ' + str(az) +
-                 ', E(B-V)=' + str(redden_mag))
-    ax.set_xlabel(r"$\lambda \, \mathrm{[\mu m]}$")
-    ax.set_ylabel(r"$\lambda F_{\lambda} \, \mathrm{[erg \, cm^{-2} \, s^{-1}]}$")
-    ax.set_xlim(np.min(lam), np.max(lam))
-    ax.set_ylim(full_sed[np.isfinite(full_sed)].min(), full_sed[np.isfinite(full_sed)].max() * 10)
-    ax.set_xscale('log')
-    ax.set_yscale('log')
-    ax.legend()
-    plt.tight_layout()
-    # make directory to save the figure in if necessary
-    if (fig_dir != './') and not os.path.exists(fig_dir):
-        subprocess.Popen('mkdir ' + fig_dir, shell=True).wait()
-    fig.savefig(fig_dir + '/SED_decomposed_' + '_inc' + str(inc) + '_az' + str(az) + '_ext' + str(redden_mag) + '.png',
-                dpi=300, bbox_inches='tight')
-    plt.show()
-    plt.close()
-
-    return
-
-
 if __name__ == "__main__":
-    read_sed_repo_phot('../examples/data/IRAS0844-4431/SED/IRAS08544-4431.phot')
+    sed_data = read_sed_repo_phot('../examples/data/IRAS0844-4431/SED/IRAS08544-4431.phot')
+    sed_model = read_sed_mcfost('../examples/models/IRAS08544-4431_test_model/data_th/sed_rt.fits.gz')
+    plt.scatter(sed_data.wavelengths, sed_data.wavelengths * sed_data.flam)
+    plt.plot(sed_model.wavelengths, sed_model.wavelengths * sed_model.flam)
+    plt.yscale('log')
+    plt.xscale('log')
     plt.show()

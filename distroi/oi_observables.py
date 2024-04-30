@@ -6,19 +6,15 @@ Closure phases ; Visibilities - Closure phases ; Correlated fluxes (formaly stor
 """
 
 from distroi import constants
-from distroi import image_fft
 from distroi.auxiliary import SelectData
 
 import os
-import glob
 
 import numpy as np
 from scipy.interpolate import RegularGridInterpolator
 
 import matplotlib.pyplot as plt
-from distroi.constants import set_matplotlib_params
-
-set_matplotlib_params()  # set project matplotlib parameters
+constants.set_matplotlib_params()  # set project matplotlib parameters
 
 
 class OIContainer:
@@ -235,13 +231,14 @@ def read_oicontainer_oifits(data_dir, data_file, wave_lims=None, v2lim=None, fco
     return container
 
 
-def calc_model_observables(container_data, img_fft_list):
+def calc_mod_observables(container_data, img_fft_list):
     """
     Loads in OI observables from an OIContainer, typically containing observational data, and calculates model image
     observables at the same uv coverage. The model images are passed along as a list of ImageFFT objects. If the
-    length of this list is 1, no interpolation in the wavelength dimension is performed. The model is 'chromatic'. If
-    the list contains multiple ImageFFT objects, interpolation in wavelength is performed. In this case the
-    wavelength coverage of the ImageFFT objects needs to exceed that of the OIContainer!
+    length of this list is 1, no interpolation in the wavelength dimension is performed, i.e. the emission model is
+    'monochromatic'. If the list contains multiple ImageFFT objects, interpolation in wavelength is performed. In
+    this case the wavelength coverage of the ImageFFT objects needs to exceed that of the OIContainer! Expects that
+    every ImageFFT object in the list has the same pixelscale and amount of pixels (in both x- and y-direction).
 
     :param OIContainer container_data: OIContainer at whose spatial frequencies we calculate model observables.
     :param img_fft_list: List of ImageFFT objects representing the RT model images. If of length one, no interpolation
@@ -361,8 +358,12 @@ def mod_complex_vis_interpolator(img_fft_list, fcorr=False):
     return interpolator
 
 
+def calc_clean_beam(container, vistype='vis2'):
+    #todo: implement clean beam calculation using non-uniform FFT and gaussian fit
+    return
+
 def plot_data_vs_model(container_data, container_mod, fig_dir=None, log_plotv=False, plot_vistype='vis2',
-                       show_plots=False):
+                       show_plots=True):
     """
     Plots the data against the model OI observables. Currently, plots uv-coverage, a (squared) visibility curve and
     closure phases.
@@ -373,8 +374,8 @@ def plot_data_vs_model(container_data, container_mod, fig_dir=None, log_plotv=Fa
     :param bool log_plotv: Set to True for a logarithmic y-scale in the (squared) visibility plot.
     :param str plot_vistype: Sets the type of visibility to be plotted. 'vis2' for squared visibilities or 'vis'
         for visibilities (either normalized or correlated flux in Jy, as implied by the OIContainer objects).
-    :param bool show_plots: Set to True if you want the plots to be shown during your python instance. Note that this
-        freazes further code execution until the plot windows are closed.
+    :param bool show_plots: Set to False if you do not want the plots to be shown during your python instance.
+        Note that if True, this freazes further code execution until the plot windows are closed.
     :rtype: None
     """
     # create plotting directory if it doesn't exist yet

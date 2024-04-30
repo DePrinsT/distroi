@@ -2,19 +2,19 @@
 Defines a class and the corresponding methods to load in and handle model images and their fast fourier
 transform (FFT).
 """
-import os
-import glob
 
 from distroi import constants
 from distroi import sed
+
+import os
+import glob
 
 import numpy as np
 from astropy.io import fits
 
 import matplotlib.pyplot as plt
-from distroi.constants import set_matplotlib_params
 
-set_matplotlib_params()  # set project matplotlib parameters
+constants.set_matplotlib_params()  # set project matplotlib parameters
 
 
 class ImageFFT:
@@ -22,7 +22,7 @@ class ImageFFT:
     Class containing information on a model image and its FFT. Contains all properties in order to fully describe both
     the image and its FFT. Note that all these properties are expected if all class methods are to work. While
     default options are tuned to MCFOST model disk images, it can easily be generalized to different RT codes by
-    defining a corresponding image reader function analogous to 'read_image_mcfost'. Can handle any dimensions of image,
+    defining a corresponding image reader function analogous to 'read_image_fft_mcfost'. Can handle any dimensions of image,
     as long as the amount of pixels in each dimension is even.
 
     :param dict dictionary: Dictionary containing keys and values representing several instance variables described
@@ -74,8 +74,8 @@ class ImageFFT:
             self.perform_fft()
 
         if self.num_pix_x % 2 != 0 or self.num_pix_y % 2 != 0:
-            print("DISTROI currently supports images with an even amount of pixels in each dimension. "
-                  "Program will terminated!")
+            print("DISTROI currently only supports images with an even amount of pixels in each dimension. "
+                  "Program will be terminated!")
             exit(1)
         return
 
@@ -93,7 +93,7 @@ class ImageFFT:
         # is the reverse of the interferometric one !!!
 
         self.w_x = -np.fft.fftshift(np.fft.fftfreq(self.fft.shape[1]))  # also use fftshift so the 0 frequency
-        self.w_y = -np.fft.fftshift(np.fft.fftfreq(self.fft.shape[0]))  # lie in the middle of the returned array
+        self.w_y = -np.fft.fftshift(np.fft.fftfreq(self.fft.shape[0]))  # lies in the middle of the returned array
 
         self.uf = self.w_x / self.pixelscale_x  # spatial frequencies in units of 1/radian
         self.vf = self.w_y / self.pixelscale_y
@@ -110,13 +110,13 @@ class ImageFFT:
             of your own reddening laws.
         :rtype: None
         """
-        self.img = sed.redden_flux(self.wavelength, self.img,
-                                   reddening_law_path, ebminv)  # apply additional reddening to the image
+        self.img = constants.redden_flux(self.wavelength, self.img,
+                                         ebminv, reddening_law_path)  # apply additional reddening to the image
         if self.fft is not None:
-            self.fft = sed.redden_flux(self.wavelength, self.fft,
-                                       reddening_law_path, ebminv)  # apply additional reddening to the fft
-        self.ftot = sed.redden_flux(self.wavelength, self.ftot,
-                                    reddening_law_path, ebminv)  # apply additional reddening to the toal flux
+            self.fft = constants.redden_flux(self.wavelength, self.fft,
+                                             ebminv, reddening_law_path)  # apply additional reddening to the fft
+        self.ftot = constants.redden_flux(self.wavelength, self.ftot,
+                                          ebminv, reddening_law_path)  # apply additional reddening to the toal flux
         return
 
     def freq_info(self):
@@ -150,10 +150,8 @@ class ImageFFT:
                     f"Image axis size S-N [rad]: {image_size_y:.4E} \n"
                     f"Maximum frequency considered E-W [1/rad]: {(np.max(self.w_x) * 1 / self.pixelscale_x):.4E} \n"
                     f"Maximum frequency considered S-N [1/rad]: {(np.max(self.w_y) * 1 / self.pixelscale_y):.4E} \n"
-                    f"Spacing in frequency space E-W [1/rad]: {abs((self.w_x[1] - self.w_x[0]) /
-                                                                   self.pixelscale_x):.4E} \n"
-                    f"Spacing in frequency space S-N [1/rad]: {abs((self.w_y[1] - self.w_y[0]) /
-                                                                   self.pixelscale_y):.4E} \n"
+                    f"Spacing in frequency space E-W [1/rad]: {abs((self.w_x[1]-self.w_x[0])/self.pixelscale_x):.4E} \n"
+                    f"Spacing in frequency space S-N [1/rad]: {abs((self.w_y[1]-self.w_y[0])/self.pixelscale_y):.4E} \n"
                     f"--------------------------------------- \n"
                     f"Pixel scale E-W [mas]: {(self.pixelscale_x * constants.RAD2MAS):.4E} \n"
                     f"Pixel scale S-N [mas]: {(self.pixelscale_y * constants.RAD2MAS):.4E} \n"
@@ -184,16 +182,14 @@ class ImageFFT:
                     f"Maximum projected baseline resolvable under current pixel sampling S-N [m]: "
                     f"{((np.max(self.w_y) * 1 / self.pixelscale_y) * self.wavelength * constants.MICRON2M):.4E} \n"
                     f"Spacing in projected baseline length corresponding to frequency sampling E-W [m]: "
-                    f"{abs(((self.w_x[1] - self.w_x[0]) * 1 / self.pixelscale_x) *
-                           self.wavelength * constants.MICRON2M):.4E} \n"
+                    f"{abs(((self.w_x[1]-self.w_x[0])*1/self.pixelscale_x)*self.wavelength*constants.MICRON2M):.4E} \n"
                     f"Spacing in projected baseline length corresponding to frequency sampling S-N [m]: "
-                    f"{abs(((self.w_y[1] - self.w_y[0]) * 1 / self.pixelscale_y) *
-                           self.wavelength * constants.MICRON2M):.4E} \n"
+                    f"{abs(((self.w_y[1]-self.w_y[0])*1/self.pixelscale_y)*self.wavelength*constants.MICRON2M):.4E} \n"
                     f"================================================================ \n"
                     )
         return info_str
 
-    def add_ps(self, flux, x, y):
+    def add_point_source(self, flux, coords):
         """
         Function that adds the effect of an additional point source to the ImageFFT instance. This affects the
         following instance variables: 'img', 'ftot' and 'fft'. The flux of the point source is added to the pixel in
@@ -207,21 +203,21 @@ class ImageFFT:
         invocations of perform_fft(), the effect may not be as desired!
 
         :param float flux: The flux value (in Jy) of the point source at the wavelength of the ImageFFT instance.
-        :param float x: The position of the point source in the x-direction compared to the image center
-            (in milli-arcsecond).
-        :param float y: The position of the point source in the y-direction compared to the image center
-            (in milli-arcsecond).
+        :param tuple(float) coords: 2D tuple giving the x and y position of the point source (in milli-arcsecond).
+            The positive x direction is towards the East. The positive y direction is towards the North.
         :rtype: None
         """
+        x, y = coords[0], coords[1]  # point source position
+
         self.ftot += flux
 
         # define numpy arrays with coordinates for pixel centres in milli-arcsecond
-        coords_x = (np.linspace(self.num_pix_x / 2 - 0.5, -self.num_pix_x / 2 + 0.5, self.num_pix_x) *
-                    self.pixelscale_x * constants.RAD2MAS)
-        coords_y = (np.linspace(self.num_pix_y / 2 - 0.5, -self.num_pix_y / 2 + 0.5, self.num_pix_y) *
-                    self.pixelscale_y * constants.RAD2MAS)
-        coords_mesh_x, coords_mesh_y = np.meshgrid(coords_x, coords_y)  # create a meshgrid
-        distances = np.sqrt((coords_mesh_x - x) ** 2 + (coords_mesh_y - y) ** 2)  # calc distance pixel centres to point
+        coords_pix_x = (np.linspace(self.num_pix_x / 2 - 0.5, -self.num_pix_x / 2 + 0.5, self.num_pix_x) *
+                        self.pixelscale_x * constants.RAD2MAS)
+        coords_pix_y = (np.linspace(self.num_pix_y / 2 - 0.5, -self.num_pix_y / 2 + 0.5, self.num_pix_y) *
+                        self.pixelscale_y * constants.RAD2MAS)
+        coords_pix_mesh_x, coords_pix_mesh_y = np.meshgrid(coords_pix_x, coords_pix_y)  # create a meshgrid
+        distances = np.sqrt((coords_pix_mesh_x - x) ** 2 + (coords_pix_mesh_y - y) ** 2)  # calc dist pixels to point
 
         min_dist_indices = (np.where(distances == np.min(distances)))  # retrieve indices of where distance is minimum
         min_ind_x, min_ind_y = min_dist_indices[1][0], min_dist_indices[0][0]
@@ -235,7 +231,7 @@ class ImageFFT:
 
         return
 
-    def add_ovr(self, flux):
+    def add_overresolved_flux(self, flux):
         """
         Function that adds the effect of an overresolved flux component to the ImageFFT instance. This affects the
         following instance variables: 'img', and 'ftot'. The flux of the overresolved component is added to 'img',
@@ -264,7 +260,7 @@ class ImageFFT:
         Calculate the half light radius of the image by adding up the fluxes of pixels within increasing circular
         aperatures. If you want only the half light radius excluding the central source, e.g. the model disk in an
         MCFOST model, one should exclude the central source when reading in the image file (e.g. using disk_only=True
-        with read_image_mcfost()). Due to the implimentation, the returned value's accuracy is inherently limited by
+        with read_image_fft_mcfost()). Due to the implimentation, the returned value's accuracy is inherently limited by
         the model image pixelscale. Note also that the radius is calculated in the image plane, and thus depends on
         e.g. inclination of the RT model.
 
@@ -272,12 +268,12 @@ class ImageFFT:
         :rtype: float
         """
         # define numpy arrays with coordinates for pixel centres in milli-arcsecond
-        coords_x = (np.linspace(self.num_pix_x / 2 - 0.5, -self.num_pix_x / 2 + 0.5, self.num_pix_x) *
-                    self.pixelscale_x * constants.RAD2MAS)
-        coords_y = (np.linspace(self.num_pix_y / 2 - 0.5, -self.num_pix_y / 2 + 0.5, self.num_pix_y) *
-                    self.pixelscale_y * constants.RAD2MAS)
-        coords_mesh_x, coords_mesh_y = np.meshgrid(coords_x, coords_y)  # create a meshgrid
-        distances = np.sqrt(coords_mesh_x ** 2 + coords_mesh_y ** 2)  # calc distances of pixel centres to image origin
+        coords_pix_x = (np.linspace(self.num_pix_x / 2 - 0.5, -self.num_pix_x / 2 + 0.5, self.num_pix_x) *
+                        self.pixelscale_x * constants.RAD2MAS)
+        coords_pix_y = (np.linspace(self.num_pix_y / 2 - 0.5, -self.num_pix_y / 2 + 0.5, self.num_pix_y) *
+                        self.pixelscale_y * constants.RAD2MAS)
+        coords_pix_mesh_x, coords_pix_mesh_y = np.meshgrid(coords_pix_x, coords_pix_y)  # create a meshgrid
+        distances = np.sqrt(coords_pix_mesh_x ** 2 + coords_pix_mesh_y ** 2)  # calc dist pixels to origin
 
         rcont = 0  # variable denoting the radius of the circular aperature in milli-arcsecond
         fcont = 0  # variable containing the flux within ciruclar aperature contour
@@ -290,8 +286,8 @@ class ImageFFT:
 
         return hlr
 
-    def fft_diagnostic_plot(self, fig_dir, plot_vistype='vis2', log_plotv=False, log_ploti=False,
-                            show_plots=False):
+    def diagnostic_plot(self, fig_dir=None, plot_vistype='vis2', log_plotv=False, log_ploti=False,
+                        show_plots=True):
         """
         Makes diagnostic plots showing both the model image and the FFT (squared) visibilities and complex phases.
 
@@ -300,8 +296,8 @@ class ImageFFT:
             for visibilities or 'fcorr' for correlated flux in Jy.
         :param bool log_plotv: Set to True for a logarithmic y-scale in the (squared) visibility plot.
         :param bool log_ploti: Set to True for a logarithmic intensity scale in the model image plot.
-        :param bool show_plots: Set to True if you want the plots to be shown during your python instance. Note that
-            this freazes further code execution until the plot windows are closed.
+        :param bool show_plots: Set to False if you do not want the plots to be shown during your script run.
+            Note that if True, this freazes further code execution until the plot windows are closed.
         :rtype: None
         """
         baseu = self.uf / 1e6  # Baseline length u in MegaLambda
@@ -503,13 +499,13 @@ class ImageFFT:
         return
 
 
-def read_image_mcfost(img_path, disk_only=False):
-    """
-    Retrieve image data from an MCFOST model image and return it as an Image class instance.
+def read_image_fft_mcfost(img_path, disk_only=False):
+    """Image instance
+    Retrieve image data from an MCFOST model image and return it as an ImageFFT class instance.
 
     :param str img_path: Path to an MCFOST output RT.fits.gz model image file.
     :param bool disk_only: Set to True if you only want to read in the flux from the disk.
-    :return image: Image instance containing the information on the MCFOST RT image.
+    :return image: ImageFFT instance containing the information on the MCFOST RT image.
     :rtype: ImageFFT
     """
     dictionary = {}  # dictionary to construct ImageFFT instance
@@ -543,7 +539,7 @@ def read_image_mcfost(img_path, disk_only=False):
     # calculate fft in Jy units
     dictionary['img'] *= ((dictionary['wavelength'] * constants.MICRON2M) /
                           constants.SPEED_OF_LIGHT)  # convert to F_nu in SI units (W m^-2 Hz^-1)
-    dictionary['img'] *= constants.WATT_PER_METER2_HZ_2JY  # convert image to Jansky
+    dictionary['img'] *= constants.WATT_PER_M2_HZ_2JY  # convert image to Jansky
     dictionary['ftot'] = np.sum(dictionary['img'])  # total flux in Jansky
 
     # return an ImageFFT object
@@ -554,7 +550,8 @@ def read_image_mcfost(img_path, disk_only=False):
 def get_image_fft_list(mod_dir, img_dir, ebminv=0.0, read_method='mcfost'):
     """
     Function that takes the path to an RT model's directory and a subdirectory containing image files, and returns a
-    list of ImageFFT objects representing those model images.
+    list of ImageFFT objects representing those model images. They should thus represent the same underlying physical
+    model, but imaged at different wavelengths.
 
     :param str mod_dir: Parent directory of the RT model of interest.
     :param str img_dir: Subdirectory containing RT model images. All image files recursively found in the subdirectories
@@ -574,12 +571,12 @@ def get_image_fft_list(mod_dir, img_dir, ebminv=0.0, read_method='mcfost'):
     if read_method == 'mcfost':  # different ways to read in model image file paths
         img_file_paths = sorted(glob.glob(f'{mod_dir}{img_dir}/**/*RT.fits.gz', recursive=True))
     else:
-        print('read_method not recognized. Program will be terminated!')
-        exit(1)
+        print(f"read_method '{read_method}' not recognized. Will return None!")
+        return
 
     for img_path in img_file_paths:
         if read_method == 'mcfost':  # choose reader function
-            img_fft = read_image_mcfost(img_path)
+            img_fft = read_image_fft_mcfost(img_path)
         img_fft.redden(ebminv=ebminv)  # redden the ImageFFT object
         img_fft_list.append(img_fft)  # append to the list of ImageFFT objects
         wavelengths.append(img_fft.wavelength)  # append wavelength
@@ -587,3 +584,58 @@ def get_image_fft_list(mod_dir, img_dir, ebminv=0.0, read_method='mcfost'):
     wavelengths, img_fft_list = list(zip(*sorted(zip(wavelengths, img_fft_list))))  # sort the objects in wavelength
 
     return img_fft_list
+
+
+def image_fft_list_add_bb_ps_and_ov(img_fft_list, ffrs_ps=None, coords_ps=None, temps_ps=None, ffrs_ov=None,
+                                    temps_ov=None, sed_rt=None, ref_wavelength=None):
+    """
+    Given a list of ImageFFT objects representing an RT model's images, adds the effect of blackbody point source
+    components and overresolved flux components to the objects. The flux contribution of the additional components is
+    expressed as a fraction of the total system flux at a reference wavelength. Their wavelength scaling is given
+    using blackbody temperatures. Note that the total system flux is consistently recalculated using the specified
+    fractions and the RT model's 'old' total flux, before the addition of the additional components, such that the
+    specified flux fractions are indeed correct after the function's execution. An SED object representing the same
+    RT model can be passed along, in which case this 'old' flux will be interpolated from the SED. The SED is
+    modified with additional flux in order to maintain consistency between the SED and ImageFFT objects,
+    which represent the same RT model. If the reference wavelength and/or SED are not specified explicitly, the average
+    wavelength and total flux of the included ImageFFT objects will be used as the reference wavelength and 'old'
+    total flux, respectively. No modification to any SED object will occur. Flux fractions should not add up to more
+    than 1!
+
+    :param list(ImageFFT) img_fft_list: List of ImageFFT objects representing an RT model's images.
+    :param list(float) ffrs_ps: Flux fractions for the point sources at the reference wavelength.
+    :param list(tuple(float)) coords_ps: List of 2D tuples giving the x and y positions of the point sources
+        (in milli-arcsecond). The positive x direction is towards the East. The positive y direction is towards
+        the North. All positions are set to zero (the image center) if not specified.
+    :param list(float) temps_ps: Blackbody temperatures of the point sources.
+    :param list(float) ffrs_ov: Flux fractions for the overresolved components at the reference wavelength.
+    :param list(float) temps_ov: Blackbody temperatures of the overresolved components.
+    :param SED sed_rt: SED object representing the current state of the RT model before the addition
+    :param float ref_wavelength: Reference wavelength for the flux fractions in micron.
+    :rtype: None
+    """
+    if ffrs_ps is None or temps_ps is None:
+        ffrs_ps, coords_ps, temps_ps = [], [], []
+    if (ffrs_ps is not None) and (temps_ps is not None) and (coords_ps is None):
+        coords_ps = [(0, 0)] * len(ffrs_ps)  # default positions to image center
+    if ffrs_ov is None or temps_ov is None:
+        ffrs_ov, temps_ov = [], []
+    if sum([sum([ffrs_ps]), sum([ffrs_ov])]) >= 1:
+        print("The sum of the given flux fractions should not exceed 1! "
+              "The function has not modified any of the objects passed along.")
+        return
+    if sed_rt is None or ref_wavelength is None:  # set default flux values if ref wavelength or SED not specified
+        ref_wavelength = sum([img_fft.wavelength for img_fft in img_fft_list]) / len(img_fft_list)
+        ref_flux = sum([img_fft.ftot for img_fft in img_fft_list]) / len(img_fft_list)
+        print("RT model SED or reference wavelength not specified. \n"
+              "The reference wavelength defaulted to the average of the ImageFFT instances: "
+              f"{ref_wavelength:.4E} micron. \n"
+              "The 'old' system total flux, i.e. before addition of the additional components, defaulted to the "
+              "average total fluxes of the ImageFFT instances: "
+              f"{ref_flux:.4E} Jy.")
+        # todo: continue implementation
+
+    else:  # case in which an SED and reference wavelength is passed along
+        # todo: continue implementation
+        print('fun')
+    return

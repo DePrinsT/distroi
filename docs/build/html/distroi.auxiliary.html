@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>distroi.auxiliary package &mdash; DISTROI  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css" />
-
-  
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="_static/fonts.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -16,7 +15,6 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -29,15 +27,11 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-
-          
-          
-          <a href="index.html" class="icon icon-home">
-            DISTROI
+            <a href="index.html" class="icon icon-home"> DISTROI
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -77,7 +71,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
           <li class="breadcrumb-item"><a href="distroi.html">distroi package</a></li>
       <li class="breadcrumb-item active">distroi.auxiliary package</li>
       <li class="wy-breadcrumbs-aside">
@@ -89,14 +83,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-distroi.auxiliary">
-<span id="distroi-auxiliary-package"></span><h1>distroi.auxiliary package<a class="headerlink" href="#module-distroi.auxiliary" title="Permalink to this heading"></a></h1>
+  <div class="section" id="module-distroi.auxiliary">
+<span id="distroi-auxiliary-package"></span><h1>distroi.auxiliary package<a class="headerlink" href="#module-distroi.auxiliary" title="Permalink to this headline"></a></h1>
 <p>Package containing auxiliary modules for reading in OIFITS data. Original modules written by A. Corporaal and J. Kluska.</p>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
-</section>
-<section id="module-distroi.auxiliary.ReadOIFITS">
-<span id="distroi-auxiliary-readoifits-module"></span><h2>distroi.auxiliary.ReadOIFITS module<a class="headerlink" href="#module-distroi.auxiliary.ReadOIFITS" title="Permalink to this heading"></a></h2>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</div>
+<div class="section" id="module-distroi.auxiliary.ReadOIFITS">
+<span id="distroi-auxiliary-readoifits-module"></span><h2>distroi.auxiliary.ReadOIFITS module<a class="headerlink" href="#module-distroi.auxiliary.ReadOIFITS" title="Permalink to this headline"></a></h2>
 <p>Provides a class to read in observation data from OIFITS files. This is a modification of the original module stored at
 <a class="reference external" href="https://github.com/kluskaj/ReadOIFITS">https://github.com/kluskaj/ReadOIFITS</a> on GitHub.</p>
 <dl class="py function">
@@ -403,9 +397,9 @@
 <span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.ReadOIFITS.</span></span><span class="sig-name descname"><span class="pre">warn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.ReadOIFITS.warn" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
-</section>
-<section id="module-distroi.auxiliary.SelectData">
-<span id="distroi-auxiliary-selectdata-module"></span><h2>distroi.auxiliary.SelectData module<a class="headerlink" href="#module-distroi.auxiliary.SelectData" title="Permalink to this heading"></a></h2>
+</div>
+<div class="section" id="module-distroi.auxiliary.SelectData">
+<span id="distroi-auxiliary-selectdata-module"></span><h2>distroi.auxiliary.SelectData module<a class="headerlink" href="#module-distroi.auxiliary.SelectData" title="Permalink to this headline"></a></h2>
 <p>Module to read in data from OIFITS files within certain limits. Modification of the original file stored at
 ‘/STER/akke/Python/Image2OIFITS’ in the local system of KU Leuven’s Institute of Astronomy.</p>
 <dl class="py function">
@@ -465,8 +459,8 @@ All defaults are set to False. Set to a number if applicable</p>
 <span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.SelectData.</span></span><span class="sig-name descname"><span class="pre">Select_viserr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lim_V2_err</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.SelectData.Select_viserr" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
