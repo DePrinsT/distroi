@@ -4,11 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="58406770-33a2-415d-85da-ce2b89629f19" name="Changes" comment="Margins sucked on readthedocs, put hard dependencies for sphinxcontrib packages in requirements.txt as well to see if that helps." />
+    <list default="true" id="58406770-33a2-415d-85da-ce2b89629f19" name="Changes" comment="Forgot one dependence on the last commit.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/fft/fft1d_cuts_1.65mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/fft/fft1d_cuts_1.65mum.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/fft/fft2d_maps_1.65mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/fft/fft2d_maps_1.65mum.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/single_disk_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/single_disk_model.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <excluded-from-favorite>
@@ -44,6 +56,7 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Python.__init__.executor&quot;: &quot;Run&quot;,
     &quot;Python.constants.executor&quot;: &quot;Run&quot;,
     &quot;Python.image.executor&quot;: &quot;Run&quot;,
     &quot;Python.image_fft.executor&quot;: &quot;Run&quot;,
@@ -299,7 +312,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714492224758</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Forgot one dependence on the last commit.">
+      <option name="closed" value="true" />
+      <created>1714492464058</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1714492464058</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -331,6 +352,7 @@
     <MESSAGE value="Added some more functionality to the SED file, downgraded version of sphinx and its rtd-theme (which fixed the margins in the html docs)." />
     <MESSAGE value="ReadTheDocs build failed because of outdated version of sphinx, trying again with version 5.0.2 in the requirements.txt file. Not yet changed in the environment.yml." />
     <MESSAGE value="Margins sucked on readthedocs, put hard dependencies for sphinxcontrib packages in requirements.txt as well to see if that helps." />
-    <option name="LAST_COMMIT_MESSAGE" value="Margins sucked on readthedocs, put hard dependencies for sphinxcontrib packages in requirements.txt as well to see if that helps." />
+    <MESSAGE value="Forgot one dependence on the last commit." />
+    <option name="LAST_COMMIT_MESSAGE" value="Forgot one dependence on the last commit." />
   </component>
 </project>

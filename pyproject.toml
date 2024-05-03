@@ -1,0 +1,23 @@
+[build-system]
+requires = ["flit_core>=3.4", "numpy", ""]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "distroi"
+version = "0.0.1"
+authors = [
+  { name="Toon De Prins", email="toon.deprins@protonmail.com" },
+]
+description = """A Python package intended to compute astronomical optical interferometry (OI) observables from
+radiative transfer model images."""
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/DePrinsT/distroi"
+Issues = "https://github.com/DePrinsT/distroi/issues"
