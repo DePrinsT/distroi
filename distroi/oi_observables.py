@@ -12,8 +12,11 @@ import os
 
 import numpy as np
 from scipy.interpolate import RegularGridInterpolator
+from scipy.spatial.distance import cdist
+from scipy.optimize import curve_fit
 
 import matplotlib.pyplot as plt
+
 constants.set_matplotlib_params()  # set project matplotlib parameters
 
 
@@ -30,28 +33,28 @@ class OIContainer:
         (excluding fcorr).
     :param bool fcorr: Set to True if the visibilities are to be stored as correlated fluxes in Jy.
     :ivar bool vis_in_fcorr: Whether visibilities are stored in correlated flux or not.
-    :ivar numpy.ndarray vuf: u-axis spatial freqs in 1/rad for visibility data.
-    :ivar numpy.ndarray vvf: v-axis spatial freqs in 1/rad for visibility data.
-    :ivar numpy.ndarray vwave: Wavelengths in meter for visibility data.
-    :ivar numpy.ndarray v: Visibilities, either normalized visibilities or correlated flux in Janksy.
-    :ivar numpy.ndarray verr: Error on visibilities.
-    :ivar numpy.ndarray vbase: Baseline length in MegaLambda for visibility data.
-    :ivar numpy.ndarray v2uf: u-axis spatial freqs in 1/rad for squared visibility data.
-    :ivar numpy.ndarray v2vf: v-axis spatial freqs in 1/rad for squared visibility data.
-    :ivar numpy.ndarray v2wave: Wavelengths in meter for squared visibility data.
-    :ivar numpy.ndarray v2: Squared visibilities.
-    :ivar numpy.ndarray v2err: Error on squared visibilities.
-    :ivar numpy.ndarray v2base: Baseline length in MegaLambda for squared visibility data.
-    :ivar numpy.ndarray t3uf1: u-axis spatial freqs in 1/rad for the 1st projected baseline along the closure triangle.
-    :ivar numpy.ndarray t3vf1: v-axis spatial freqs in 1/rad for the 1st projected baseline along the closure triangle.
-    :ivar numpy.ndarray t3uf3: u-axis spatial freqs in 1/rad for the 2nd projected baseline along the closure triangle.
-    :ivar numpy.ndarray t3vf2: v-axis spatial freqs in 1/rad for the 2nd projected baseline along the closure triangle.
-    :ivar numpy.ndarray t3uf3: u-axis spatial freqs in 1/rad for the 3d projected baseline along the closure triangle.
-    :ivar numpy.ndarray t3vf3: v-axis spatial freqs in 1/rad for the 3d projected baseline along the closure triangle.
-    :ivar numpy.ndarray t3wave: Wavelengths in meter for closure phase data.
-    :ivar numpy.ndarray t3phi: Closure phases in degrees.
-    :ivar numpy.ndarray t3phierr: Error on closure phases.
-    :ivar numpy.ndarray t3bmax: Maximum baseline length along the closure triangle in units of MegaLambda.
+    :ivar np.ndarray vuf: u-axis spatial freqs in 1/rad for visibility data.
+    :ivar np.ndarray vvf: v-axis spatial freqs in 1/rad for visibility data.
+    :ivar np.ndarray vwave: Wavelengths in meter for visibility data.
+    :ivar np.ndarray v: Visibilities, either normalized visibilities or correlated flux in Janksy.
+    :ivar np.ndarray verr: Error on visibilities.
+    :ivar np.ndarray vbase: Baseline length in MegaLambda for visibility data.
+    :ivar np.ndarray v2uf: u-axis spatial freqs in 1/rad for squared visibility data.
+    :ivar np.ndarray v2vf: v-axis spatial freqs in 1/rad for squared visibility data.
+    :ivar np.ndarray v2wave: Wavelengths in meter for squared visibility data.
+    :ivar np.ndarray v2: Squared visibilities.
+    :ivar np.ndarray v2err: Error on squared visibilities.
+    :ivar np.ndarray v2base: Baseline length in MegaLambda for squared visibility data.
+    :ivar np.ndarray t3uf1: u-axis spatial freqs in 1/rad for the 1st projected baseline along the closure triangle.
+    :ivar np.ndarray t3vf1: v-axis spatial freqs in 1/rad for the 1st projected baseline along the closure triangle.
+    :ivar np.ndarray t3uf3: u-axis spatial freqs in 1/rad for the 2nd projected baseline along the closure triangle.
+    :ivar np.ndarray t3vf2: v-axis spatial freqs in 1/rad for the 2nd projected baseline along the closure triangle.
+    :ivar np.ndarray t3uf3: u-axis spatial freqs in 1/rad for the 3d projected baseline along the closure triangle.
+    :ivar np.ndarray t3vf3: v-axis spatial freqs in 1/rad for the 3d projected baseline along the closure triangle.
+    :ivar np.ndarray t3wave: Wavelengths in meter for closure phase data.
+    :ivar np.ndarray t3phi: Closure phases in degrees.
+    :ivar np.ndarray t3phierr: Error on closure phases.
+    :ivar np.ndarray t3bmax: Maximum baseline length along the closure triangle in units of MegaLambda.
     """
 
     def __init__(self, dictionary, fcorr=False):
@@ -358,14 +361,10 @@ def mod_complex_vis_interpolator(img_fft_list, fcorr=False):
     return interpolator
 
 
-def calc_clean_beam(container, vistype='vis2'):
-    #todo: implement clean beam calculation using non-uniform FFT and gaussian fit
-    return
-
 def plot_data_vs_model(container_data, container_mod, fig_dir=None, log_plotv=False, plot_vistype='vis2',
                        show_plots=True):
     """
-    Plots the data against the model OI observables. Currently, plots uv-coverage, a (squared) visibility curve and
+    Plots the data against the model OI observables. Currently, plots uv coverage, a (squared) visibility curve and
     closure phases.
 
     :param OIContainer container_data: Container with data observables.
@@ -414,7 +413,7 @@ def plot_data_vs_model(container_data, container_mod, fig_dir=None, log_plotv=Fa
     # plot uv coverage
     color_map = 'gist_rainbow_r'  # color map for wavelengths
 
-    fig, ax = plt.subplots(1, 1, figsize=(5, 5))
+    fig, ax = plt.subplots(1, 1, figsize=(6, 6))
     fig.subplots_adjust(right=0.8)
     cax = fig.add_axes([0.82, 0.15, 0.02, 0.7])
 

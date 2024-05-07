@@ -1,7 +1,7 @@
 # DISTROI
 
 **DISTROI**, or **D**isk **I**nner **ST**ructure **R**econnaissance through **O**ptical **I**nteferometry, is a Python 
-package intended to compute optical interferometry (OI) observables  from radiative transfer model images and compare 
+package intended to compute optical interferometry (OI) observables  from radiative transfer (RT) model images and compare 
 them to observations from modern OI observatories (VLTI, CHARA, ...).
 
 # Dependencies
@@ -13,8 +13,9 @@ dependencies installed via 'conda env create -f distroiEnv.yml'.
 # Examples
 
 After installing all the dependencies, run the single_disk_model.py script in the 'examples' folder. This will
-run OI observable calculation for an example MCFOST model of the dusty circumbinary disk surroudning the IRAS 08544-4431
-system. The code is applied to four separate datasets, covering the H, K, L and N-band, and shows the resulting plots.
+run OI observable calculation for an example model of the dusty circumbinary disk surroudning the IRAS 08544-4431
+system. This model is calculated using the MCFOST RT code (https://ipag.osug.fr/~pintec/mcfost/docs/html/overview.html).
+DISTROI is applied to four separate datasets, covering the H, K, L and N-band, and shows the resulting plots.
 
 # License
 

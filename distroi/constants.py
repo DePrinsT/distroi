@@ -47,6 +47,8 @@ JY_2WATT_PER_M2_HZ = 1 / WATT_PER_M2_HZ_2JY  # conversion spectral flux density 
 ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M = 1e3  # conversion spectral flux density (F_lam) from erg s^-1 cm^-2 micron^-1
 # to SI (W m^-2 m^-1)
 WATT_PER_M2_M_2ERG_PER_S_CM2_MICRON = 1 / ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M  # conversion spectral flux density
+
+
 # (F_lam) from SI (W m^-2 m^-1) to erg s^-1 cm^-2 micron^-1
 
 
@@ -82,14 +84,14 @@ def redden_flux(wavelength, flux, ebminv, reddening_law_path=PROJECT_ROOT + '/ut
     Note that this function will not extrapolate outside the wavelength ranges of the reddening law. Instead, no
     reddening will be applied outside this range.
 
-    :param Union[float, numpy.ndarray] wavelength: Wavelength(s) in micron.
-    :param Union[float, numpy.ndarray] flux:
+    :param Union[float, np.ndarray] wavelength: Wavelength(s) in micron.
+    :param Union[float, np.ndarray] flux:
     :param float ebminv: E(B-V) reddening factor to be applied.
     :param str reddening_law_path: Path to the reddening law to be used. Defaults to the ISM reddening law by
         Cardelli (1989) in the package's 'utils/ISM_reddening folder'. See this file for the expected formatting
         of your own reddening laws.
     :return flux_reddened: The reddened flux value(s).
-    :rtype: Union[float, numpy.ndarray]
+    :rtype: Union[float, np.ndarray]
     """
     if ebminv == 0.0:
         return flux
@@ -115,7 +117,7 @@ def bb_flam_at_wavelength(temp, wavelength):
     Given a temperature and wavelength, returns the spectral radiance of a blackbody curve in B_lam format and SI units.
 
     :param float temp: Temperature of the blackbody in Kelvin.
-    :param Union[numpy.ndarray, float] wavelength: Wavelength in micron.
+    :param Union[np.ndarray, float] wavelength: Wavelength in micron.
     :return radiance: B_lam spectral radiance of the blackbody in SI units (W m^-2 m^-1 sterradian^-1).
     :rtype: float
     """
@@ -130,7 +132,7 @@ def bb_flam_at_frequency(temp, frequency):
     Given a temperature and frequency, returns the spectral radiance of a blackbody curve in B_lam format and SI units.
 
     :param float temp: Temperature of the blackbody in Kelvin.
-    :param Union[numpy.ndarray, float] frequency: Frequency in Hertz.
+    :param Union[np.ndarray, float] frequency: Frequency in Hertz.
     :return radiance: B_lam spectral radiance of the blackbody in SI units (W m^-2 m^-1 sterradian^-1).
     :rtype: float
     """
@@ -144,7 +146,7 @@ def bb_fnu_at_frequency(temp, frequency):
     Given a temperature and wavelength, returns the spectral radiance of a blackbody curve in B_nu format and SI units.
 
     :param float temp: Temperature of the blackbody in Kelvin.
-    :param Union[numpy.ndarray, float] frequency: Frequency in Hertz.
+    :param Union[np.ndarray, float] frequency: Frequency in Hertz.
     :return radiance: B_nu spectral radiance of the blackbody in SI units (W m^-2 Hz^-1 sterradian^-1).
     :rtype: float
     """
@@ -158,23 +160,10 @@ def bb_fnu_at_wavelength(temp, wavelength):
     Given a temperature and wavelength, returns the spectral radiance of a blackbody curve in B_nu format and SI units.
 
     :param float temp: Temperature of the blackbody in Kelvin.
-    :param Union[numpy.ndarray, float] wavelength: Wavelength in micron.
+    :param Union[np.ndarray, float] wavelength: Wavelength in micron.
     :return radiance: B_nu spectral radiance of the blackbody in SI units (W m^-2 Hz^-1 sterradian^-1).
     :rtype: float
     """
     freq = SPEED_OF_LIGHT / (wavelength * MICRON2M)  # frequency in Hertz
     radiance = bb_fnu_at_frequency(temp=temp, frequency=freq)
     return radiance
-
-
-if __name__ == "__main__":
-    wavelength_values = np.linspace(0.1, 20, 10000)  # wavelengths in micron
-    frequency_values = SPEED_OF_LIGHT / (wavelength_values * MICRON2M)  # frequencies in Hz
-    temperature = 6000
-    flux_values = bb_flam_at_wavelength(temp=temperature, wavelength=wavelength_values)
-    plt.plot(wavelength_values, flux_values)
-    plt.plot(wavelength_values, redden_flux(wavelength_values, flux_values, ebminv=1.4))
-    plt.axvline(x=(B_WIEN / temperature) * M2MICRON)
-    plt.yscale('log')
-    plt.xscale('log')
-    plt.show()

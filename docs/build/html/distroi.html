@@ -144,7 +144,7 @@ DISTROI project.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>temp</strong> (<em>float</em>) – Temperature of the blackbody in Kelvin.</p></li>
-<li><p><strong>frequency</strong> (<em>Union</em><em>[</em><em>numpy.ndarray</em><em>, </em><em>float</em><em>]</em>) – Frequency in Hertz.</p></li>
+<li><p><strong>frequency</strong> (<em>Union</em><em>[</em><em>np.ndarray</em><em>, </em><em>float</em><em>]</em>) – Frequency in Hertz.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return radiance</dt>
@@ -164,7 +164,7 @@ DISTROI project.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>temp</strong> (<em>float</em>) – Temperature of the blackbody in Kelvin.</p></li>
-<li><p><strong>wavelength</strong> (<em>Union</em><em>[</em><em>numpy.ndarray</em><em>, </em><em>float</em><em>]</em>) – Wavelength in micron.</p></li>
+<li><p><strong>wavelength</strong> (<em>Union</em><em>[</em><em>np.ndarray</em><em>, </em><em>float</em><em>]</em>) – Wavelength in micron.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return radiance</dt>
@@ -184,7 +184,7 @@ DISTROI project.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>temp</strong> (<em>float</em>) – Temperature of the blackbody in Kelvin.</p></li>
-<li><p><strong>frequency</strong> (<em>Union</em><em>[</em><em>numpy.ndarray</em><em>, </em><em>float</em><em>]</em>) – Frequency in Hertz.</p></li>
+<li><p><strong>frequency</strong> (<em>Union</em><em>[</em><em>np.ndarray</em><em>, </em><em>float</em><em>]</em>) – Frequency in Hertz.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return radiance</dt>
@@ -204,7 +204,7 @@ DISTROI project.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>temp</strong> (<em>float</em>) – Temperature of the blackbody in Kelvin.</p></li>
-<li><p><strong>wavelength</strong> (<em>Union</em><em>[</em><em>numpy.ndarray</em><em>, </em><em>float</em><em>]</em>) – Wavelength in micron.</p></li>
+<li><p><strong>wavelength</strong> (<em>Union</em><em>[</em><em>np.ndarray</em><em>, </em><em>float</em><em>]</em>) – Wavelength in micron.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return radiance</dt>
@@ -212,6 +212,34 @@ DISTROI project.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.constants.gaussian_2d">
+<span class="sig-prename descclassname"><span class="pre">distroi.constants.</span></span><span class="sig-name descname"><span class="pre">gaussian_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sig_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sig_y_min_sig_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pa</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.constants.gaussian_2d" title="Permalink to this definition"></a></dt>
+<dd><p>Defi</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>points</strong> (<em>tuple</em><em>(</em><em>float</em><em>)</em>) – 2D tuples describing the (x, y) points to be inserted. Note that positive x is defined
+as leftward and positive y as upward (i.e. the East and North repesctively in the OI convention).</p></li>
+<li><p><strong>amp</strong> (<em>float</em>) – Amplitude of the Gaussian.</p></li>
+<li><p><strong>x0</strong> (<em>float</em>) – x-coordinate center of the Guassian.</p></li>
+<li><p><strong>y0</strong> (<em>float</em>) – y-coordinate center of the Gaussian.</p></li>
+<li><p><strong>sig_x</strong> (<em>float</em>) – Standard deviation in x direction.</p></li>
+<li><p><strong>sig_y_min_sig_x</strong> – How much the standard deviation in y direction is greater than that in x.
+Defined so it can always be greater than or equal to sig_x when used in scipy.optimize.curve_fit.</p></li>
+<li><p><strong>pa</strong> (<em>float</em>) – Position angle of the Gaussian in the anti-clockwise direction, starting North (positive y).</p></li>
+<li><p><strong>offset</strong> – Base level offset from 0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return values</dt>
+<dd class="field-even"><p>A raveled 1D array containg the values of the Gaussian calculated at the points.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
@@ -225,8 +253,8 @@ reddening will be applied outside this range.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>wavelength</strong> (<em>Union</em><em>[</em><em>float</em><em>, </em><em>numpy.ndarray</em><em>]</em>) – Wavelength(s) in micron.</p></li>
-<li><p><strong>flux</strong> (<em>Union</em><em>[</em><em>float</em><em>, </em><em>numpy.ndarray</em><em>]</em>) – </p></li>
+<li><p><strong>wavelength</strong> (<em>Union</em><em>[</em><em>float</em><em>, </em><em>np.ndarray</em><em>]</em>) – Wavelength(s) in micron.</p></li>
+<li><p><strong>flux</strong> (<em>Union</em><em>[</em><em>float</em><em>, </em><em>np.ndarray</em><em>]</em>) – </p></li>
 <li><p><strong>ebminv</strong> (<em>float</em>) – E(B-V) reddening factor to be applied.</p></li>
 <li><p><strong>reddening_law_path</strong> (<em>str</em>) – Path to the reddening law to be used. Defaults to the ISM reddening law by
 Cardelli (1989) in the package’s ‘utils/ISM_reddening folder’. See this file for the expected formatting
@@ -237,7 +265,7 @@ of your own reddening laws.</p></li>
 <dd class="field-even"><p>The reddened flux value(s).</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Union[float, numpy.ndarray]</p>
+<dd class="field-odd"><p>Union[float, np.ndarray]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -281,14 +309,14 @@ instance variables (related to the FFT) are set automatically through perform_ff
 <li><p><strong>pixelscale_y</strong> (<em>float</em>) – Pixelscale in radian in y (North-South) direction.</p></li>
 <li><p><strong>num_pix_x</strong> (<em>int</em>) – Amount of pixels in the x direction.</p></li>
 <li><p><strong>num_pix_y</strong> (<em>int</em>) – Amount of pixels in the y direction.</p></li>
-<li><p><strong>img</strong> (<em>numpy.ndarray</em>) – 2D numpy array containing the image flux in Jy. 1st index = image y-axis,
+<li><p><strong>img</strong> (<em>np.ndarray</em>) – 2D numpy array containing the image flux in Jy. 1st index = image y-axis,
 2nd index = image x-axis.</p></li>
 <li><p><strong>ftot</strong> (<em>float</em>) – Total image flux in Jy</p></li>
-<li><p><strong>fft</strong> (<em>numpy.ndarray</em>) – Complex 2D numpy FFT of img in Jy, i.e. in correlated flux formulation.</p></li>
-<li><p><strong>w_x</strong> (<em>numpy.ndarray</em>) – 1D array with numpy FFT x-axis frequencies in units of 1/pixelscale_x.</p></li>
-<li><p><strong>w_y</strong> (<em>numpy.ndarray</em>) – 1D array with numpy FFT y-axis frequencies in units of 1/pixelscale_y.</p></li>
-<li><p><strong>uf</strong> (<em>numpy.ndarray</em>) – 1D array with FFT spatial x-axis frequencies in 1/radian, i.e. uf = w_x/pixelscale_x.</p></li>
-<li><p><strong>vf</strong> (<em>numpy.ndarray</em>) – 1D array with FFT spatial y-axis frequencies in 1/radian, i.e. vf = w_y/pixelscale_y.</p></li>
+<li><p><strong>fft</strong> (<em>np.ndarray</em>) – Complex 2D numpy FFT of img in Jy, i.e. in correlated flux formulation.</p></li>
+<li><p><strong>w_x</strong> (<em>np.ndarray</em>) – 1D array with numpy FFT x-axis frequencies in units of 1/pixelscale_x.</p></li>
+<li><p><strong>w_y</strong> (<em>np.ndarray</em>) – 1D array with numpy FFT y-axis frequencies in units of 1/pixelscale_y.</p></li>
+<li><p><strong>uf</strong> (<em>np.ndarray</em>) – 1D array with FFT spatial x-axis frequencies in 1/radian, i.e. uf = w_x/pixelscale_x.</p></li>
+<li><p><strong>vf</strong> (<em>np.ndarray</em>) – 1D array with FFT spatial y-axis frequencies in 1/radian, i.e. vf = w_y/pixelscale_y.</p></li>
 </ul>
 </dd>
 </dl>
@@ -434,7 +462,7 @@ of your own reddening laws.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.image_fft.get_image_fft_list">
-<span class="sig-prename descclassname"><span class="pre">distroi.image_fft.</span></span><span class="sig-name descname"><span class="pre">get_image_fft_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mod_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ebminv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mcfost'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image_fft.get_image_fft_list" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">distroi.image_fft.</span></span><span class="sig-name descname"><span class="pre">get_image_fft_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mod_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mcfost'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ebminv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reddening_law_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/home/toond/Documents/phd/python/distroi/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image_fft.get_image_fft_list" title="Permalink to this definition"></a></dt>
 <dd><p>Function that takes the path to an RT model’s directory and a subdirectory containing image files, and returns a
 list of ImageFFT objects representing those model images. They should thus represent the same underlying physical
 model, but imaged at different wavelengths.</p>
@@ -444,10 +472,13 @@ model, but imaged at different wavelengths.</p>
 <li><p><strong>mod_dir</strong> (<em>str</em>) – Parent directory of the RT model of interest.</p></li>
 <li><p><strong>img_dir</strong> (<em>str</em>) – Subdirectory containing RT model images. All image files recursively found in the subdirectories
 of ‘mod_dir+img_dir’ are read.</p></li>
+<li><p><strong>read_method</strong> (<em>str</em>) – Type of method used to read in RT model images when creating ImageFFT class instances.
+Currently only supports ‘mcfost’, in which case all files ending on the sufix ‘RT.fits.gz’ are read in.</p></li>
 <li><p><strong>ebminv</strong> (<em>float</em>) – E(B-V) of additional reddening to be applied to the model images. Only useful if
 the visibilities need to be expressed in correlated flux at some point.</p></li>
-<li><p><strong>read_method</strong> (<em>str</em>) – Type of method used to read in RT model images when creating ImageFFT class instances.
-Currently only supports ‘mcfost’, in which case all files ending on the sufix ‘RT.fits.gz’ are read in .</p></li>
+<li><p><strong>reddening_law_path</strong> (<em>str</em>) – Path to the reddening law to be used. Defaults to the ISM reddening law by
+Cardelli (1989) in the package’s ‘utils/ISM_reddening folder’. See this file for the expected formatting
+of your own reddening laws.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -525,6 +556,12 @@ transfer (RT) model images and convert them to interferometric observables at th
 stored in the OIFITS format. Currently supports the following combinations of obsevrables: Squared visibilities -
 Closure phases ; Visibilities - Closure phases ; Correlated fluxes (formaly stored as visibilities) - Closure phases.</p>
 <dl class="py class">
+<dt class="sig sig-object py" id="distroi.oi_observables.Beam">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.oi_observables.</span></span><span class="sig-name descname"><span class="pre">Beam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.oi_observables.Beam" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="distroi.oi_observables.OIContainer">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.oi_observables.</span></span><span class="sig-name descname"><span class="pre">OIContainer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fcorr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.oi_observables.OIContainer" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
@@ -545,37 +582,57 @@ visibilities). Can contain observables either related to astronomical observatio
 <dt class="field-even">Variables</dt>
 <dd class="field-even"><ul class="simple">
 <li><p><strong>vis_in_fcorr</strong> (<em>bool</em>) – Whether visibilities are stored in correlated flux or not.</p></li>
-<li><p><strong>vuf</strong> (<em>numpy.ndarray</em>) – u-axis spatial freqs in 1/rad for visibility data.</p></li>
-<li><p><strong>vvf</strong> (<em>numpy.ndarray</em>) – v-axis spatial freqs in 1/rad for visibility data.</p></li>
-<li><p><strong>vwave</strong> (<em>numpy.ndarray</em>) – Wavelengths in meter for visibility data.</p></li>
-<li><p><strong>v</strong> (<em>numpy.ndarray</em>) – Visibilities, either normalized visibilities or correlated flux in Janksy.</p></li>
-<li><p><strong>verr</strong> (<em>numpy.ndarray</em>) – Error on visibilities.</p></li>
-<li><p><strong>vbase</strong> (<em>numpy.ndarray</em>) – Baseline length in MegaLambda for visibility data.</p></li>
-<li><p><strong>v2uf</strong> (<em>numpy.ndarray</em>) – u-axis spatial freqs in 1/rad for squared visibility data.</p></li>
-<li><p><strong>v2vf</strong> (<em>numpy.ndarray</em>) – v-axis spatial freqs in 1/rad for squared visibility data.</p></li>
-<li><p><strong>v2wave</strong> (<em>numpy.ndarray</em>) – Wavelengths in meter for squared visibility data.</p></li>
-<li><p><strong>v2</strong> (<em>numpy.ndarray</em>) – Squared visibilities.</p></li>
-<li><p><strong>v2err</strong> (<em>numpy.ndarray</em>) – Error on squared visibilities.</p></li>
-<li><p><strong>v2base</strong> (<em>numpy.ndarray</em>) – Baseline length in MegaLambda for squared visibility data.</p></li>
-<li><p><strong>t3uf1</strong> (<em>numpy.ndarray</em>) – u-axis spatial freqs in 1/rad for the 1st projected baseline along the closure triangle.</p></li>
-<li><p><strong>t3vf1</strong> (<em>numpy.ndarray</em>) – v-axis spatial freqs in 1/rad for the 1st projected baseline along the closure triangle.</p></li>
-<li><p><strong>t3uf3</strong> (<em>numpy.ndarray</em>) – u-axis spatial freqs in 1/rad for the 2nd projected baseline along the closure triangle.</p></li>
-<li><p><strong>t3vf2</strong> (<em>numpy.ndarray</em>) – v-axis spatial freqs in 1/rad for the 2nd projected baseline along the closure triangle.</p></li>
+<li><p><strong>vuf</strong> (<em>np.ndarray</em>) – u-axis spatial freqs in 1/rad for visibility data.</p></li>
+<li><p><strong>vvf</strong> (<em>np.ndarray</em>) – v-axis spatial freqs in 1/rad for visibility data.</p></li>
+<li><p><strong>vwave</strong> (<em>np.ndarray</em>) – Wavelengths in meter for visibility data.</p></li>
+<li><p><strong>v</strong> (<em>np.ndarray</em>) – Visibilities, either normalized visibilities or correlated flux in Janksy.</p></li>
+<li><p><strong>verr</strong> (<em>np.ndarray</em>) – Error on visibilities.</p></li>
+<li><p><strong>vbase</strong> (<em>np.ndarray</em>) – Baseline length in MegaLambda for visibility data.</p></li>
+<li><p><strong>v2uf</strong> (<em>np.ndarray</em>) – u-axis spatial freqs in 1/rad for squared visibility data.</p></li>
+<li><p><strong>v2vf</strong> (<em>np.ndarray</em>) – v-axis spatial freqs in 1/rad for squared visibility data.</p></li>
+<li><p><strong>v2wave</strong> (<em>np.ndarray</em>) – Wavelengths in meter for squared visibility data.</p></li>
+<li><p><strong>v2</strong> (<em>np.ndarray</em>) – Squared visibilities.</p></li>
+<li><p><strong>v2err</strong> (<em>np.ndarray</em>) – Error on squared visibilities.</p></li>
+<li><p><strong>v2base</strong> (<em>np.ndarray</em>) – Baseline length in MegaLambda for squared visibility data.</p></li>
+<li><p><strong>t3uf1</strong> (<em>np.ndarray</em>) – u-axis spatial freqs in 1/rad for the 1st projected baseline along the closure triangle.</p></li>
+<li><p><strong>t3vf1</strong> (<em>np.ndarray</em>) – v-axis spatial freqs in 1/rad for the 1st projected baseline along the closure triangle.</p></li>
+<li><p><strong>t3uf3</strong> (<em>np.ndarray</em>) – u-axis spatial freqs in 1/rad for the 2nd projected baseline along the closure triangle.</p></li>
+<li><p><strong>t3vf2</strong> (<em>np.ndarray</em>) – v-axis spatial freqs in 1/rad for the 2nd projected baseline along the closure triangle.</p></li>
 <li><p><strong>t3uf3</strong> – u-axis spatial freqs in 1/rad for the 3d projected baseline along the closure triangle.</p></li>
-<li><p><strong>t3vf3</strong> (<em>numpy.ndarray</em>) – v-axis spatial freqs in 1/rad for the 3d projected baseline along the closure triangle.</p></li>
-<li><p><strong>t3wave</strong> (<em>numpy.ndarray</em>) – Wavelengths in meter for closure phase data.</p></li>
-<li><p><strong>t3phi</strong> (<em>numpy.ndarray</em>) – Closure phases in degrees.</p></li>
-<li><p><strong>t3phierr</strong> (<em>numpy.ndarray</em>) – Error on closure phases.</p></li>
-<li><p><strong>t3bmax</strong> (<em>numpy.ndarray</em>) – Maximum baseline length along the closure triangle in units of MegaLambda.</p></li>
+<li><p><strong>t3vf3</strong> (<em>np.ndarray</em>) – v-axis spatial freqs in 1/rad for the 3d projected baseline along the closure triangle.</p></li>
+<li><p><strong>t3wave</strong> (<em>np.ndarray</em>) – Wavelengths in meter for closure phase data.</p></li>
+<li><p><strong>t3phi</strong> (<em>np.ndarray</em>) – Closure phases in degrees.</p></li>
+<li><p><strong>t3phierr</strong> (<em>np.ndarray</em>) – Error on closure phases.</p></li>
+<li><p><strong>t3bmax</strong> (<em>np.ndarray</em>) – Maximum baseline length along the closure triangle in units of MegaLambda.</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="distroi.oi_observables.calc_clean_beam">
-<span class="sig-prename descclassname"><span class="pre">distroi.oi_observables.</span></span><span class="sig-name descname"><span class="pre">calc_clean_beam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vistype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vis2'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.oi_observables.calc_clean_beam" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="distroi.oi_observables.calc_gaussian_beam">
+<span class="sig-prename descclassname"><span class="pre">distroi.oi_observables.</span></span><span class="sig-name descname"><span class="pre">calc_gaussian_beam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vistype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vis2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">make_plots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_plots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_res</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.oi_observables.calc_gaussian_beam" title="Permalink to this definition"></a></dt>
+<dd><p>Given an OIContainer and the uv frequencies to be used, calculates the clean beam Gaussian parameters by making a
+Gaussian fit to the dirty beam. The dirty beam acts as the interferometric point spread funtion corresponding to the
+chosen uv coverage, by setting visibilities constant at the observed uv points and inverting the Fourier transform
+directly to the image plane.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>container</strong> (<a class="reference internal" href="#distroi.oi_observables.OIContainer" title="distroi.oi_observables.OIContainer"><em>OIContainer</em></a>) – Container with observables for which we want to calculate the resolution corresponding
+to its uv coverage.</p></li>
+<li><p><strong>vistype</strong> (<em>str</em><em>, </em><em>optional</em>) – </p></li>
+<li><p><strong>make_plots</strong> – </p></li>
+<li><p><strong>fig_dir</strong> – </p></li>
+<li><p><strong>show_plots</strong> – </p></li>
+<li><p><strong>num_res</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.oi_observables.calc_mod_observables">
@@ -638,7 +695,7 @@ can interpolate between wavelengths (units meter) as follows: interpolator(wavel
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.oi_observables.plot_data_vs_model">
 <span class="sig-prename descclassname"><span class="pre">distroi.oi_observables.</span></span><span class="sig-name descname"><span class="pre">plot_data_vs_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">container_mod</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_plotv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_vistype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vis2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_plots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.oi_observables.plot_data_vs_model" title="Permalink to this definition"></a></dt>
-<dd><p>Plots the data against the model OI observables. Currently, plots uv-coverage, a (squared) visibility curve and
+<dd><p>Plots the data against the model OI observables. Currently, plots uv coverage, a (squared) visibility curve and
 closure phases.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

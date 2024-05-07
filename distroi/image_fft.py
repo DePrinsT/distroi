@@ -13,17 +13,18 @@ import numpy as np
 from astropy.io import fits
 
 import matplotlib.pyplot as plt
+from matplotlib.patches import Ellipse
 
 constants.set_matplotlib_params()  # set project matplotlib parameters
 
 
 class ImageFFT:
     """
-    Class containing information on a model image and its FFT. Contains all properties in order to fully describe both
-    the image and its FFT. Note that all these properties are expected if all class methods are to work. While
+    Class containing information on a model image and its FFT. Contains all properties in order to fully describe
+    both the image and its FFT. Note that all these properties are expected if all class methods are to work. While
     default options are tuned to MCFOST model disk images, it can easily be generalized to different RT codes by
-    defining a corresponding image reader function analogous to 'read_image_fft_mcfost'. Can handle any dimensions of image,
-    as long as the amount of pixels in each dimension is even.
+    defining a corresponding image reader function analogous to 'read_image_fft_mcfost'. Can handle any dimensions of
+    image, as long as the amount of pixels in each dimension is even.
 
     :param dict dictionary: Dictionary containing keys and values representing several instance variables described
         below. Should include 'wavelength', 'pixelscale_x'/'y', 'num_pix_x'/'y', 'img', and 'ftot'. The other required
@@ -33,14 +34,14 @@ class ImageFFT:
     :ivar float pixelscale_y: Pixelscale in radian in y (North-South) direction.
     :ivar int num_pix_x: Amount of pixels in the x direction.
     :ivar int num_pix_y: Amount of pixels in the y direction.
-    :ivar numpy.ndarray img: 2D numpy array containing the image flux in Jy. 1st index = image y-axis,
+    :ivar np.ndarray img: 2D numpy array containing the image flux in Jy. 1st index = image y-axis,
         2nd index = image x-axis.
     :ivar float ftot: Total image flux in Jy
-    :ivar numpy.ndarray fft: Complex 2D numpy FFT of img in Jy, i.e. in correlated flux formulation.
-    :ivar numpy.ndarray w_x: 1D array with numpy FFT x-axis frequencies in units of 1/pixelscale_x.
-    :ivar numpy.ndarray w_y: 1D array with numpy FFT y-axis frequencies in units of 1/pixelscale_y.
-    :ivar numpy.ndarray uf: 1D array with FFT spatial x-axis frequencies in 1/radian, i.e. uf = w_x/pixelscale_x.
-    :ivar numpy.ndarray vf: 1D array with FFT spatial y-axis frequencies in 1/radian, i.e. vf = w_y/pixelscale_y.
+    :ivar np.ndarray fft: Complex 2D numpy FFT of img in Jy, i.e. in correlated flux formulation.
+    :ivar np.ndarray w_x: 1D array with numpy FFT x-axis frequencies in units of 1/pixelscale_x.
+    :ivar np.ndarray w_y: 1D array with numpy FFT y-axis frequencies in units of 1/pixelscale_y.
+    :ivar np.ndarray uf: 1D array with FFT spatial x-axis frequencies in 1/radian, i.e. uf = w_x/pixelscale_x.
+    :ivar np.ndarray vf: 1D array with FFT spatial y-axis frequencies in 1/radian, i.e. vf = w_y/pixelscale_y.
     """
 
     def __init__(self, dictionary):
@@ -287,7 +288,7 @@ class ImageFFT:
         return hlr
 
     def diagnostic_plot(self, fig_dir=None, plot_vistype='vis2', log_plotv=False, log_ploti=False,
-                        show_plots=True):
+                        show_plots=True, beam=None):
         """
         Makes diagnostic plots showing both the model image and the FFT (squared) visibilities and complex phases.
 
@@ -298,6 +299,8 @@ class ImageFFT:
         :param bool log_ploti: Set to True for a logarithmic intensity scale in the model image plot.
         :param bool show_plots: Set to False if you do not want the plots to be shown during your script run.
             Note that if True, this freazes further code execution until the plot windows are closed.
+        :param Beam beam: Optional Beam object corresponding to the uv coverage of an OIContainer object. If passed
+            along, the corresponding resolution ellipse (at FWHM) is plotted in the intensity image.
         :rtype: None
         """
         baseu = self.uf / 1e6  # Baseline length u in MegaLambda
@@ -391,7 +394,7 @@ class ImageFFT:
                                            (self.num_pix_y / 2) * self.pixelscale_y * constants.RAD2MAS))
         fig.colorbar(img_plot, ax=ax[1][0], label='$I$ (Jy/pixel)', fraction=0.046, pad=0.04)
         ax[1][0].set_aspect(self.num_pix_y / self.num_pix_x)
-        ax[1][0].set_title('Normalized disk intensity')
+        ax[1][0].set_title('Intensity')
         ax[1][0].set_xlabel("E-W [mas]")
         ax[1][0].set_ylabel("S-N [mas]")
         ax[1][0].arrow(0.90, 0.80, -0.1, 0, color='white', transform=ax[1][0].transAxes,
@@ -402,6 +405,13 @@ class ImageFFT:
         ax[1][0].text(0.92, 0.90, "N", color='white', transform=ax[1][0].transAxes)
         ax[1][0].axhline(y=0, lw=0.2, color='white')
         ax[1][0].axvline(x=0, lw=0.2, color='white')
+
+        if beam is not None:  # plot FWHM Gaussian beam if passed along
+            res_ellipse = Ellipse(xy=((self.num_pix_x / 2) * self.pixelscale_x * constants.RAD2MAS - 2*beam.fwhm_min,
+                                      (self.num_pix_x / 2) * self.pixelscale_x * constants.RAD2MAS - 2*beam.fwhm_maj),
+                                  width=beam.fwhm_min, height=beam.fwhm_maj, angle=-beam.pa, edgecolor='r', lw=1.0,
+                                  fc='none', alpha=1)
+            ax[1][0].add_patch(res_ellipse)
 
         # (squared) visibility of the FFT in MegaLambda (baseline length) scale
         v2plot = ax[1][1].imshow(vis, cmap=color_map, norm=normv,
@@ -547,7 +557,9 @@ def read_image_fft_mcfost(img_path, disk_only=False):
     return image
 
 
-def get_image_fft_list(mod_dir, img_dir, ebminv=0.0, read_method='mcfost'):
+def get_image_fft_list(mod_dir, img_dir, read_method='mcfost', ebminv=0.0,
+                       reddening_law_path=f'{constants.PROJECT_ROOT}'
+                                          f'/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat'):
     """
     Function that takes the path to an RT model's directory and a subdirectory containing image files, and returns a
     list of ImageFFT objects representing those model images. They should thus represent the same underlying physical
@@ -556,10 +568,13 @@ def get_image_fft_list(mod_dir, img_dir, ebminv=0.0, read_method='mcfost'):
     :param str mod_dir: Parent directory of the RT model of interest.
     :param str img_dir: Subdirectory containing RT model images. All image files recursively found in the subdirectories
          of 'mod_dir+img_dir' are read.
+    :param str read_method: Type of method used to read in RT model images when creating ImageFFT class instances.
+        Currently only supports 'mcfost', in which case all files ending on the sufix 'RT.fits.gz' are read in.
     :param float ebminv: E(B-V) of additional reddening to be applied to the model images. Only useful if
         the visibilities need to be expressed in correlated flux at some point.
-    :param str read_method: Type of method used to read in RT model images when creating ImageFFT class instances.
-        Currently only supports 'mcfost', in which case all files ending on the sufix 'RT.fits.gz' are read in .
+    :param str reddening_law_path: Path to the reddening law to be used. Defaults to the ISM reddening law by
+        Cardelli (1989) in the package's 'utils/ISM_reddening folder'. See this file for the expected formatting
+        of your own reddening laws.
     :return: img_fft_list: List of ImageFFT objects representing all model image files found under 'mod_dir+img_dir'.
         Sorted by wavelength
     :rtype: list(ImageFFT)
@@ -577,7 +592,7 @@ def get_image_fft_list(mod_dir, img_dir, ebminv=0.0, read_method='mcfost'):
     for img_path in img_file_paths:
         if read_method == 'mcfost':  # choose reader function
             img_fft = read_image_fft_mcfost(img_path)
-        img_fft.redden(ebminv=ebminv)  # redden the ImageFFT object
+        img_fft.redden(ebminv=ebminv, reddening_law_path=reddening_law_path)  # redden the ImageFFT object
         img_fft_list.append(img_fft)  # append to the list of ImageFFT objects
         wavelengths.append(img_fft.wavelength)  # append wavelength
 
