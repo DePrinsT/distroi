@@ -17,15 +17,18 @@ constants.set_matplotlib_params()  # set project matplotlib parameters
 
 class Beam:
     """
-    Class containing information for a Gaussian beam, typically acquired from a fit to the inner regions of a
+    Class containing information for a 2D Gaussian beam, typically acquired from a fit to the inner regions of a
     dirty beam.
 
-    :param dict dictionary:
-    :ivar float sig_min:
-    :ivar float sig_maj:
-    :ivar float pa:
-    :ivar float fwhm_min:
-    :ivar float fwhm_maj:
+    :param dict dictionary: Dictionary containing keys and values representing several instance variables described
+        below. Should include 'sig_min', 'sig_maj' and 'pa'.
+    :ivar float sig_min: Standard deviation of the Gaussian along the minor axis.
+    :ivar float sig_maj: Standard deviation of the Gaussian along the major axis.
+    :ivar float pa: Position angle of the Gaussian's major axis, anticlockwise from North to East.
+    :ivar float fwhm_min: Full-width-half-maximum of the Gaussian along the minor axis. This defines the resolution
+        corresponding to the uv-coverage along this axis.
+    :ivar float fwhm_maj: Full-width-half-maximum of the Gaussian along the major axis. This defines the resolution
+        corresponding to the uv-coverage along this axis.
     """
 
     def __init__(self, dictionary):
@@ -33,7 +36,7 @@ class Beam:
         self.sig_maj = dictionary['sig_maj']  # sigma y in mas
         self.pa = dictionary['pa']  # position angle (PA) in degrees
 
-        self.fwhm_min = 2 * np.sqrt(2 * np.log(2)) * self.sig_min
+        self.fwhm_min = 2 * np.sqrt(2 * np.log(2)) * self.sig_min  # FWHM
         self.fwhm_maj = 2 * np.sqrt(2 * np.log(2)) * self.sig_maj
 
 
@@ -190,9 +193,8 @@ def calc_gaussian_beam(container, vistype='vis2', make_plots=False, fig_dir=None
         dictionary['pa'] = popt[5] + 180  # always set PA as positive (between 0 and 180)
     else:
         dictionary['pa'] = popt[5]
-    gauss_beam = Beam(dictionary)  # create Beam object
-    print(np.size(img_dirty))
 
+    gauss_beam = Beam(dictionary)  # create Beam object
     return gauss_beam
 
 

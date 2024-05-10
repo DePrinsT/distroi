@@ -1,5 +1,5 @@
 [build-system]
-requires = ["flit_core>=3.4", "numpy", ""]
+requires = ["flit_core>=3.4", "numpy", "matplotlib", "astropy", "scipy", "pandas"]
 build-backend = "flit_core.buildapi"
 
 [project]
@@ -16,6 +16,14 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: GNU General Public License",
     "Operating System :: OS Independent",
+]
+
+dependencies = [
+  "numpy",
+  "matplotlib",
+  "astropy",
+  "scipy",
+  "pandas",
 ]
 
 [project.urls]

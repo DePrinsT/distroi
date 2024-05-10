@@ -1,15 +1,15 @@
-numpy~=1.26.4
-matplotlib~=3.8.0
-astropy~=5.3.4
-scipy~=1.12.0
-pandas~=2.2.1
-sphinx==4.4.0
-sphinx-rtd-theme==1.1.0
-renku-sphinx-theme==0.4.0
-sphinxcontrib-applehelp==1.0.2
+# requirements file with hard dependencies so ReadTheDocs can generate the documentation properly
+numpy==1.26.4
+matplotlib==3.8.0
+astropy==5.3.4
+scipy==1.12.0
+pandas==2.2.1
+sphinx==4.4.0  # sphinx only for developing documentation
+sphinx-rtd-theme==1.1.0  # this version is required for proper HTML margins
+renku-sphinx-theme==0.4.0  # theme based of of ReadTheDocs theme
+sphinxcontrib-applehelp==1.0.2  # <<< control versions sphinx addons to make sure ReadTheDocs can build docs properly
 sphinxcontrib-devhelp==1.0.2
 sphinxcontrib-htmlhelp==2.0.0
 sphinxcontrib-jsmath==1.0.1
 sphinxcontrib-qthelp==1.0.3
-sphinxcontrib-serializinghtml==1.1.5
-
+sphinxcontrib-serializinghtml==1.1.5  # >>>
