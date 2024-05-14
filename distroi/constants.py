@@ -67,12 +67,12 @@ def set_matplotlib_params():
     plt.rcParams['lines.markersize'] = 4
     plt.rcParams['lines.linewidth'] = 1.0
 
-    plt.rc('font', size=10)  # controls default text sizes
-    plt.rc('axes', titlesize=12)  # fontsize of the axes title
-    plt.rc('xtick', labelsize=10)  # fontsize of the tick labels
-    plt.rc('ytick', labelsize=10)  # fontsize of the tick labels
-    plt.rc('legend', fontsize=10)  # legend fontsize
-    plt.rc('figure', titlesize=12)  # fontsize of the figure title
+    plt.rc('font', size=12)  # controls default text sizes
+    plt.rc('axes', titlesize=14)  # fontsize of the axes title
+    plt.rc('xtick', labelsize=12)  # fontsize of the tick labels
+    plt.rc('ytick', labelsize=12)  # fontsize of the tick labels
+    plt.rc('legend', fontsize=12)  # legend fontsize
+    plt.rc('figure', titlesize=14)  # fontsize of the figure title
     return
 
 

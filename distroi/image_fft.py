@@ -323,7 +323,7 @@ class ImageFFT:
             normi = 'linear'
 
         # do some plotting
-        fig, ax = plt.subplots(2, 3, figsize=(12, 8))
+        fig, ax = plt.subplots(2, 3, figsize=(15, 10))
         color_map = 'inferno'
 
         # intensity plotted in pixel scale
@@ -458,7 +458,7 @@ class ImageFFT:
             plt.savefig(f"{fig_dir}/fft2d_maps_{self.wavelength}mum.png", dpi=300, bbox_inches='tight')
 
         # Some plots of specific cuts in frequency space
-        fig2, ax2 = plt.subplots(2, 1, figsize=(6, 6))
+        fig2, ax2 = plt.subplots(2, 1, figsize=(8, 8))
 
         # Cuts of visibility and complex phase plot in function of baseline length
         # note we cut away the point furthest along positive u-axis since it contains a strong artefact due to

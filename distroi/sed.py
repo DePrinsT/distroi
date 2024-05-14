@@ -207,8 +207,9 @@ def reddening_fit(sed_obs, sed_mod, ebminv_guess, reddening_law=constants.PROJEC
     :param SED sed_mod: RT model SED.
     :param float ebminv_guess: Initial guess for the E(B-V) reddening factor.
     :param str reddening_law:
-    :return chi2: The chi2 value between the reddened model SED and the observed SED.
-    :rtype: float
+    :return tuple(ebminv_opt, chi2): The optimal E(B-V) and corresponding chi2 value between the reddened model SED and
+        the observed SED.
+    :rtype: tuple(float)
     """
     par_min = minimize(lambda ebminv: chi2reddened(sed_obs, sed_mod, ebminv, reddening_law=reddening_law),
                        np.array(ebminv_guess))
@@ -216,19 +217,33 @@ def reddening_fit(sed_obs, sed_mod, ebminv_guess, reddening_law=constants.PROJEC
     chi2 = chi2reddened(sed_obs, sed_mod, ebminv=ebminv_opt, reddening_law=reddening_law)
     sed_mod.redden(ebminv=ebminv_opt, reddening_law=reddening_law)  # redden model SED according to the fitted E(B-V)
 
-    return chi2
+    return ebminv_opt, chi2
 
 
-def plot_data_vs_model(sed_dat, sed_mod):
+def plot_data_vs_model(sed_dat, sed_mod, form='lam_flam', sed_mod_alt=None, alt_label=None, log_plotf=True,
+                       log_plotw=True):
     """
     Plots the data (observed) SED against the model SED. Note that this function shares a name with a similar function
     in the oi_observables module. Take care with your namespace if you use both functions in the same script.
 
-    :param SED sed_dat:
-    :param SED sed_mod:
-    :return:
+    :param SED sed_dat: Data SED. Typically corresponds to observations.
+    :param SED sed_mod: RT model SED.
+    :param str form: Format for the flux. By default, it is set to 'lam_flam', meaning we represent the flux in
+        lam*F_lam format (units erg s^-1 cm^-2). Analogously, other options are 'flam' (erg s^-1 cm^-2 micron^-1),
+        'fnu' (Jy) and 'nu_fnu' (Jy Hz).
+    :param SED sed_mod_alt: Alternative RT model SED included in the plot. This is useful, for instance, if you want
+        to include the model SED with only the flux from the star in the plot (such SEDs can be created using e.g.
+        read_sed_mcfost() with star_only=True).
+    :param str alt_label: Label to be associated to sed_mod_alt in the plot's legend.
+    :rtype: None
     """
-
+    fig, ax = plt.subplots(figsize=(8, 8))
+    ax.errorbar(sed_dat.wavelengths, sed_dat.wavelengths * sed_dat.flam, sed_dat.wavelengths * sed_dat.flam_err,
+                label='data', fmt='bd', mfc='white', capsize=5, zorder=1000)
+    ax.plot(sed_mod.wavelengths, sed_mod.wavelengths * sed_mod.flam, ls='-', c='r', zorder=1)
+    ax.set_xscale('log')
+    ax.set_yscale('log')
+    plt.show()
     return
 
 
@@ -294,8 +309,12 @@ def plot_data_vs_model(sed_dat, sed_mod):
 if __name__ == "__main__":
     sed_data = read_sed_repo_phot('../examples/data/IRAS0844-4431/SED/IRAS08544-4431.phot')
     sed_model = read_sed_mcfost('../examples/models/IRAS08544-4431_test_model/data_th/sed_rt.fits.gz')
-    plt.scatter(sed_data.wavelengths, sed_data.wavelengths * sed_data.flam)
-    plt.plot(sed_model.wavelengths, sed_model.wavelengths * sed_model.flam)
-    plt.yscale('log')
-    plt.xscale('log')
-    plt.show()
+
+    ebminv_fitted, chi2_value = reddening_fit(sed_data, sed_model, ebminv_guess=1.4)
+    # # print(ebminv_fitted)
+    # plt.scatter(sed_data.wavelengths, sed_data.wavelengths * sed_data.flam)
+    # plt.plot(sed_model.wavelengths, sed_model.wavelengths * sed_model.flam)
+    # plt.yscale('log')
+    # plt.xscale('log')
+    # plt.show()
+    plot_data_vs_model(sed_data, sed_model)

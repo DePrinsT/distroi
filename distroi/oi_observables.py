@@ -414,7 +414,7 @@ def plot_data_vs_model(container_data, container_mod, fig_dir=None, log_plotv=Fa
     # plot uv coverage
     color_map = 'gist_rainbow_r'  # color map for wavelengths
 
-    fig, ax = plt.subplots(1, 1, figsize=(6, 6))
+    fig, ax = plt.subplots(1, 1, figsize=(8, 8))
     fig.subplots_adjust(right=0.8)
     cax = fig.add_axes([0.82, 0.15, 0.02, 0.7])
 
@@ -435,7 +435,7 @@ def plot_data_vs_model(container_data, container_mod, fig_dir=None, log_plotv=Fa
     plt.savefig(f"{fig_dir}/uv_plane.png", dpi=300, bbox_inches='tight')
 
     # plot (squared) visibilities
-    fig = plt.figure(figsize=(6, 6))
+    fig = plt.figure(figsize=(10, 8))
     gs = fig.add_gridspec(2, hspace=0, height_ratios=[1, 0.3])
     ax = gs.subplots(sharex=True)
 
@@ -464,7 +464,7 @@ def plot_data_vs_model(container_data, container_mod, fig_dir=None, log_plotv=Fa
     plt.savefig(f"{fig_dir}/visibilities.png", dpi=300, bbox_inches='tight')
 
     # plot phi_closure
-    fig = plt.figure(figsize=(6, 6))
+    fig = plt.figure(figsize=(10, 8))
     gs = fig.add_gridspec(2, hspace=0, height_ratios=[1, 0.3])
     ax = gs.subplots(sharex=True)
 
