@@ -17,6 +17,14 @@ Subpackages
 Submodules
 ----------
 
+distroi.beam module
+-------------------
+
+.. automodule:: distroi.beam
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 distroi.constants module
 ------------------------
 

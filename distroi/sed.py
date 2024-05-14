@@ -11,6 +11,7 @@ import numpy as np
 import pandas as pd
 from astropy.io import fits
 from scipy.interpolate import interp1d
+from scipy.optimize import minimize
 
 import matplotlib.pyplot as plt
 
@@ -25,6 +26,12 @@ class SED:
     :param dict dictionary: Dictionary containing keys and values representing several instance variables described
         below. Should include 'wavelengths', 'flam', and 'flam_err'. The other required instance variables are set
         automatically through add_freq_vars().
+    :ivar np.ndarray wavelengths: 1D array containing the wavelengths in micron.
+    :ivar np.ndarray frequencies: 1D array containing the frequencies in Hz.
+    :ivar np.ndarray flam: 1D array containing the flux in F_lam format, the unit is erg s^-1 cm^-2 micron^-1.
+    :ivar np.ndarray flam_err: 1D array containing the errors on flam_err (set to 0 if reading in a model SED).
+    :ivar np.ndarray fnu: 1D array containing the flux in F_nu format, the unit is Jansky (Jy).
+    :ivar np.ndarray fnu_err: 1D array containing the error on F_nu.
     """
 
     def __init__(self, dictionary):
@@ -44,6 +51,21 @@ class SED:
             # calculate and add frequency-based variables
             self.add_freq_vars()
 
+    def redden(self, ebminv, reddening_law=constants.PROJECT_ROOT + '/utils/ISM_reddening/'
+                                                                    'ISMreddening_law_Cardelli1989.dat'):
+        """
+        Further reddens the SED according to the approriate E(B-V) and a corresponding reddening law.
+        :param float ebminv: E(B-V) reddening factor to be applied.
+        :param str reddening_law: Path to the reddening law to be used. Defaults to the ISM reddening law by
+            Cardelli (1989) in DISTROI's 'utils/ISM_reddening folder'. See this file for the expected formatting
+            of your own reddening laws.
+        :rtype: None
+        """
+        self.flam = constants.redden_flux(self.wavelengths, self.flam, ebminv, reddening_law=reddening_law)
+        self.fnu = constants.redden_flux(self.wavelengths, self.fnu, ebminv, reddening_law=reddening_law)
+
+        return
+
     def add_freq_vars(self):
         """
         Calculate and set frequency-based instance variables from the wavelength-based ones.
@@ -55,7 +77,7 @@ class SED:
 
         flam = self.flam * constants.ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M  # flam in SI
         flam_err = self.flam_err * constants.ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M  # flam_err in SI
-        fnu = flam * wavelengths**2 / constants.SPEED_OF_LIGHT  # fnu in SI units
+        fnu = flam * wavelengths ** 2 / constants.SPEED_OF_LIGHT  # fnu in SI units
         fnu_err = flam_err * wavelengths ** 2 / constants.SPEED_OF_LIGHT  # fnu_err in SI units
 
         self.fnu = fnu * constants.WATT_PER_M2_HZ_2JY  # set fnu in Jy
@@ -138,123 +160,135 @@ def read_sed_repo_phot(sed_path, wave_lims=None):
 
 # 'lam'=array of wavelengths of data 'flux'=flux values of data, lam_model=wavelengths of model,
 # flux_model = model flux, flux errors of data, 'E'=E(B-V) magnitude 'path'=path to reddening law file
-def chi2reddened(lam, flux, flux_error, lam_model, flux_model, reddening_law_path, ebminv):
+def chi2reddened(sed_obs, sed_mod, ebminv, reddening_law=constants.PROJECT_ROOT + '/utils/ISM_reddening'
+                                                                                  '/ISMreddening_law_'
+                                                                                  'Cardelli1989.dat'):
     """
-    Returns the chi2 value of an MCFOST model's SED versus an observed SED.
+    Returns the chi2 between an RT model SED and an observed SED under a certain amount of additional reddening.
+    Note that this doesn't actually redden any of the SED objects, only calculates the chi2 assuming the model SED
+    were to be reddened.
 
-    Parameters:
-        lam (numpy array): Array containing the observed data's wavelength values in micron.
-        flux (numpy array): The data's flux values, in lam x F_lam format, in erg/s/cm2/micron.
-        flux_error (numpy array): The data's error values, in lam x F_lam format, in erg/s/cm2/micron.
-        lam_model (numpy array): Same as lam but for the model SED.
-        flux_model (numpy array): Same as flux but for the model SED.
-        reddening_law_path (str): Path to the ISM reddening law to be used. In a two-column format:
-        1) wavelength (Angstrom)  2) A(wavelength)/E(B-V) (magn.).
-        Standard file used is the ISM law by Cardelli et al. 1989.
-        ebminv (float): E(B-V) magnitude of the reddening to be applied.
-
-    Returns:
-        chi2 (float): The resulting chi2 value
+    :param SED sed_obs: Observed SED.
+    :param SED sed_mod: RT model SED.
+    :param float ebminv: E(B-V) reddening factor to be applied.
+    :param str reddening_law: Path to the reddening law to be used. Defaults to the ISM reddening law by
+        Cardelli (1989) in DISTROI's 'utils/ISM_reddening folder'. See this file for the expected formatting
+        of your own reddening laws.
+    :return chi2: The chi2 value between the reddened model SED and the observed SED.
+    :rtype: float
     """
-    # redden the model SED
-    flux_model_red = redden_flux(lam_model, flux_model, reddening_law_path, ebminv)
+    flam_obs = sed_obs.flam
+    flam_obs_err = sed_obs.flam_err
+    wavelengths_obs = sed_obs.wavelengths
+    flam_mod = sed_mod.flam
+    wavelengths_mod = sed_mod.wavelengths
+
+    # get reddened model SED flux
+    flam_mod_red = constants.redden_flux(wavelengths_mod, flam_mod, ebminv=ebminv,
+                                         reddening_law=reddening_law)
     # interpolate the model to the wavelength values of the data
-    f = interp1d(lam_model, flux_model_red)
-    flux_model_red_interpol = np.array(f(lam))
+    f = interp1d(wavelengths_mod, flam_mod_red)
+    flam_mod_red_interp = np.array(f(wavelengths_obs))
     # calculate chi2
-    chi2 = np.sum((flux - flux_model_red_interpol) ** 2 / flux_error ** 2)
+    chi2 = np.sum((flam_obs - flam_mod_red_interp) ** 2 / flam_obs_err ** 2)
 
     return chi2
 
 
-def ism_reddening_fit(lam, flux, flux_error, lam_model, flux_model, reddening_law_path, ebminv_guess=1.4):
+def reddening_fit(sed_obs, sed_mod, ebminv_guess, reddening_law=constants.PROJECT_ROOT + '/utils/ISM_reddening'
+                                                                                         '/ISMreddening_law_'
+                                                                                         'Cardelli1989.dat'):
     """
-    Fits the ISM E(B-V) value to make the model SED match up to the observations as much as possible.
-    Returns the full reddened model SED (at the model's wavelengths),
-    the fitted E(B-V) value and the resulting chi2.
+    Fits an additional reddening E(B-V) value to make a model SED match up to an observed SED as much as possible. In
+    case of a successfull fit, the model SED is subsequently reddened according to the fitted value E(B-V) and the
+    chi2 value between model and observations is returned.
 
-    Parameters:
-        lam (numpy array): Array containing the observed data's wavelength values in micron.
-        flux (numpy array): The data's flux values, in lam x F_lam format, in erg/s/cm2/micron.
-        flux_error (numpy array): The data's error values, in lam x F_lam format, in erg/s/cm2/micron.
-        lam_model (numpy array): Same as lam but for the model SED.
-        flux_model (numpy array): Same as flux but for the model SED.
-        reddening_law_path (str): Path to the ISM reddening law to be used. In a two-column format:
-        1) wavelength (Angstrom)  2) A(wavelength)/E(B-V) (magn.).
-        Standard file used is the ISM law by Cardelli et al. 1989.
-        ebminv_guess (float): Initial E(B-V) guess to be used for the scipy minimization routine to fit ISM reddening.
-
-    Returns:
-        model_sed_full_red (numpy array): Array containing the model's reddened SED,
-        using the fitted E(B-V) (lam x F_lam format, in erg/s/cm2/micron).
-        ebminv_opt (float): The fitted E(B-V) value.
-        chi2 (float): The corresponding chi2 value.
+    :param SED sed_obs: Observed SED.
+    :param SED sed_mod: RT model SED.
+    :param float ebminv_guess: Initial guess for the E(B-V) reddening factor.
+    :param str reddening_law:
+    :return chi2: The chi2 value between the reddened model SED and the observed SED.
+    :rtype: float
     """
-    par_min = scipy.optimize.minimize(lambda x: chi2reddened(lam, flux, flux_error, lam_model, flux_model,
-                                                             reddening_law_path, x), np.array(ebminv_guess))
-    ebminv_opt = par_min["x"][0]
-    chi2 = chi2reddened(lam, flux, flux_error, lam_model, flux_model, reddening_law_path, ebminv_opt)
-    model_sed_full_red = redden_flux(lam_model, flux_model, reddening_law_path, ebminv_opt)
+    par_min = minimize(lambda ebminv: chi2reddened(sed_obs, sed_mod, ebminv, reddening_law=reddening_law),
+                       np.array(ebminv_guess))
+    ebminv_opt = par_min["x"][0]  # optimal value of E(B-V)
+    chi2 = chi2reddened(sed_obs, sed_mod, ebminv=ebminv_opt, reddening_law=reddening_law)
+    sed_mod.redden(ebminv=ebminv_opt, reddening_law=reddening_law)  # redden model SED according to the fitted E(B-V)
 
-    return model_sed_full_red, ebminv_opt, chi2
+    return chi2
 
 
-def plot_reddened_model_fit(filepath_data, folder_mcfost, reddening_law_path, ebminv_guess, fig_dir='./', az=0, inc=0):
+def plot_data_vs_model(sed_dat, sed_mod):
     """
-    Takes the paths to both an SED data .phot file from the SED repository and the directory of an MCFOST model run.
-    Then performs a fit for the remaining ISM reddening, and plots the resulting SEDs.
+    Plots the data (observed) SED against the model SED. Note that this function shares a name with a similar function
+    in the oi_observables module. Take care with your namespace if you use both functions in the same script.
 
-    Parameters:
-        filepath_data (str): Path to the .phot filename.
-        folder_mcfost (str): Path to the folder in which the MCFOST run results are stored.
-        reddening_law_path (str): Path to the ISM reddening law to be used. In a two-column format:
-        1) wavelength (Angstrom)  2) A(wavelength)/E(B-V) (magn.).
-        Standard file used is the ISM law by Cardelli et al. 1989.
-        ebminv_guess (float): Initial E(B-V) guess to be used for the minimization routine.
-        fig_dir (str): Path to directory where the resulting figure is saved.
-        az (int): Number of the azimuthal viewing angle value considered (MCFOST can output results for
-        multiple angles simultaneously). Default = 0 (1st value).
-        inc (int): Number of the inclination viewing angle value considered (MCFOST can output results for
-        multiple angles simultaneously). Default = 0 (1st value).
-
-    Returns:
-        Nothing. A saved plot of the results is saved in the specified directory.
+    :param SED sed_dat:
+    :param SED sed_mod:
+    :return:
     """
-    # loading data
-    data_wave, data_flux, data_err = read_sed_data(filepath_data)
-    model_wave, model_flux, model_star_flux = read_sed_mcfost(folder_mcfost, az, inc)
-    # fitting the ISM E(B-V)
-    model_flux_red, ebminv_opt, chi2 = ism_reddening_fit(data_wave, data_flux, data_err, model_wave, model_flux,
-                                                         reddening_law_path, ebminv_guess)
-    model_star_flux_red = redden_flux(model_wave, model_star_flux, reddening_law_path, ebminv_opt)
-    # plotting
-    fig, ax = plt.subplots(figsize=(7, 7))
-    ax.errorbar(data_wave, data_flux, data_err, label='data', fmt='bd', mfc='white', capsize=5, zorder=1000)
-    ax.plot(model_wave, model_flux_red, ls='-', c='r', label='MCFOST SED reddened', zorder=1)
-    ax.plot(model_wave, model_flux, ls='--', c='r', label='MCFOST SED no reddening', zorder=0, alpha=0.4)
-    ax.plot(model_wave, model_star_flux_red, ls='-', c='k', label='STAR reddened', zorder=0)
-    ax.plot(model_wave, model_star_flux, ls='--', c='k', label='STAR no reddening', alpha=0.4, zorder=0)
-    # some nice labeling
-    ax.set_xlabel(r"$\lambda \, \mathrm{[\mu m]}$")
-    ax.set_ylabel(r"$\lambda F_{\lambda} \, \mathrm{[erg \, cm^{-2} \, s^{-1}]}$")
-    ax.set_xlim(np.min(model_wave), np.max(model_wave))
-    ax.set_ylim(model_flux[np.isfinite(model_flux)].min(), model_flux[np.isfinite(model_flux)].max() * 10)
-    ax.set_xscale('log')
-    ax.set_yscale('log')
-    ax.set_title('SED analysis')
-    ax.text(0.05, 0.93, 'E(B-V) = ' + '{:.2f}'.format(ebminv_opt) + r'; $\chi^2_{red} = $' +
-            '{:.2f}'.format(chi2 / (np.size(data_flux) - 1)), c='k',
-            verticalalignment='bottom', horizontalalignment='left', transform=ax.transAxes, fontsize=17)
-    ax.legend()
-    plt.tight_layout()
-    # make directory to save the figure in if necessary
-    if (fig_dir != './') and not os.path.exists(fig_dir):
-        subprocess.Popen('mkdir ' + fig_dir, shell=True).wait()
-    fig.savefig(fig_dir + '/SED_analysis' + '_inc' + str(inc) + '_az' + str(az) + '.png', dpi=300, bbox_inches='tight')
-    plt.show()
-    plt.close()
 
     return
+
+
+# def plot_reddened_model_fit(filepath_data, folder_mcfost, reddening_law, ebminv_guess, fig_dir='./', az=0, inc=0):
+#     """
+#     Takes the paths to both an SED data .phot file from the SED repository and the directory of an MCFOST model run.
+#     Then performs a fit for the remaining ISM reddening, and plots the resulting SEDs.
+#
+#     Parameters:
+#         filepath_data (str): Path to the .phot filename.
+#         folder_mcfost (str): Path to the folder in which the MCFOST run results are stored.
+#         reddening_law (str): Path to the ISM reddening law to be used. In a two-column format:
+#         1) wavelength (Angstrom)  2) A(wavelength)/E(B-V) (magn.).
+#         Standard file used is the ISM law by Cardelli et al. 1989.
+#         ebminv_guess (float): Initial E(B-V) guess to be used for the minimization routine.
+#         fig_dir (str): Path to directory where the resulting figure is saved.
+#         az (int): Number of the azimuthal viewing angle value considered (MCFOST can output results for
+#         multiple angles simultaneously). Default = 0 (1st value).
+#         inc (int): Number of the inclination viewing angle value considered (MCFOST can output results for
+#         multiple angles simultaneously). Default = 0 (1st value).
+#
+#     Returns:
+#         Nothing. A saved plot of the results is saved in the specified directory.
+#     """
+#     # loading data
+#     data_wave, data_flux, data_err = read_sed_data(filepath_data)
+#     model_wave, model_flux, model_star_flux = read_sed_mcfost(folder_mcfost, az, inc)
+#     # fitting the ISM E(B-V)
+#     model_flux_red, ebminv_opt, chi2 = ism_reddening_fit(data_wave, data_flux, data_err, model_wave, model_flux,
+#                                                          reddening_law, ebminv_guess)
+#     model_star_flux_red = redden_flux(model_wave, model_star_flux, reddening_law, ebminv_opt)
+#     # plotting
+#     fig, ax = plt.subplots(figsize=(7, 7))
+#     ax.errorbar(data_wave, data_flux, data_err, label='data', fmt='bd', mfc='white', capsize=5, zorder=1000)
+#     ax.plot(model_wave, model_flux_red, ls='-', c='r', label='MCFOST SED reddened', zorder=1)
+#     ax.plot(model_wave, model_flux, ls='--', c='r', label='MCFOST SED no reddening', zorder=0, alpha=0.4)
+#     ax.plot(model_wave, model_star_flux_red, ls='-', c='k', label='STAR reddened', zorder=0)
+#     ax.plot(model_wave, model_star_flux, ls='--', c='k', label='STAR no reddening', alpha=0.4, zorder=0)
+#     # some nice labeling
+#     ax.set_xlabel(r"$\lambda \, \mathrm{[\mu m]}$")
+#     ax.set_ylabel(r"$\lambda F_{\lambda} \, \mathrm{[erg \, cm^{-2} \, s^{-1}]}$")
+#     ax.set_xlim(np.min(model_wave), np.max(model_wave))
+#     ax.set_ylim(model_flux[np.isfinite(model_flux)].min(), model_flux[np.isfinite(model_flux)].max() * 10)
+#     ax.set_xscale('log')
+#     ax.set_yscale('log')
+#     ax.set_title('SED analysis')
+#     ax.text(0.05, 0.93, 'E(B-V) = ' + '{:.2f}'.format(ebminv_opt) + r'; $\chi^2_{red} = $' +
+#             '{:.2f}'.format(chi2 / (np.size(data_flux) - 1)), c='k',
+#             verticalalignment='bottom', horizontalalignment='left', transform=ax.transAxes, fontsize=17)
+#     ax.legend()
+#     plt.tight_layout()
+#     # make directory to save the figure in if necessary
+#     if (fig_dir != './') and not os.path.exists(fig_dir):
+#         subprocess.Popen('mkdir ' + fig_dir, shell=True).wait()
+#     fig.savefig(fig_dir + '/SED_analysis' + '_inc' + str(inc) + '_az' + str(az) +
+#                 '.png', dpi=300, bbox_inches='tight')
+#     plt.show()
+#     plt.close()
+#
+#     return
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 """
-Contains classes to represent the OI point spread function (PSF), called the 'dirty beam' and Gaussian fits to it.
-Methods to calculate the dirty beam from the uv coverage of an OIContainer object and get the Gaussian fit to the
-dirty beam's inner few resolution elements (a 'Gaussian beam') are included.
+Contains classes to represent the OI point spread function (PSF) and a Gaussian fit to it. The former is called the
+'dirty beam', the latter just 'beam'. Methods to calculate the dirty beam from the uv coverage of an OIContainer object
+and get the beam from a fit to the dirty beam's inner few resolution elements (a 'Gaussian beam') are included.
 """
 from distroi import constants
 
@@ -25,9 +25,9 @@ class Beam:
     :ivar float sig_min: Standard deviation of the Gaussian along the minor axis.
     :ivar float sig_maj: Standard deviation of the Gaussian along the major axis.
     :ivar float pa: Position angle of the Gaussian's major axis, anticlockwise from North to East.
-    :ivar float fwhm_min: Full-width-half-maximum of the Gaussian along the minor axis. This defines the resolution
-        corresponding to the uv-coverage along this axis.
-    :ivar float fwhm_maj: Full-width-half-maximum of the Gaussian along the major axis. This defines the resolution
+    :ivar float fwhm_min: Full-width-half-maximum (FWHM) of the Gaussian along the minor axis. This defines the
+        resolution corresponding to the uv-coverage along this axis.
+    :ivar float fwhm_maj: FWHM of the Gaussian along the major axis. This defines the resolution
         corresponding to the uv-coverage along this axis.
     """
 
@@ -38,6 +38,13 @@ class Beam:
 
         self.fwhm_min = 2 * np.sqrt(2 * np.log(2)) * self.sig_min  # FWHM
         self.fwhm_maj = 2 * np.sqrt(2 * np.log(2)) * self.sig_maj
+
+    def plot(self):
+        """
+        Makes a colour plot of the Beam, including contours representing the sigma/FWHM levels
+        :return:
+        """
+        return
 
 
 def gaussian_2d(points, amp, x0, y0, sig_min, sig_maj_min_sig_min, pa, offset):
@@ -100,7 +107,7 @@ def calc_gaussian_beam(container, vistype='vis2', make_plots=False, fig_dir=None
     :param int pix_per_res: Amount of dirty beam pixels used per resolution element. This should be even.
         Set to 16 by default. Increasing this can significantly increase computation time (scales as O(n^2)).
     :return gauss_beam: Beam object containing the information of the Gaussian fit.
-    :rtype Beam:
+    :rtype: Beam
 
     """
     if pix_per_res % 2 != 0:

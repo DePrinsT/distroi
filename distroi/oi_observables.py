@@ -365,7 +365,8 @@ def plot_data_vs_model(container_data, container_mod, fig_dir=None, log_plotv=Fa
                        show_plots=True):
     """
     Plots the data against the model OI observables. Currently, plots uv coverage, a (squared) visibility curve and
-    closure phases.
+    closure phases. Note that this function shares a name with a similar function in the sed module. Take care with
+    your namespace if you use both functions in the same script.
 
     :param OIContainer container_data: Container with data observables.
     :param OIContainer container_mod: Container with model observables.

@@ -77,18 +77,19 @@ def set_matplotlib_params():
 
 
 # function to redden flux
-def redden_flux(wavelength, flux, ebminv, reddening_law_path=PROJECT_ROOT + '/utils/ISM_reddening/'
-                                                                            'ISMreddening_law_Cardelli1989.dat'):
+def redden_flux(wavelength, flux, ebminv, reddening_law=PROJECT_ROOT + '/utils/ISM_reddening/'
+                                                                       'ISMreddening_law_Cardelli1989.dat'):
     """
     Takes wavelength(s) and the associated flux values, and reddens them according to the specified E(B-V) value.
     Note that this function will not extrapolate outside the wavelength ranges of the reddening law. Instead, no
     reddening will be applied outside this range.
 
     :param Union[float, np.ndarray] wavelength: Wavelength(s) in micron.
-    :param Union[float, np.ndarray] flux:
+    :param Union[float, np.ndarray] flux: The flux(es) to be reddened. Can be in either F_nu/F_lam or nu*F_nu/lam*F_lam
+        format and in any units.
     :param float ebminv: E(B-V) reddening factor to be applied.
-    :param str reddening_law_path: Path to the reddening law to be used. Defaults to the ISM reddening law by
-        Cardelli (1989) in the package's 'utils/ISM_reddening folder'. See this file for the expected formatting
+    :param str reddening_law: Path to the reddening law to be used. Defaults to the ISM reddening law by
+        Cardelli (1989) in DISTROI's 'utils/ISM_reddening folder'. See this file for the expected formatting
         of your own reddening laws.
     :return flux_reddened: The reddened flux value(s).
     :rtype: Union[float, np.ndarray]
@@ -97,7 +98,7 @@ def redden_flux(wavelength, flux, ebminv, reddening_law_path=PROJECT_ROOT + '/ut
         return flux
     else:
         # read in the ISM reddening law wavelengths in Angström and A/E in magnitude
-        df_law = pd.read_csv(reddening_law_path, header=2, names=['WAVE', 'A/E'],
+        df_law = pd.read_csv(reddening_law, header=2, names=['WAVE', 'A/E'],
                              sep=r'\s+', engine='python')
         # set wavelength to micrometer
         wave_law = np.array(df_law['WAVE']) * AA2MICRON

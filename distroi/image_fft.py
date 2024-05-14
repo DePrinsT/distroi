@@ -100,24 +100,24 @@ class ImageFFT:
         self.vf = self.w_y / self.pixelscale_y
         return
 
-    def redden(self, ebminv, reddening_law_path=constants.PROJECT_ROOT + '/utils/ISM_reddening'
-                                                                         '/ISMreddening_law_Cardelli1989.dat'):
+    def redden(self, ebminv, reddening_law=constants.PROJECT_ROOT + '/utils/ISM_reddening'
+                                                                    '/ISMreddening_law_Cardelli1989.dat'):
         """
-        Further reddens the model image according to the approriate E(B-V) and a corresponding reddening law file.
+        Further reddens the model image according to the approriate E(B-V) and a corresponding reddening law.
 
         :param float ebminv: E(B-V) reddening factor to be applied.
-        :param str reddening_law_path: Path to the reddening law to be used. Defaults to the ISM reddening law by
-            Cardelli (1989) in the package's 'utils/ISM_reddening folder'. See this file for the expected formatting
+        :param str reddening_law: Path to the reddening law to be used. Defaults to the ISM reddening law by
+            Cardelli (1989) in DISTROI's 'utils/ISM_reddening folder'. See this file for the expected formatting
             of your own reddening laws.
         :rtype: None
         """
-        self.img = constants.redden_flux(self.wavelength, self.img,
-                                         ebminv, reddening_law_path)  # apply additional reddening to the image
+        self.img = constants.redden_flux(self.wavelength, self.img,  # apply additional reddening to the image
+                                         ebminv, reddening_law=reddening_law)
         if self.fft is not None:
             self.fft = constants.redden_flux(self.wavelength, self.fft,
-                                             ebminv, reddening_law_path)  # apply additional reddening to the fft
+                                             ebminv, reddening_law)  # apply additional reddening to the fft
         self.ftot = constants.redden_flux(self.wavelength, self.ftot,
-                                          ebminv, reddening_law_path)  # apply additional reddening to the toal flux
+                                          ebminv, reddening_law)  # apply additional reddening to the toal flux
         return
 
     def freq_info(self):
@@ -151,8 +151,8 @@ class ImageFFT:
                     f"Image axis size S-N [rad]: {image_size_y:.4E} \n"
                     f"Maximum frequency considered E-W [1/rad]: {(np.max(self.w_x) * 1 / self.pixelscale_x):.4E} \n"
                     f"Maximum frequency considered S-N [1/rad]: {(np.max(self.w_y) * 1 / self.pixelscale_y):.4E} \n"
-                    f"Spacing in frequency space E-W [1/rad]: {abs((self.w_x[1]-self.w_x[0])/self.pixelscale_x):.4E} \n"
-                    f"Spacing in frequency space S-N [1/rad]: {abs((self.w_y[1]-self.w_y[0])/self.pixelscale_y):.4E} \n"
+                    f"Spacing in frequency space E-W [1/rad]: {abs((self.w_x[1] - self.w_x[0]) / self.pixelscale_x):.4E} \n"
+                    f"Spacing in frequency space S-N [1/rad]: {abs((self.w_y[1] - self.w_y[0]) / self.pixelscale_y):.4E} \n"
                     f"--------------------------------------- \n"
                     f"Pixel scale E-W [mas]: {(self.pixelscale_x * constants.RAD2MAS):.4E} \n"
                     f"Pixel scale S-N [mas]: {(self.pixelscale_y * constants.RAD2MAS):.4E} \n"
@@ -183,9 +183,9 @@ class ImageFFT:
                     f"Maximum projected baseline resolvable under current pixel sampling S-N [m]: "
                     f"{((np.max(self.w_y) * 1 / self.pixelscale_y) * self.wavelength * constants.MICRON2M):.4E} \n"
                     f"Spacing in projected baseline length corresponding to frequency sampling E-W [m]: "
-                    f"{abs(((self.w_x[1]-self.w_x[0])*1/self.pixelscale_x)*self.wavelength*constants.MICRON2M):.4E} \n"
+                    f"{abs(((self.w_x[1] - self.w_x[0]) * 1 / self.pixelscale_x) * self.wavelength * constants.MICRON2M):.4E} \n"
                     f"Spacing in projected baseline length corresponding to frequency sampling S-N [m]: "
-                    f"{abs(((self.w_y[1]-self.w_y[0])*1/self.pixelscale_y)*self.wavelength*constants.MICRON2M):.4E} \n"
+                    f"{abs(((self.w_y[1] - self.w_y[0]) * 1 / self.pixelscale_y) * self.wavelength * constants.MICRON2M):.4E} \n"
                     f"================================================================ \n"
                     )
         return info_str
@@ -407,8 +407,8 @@ class ImageFFT:
         ax[1][0].axvline(x=0, lw=0.2, color='white')
 
         if beam is not None:  # plot FWHM Gaussian beam if passed along
-            res_ellipse = Ellipse(xy=((self.num_pix_x / 2) * self.pixelscale_x * constants.RAD2MAS - 2*beam.fwhm_min,
-                                      (self.num_pix_x / 2) * self.pixelscale_x * constants.RAD2MAS - 2*beam.fwhm_maj),
+            res_ellipse = Ellipse(xy=((self.num_pix_x / 2) * self.pixelscale_x * constants.RAD2MAS - 2 * beam.fwhm_min,
+                                      (self.num_pix_x / 2) * self.pixelscale_x * constants.RAD2MAS - 2 * beam.fwhm_maj),
                                   width=beam.fwhm_min, height=beam.fwhm_maj, angle=-beam.pa, edgecolor='r', lw=1.0,
                                   fc='none', alpha=1)
             ax[1][0].add_patch(res_ellipse)
@@ -558,8 +558,8 @@ def read_image_fft_mcfost(img_path, disk_only=False):
 
 
 def get_image_fft_list(mod_dir, img_dir, read_method='mcfost', ebminv=0.0,
-                       reddening_law_path=f'{constants.PROJECT_ROOT}'
-                                          f'/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat'):
+                       reddening_law=f'{constants.PROJECT_ROOT}'
+                                     f'/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat'):
     """
     Function that takes the path to an RT model's directory and a subdirectory containing image files, and returns a
     list of ImageFFT objects representing those model images. They should thus represent the same underlying physical
@@ -572,8 +572,8 @@ def get_image_fft_list(mod_dir, img_dir, read_method='mcfost', ebminv=0.0,
         Currently only supports 'mcfost', in which case all files ending on the sufix 'RT.fits.gz' are read in.
     :param float ebminv: E(B-V) of additional reddening to be applied to the model images. Only useful if
         the visibilities need to be expressed in correlated flux at some point.
-    :param str reddening_law_path: Path to the reddening law to be used. Defaults to the ISM reddening law by
-        Cardelli (1989) in the package's 'utils/ISM_reddening folder'. See this file for the expected formatting
+    :param str reddening_law: Path to the reddening law to be used. Defaults to the ISM reddening law by
+        Cardelli (1989) in DISTROI's 'utils/ISM_reddening folder'. See this file for the expected formatting
         of your own reddening laws.
     :return: img_fft_list: List of ImageFFT objects representing all model image files found under 'mod_dir+img_dir'.
         Sorted by wavelength
@@ -592,7 +592,7 @@ def get_image_fft_list(mod_dir, img_dir, read_method='mcfost', ebminv=0.0,
     for img_path in img_file_paths:
         if read_method == 'mcfost':  # choose reader function
             img_fft = read_image_fft_mcfost(img_path)
-        img_fft.redden(ebminv=ebminv, reddening_law_path=reddening_law_path)  # redden the ImageFFT object
+        img_fft.redden(ebminv=ebminv, reddening_law=reddening_law)  # redden the ImageFFT object
         img_fft_list.append(img_fft)  # append to the list of ImageFFT objects
         wavelengths.append(img_fft.wavelength)  # append wavelength
 
