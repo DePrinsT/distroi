@@ -3,7 +3,9 @@ Contains classes to represent the OI point spread function (PSF) and a Gaussian 
 'dirty beam', the latter just 'beam'. Methods to calculate the dirty beam from the uv coverage of an OIContainer object
 and get the beam from a fit to the dirty beam's inner few resolution elements (a 'Gaussian beam') are included.
 """
+
 from distroi import constants
+from distroi import oi_observables
 
 import os
 
@@ -39,21 +41,23 @@ class Beam:
         self.fwhm_min = 2 * np.sqrt(2 * np.log(2)) * self.sig_min  # FWHM
         self.fwhm_maj = 2 * np.sqrt(2 * np.log(2)) * self.sig_maj
 
-    def plot(self):
+    def plot(self) -> None:
         """
         Makes a colour plot of the Beam, including contours representing the sigma/FWHM levels
         :return:
         """
+        # todo actually implement this
         return
 
 
-def gaussian_2d(points, amp, x0, y0, sig_min, sig_maj_min_sig_min, pa, offset):
+def gaussian_2d(points: tuple[np.ndarray, np.ndarray], amp: float = 1, x0: float = 0, y0: float = 0,
+                sig_min: float = 1, sig_maj_min_sig_min: float = 0, pa: float = 0, offset: float = 0) -> np.ndarray:
     """
-    Definition for calculating the value of a 2D Elliptical Gaussian at a given point. Gaussian defined by an amplitude,
+    Definition for calculating the value of a 2D Elliptical Gaussian at a given point. Defined by an amplitude,
      xy center, standard deviations along major/minor axis, a major axis position angle and an offset.
 
-    :param tuple(float) points: 2D tuples describing the (x, y) points to be inserted. Note that positive x is defined
-        as leftward and positive y as upward (i.e. the East and North repesctively in the OI convention).
+    :param tuple(float | np) points: 2D tuples describing the (x, y) points to be inserted. Note that positive x is
+        defined as leftward and positive y as upward (i.e. the East and North repesctively in the OI convention).
     :param float amp: Amplitude of the Gaussian.
     :param float x0: x-coordinate center of the Guassian.
     :param float y0: y-coordinate center of the Gaussian.
@@ -63,7 +67,7 @@ def gaussian_2d(points, amp, x0, y0, sig_min, sig_maj_min_sig_min, pa, offset):
         scipy.optimize.curve_fit.
     :param float pa: Position angle of the Gaussian (i.e. the major axis direction) anti-clockwise, starting North
         (positive y).
-    :param offset: Base level offset from 0.
+    :param float offset: Base level offset from 0.
     :return values: A raveled 1D array containg the values of the Gaussian calculated at the points.
     :rtype: np.ndarray
     """
@@ -79,13 +83,14 @@ def gaussian_2d(points, amp, x0, y0, sig_min, sig_maj_min_sig_min, pa, offset):
     c = (np.sin(theta) ** 2) / (2 * sig_min ** 2) + (np.cos(theta) ** 2) / (2 * sig_maj ** 2)
     values = offset + amp * np.exp(- (a * ((x - x0) ** 2) + 2 * b * (x - x0) * (y - y0)
                                       + c * ((y - y0) ** 2)))
-    values = values.ravel()  # ravel to a 1D array, so it can be used in scipy curve fitting
+    values = np.array(values).ravel()  # ravel to a 1D array, so it can be used in scipy curve fitting
 
     return values
 
 
-def calc_gaussian_beam(container, vistype='vis2', make_plots=False, fig_dir=None, show_plots=False, num_res=2,
-                       pix_per_res=16):
+def calc_gaussian_beam(container: oi_observables.OIContainer, vistype: str = 'vis2', make_plots: bool = False,
+                       fig_dir: str = None, show_plots: bool = False, num_res: int = 2, pix_per_res: int = 16) \
+        -> Beam | None:
     """
     Given an OIContainer and the uv frequencies to be used, calculates the clean beam Gaussian parameters by making a
     Gaussian fit to the dirty beam. The dirty beam acts as the interferometric point spread funtion (PSF)
@@ -94,9 +99,9 @@ def calc_gaussian_beam(container, vistype='vis2', make_plots=False, fig_dir=None
 
     :param OIContainer container: Container with observables for which we want to calculate the resolution corresponding
         to its uv coverage.
-    :param str, optional vistype: Sets the uv coverage to be plotted. 'vis2' for the coverage corresponding to the
-        squared visibility measurements or 'vis' for the uv coverage corresponding to the visibility/correlated flux
-        measurements.
+    :param str, optional vistype: Sets the uv coverage to be used for the Gaussian beam calculation. 'vis2' for the
+        coverage corresponding to the squared visibility measurements or 'vis' for the uv coverage corresponding to the
+        visibility/correlated flux measurements.
     :param bool make_plots: Set to True to make plots of the dirty beam.
     :param str fig_dir: Set to a directory in which you want the plots to be saved.
     :param show_plots: Set to True if you want the generated plots to be shown in a window.
@@ -151,41 +156,54 @@ def calc_gaussian_beam(container, vistype='vis2', make_plots=False, fig_dir=None
     popt, pcov = popt_and_cov[0], popt_and_cov[1]  # extract optimized parameters and covariance matrix
 
     if make_plots:
-        fig, ax = plt.subplots(1, 2, figsize=(8, 4), sharey=True)
+        fig, ax = plt.subplots(2, 2, figsize=(10, 10), sharey=True)
         color_map = 'inferno_r'
-
         # plot dirty beam
-        img_dirty_plot = ax[0].imshow(img_dirty, aspect='auto', cmap=color_map,
-                                      extent=((num_pix / 2) * pixelscale,
-                                              (-num_pix / 2) * pixelscale,
-                                              (-num_pix / 2) * pixelscale,
-                                              (num_pix / 2) * pixelscale))
-        ax[0].set_title("Dirty beam")
-        ax[0].set_xlabel("E-W [mas]")
-        ax[0].set_ylabel("S-N [mas]")
-        ax[0].arrow(0.90, 0.80, -0.1, 0, color='white', transform=ax[0].transAxes,
-                    length_includes_head=True, head_width=0.015)  # draw arrows to indicate direction
-        ax[0].text(0.78, 0.83, "E", color='white', transform=ax[0].transAxes)
-        ax[0].arrow(0.90, 0.80, 0, 0.1, color='white', transform=ax[0].transAxes,
-                    length_includes_head=True, head_width=0.015)
-        ax[0].text(0.92, 0.90, "N", color='white', transform=ax[0].transAxes)
-        ax[0].axhline(y=0, lw=0.5, color='white')
-        ax[0].axvline(x=0, lw=0.5, color='white')
+        img_dirty_plot = ax[0][0].imshow(img_dirty, aspect='auto', cmap=color_map,
+                                         extent=((num_pix / 2) * pixelscale,
+                                                 (-num_pix / 2) * pixelscale,
+                                                 (-num_pix / 2) * pixelscale,
+                                                 (num_pix / 2) * pixelscale))
+        ax[0][0].set_title("Dirty Beam")
+        ax[0][0].set_xlabel("E-W (mas)")
+        ax[0][0].set_ylabel("S-N (mas)")
+        ax[0][0].arrow(0.90, 0.80, -0.1, 0, color='white', transform=ax[0][0].transAxes,
+                       length_includes_head=True, head_width=0.015)  # draw arrows to indicate direction
+        ax[0][0].text(0.78, 0.83, "E", color='white', transform=ax[0][0].transAxes)
+        ax[0][0].arrow(0.90, 0.80, 0, 0.1, color='white', transform=ax[0][0].transAxes,
+                       length_includes_head=True, head_width=0.015)
+        ax[0][0].text(0.92, 0.90, "N", color='white', transform=ax[0][0].transAxes)
+        ax[0][0].axhline(y=0, lw=0.5, color='white')
+        ax[0][0].axvline(x=0, lw=0.5, color='white')
 
         # plot Gaussian fit to the beam, note the output of gaussian_2d is 1D so needs to be reshaped
         img_fitted = np.reshape(gaussian_2d((x, y), *popt), np.shape(img_dirty))
-        img_fit_plot = ax[1].imshow(img_fitted, aspect='auto', cmap=color_map,
-                                    extent=((num_pix / 2) * pixelscale,
-                                            (-num_pix / 2) * pixelscale,
-                                            (-num_pix / 2) * pixelscale,
-                                            (num_pix / 2) * pixelscale))
-        ax[1].set_title("Gaussian fit")
-        ax[1].set_xlabel("E-W [mas]")
-        ax[1].axhline(y=0, lw=0.5, color='white')
-        ax[1].axvline(x=0, lw=0.5, color='white')
+        img_fit_plot = ax[0][1].imshow(img_fitted, aspect='auto', cmap=color_map,
+                                       extent=((num_pix / 2) * pixelscale,
+                                               (-num_pix / 2) * pixelscale,
+                                               (-num_pix / 2) * pixelscale,
+                                               (num_pix / 2) * pixelscale))
+        ax[0][1].set_title("Gaussian Fit")
+        ax[0][1].set_xlabel("E-W (mas)")
+        ax[0][1].axhline(y=0, lw=0.5, color='white')
+        ax[0][1].axvline(x=0, lw=0.5, color='white')
+
+        # plot residuals
+        img_res_plot = ax[1][0].imshow(img_dirty - img_fitted, aspect='auto', cmap='viridis',
+                                       extent=((num_pix / 2) * pixelscale,
+                                               (-num_pix / 2) * pixelscale,
+                                               (-num_pix / 2) * pixelscale,
+                                               (num_pix / 2) * pixelscale))
+        ax[1][0].set_title("Residuals")
+        ax[1][0].set_xlabel("E-W (mas)")
+        ax[1][0].set_ylabel("S-N (mas)")
+        ax[1][0].axhline(y=0, lw=0.5, color='white')
+        ax[1][0].axvline(x=0, lw=0.5, color='white')
 
         plt.tight_layout()  # colorbar after tight layout, otherwise it messes up the plot
-        fig.colorbar(img_fit_plot, ax=ax.ravel().tolist(), label=r'$I_{dirty}/ \mathrm{max}(I_{dirty})$', pad=0.02)
+        fig.colorbar(img_fit_plot, ax=ax[0].ravel().tolist(), label=r'$I_{dirty}/ \mathrm{max}(I_{dirty})$', pad=0.02)
+        fig.colorbar(img_res_plot, ax=ax[1][0], label=r'$I_{dirty}/ \mathrm{max}(I_{dirty})$', pad=0.04)
+        ax[1][1].remove()
 
         if fig_dir is not None:
             # create plotting directory if it doesn't exist yet
@@ -207,28 +225,9 @@ def calc_gaussian_beam(container, vistype='vis2', make_plots=False, fig_dir=None
 
 if __name__ == "__main__":
     from distroi import oi_observables
-    from distroi import image_fft
 
     fig_dir = '/home/toond/Downloads/pionier_resolution'
     data_dir, data_file = '../examples/data/IRAS0844-4431/PIONIER/', '*.fits'
     container_data = oi_observables.read_oicontainer_oifits(data_dir, data_file)
-    beam = calc_gaussian_beam(container_data, vistype='vis2', make_plots=True, show_plots=True, fig_dir=fig_dir,
-                              num_res=2)
-
-    # FFT test + output info on frequencies
-    mod_dir = '~/Downloads'
-    img_dir = '/data_1.65/'
-    img = image_fft.read_image_fft_mcfost(img_path=f'{mod_dir}{img_dir}/RT.fits.gz', disk_only=True)
-    img.diagnostic_plot(fig_dir=fig_dir, log_plotv=True, show_plots=True, beam=beam)
-
-    # data_dir, data_file = '../examples/data/IRAS0844-4431/GRAVITY/', '*.fits'
-    # container_data = oi_observables.read_oicontainer_oifits(data_dir, data_file)
-    # calc_gaussian_beam(container_data, vistype='vis2', make_plots=True, show_plots=True)
-    #
-    # data_dir, data_file = '../examples/data/IRAS0844-4431/MATISSE_L/', '*.fits'
-    # container_data = oi_observables.read_oicontainer_oifits(data_dir, data_file)
-    # calc_gaussian_beam(container_data, vistype='vis2', make_plots=True, show_plots=True)
-    #
-    # data_dir, data_file = '../examples/data/IRAS0844-4431/MATISSE_N/', '*.fits'
-    # container_data = oi_observables.read_oicontainer_oifits(data_dir, data_file)
-    # calc_gaussian_beam(container_data, vistype='vis', make_plots=True, show_plots=True)
+    beam = calc_gaussian_beam(container_data, vistype='vis2', make_plots=False, show_plots=False, fig_dir=fig_dir,
+                              num_res=2, pix_per_res=32)

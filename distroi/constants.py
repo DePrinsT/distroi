@@ -24,36 +24,34 @@ import matplotlib.pyplot as plt
 from scipy.interpolate import interp1d
 
 # constants
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # root of the package
-SPEED_OF_LIGHT = 299792458.  # speed of light in SI units (m s^-1)
-K_BOLTZMANN = 1.380649e-23  # Boltzmann's constant in SI unis (J K^-1)
-H_PLANCK = 6.62607015e-34  # Planck constant in SI units (J Hz^-1)
-B_WIEN = 2.897771955e-3  # Wien's displacement constant in SI units (m K)
-SIG_STEFAN_BOLTZMANN = 5.670374419e-8  # Stefan-Boltzmann constant in SI units (W m^-2 K^-4)
+PROJECT_ROOT: str = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # root of the package
+SPEED_OF_LIGHT: float = 299792458.  # speed of light in SI units (m s^-1)
+K_BOLTZMANN: float = 1.380649e-23  # Boltzmann's constant in SI unis (J K^-1)
+H_PLANCK: float = 6.62607015e-34  # Planck constant in SI units (J Hz^-1)
+B_WIEN: float = 2.897771955e-3  # Wien's displacement constant in SI units (m K)
+SIG_STEFAN_BOLTZMANN: float = 5.670374419e-8  # Stefan-Boltzmann constant in SI units (W m^-2 K^-4)
 
 # unit conversions
-DEG2RAD = np.pi / 180  # degree to radian
-RAD2DEG = 1 / DEG2RAD  # radian to degree
-MAS2RAD = 1e-3 / 3600 * DEG2RAD  # milli-arcsecond to radian
-RAD2MAS = 1 / MAS2RAD  # radian to milli-arcsecond
-MICRON2M = 1e-6  # micrometer to meter
-M2MICRON = 1 / MICRON2M  # meter to micron
-HZ2GHZ = 1e-9  # Hertz to gigaHertz
-GHZ2Hz = 1 / HZ2GHZ  # gigaHertz to Hertz
-MICRON2AA = 1e4  # micron to angstrom
-AA2MICRON = 1 / MICRON2AA  # angstrom to micron
-WATT_PER_M2_HZ_2JY = 1e26  # conversion spectral flux density (F_nu) from SI (W m^-2 Hz^-1) to Jansky
-JY_2WATT_PER_M2_HZ = 1 / WATT_PER_M2_HZ_2JY  # conversion spectral flux density (F_nu) from Jansky to SI
-ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M = 1e3  # conversion spectral flux density (F_lam) from erg s^-1 cm^-2 micron^-1
-# to SI (W m^-2 m^-1)
-WATT_PER_M2_M_2ERG_PER_S_CM2_MICRON = 1 / ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M  # conversion spectral flux density
-
-
+DEG2RAD: float = np.pi / 180  # degree to radian
+RAD2DEG: float = 1 / DEG2RAD  # radian to degree
+MAS2RAD: float = 1e-3 / 3600 * DEG2RAD  # milli-arcsecond to radian
+RAD2MAS: float = 1 / MAS2RAD  # radian to milli-arcsecond
+MICRON2M: float = 1e-6  # micrometer to meter
+M2MICRON: float = 1 / MICRON2M  # meter to micron
+HZ2GHZ: float = 1e-9  # Hertz to gigaHertz
+GHZ2Hz: float = 1 / HZ2GHZ  # gigaHertz to Hertz
+MICRON2AA: float = 1e4  # micron to angstrom
+AA2MICRON: float = 1 / MICRON2AA  # angstrom to micron
+WATT_PER_M2_HZ_2JY: float = 1e26  # conversion spectral flux density (F_nu) from SI (W m^-2 Hz^-1) to Jansky
+JY_2WATT_PER_M2_HZ: float = 1 / WATT_PER_M2_HZ_2JY  # conversion spectral flux density (F_nu) from Jansky to SI
+ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M: float = 1e3  # conversion spectral flux density (F_lam)
+# from erg s^-1 cm^-2 micron^-1  to SI (W m^-2 m^-1)
+WATT_PER_M2_M_2ERG_PER_S_CM2_MICRON: float = 1 / ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M  # conversion spectral flux density
 # (F_lam) from SI (W m^-2 m^-1) to erg s^-1 cm^-2 micron^-1
 
 
 # plotting settings
-def set_matplotlib_params():
+def set_matplotlib_params() -> None:
     """
     Function to set project-wide matplotlib parameters. To be used at the top of a distroi module if plotting
     functionalities are included in it.
@@ -64,8 +62,8 @@ def set_matplotlib_params():
     plt.rcParams['font.family'] = 'serif'
     plt.rcParams['mathtext.fontset'] = 'dejavuserif'
     plt.rcParams['legend.frameon'] = False
-    plt.rcParams['lines.markersize'] = 4
-    plt.rcParams['lines.linewidth'] = 1.0
+    plt.rcParams['lines.markersize'] = 6.0
+    plt.rcParams['lines.linewidth'] = 2.0
 
     plt.rc('font', size=12)  # controls default text sizes
     plt.rc('axes', titlesize=14)  # fontsize of the axes title
@@ -77,8 +75,9 @@ def set_matplotlib_params():
 
 
 # function to redden flux
-def redden_flux(wavelength, flux, ebminv, reddening_law=PROJECT_ROOT + '/utils/ISM_reddening/'
-                                                                       'ISMreddening_law_Cardelli1989.dat'):
+def redden_flux(wavelength: np.ndarray | float, flux: np.ndarray | float, ebminv: float,
+                reddening_law: str = PROJECT_ROOT + '/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat')\
+        -> np.ndarray:
     """
     Takes wavelength(s) and the associated flux values, and reddens them according to the specified E(B-V) value.
     Note that this function will not extrapolate outside the wavelength ranges of the reddening law. Instead, no
@@ -113,7 +112,7 @@ def redden_flux(wavelength, flux, ebminv, reddening_law=PROJECT_ROOT + '/utils/I
 
 
 # blackbody radiance functions
-def bb_flam_at_wavelength(temp, wavelength):
+def bb_flam_at_wavelength(temp: float, wavelength: np.ndarray | float):
     """
     Given a temperature and wavelength, returns the spectral radiance of a blackbody curve in B_lam format and SI units.
 
@@ -128,7 +127,7 @@ def bb_flam_at_wavelength(temp, wavelength):
     return radiance
 
 
-def bb_flam_at_frequency(temp, frequency):
+def bb_flam_at_frequency(temp: float, frequency: np.ndarray | float):
     """
     Given a temperature and frequency, returns the spectral radiance of a blackbody curve in B_lam format and SI units.
 
@@ -142,7 +141,7 @@ def bb_flam_at_frequency(temp, frequency):
     return radiance
 
 
-def bb_fnu_at_frequency(temp, frequency):
+def bb_fnu_at_frequency(temp: float, frequency: np.ndarray | float):
     """
     Given a temperature and wavelength, returns the spectral radiance of a blackbody curve in B_nu format and SI units.
 
@@ -156,7 +155,7 @@ def bb_fnu_at_frequency(temp, frequency):
     return radiance
 
 
-def bb_fnu_at_wavelength(temp, wavelength):
+def bb_fnu_at_wavelength(temp: float, wavelength: np.ndarray | float):
     """
     Given a temperature and wavelength, returns the spectral radiance of a blackbody curve in B_nu format and SI units.
 

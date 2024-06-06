@@ -83,6 +83,7 @@
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
  | <a href="#W"><strong>W</strong></a>
  
@@ -122,13 +123,15 @@
 </li>
       <li><a href="distroi.html#distroi.constants.bb_fnu_at_frequency">bb_fnu_at_frequency() (in module distroi.constants)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="distroi.html#distroi.constants.bb_fnu_at_wavelength">bb_fnu_at_wavelength() (in module distroi.constants)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="distroi.auxiliary.html#distroi.auxiliary.ReadOIFITS.bcolors">bcolors (class in distroi.auxiliary.ReadOIFITS)</a>
 </li>
       <li><a href="distroi.html#distroi.beam.Beam">Beam (class in distroi.beam)</a>
+</li>
+      <li><a href="distroi.html#distroi.geom_comps.BlackBodySpecDep">BlackBodySpecDep (class in distroi.geom_comps)</a>
 </li>
       <li><a href="distroi.auxiliary.html#distroi.auxiliary.ReadOIFITS.bcolors.BOLD">BOLD (distroi.auxiliary.ReadOIFITS.bcolors attribute)</a>
 </li>
@@ -142,10 +145,20 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="distroi.html#distroi.beam.calc_gaussian_beam">calc_gaussian_beam() (in module distroi.beam)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="distroi.html#distroi.oi_observables.calc_mod_observables">calc_mod_observables() (in module distroi.oi_observables)</a>
 </li>
+      <li><a href="distroi.html#distroi.geom_comps.GeomComp.calc_vis">calc_vis() (distroi.geom_comps.GeomComp method)</a>
+
+      <ul>
+        <li><a href="distroi.html#distroi.geom_comps.Overresolved.calc_vis">(distroi.geom_comps.Overresolved method)</a>
+</li>
+        <li><a href="distroi.html#distroi.geom_comps.PointSource.calc_vis">(distroi.geom_comps.PointSource method)</a>
+</li>
+        <li><a href="distroi.html#distroi.geom_comps.UniformDisk.calc_vis">(distroi.geom_comps.UniformDisk method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="distroi.html#distroi.sed.chi2reddened">chi2reddened() (in module distroi.sed)</a>
 </li>
   </ul></td>
@@ -188,8 +201,6 @@
         <li><a href="distroi.auxiliary.html#module-distroi.auxiliary.SelectData">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     distroi.beam
 
@@ -197,11 +208,27 @@
         <li><a href="distroi.html#module-distroi.beam">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     distroi.constants
 
       <ul>
         <li><a href="distroi.html#module-distroi.constants">module</a>
+</li>
+      </ul></li>
+      <li>
+    distroi.fitting
+
+      <ul>
+        <li><a href="distroi.fitting.html#module-distroi.fitting">module</a>
+</li>
+      </ul></li>
+      <li>
+    distroi.geom_comps
+
+      <ul>
+        <li><a href="distroi.html#module-distroi.geom_comps">module</a>
 </li>
       </ul></li>
       <li>
@@ -247,12 +274,26 @@
 </li>
       <li><a href="distroi.auxiliary.html#distroi.auxiliary.ReadOIFITS.fail">fail() (in module distroi.auxiliary.ReadOIFITS)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="distroi.auxiliary.html#distroi.auxiliary.ReadOIFITS.data.filterFlagged">filterFlagged() (distroi.auxiliary.ReadOIFITS.data method)</a>
+</li>
+      <li><a href="distroi.html#distroi.geom_comps.FlatSpecDep">FlatSpecDep (class in distroi.geom_comps)</a>
 </li>
       <li><a href="distroi.auxiliary.html#distroi.auxiliary.ReadOIFITS.flatten">flatten() (in module distroi.auxiliary.ReadOIFITS)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="distroi.html#distroi.geom_comps.BlackBodySpecDep.flux_from_ref">flux_from_ref() (distroi.geom_comps.BlackBodySpecDep method)</a>
+
+      <ul>
+        <li><a href="distroi.html#distroi.geom_comps.FlatSpecDep.flux_from_ref">(distroi.geom_comps.FlatSpecDep method)</a>
+</li>
+        <li><a href="distroi.html#distroi.geom_comps.PowerLawSpecDep.flux_from_ref">(distroi.geom_comps.PowerLawSpecDep method)</a>
+</li>
+        <li><a href="distroi.html#distroi.geom_comps.SpecDep.flux_from_ref">(distroi.geom_comps.SpecDep method)</a>
+</li>
+        <li><a href="distroi.html#distroi.geom_comps.ThinAccDiskSpecDep.flux_from_ref">(distroi.geom_comps.ThinAccDiskSpecDep method)</a>
+</li>
+      </ul></li>
       <li><a href="distroi.html#distroi.image_fft.ImageFFT.freq_info">freq_info() (distroi.image_fft.ImageFFT method)</a>
 </li>
   </ul></td>
@@ -263,16 +304,18 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="distroi.html#distroi.beam.gaussian_2d">gaussian_2d() (in module distroi.beam)</a>
 </li>
+      <li><a href="distroi.html#distroi.geom_comps.GeomComp">GeomComp (class in distroi.geom_comps)</a>
+</li>
       <li><a href="distroi.html#distroi.image_fft.get_image_fft_list">get_image_fft_list() (in module distroi.image_fft)</a>
 </li>
       <li><a href="distroi.auxiliary.html#distroi.auxiliary.ReadOIFITS.data.givedataJK">givedataJK() (distroi.auxiliary.ReadOIFITS.data method)</a>
 </li>
       <li><a href="distroi.auxiliary.html#distroi.auxiliary.ReadOIFITS.GiveDataValues">GiveDataValues() (in module distroi.auxiliary.ReadOIFITS)</a>
 </li>
-      <li><a href="distroi.auxiliary.html#distroi.auxiliary.ReadOIFITS.OITARGET.giveid">giveid() (distroi.auxiliary.ReadOIFITS.OITARGET method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="distroi.auxiliary.html#distroi.auxiliary.ReadOIFITS.OITARGET.giveid">giveid() (distroi.auxiliary.ReadOIFITS.OITARGET method)</a>
+</li>
       <li><a href="distroi.auxiliary.html#distroi.auxiliary.ReadOIFITS.OITARGET.givetarget">givetarget() (distroi.auxiliary.ReadOIFITS.OITARGET method)</a>
 </li>
       <li><a href="distroi.auxiliary.html#distroi.auxiliary.ReadOIFITS.OITARGET.givetargetid">givetargetid() (distroi.auxiliary.ReadOIFITS.OITARGET method)</a>
@@ -313,8 +356,6 @@
 </li>
       <li><a href="distroi.auxiliary.html#distroi.auxiliary.ReadOIFITS.inform2">inform2() (in module distroi.auxiliary.ReadOIFITS)</a>
 </li>
-      <li><a href="distroi.html#distroi.sed.ism_reddening_fit">ism_reddening_fit() (in module distroi.sed)</a>
-</li>
   </ul></td>
 </tr></table>
 
@@ -337,7 +378,7 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="distroi.html#distroi.oi_observables.mod_complex_vis_interpolator">mod_complex_vis_interpolator() (in module distroi.oi_observables)</a>
+      <li><a href="distroi.html#distroi.oi_observables.mod_comp_vis_interpolator">mod_comp_vis_interpolator() (in module distroi.oi_observables)</a>
 </li>
       <li>
     module
@@ -354,6 +395,10 @@
         <li><a href="distroi.html#module-distroi.beam">distroi.beam</a>
 </li>
         <li><a href="distroi.html#module-distroi.constants">distroi.constants</a>
+</li>
+        <li><a href="distroi.fitting.html#module-distroi.fitting">distroi.fitting</a>
+</li>
+        <li><a href="distroi.html#module-distroi.geom_comps">distroi.geom_comps</a>
 </li>
         <li><a href="distroi.html#module-distroi.image_fft">distroi.image_fft</a>
 </li>
@@ -390,6 +435,8 @@
 </li>
       <li><a href="distroi.auxiliary.html#distroi.auxiliary.ReadOIFITS.bcolors.OKGREEN">OKGREEN (distroi.auxiliary.ReadOIFITS.bcolors attribute)</a>
 </li>
+      <li><a href="distroi.html#distroi.geom_comps.Overresolved">Overresolved (class in distroi.geom_comps)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -398,13 +445,25 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="distroi.html#distroi.image_fft.ImageFFT.perform_fft">perform_fft() (distroi.image_fft.ImageFFT method)</a>
 </li>
-      <li><a href="distroi.html#distroi.oi_observables.plot_data_vs_model">plot_data_vs_model() (in module distroi.oi_observables)</a>
+      <li><a href="distroi.html#distroi.beam.Beam.plot">plot() (distroi.beam.Beam method)</a>
+
+      <ul>
+        <li><a href="distroi.html#distroi.sed.SED.plot">(distroi.sed.SED method)</a>
 </li>
+      </ul></li>
+      <li><a href="distroi.html#distroi.oi_observables.plot_data_vs_model">plot_data_vs_model() (in module distroi.oi_observables)</a>
+
+      <ul>
+        <li><a href="distroi.html#distroi.sed.plot_data_vs_model">(in module distroi.sed)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="distroi.html#distroi.sed.plot_reddened_model_fit">plot_reddened_model_fit() (in module distroi.sed)</a>
-</li>
       <li><a href="distroi.auxiliary.html#distroi.auxiliary.ReadOIFITS.data.plotV2CP">plotV2CP() (distroi.auxiliary.ReadOIFITS.data method)</a>
+</li>
+      <li><a href="distroi.html#distroi.geom_comps.PointSource">PointSource (class in distroi.geom_comps)</a>
+</li>
+      <li><a href="distroi.html#distroi.geom_comps.PowerLawSpecDep">PowerLawSpecDep (class in distroi.geom_comps)</a>
 </li>
       <li><a href="distroi.auxiliary.html#distroi.auxiliary.ReadOIFITS.OITARGET.printtarget">printtarget() (distroi.auxiliary.ReadOIFITS.OITARGET method)</a>
 </li>
@@ -432,10 +491,10 @@
 </li>
       <li><a href="distroi.auxiliary.html#distroi.auxiliary.ReadOIFITS.data.readfile">readfile() (distroi.auxiliary.ReadOIFITS.data method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="distroi.auxiliary.html#distroi.auxiliary.ReadOIFITS.data.readFLUX">readFLUX() (distroi.auxiliary.ReadOIFITS.data method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="distroi.auxiliary.html#distroi.auxiliary.ReadOIFITS.data.readT3">readT3() (distroi.auxiliary.ReadOIFITS.data method)</a>
 </li>
       <li><a href="distroi.auxiliary.html#distroi.auxiliary.ReadOIFITS.data.readTARGET">readTARGET() (distroi.auxiliary.ReadOIFITS.data method)</a>
@@ -447,8 +506,14 @@
       <li><a href="distroi.auxiliary.html#distroi.auxiliary.ReadOIFITS.data.readWAVE">readWAVE() (distroi.auxiliary.ReadOIFITS.data method)</a>
 </li>
       <li><a href="distroi.html#distroi.image_fft.ImageFFT.redden">redden() (distroi.image_fft.ImageFFT method)</a>
+
+      <ul>
+        <li><a href="distroi.html#distroi.sed.SED.redden">(distroi.sed.SED method)</a>
 </li>
+      </ul></li>
       <li><a href="distroi.html#distroi.constants.redden_flux">redden_flux() (in module distroi.constants)</a>
+</li>
+      <li><a href="distroi.html#distroi.sed.reddening_fit">reddening_fit() (in module distroi.sed)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -464,10 +529,10 @@
 </li>
       <li><a href="distroi.auxiliary.html#distroi.auxiliary.SelectData.Select_vis_t3_base">Select_vis_t3_base() (in module distroi.auxiliary.SelectData)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="distroi.auxiliary.html#distroi.auxiliary.SelectData.Select_vis_t3_wavelength">Select_vis_t3_wavelength() (in module distroi.auxiliary.SelectData)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="distroi.auxiliary.html#distroi.auxiliary.SelectData.Select_viserr">Select_viserr() (in module distroi.auxiliary.SelectData)</a>
 </li>
       <li><a href="distroi.auxiliary.html#distroi.auxiliary.SelectData.SelectData">SelectData() (in module distroi.auxiliary.SelectData)</a>
@@ -475,6 +540,16 @@
       <li><a href="distroi.auxiliary.html#distroi.auxiliary.SelectData.SelectData_data_and_image">SelectData_data_and_image() (in module distroi.auxiliary.SelectData)</a>
 </li>
       <li><a href="distroi.html#distroi.constants.set_matplotlib_params">set_matplotlib_params() (in module distroi.constants)</a>
+</li>
+      <li><a href="distroi.html#distroi.geom_comps.SpecDep">SpecDep (class in distroi.geom_comps)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="distroi.html#distroi.geom_comps.ThinAccDiskSpecDep">ThinAccDiskSpecDep (class in distroi.geom_comps)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -487,6 +562,8 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="distroi.auxiliary.html#distroi.auxiliary.ReadOIFITS.underline">underline() (in module distroi.auxiliary.ReadOIFITS)</a>
+</li>
+      <li><a href="distroi.html#distroi.geom_comps.UniformDisk">UniformDisk (class in distroi.geom_comps)</a>
 </li>
   </ul></td>
 </tr></table>

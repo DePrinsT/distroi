@@ -6,14 +6,13 @@ Closure phases ; Visibilities - Closure phases ; Correlated fluxes (formaly stor
 """
 
 from distroi import constants
+from distroi import image_fft
 from distroi.auxiliary import SelectData
 
 import os
 
 import numpy as np
 from scipy.interpolate import RegularGridInterpolator
-from scipy.spatial.distance import cdist
-from scipy.optimize import curve_fit
 
 import matplotlib.pyplot as plt
 
@@ -47,7 +46,7 @@ class OIContainer:
     :ivar np.ndarray v2base: Baseline length in MegaLambda for squared visibility data.
     :ivar np.ndarray t3uf1: u-axis spatial freqs in 1/rad for the 1st projected baseline along the closure triangle.
     :ivar np.ndarray t3vf1: v-axis spatial freqs in 1/rad for the 1st projected baseline along the closure triangle.
-    :ivar np.ndarray t3uf3: u-axis spatial freqs in 1/rad for the 2nd projected baseline along the closure triangle.
+    :ivar np.ndarray t3uf2: u-axis spatial freqs in 1/rad for the 2nd projected baseline along the closure triangle.
     :ivar np.ndarray t3vf2: v-axis spatial freqs in 1/rad for the 2nd projected baseline along the closure triangle.
     :ivar np.ndarray t3uf3: u-axis spatial freqs in 1/rad for the 3d projected baseline along the closure triangle.
     :ivar np.ndarray t3vf3: v-axis spatial freqs in 1/rad for the 3d projected baseline along the closure triangle.
@@ -57,7 +56,7 @@ class OIContainer:
     :ivar np.ndarray t3bmax: Maximum baseline length along the closure triangle in units of MegaLambda.
     """
 
-    def __init__(self, dictionary, fcorr=False):
+    def __init__(self, dictionary: dict[str, np.ndarray], fcorr: bool = False):
         """
         Constructor method. See class docstring for information on instance properties.
         """
@@ -119,7 +118,8 @@ class OIContainer:
             self.t3bmax = dictionary['t3bmax']
 
 
-def read_oicontainer_oifits(data_dir, data_file, wave_lims=None, v2lim=None, fcorr=False):
+def read_oicontainer_oifits(data_dir: str, data_file: str, wave_lims: tuple[float, float] = None,
+                            v2lim: float = None, fcorr: bool = False) -> OIContainer:
     """
     Retrieve data from (multiple) OIFITS files and return in an OIConatiner class instance.
 
@@ -234,7 +234,7 @@ def read_oicontainer_oifits(data_dir, data_file, wave_lims=None, v2lim=None, fco
     return container
 
 
-def calc_mod_observables(container_data, img_fft_list):
+def calc_mod_observables(container_data: OIContainer, img_fft_list: list[image_fft.ImageFFT]) -> OIContainer:
     """
     Loads in OI observables from an OIContainer, typically containing observational data, and calculates model image
     observables at the same uv coverage. The model images are passed along as a list of ImageFFT objects. If the
@@ -253,11 +253,11 @@ def calc_mod_observables(container_data, img_fft_list):
     if len(img_fft_list) == 1:  # monochromatic case for a single image
 
         # create interpolator for the normalized complex FFT
-        interp_norm = mod_complex_vis_interpolator(img_fft_list)
+        interp_norm = mod_comp_vis_interpolator(img_fft_list)
 
         # Calculate visibilities (requires separate interpolator for correlated fluxes if needed).
         if container_data.vis_in_fcorr:
-            interp_fcorr = mod_complex_vis_interpolator(img_fft_list, fcorr=True)
+            interp_fcorr = mod_comp_vis_interpolator(img_fft_list, fcorr=True)
             vmod = abs(interp_fcorr((container_data.vvf, container_data.vuf)))
         else:
             vmod = abs(interp_norm((container_data.vvf, container_data.vuf)))
@@ -274,11 +274,11 @@ def calc_mod_observables(container_data, img_fft_list):
     else:  # case for multiple images simultaneously
 
         # create interpolator for the normalized complex FFT
-        interp_norm = mod_complex_vis_interpolator(img_fft_list)
+        interp_norm = mod_comp_vis_interpolator(img_fft_list)
 
         # Calculate visibilities (requires separate interpolator for correlated fluxes if needed).
         if container_data.vis_in_fcorr:
-            interp_fcorr = mod_complex_vis_interpolator(img_fft_list, fcorr=True)
+            interp_fcorr = mod_comp_vis_interpolator(img_fft_list, fcorr=True)
             vmod = abs(interp_fcorr((container_data.vwave, container_data.vvf, container_data.vuf)))
         else:
             vmod = abs(interp_norm((container_data.vwave, container_data.vvf, container_data.vuf)))
@@ -308,7 +308,7 @@ def calc_mod_observables(container_data, img_fft_list):
     return container_mod
 
 
-def mod_complex_vis_interpolator(img_fft_list, fcorr=False):
+def mod_comp_vis_interpolator(img_fft_list: list[image_fft.ImageFFT], fcorr: bool = False) -> RegularGridInterpolator:
     """
     Creates a scipy RegularGridInterpolator from model ImageFFT objects, which can be used to interpolate the complex 
     visibility to different spatial frequencies than those returned by the FFT algorithm and, optionally, 
@@ -334,9 +334,9 @@ def mod_complex_vis_interpolator(img_fft_list, fcorr=False):
         img = img_fft_list[0]
         wavelength, ftot, fft, uf, vf = (img.wavelength, img.ftot, img.fft, img.uf, img.vf)
         if fcorr:  # create interpolator and normalize FFT to complex visibilities if needed
-            interpolator = RegularGridInterpolator((vf, uf), fft)  # make interpolator from absolute FFT
+            interpolator = RegularGridInterpolator((vf, uf), fft, method='linear')  # make interpol absolute FFT
         else:
-            interpolator = RegularGridInterpolator((vf, uf), fft / ftot)  # make interpolator from normalized FFT
+            interpolator = RegularGridInterpolator((vf, uf), fft / ftot, method='linear')  # same normalized
 
     else:  # multiple images -> chromatic emission model
 
@@ -361,8 +361,8 @@ def mod_complex_vis_interpolator(img_fft_list, fcorr=False):
     return interpolator
 
 
-def plot_data_vs_model(container_data, container_mod, fig_dir=None, log_plotv=False, plot_vistype='vis2',
-                       show_plots=True):
+def plot_data_vs_model(container_data: OIContainer, container_mod: OIContainer, fig_dir: str = None,
+                       log_plotv: bool = False, plot_vistype: str = 'vis2', show_plots: bool = True) -> None:
     """
     Plots the data against the model OI observables. Currently, plots uv coverage, a (squared) visibility curve and
     closure phases. Note that this function shares a name with a similar function in the sed module. Take care with
@@ -431,8 +431,8 @@ def plot_data_vs_model(container_data, container_mod, fig_dir=None, log_plotv=Fa
     ax.set_title(f'uv coverage')
     ax.set_xlabel(r"$\leftarrow B_u$ ($\mathrm{M \lambda}$)")
     ax.set_ylabel(r"$B_v \rightarrow$ ($\mathrm{M \lambda}$)")
-
-    plt.savefig(f"{fig_dir}/uv_plane.png", dpi=300, bbox_inches='tight')
+    if fig_dir is not None:
+        plt.savefig(f"{fig_dir}/uv_plane.png", dpi=300, bbox_inches='tight')
 
     # plot (squared) visibilities
     fig = plt.figure(figsize=(10, 8))
@@ -461,7 +461,8 @@ def plot_data_vs_model(container_data, container_mod, fig_dir=None, log_plotv=Fa
     ax[1].axhline(y=0, c='k', ls='--', lw=1, zorder=0)
     ax[1].set_xlabel(r'$B$ ($\mathrm{M \lambda}$)')
     ax[1].set_ylabel(r'error $(\sigma)$')
-    plt.savefig(f"{fig_dir}/visibilities.png", dpi=300, bbox_inches='tight')
+    if fig_dir is not None:
+        plt.savefig(f"{fig_dir}/visibilities.png", dpi=300, bbox_inches='tight')
 
     # plot phi_closure
     fig = plt.figure(figsize=(10, 8))
@@ -486,7 +487,6 @@ def plot_data_vs_model(container_data, container_mod, fig_dir=None, log_plotv=Fa
     ax[1].axhline(y=0, c='k', ls='--', lw=1, zorder=0)
     ax[1].set_xlabel(r'$B_{max}$ ($\mathrm{M \lambda}$)')
     ax[1].set_ylabel(r'error $(\sigma_{\phi_{CP}})$')
-
     if fig_dir is not None:
         plt.savefig(f"{fig_dir}/closure_phases.png", dpi=300, bbox_inches='tight')
     if show_plots:

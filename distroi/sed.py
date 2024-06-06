@@ -34,7 +34,7 @@ class SED:
     :ivar np.ndarray fnu_err: 1D array containing the error on F_nu.
     """
 
-    def __init__(self, dictionary):
+    def __init__(self, dictionary: dict[str, np.ndarray]):
         """
         Constructor method. See class docstring for information on instance properties.
         """
@@ -51,10 +51,12 @@ class SED:
             # calculate and add frequency-based variables
             self.add_freq_vars()
 
-    def redden(self, ebminv, reddening_law=constants.PROJECT_ROOT + '/utils/ISM_reddening/'
-                                                                    'ISMreddening_law_Cardelli1989.dat'):
+    def redden(self, ebminv: float, reddening_law: str = constants.PROJECT_ROOT + '/utils/ISM_reddening/'
+                                                                                  'ISMreddening_law_Cardelli1989.dat')\
+            -> None:
         """
         Further reddens the SED according to the approriate E(B-V) and a corresponding reddening law.
+
         :param float ebminv: E(B-V) reddening factor to be applied.
         :param str reddening_law: Path to the reddening law to be used. Defaults to the ISM reddening law by
             Cardelli (1989) in DISTROI's 'utils/ISM_reddening folder'. See this file for the expected formatting
@@ -66,7 +68,17 @@ class SED:
 
         return
 
-    def add_freq_vars(self):
+    def plot(self, fig_dir: str = None, flux_form: str = 'lam_flam', log_plot: bool = True, show_plots: bool = True)\
+            -> None:
+        """
+        Make a scatter plot of the SED.
+
+        :rtype: None
+        """
+        # todo: plot
+        return
+
+    def add_freq_vars(self) -> None:
         """
         Calculate and set frequency-based instance variables from the wavelength-based ones.
 
@@ -86,7 +98,7 @@ class SED:
         return
 
 
-def read_sed_mcfost(sed_path, star_only=False):
+def read_sed_mcfost(sed_path: str, star_only: bool = False) -> SED:
     """
     Retrieve SED data from an MCFOST model SED and return it as an SED class instance.
 
@@ -111,7 +123,7 @@ def read_sed_mcfost(sed_path, star_only=False):
         flam = np.array(sed_array[0, az, inc, :]) / wavelengths  # flam in SI units (W m^-2 m^-1)
         dictionary['flam'] = flam * constants.WATT_PER_M2_M_2ERG_PER_S_CM2_MICRON  # store in erg s^-1 cm^-2 micron^-1
     else:
-        flam = np.array(sed_array[1, az, inc, :])  # single out the star only, flam in SI units (W m^-2 m^-1)
+        flam = np.array(sed_array[1, az, inc, :]) / wavelengths  # single out star only, flam in SI units (W m^-2 m^-1)
         dictionary['flam'] = flam * constants.WATT_PER_M2_M_2ERG_PER_S_CM2_MICRON  # store in erg s^-1 cm^-2 micron^-1
     dictionary['flam_err'] = np.zeros_like(flam)  # set errors to 0 since we're dealing with a model
 
@@ -120,7 +132,7 @@ def read_sed_mcfost(sed_path, star_only=False):
     return sed
 
 
-def read_sed_repo_phot(sed_path, wave_lims=None):
+def read_sed_repo_phot(sed_path: str, wave_lims: tuple[float, float] = None) -> SED:
     """
     Retrieve observed SED data stored in a .phot file from the SED catalog presented in Kluska et al. 2022 (
     A&A, 658 (2022) A36). Such files are stored in the local system of KU Leuven's Institute of Astronomy.
@@ -158,11 +170,11 @@ def read_sed_repo_phot(sed_path, wave_lims=None):
     return sed
 
 
-# 'lam'=array of wavelengths of data 'flux'=flux values of data, lam_model=wavelengths of model,
-# flux_model = model flux, flux errors of data, 'E'=E(B-V) magnitude 'path'=path to reddening law file
-def chi2reddened(sed_obs, sed_mod, ebminv, reddening_law=constants.PROJECT_ROOT + '/utils/ISM_reddening'
-                                                                                  '/ISMreddening_law_'
-                                                                                  'Cardelli1989.dat'):
+# todo: add support for fitting reddening on Fnu, lam_Flam or nu_Fnu instead
+def chi2reddened(sed_obs: SED, sed_mod: SED, ebminv: float, reddening_law: str = f'{constants.PROJECT_ROOT}'
+                                                                                 f'/utils/ISM_reddening'
+                                                                                 f'/ISMreddening_law_'
+                                                                                 f'Cardelli1989.dat') -> float:
     """
     Returns the chi2 between an RT model SED and an observed SED under a certain amount of additional reddening.
     Note that this doesn't actually redden any of the SED objects, only calculates the chi2 assuming the model SED
@@ -195,9 +207,12 @@ def chi2reddened(sed_obs, sed_mod, ebminv, reddening_law=constants.PROJECT_ROOT 
     return chi2
 
 
-def reddening_fit(sed_obs, sed_mod, ebminv_guess, reddening_law=constants.PROJECT_ROOT + '/utils/ISM_reddening'
-                                                                                         '/ISMreddening_law_'
-                                                                                         'Cardelli1989.dat'):
+# todo: add support for fitting reddening on Fnu, lam_Flam or nu_Fnu instead
+def reddening_fit(sed_obs: SED, sed_mod: SED, ebminv_guess: float, reddening_law: str = f'{constants.PROJECT_ROOT}'
+                                                                                        f'/utils/ISM_reddening'
+                                                                                        f'/ISMreddening_law_'
+                                                                                        f'Cardelli1989.dat')\
+        -> tuple[float, float]:
     """
     Fits an additional reddening E(B-V) value to make a model SED match up to an observed SED as much as possible. In
     case of a successfull fit, the model SED is subsequently reddened according to the fitted value E(B-V) and the
@@ -220,30 +235,56 @@ def reddening_fit(sed_obs, sed_mod, ebminv_guess, reddening_law=constants.PROJEC
     return ebminv_opt, chi2
 
 
-def plot_data_vs_model(sed_dat, sed_mod, form='lam_flam', sed_mod_alt=None, alt_label=None, log_plotf=True,
-                       log_plotw=True):
+def plot_data_vs_model(sed_dat: SED, sed_mod: SED, fig_dir: str = None, flux_form: str = 'lam_flam',
+                       sed_mod_alt: SED = None, alt_label: str = None, log_plot: bool = True,
+                       show_plots: bool = True) -> None:
     """
     Plots the data (observed) SED against the model SED. Note that this function shares a name with a similar function
     in the oi_observables module. Take care with your namespace if you use both functions in the same script.
 
     :param SED sed_dat: Data SED. Typically corresponds to observations.
     :param SED sed_mod: RT model SED.
-    :param str form: Format for the flux. By default, it is set to 'lam_flam', meaning we represent the flux in
+    :param str fig_dir: Directory to store plots in.
+    :param str flux_form: Format for the flux. By default, it is set to 'lam_flam', meaning we represent the flux in
         lam*F_lam format (units erg s^-1 cm^-2). Analogously, other options are 'flam' (erg s^-1 cm^-2 micron^-1),
         'fnu' (Jy) and 'nu_fnu' (Jy Hz).
     :param SED sed_mod_alt: Alternative RT model SED included in the plot. This is useful, for instance, if you want
         to include the model SED with only the flux from the star in the plot (such SEDs can be created using e.g.
         read_sed_mcfost() with star_only=True).
     :param str alt_label: Label to be associated to sed_mod_alt in the plot's legend.
+    :param bool log_plot: Set to False if you want the plot axes to be in linear scale.
+    :param bool show_plots: Set to False if you do not want the plots to be shown during your script run.
+        Note that if True, this freazes further code execution until the plot windows are closed.
     :rtype: None
     """
     fig, ax = plt.subplots(figsize=(8, 8))
     ax.errorbar(sed_dat.wavelengths, sed_dat.wavelengths * sed_dat.flam, sed_dat.wavelengths * sed_dat.flam_err,
-                label='data', fmt='bd', mfc='white', capsize=5, zorder=1000)
+                label='data', fmt='bd', mfc='white', capsize=5, zorder=100)
     ax.plot(sed_mod.wavelengths, sed_mod.wavelengths * sed_mod.flam, ls='-', c='r', zorder=1)
-    ax.set_xscale('log')
-    ax.set_yscale('log')
-    plt.show()
+    ax.plot(sed_mod_alt.wavelengths, sed_mod_alt.wavelengths * sed_mod_alt.flam, ls='--', c='r', alpha=0.4, zorder=2)
+    ax.set_title('SED')
+
+    if flux_form == 'lam_flam':
+        ax.set_xlabel(r"$\lambda \, \mathrm{(\mu m)}$")
+        ax.set_ylabel(r"$\lambda F_{\lambda} \, \mathrm{(erg \, cm^{-2} \, s^{-1})}$")
+    elif flux_form == 'nu_fnu':
+        ax.set_xlabel(r"$\nu \, \mathrm{(Hz)}$")
+        ax.set_ylabel(r"$\nu F_{\nu} \, \mathrm{(Hz \, Jy)}$")
+    if log_plot:
+        ax.set_xlim(0.5 * np.min(sed_dat.wavelengths), 2 * np.max(sed_dat.wavelengths))
+        ax.set_ylim(0.5 * np.min(sed_dat.wavelengths * sed_dat.flam), 2.0 *
+                    max(np.max(sed_dat.wavelengths * sed_dat.flam), np.max(sed_mod.wavelengths * sed_mod.flam)))
+        ax.set_xscale('log')
+        ax.set_yscale('log')
+    plt.tight_layout()
+
+    if fig_dir is not None:
+        if not os.path.exists(fig_dir):
+            os.makedirs(fig_dir)
+        plt.savefig(f"{fig_dir}/sed_comparison.png", dpi=300, bbox_inches='tight')
+    if show_plots:
+        plt.show()
+
     return
 
 
@@ -309,12 +350,10 @@ def plot_data_vs_model(sed_dat, sed_mod, form='lam_flam', sed_mod_alt=None, alt_
 if __name__ == "__main__":
     sed_data = read_sed_repo_phot('../examples/data/IRAS0844-4431/SED/IRAS08544-4431.phot')
     sed_model = read_sed_mcfost('../examples/models/IRAS08544-4431_test_model/data_th/sed_rt.fits.gz')
+    sed_star = read_sed_mcfost('../examples/models/IRAS08544-4431_test_model/data_th/sed_rt.fits.gz',
+                               star_only=True)
 
     ebminv_fitted, chi2_value = reddening_fit(sed_data, sed_model, ebminv_guess=1.4)
-    # # print(ebminv_fitted)
-    # plt.scatter(sed_data.wavelengths, sed_data.wavelengths * sed_data.flam)
-    # plt.plot(sed_model.wavelengths, sed_model.wavelengths * sed_model.flam)
-    # plt.yscale('log')
-    # plt.xscale('log')
-    # plt.show()
-    plot_data_vs_model(sed_data, sed_model)
+    print(ebminv_fitted)
+    plt.show()
+    plot_data_vs_model(sed_data, sed_model, flux_form='lam_flam', sed_mod_alt=sed_star)
