@@ -117,6 +117,108 @@ class OIContainer:
             self.t3phierr = dictionary['t3phierr']
             self.t3bmax = dictionary['t3bmax']
 
+    def plot_data(self, fig_dir: str = None, log_plotv: bool = False, plot_vistype: str = 'vis2', show_plots: bool = True) \
+            -> None:
+        """
+        Plots the data included in the OIContainer instance. Currently, plots uv coverage, a (squared) visibility curve and
+        closure phases.
+
+        :param str fig_dir: Directory to store plots in.
+        :param bool log_plotv: Set to True for a logarithmic y-scale in the (squared) visibility plot.
+        :param str plot_vistype: Sets the type of visibility to be plotted. 'vis2' for squared visibilities or 'vis'
+            for visibilities (either normalized or correlated flux in Jy, as implied by the OIContainer objects).
+        :param bool show_plots: Set to False if you do not want the plots to be shown during your python instance.
+            Note that if True, this freazes further code execution until the plot windows are closed.
+        :rtype: None
+        """
+        # create plotting directory if it doesn't exist yet
+        if fig_dir is not None:
+            if not os.path.exists(fig_dir):
+                os.makedirs(fig_dir)
+
+        # set spatial frequencies, visibilities and plotting label based on specified option
+        if plot_vistype == 'vis2':
+            uf, vf = self.v2uf, self.v2vf
+            vis, viserr = self.v2, self.v2err
+            wave, base, vislabel = self.v2wave, self.v2base, '$V^2$'
+        elif plot_vistype == 'vis':
+            uf, vf = self.vuf, self.vvf
+            vis, viserr = self.v, self.verr
+            wave, base = self.vwave, self.vbase
+            if not self.vis_in_fcorr:
+                vislabel = '$V$'
+            else:
+                vislabel = r'$F_{corr}$ (Jy)'
+        else:
+            print("parameter plot_vistype is not recognized, will return None!")
+            return
+
+        # plot uv coverage
+        fig, ax = plt.subplots(1, 1, figsize=(8, 8))
+        fig.subplots_adjust(right=0.8)
+        cax = fig.add_axes([0.82, 0.15, 0.02, 0.7])
+        ax.set_aspect('equal', adjustable='datalim')  # make plot axes have same scale
+        ax.scatter(uf / 1e6, vf / 1e6,
+                   c=wave * constants.M2MICRON, s=1,
+                   cmap='gist_rainbow_r')
+        sc = ax.scatter(-uf / 1e6, -vf / 1e6,
+                        c=wave * constants.M2MICRON, s=1,
+                        cmap='gist_rainbow_r')
+        clb = fig.colorbar(sc, cax=cax)
+        clb.set_label(r'$\lambda$ ($\mu$m)', labelpad=5)
+
+        ax.set_xlim(ax.get_xlim()[::-1])
+        ax.set_title(f'uv coverage')
+        ax.set_xlabel(r"$\leftarrow B_u$ ($\mathrm{M \lambda}$)")
+        ax.set_ylabel(r"$B_v \rightarrow$ ($\mathrm{M \lambda}$)")
+        if fig_dir is not None:
+            plt.savefig(f"{fig_dir}/uv_plane.png", dpi=300, bbox_inches='tight')
+
+        # plot (squared) visibilities
+        fig, ax = plt.subplots(1, 1, figsize=(10, 6))
+        sc = ax.scatter(base, vis, c=wave * constants.M2MICRON, s=2, cmap='gist_rainbow_r')
+        ax.errorbar(base, vis, viserr, ecolor='grey', marker='', capsize=0, zorder=0, markersize=2, ls='', alpha=0.5,
+                    elinewidth=0.5)
+        clb = fig.colorbar(sc, pad=0.01, aspect=40)
+        clb.set_label(r'$\lambda$ ($\mu$m)', labelpad=5)
+        ax.set_ylabel(vislabel)
+        ax.set_title(f'Visibilities')
+
+        if log_plotv:
+            ax.set_ylim(0.5 * np.min(vis), 1.1 * np.max(vis))
+            ax.set_yscale('log')
+        else:
+            ax.set_ylim(0, 1.1 * np.max(vis))
+
+        ax.set_xlim(0, np.max(base) * 1.05)
+        ax.axhline(y=1, c='k', ls='--', lw=1, zorder=0)
+        ax.set_xlabel(r'$B$ ($\mathrm{M \lambda}$)')
+        ax.set_ylabel(vislabel)
+        if fig_dir is not None:
+            plt.savefig(f"{fig_dir}/visibilities.png", dpi=300, bbox_inches='tight')
+
+        # plot phi_closure
+        fig, ax = plt.subplots(1, 1, figsize=(10, 6))
+        sc = ax.scatter(self.t3bmax, self.t3phi, c=self.t3wave * constants.M2MICRON, s=2, cmap='gist_rainbow_r')
+        ax.errorbar(self.t3bmax, self.t3phi, self.t3phierr, ecolor='grey', marker='', capsize=0, zorder=0, markersize=2, ls='',
+                    alpha=0.5, elinewidth=0.5)
+        clb = fig.colorbar(sc, pad=0.01, aspect=40)
+        clb.set_label(r'$\lambda$ ($\mu$m)', labelpad=5)
+
+        ax.set_ylabel(r'$\phi_{CP}$ ($^\circ$)')
+        ax.set_title(f'Closure Phases')
+        ax.set_ylim(np.min(self.t3phi - self.t3phierr), np.max(self.t3phi + self.t3phierr))
+        ax.set_xlim(0, np.max(self.t3bmax) * 1.05)
+        ax.axhline(y=0, c='k', ls='--', lw=1, zorder=0)
+        ax.set_xlabel(r'$B_{max}$ ($\mathrm{M \lambda}$)')
+        ax.set_ylabel(r'error $(\sigma_{\phi_{CP}})$')
+        if fig_dir is not None:
+            plt.savefig(f"{fig_dir}/closure_phases.png", dpi=300, bbox_inches='tight')
+        if show_plots:
+            plt.show()
+
+        return None
+
 
 def read_oicontainer_oifits(data_dir: str, data_file: str, wave_lims: tuple[float, float] = None,
                             v2lim: float = None, fcorr: bool = False) -> OIContainer:
@@ -379,8 +481,9 @@ def plot_data_vs_model(container_data: OIContainer, container_mod: OIContainer, 
     :rtype: None
     """
     # create plotting directory if it doesn't exist yet
-    if not os.path.exists(fig_dir):
-        os.makedirs(fig_dir)
+    if fig_dir is not None:
+        if not os.path.exists(fig_dir):
+            os.makedirs(fig_dir)
 
     # set spatial frequencies, visibilities and plotting label based on specified option
     if plot_vistype == 'vis2':
@@ -412,20 +515,18 @@ def plot_data_vs_model(container_data: OIContainer, container_mod: OIContainer, 
         return
 
     # plot uv coverage
-    color_map = 'gist_rainbow_r'  # color map for wavelengths
-
     fig, ax = plt.subplots(1, 1, figsize=(8, 8))
     fig.subplots_adjust(right=0.8)
     cax = fig.add_axes([0.82, 0.15, 0.02, 0.7])
-
+    ax.set_aspect('equal', adjustable='datalim')  # make plot axes have the same scale
     ax.scatter(ufdata / 1e6, vfdata / 1e6,
                c=wavedata * constants.M2MICRON, s=1,
-               cmap=color_map)
+               cmap='gist_rainbow_r')
     sc = ax.scatter(-ufdata / 1e6, -vfdata / 1e6,
                     c=wavedata * constants.M2MICRON, s=1,
-                    cmap=color_map)
+                    cmap='gist_rainbow_r')
     clb = fig.colorbar(sc, cax=cax)
-    clb.set_label(r'$\lambda$ ($\mu$m)', rotation=270, labelpad=15)
+    clb.set_label(r'$\lambda$ ($\mu$m)', labelpad=5)
 
     ax.set_xlim(ax.get_xlim()[::-1])
     ax.set_title(f'uv coverage')
@@ -493,3 +594,12 @@ def plot_data_vs_model(container_data: OIContainer, container_mod: OIContainer, 
         plt.show()
 
     return
+
+
+if __name__ == "__main__":
+    object_id = 'U_Mon'
+    data_dir, data_file = (f'/home/toond/Documents/phd/data/{object_id}/inspiring/PIONIER/',
+                           '*.fits')
+    container_data = read_oicontainer_oifits(data_dir, data_file)
+    fig_dir = f'{data_dir}/figures/'
+    container_data.plot_data(fig_dir=fig_dir)

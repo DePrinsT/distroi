@@ -4,31 +4,59 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="58406770-33a2-415d-85da-ce2b89629f19" name="Changes" comment="Increased figure sizes.">
-      <change afterPath="$PROJECT_DIR$/distroi/fitting/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/distroi/geom_comps.py" afterDir="false" />
+    <list default="true" id="58406770-33a2-415d-85da-ce2b89629f19" name="Changes" comment="Commiting fitting package docs files (fitting not yet implemented -&gt; placeholder)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/distroi/beam.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/beam.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/distroi/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/constants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/distroi/geom_comps.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/geom_comps.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/distroi/image_fft.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/image_fft.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/distroi/oi_observables.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/oi_observables.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/distroi/sed.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/sed.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/build/doctrees/distroi.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/doctrees/distroi.doctree" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/build/doctrees/environment.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/doctrees/environment.pickle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/build/html/_sources/distroi.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/_sources/distroi.rst.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/build/html/distroi.auxiliary.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/distroi.auxiliary.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/build/html/distroi.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/distroi.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/build/html/genindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/genindex.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/build/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/build/html/modules.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/modules.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/build/html/objects.inv" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/objects.inv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/build/html/py-modindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/py-modindex.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/build/html/searchindex.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/searchindex.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/source/distroi.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/source/distroi.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/fft/fft2d_maps_2.2mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/GRAVITY/fft/fft2d_maps_2.2mum.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/fft/fft2d_maps_3.5mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_L/fft/fft2d_maps_3.5mum.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/GRAVITY/SCI_IRAS08544-4431_A_SINGLE_SCI_VIS_CALIBRATED.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/GRAVITY/SCI_IRAS08544-4431_A_SINGLE_SCI_VIS_CALIBRATED_1.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/GRAVITY/SCI_IRAS08544-4431_B_SINGLE_SCI_VIS_CALIBRATED.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/GRAVITY/SCI_IRAS08544-4431_B_SINGLE_SCI_VIS_CALIBRATED_1.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/GRAVITY/SCI_IRAS08544-4431_C_1_SINGLE_SCI_VIS_CALIBRATED.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/GRAVITY/SCI_IRAS08544-4431_C_1_SINGLE_SCI_VIS_CALIBRATED_1.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/GRAVITY/SCI_IRAS08544-4431_C_2_SINGLE_SCI_VIS_CALIBRATED.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/GRAVITY/SCI_IRAS08544-4431_C_2_SINGLE_SCI_VIS_CALIBRATED_1.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/MATISSE_L/2019-04-29T012641_IRAS08544-4431_K0G2D0J3_IR-LM_LOW_cal_oifits_0.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/MATISSE_L/2019-04-29T014725_IRAS08544-4431_K0G2D0J3_IR-LM_LOW_cal_oifits_0.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/MATISSE_L/2019-05-01T002613_IRAS08544-4431_A0G1D0J3_IR-LM_LOW_cal_oifits_0.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/MATISSE_L/2019-05-01T010412_IRAS08544-4431_A0G1D0J3_IR-LM_LOW_cal_oifits_0.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/MATISSE_L/2019-05-02T010623_IRAS08544-4431_A0G1J2J3_IR-LM_LOW_cal_oifits_0.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/MATISSE_L/2019-05-02T015015_IRAS08544-4431_A0G1J2J3_IR-LM_LOW_cal_oifits_0.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/MATISSE_L/2019-05-03T233835_IRAS08544-4431_A0G1J2J3_IR-LM_LOW_cal_oifits_0.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/MATISSE_L/2019-05-09T232734_IRAS08544-4431_A0B2D0C1_IR-LM_LOW_cal_oifits_0.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/MATISSE_L/2019-05-11T013548_IRAS08544-4431_A0B2D0C1_IR-LM_LOW_cal_oifits_0.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/MATISSE_L/2019-05-11T015225_IRAS08544-4431_A0B2D0C1_IR-LM_LOW_cal_oifits_0.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/MATISSE_L/2020-01-21T012741_IRAS08544-4431_A0G1J2K0_IR-LM_LOW_cal_oifits_0.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/MATISSE_L/2020-03-01T001453_IRAS08544-4431_A0G1J2J3_IR-LM_LOW_cal_oifits_0.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/MATISSE_L/2020-03-01T030847_IRAS08544-4431_A0G1J2J3_IR-LM_LOW_cal_oifits_0.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/MATISSE_N/2019-04-29T014725_IRAS08544-4431_K0G2D0J3_IR-N_LOW_cal_oifits_0_corr.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/MATISSE_N/2019-05-01T010412_IRAS08544-4431_A0G1D0J3_IR-N_LOW_cal_oifits_0_corr.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/MATISSE_N/2019-05-02T010623_IRAS08544-4431_A0G1J2J3_IR-N_LOW_cal_oifits_0_corr.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/MATISSE_N/2019-05-02T015015_IRAS08544-4431_A0G1J2J3_IR-N_LOW_cal_oifits_0_corr.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/MATISSE_N/2019-05-03T233835_IRAS08544-4431_A0G1J2J3_IR-N_LOW_cal_oifits_0_cal2_corr.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/MATISSE_N/2019-05-11T013548_IRAS08544-4431_A0B2D0C1_IR-N_LOW_cal_oifits_0_corr.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/MATISSE_N/2019-05-11T015225_IRAS08544-4431_A0B2D0C1_IR-N_LOW_cal_oifits_0_corr.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/MATISSE_N/2020-03-01T001453_IRAS08544-4431_A0G1J2J3_IR-N_LOW_noChop_cal_oifits_0_IRAS10153-5540_corr.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/MATISSE_N/2020-03-01T030847_IRAS08544-4431_A0G1J2J3_IR-N_LOW_noChop_cal_oifits_0_IRAS10153-5540_corr.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/PIONIER/IRAS08544-4431_PIONIER_data2015ep.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/SED/IRAS08544-4431.fits" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/data/IRAS0844-4431/SED/IRAS08544-4431.phot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/fft/fft1d_cuts_10.0mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/fft/fft1d_cuts_10.0mum.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/fft/fft2d_maps_10.0mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/fft/fft2d_maps_10.0mum.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/fft/fft2d_maps_1.65mum.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/fft/fft2d_maps_1.65mum.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/examples/single_disk_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/examples/single_disk_model.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -42,6 +70,9 @@
         <option value="Python Script" />
       </list>
     </option>
+  </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
   </component>
   <component name="Git.Settings">
     <excluded-from-favorite>
@@ -59,6 +90,18 @@
     </excluded-from-favorite>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;DePrinsT&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/DePrinsT/distroi.git&quot;,
+    &quot;accountId&quot;: &quot;1d89c22e-4f7f-4144-a3ea-bf13c8ba80a1&quot;
+  }
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/distroi/image.py" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -83,6 +126,7 @@
     &quot;Python.__init__.executor&quot;: &quot;Run&quot;,
     &quot;Python.beam.executor&quot;: &quot;Run&quot;,
     &quot;Python.constants.executor&quot;: &quot;Run&quot;,
+    &quot;Python.geom_comps.executor&quot;: &quot;Run&quot;,
     &quot;Python.geometric.executor&quot;: &quot;Run&quot;,
     &quot;Python.image.executor&quot;: &quot;Run&quot;,
     &quot;Python.image_fft.executor&quot;: &quot;Run&quot;,
@@ -93,11 +137,19 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/toond/Documents/phd/python/organic&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+    &quot;last_opened_file_path&quot;: &quot;/home/toond/Documents/phd/data/vlargh.ipynb&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.Python&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.beam">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -111,7 +163,54 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="beam" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="distroi" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/distroi" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/distroi/beam.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="oi_observables" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="distroi" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/distroi" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/distroi/oi_observables.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -129,6 +228,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <method v="2" />
     </configuration>
     <configuration default="true" type="docs" factoryName="Docutils task">
@@ -175,6 +275,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
       <option name="CLASS_NAME" value="" />
       <option name="METHOD_NAME" value="" />
@@ -184,11 +285,18 @@
       <option name="USE_PATTERN" value="false" />
       <method v="2" />
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.beam" />
+        <item itemvalue="Python.oi_observables" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-50da183f06c8-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.13135.95" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-PY-241.17011.127" />
+        <option value="bundled-python-sdk-48aec45f0201-7e9c3bbb6e34-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-241.17011.127" />
       </set>
     </attachedChunks>
   </component>
@@ -203,6 +311,27 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1712048165347</updated>
+      <workItem from="1717851185154" duration="613000" />
+      <workItem from="1717851806409" duration="286000" />
+      <workItem from="1717854714447" duration="1009000" />
+      <workItem from="1717858593925" duration="625000" />
+      <workItem from="1717883978929" duration="548000" />
+      <workItem from="1717884812561" duration="764000" />
+      <workItem from="1717924173131" duration="527000" />
+      <workItem from="1717928814785" duration="4295000" />
+      <workItem from="1717933372980" duration="2149000" />
+      <workItem from="1717944187668" duration="13000" />
+      <workItem from="1718012352178" duration="4217000" />
+      <workItem from="1718021167135" duration="8969000" />
+      <workItem from="1718038661539" duration="1263000" />
+      <workItem from="1718111145611" duration="3262000" />
+      <workItem from="1718357813755" duration="1781000" />
+      <workItem from="1718697808286" duration="16917000" />
+      <workItem from="1718720605507" duration="1650000" />
+      <workItem from="1718790254370" duration="318000" />
+      <workItem from="1718872844797" duration="19844000" />
+      <workItem from="1718895602707" duration="47000" />
+      <workItem from="1718952535000" duration="1272000" />
     </task>
     <task id="LOCAL-00001" summary="Renamed the package to DISTROI (Disk Inner STructure Reconnaisance through Optical Interferometry).">
       <option name="closed" value="true" />
@@ -380,15 +509,46 @@
       <option name="project" value="LOCAL" />
       <updated>1715677983066</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Added type hinting to the main project modules. Added abstract class/method definitions for geometrical components and their spectral dependence.">
+      <option name="closed" value="true" />
+      <created>1717678319449</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1717678319449</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Commiting fitting package docs files (fitting not yet implemented -&gt; placeholder)">
+      <option name="closed" value="true" />
+      <created>1717678397768</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1717678397768</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -417,6 +577,15 @@
     <MESSAGE value="Added some more documentation to the beam module" />
     <MESSAGE value="Further developed sed.py." />
     <MESSAGE value="Increased figure sizes." />
-    <option name="LAST_COMMIT_MESSAGE" value="Increased figure sizes." />
+    <MESSAGE value="Added type hinting to the main project modules. Added abstract class/method definitions for geometrical components and their spectral dependence." />
+    <MESSAGE value="Commiting fitting package docs files (fitting not yet implemented -&gt; placeholder)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Commiting fitting package docs files (fitting not yet implemented -&gt; placeholder)" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/distroi$oi_observables.coverage" NAME="oi_observables Coverage Results" MODIFIED="1718895615987" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi" />
+    <SUITE FILE_PATH="coverage/distroi$constants.coverage" NAME="constants Coverage Results" MODIFIED="1718027268947" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi" />
+    <SUITE FILE_PATH="coverage/distroi$geom_comps.coverage" NAME="geom_comps Coverage Results" MODIFIED="1718117255467" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi" />
+    <SUITE FILE_PATH="coverage/distroi$single_disk_model.coverage" NAME="single_disk_model Coverage Results" MODIFIED="1718708812190" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
+    <SUITE FILE_PATH="coverage/distroi$beam.coverage" NAME="beam Coverage Results" MODIFIED="1718895607012" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi" />
   </component>
 </project>

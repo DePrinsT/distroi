@@ -104,7 +104,7 @@ class ImageFFT:
         return
 
     def redden(self, ebminv: float, reddening_law: str = constants.PROJECT_ROOT + '/utils/ISM_reddening'
-                                                                                  '/ISMreddening_law_Cardelli1989.dat')\
+                                                                                  '/ISMreddening_law_Cardelli1989.dat') \
             -> None:
         """
         Further reddens the model image according to the approriate E(B-V) and a corresponding reddening law.
@@ -335,8 +335,8 @@ class ImageFFT:
                                            -self.num_pix_y / 2 + 0.5, self.num_pix_y / 2 + 0.5))
         fig.colorbar(img_plot, ax=ax[0][0], label='$I$ (Jy/pixel)', fraction=0.046, pad=0.04)
         ax[0][0].set_title('Intensity')
-        ax[0][0].set_xlabel("E-W [pixel]")
-        ax[0][0].set_ylabel("S-N [pixel]")
+        ax[0][0].set_xlabel("E-W (pixel)")
+        ax[0][0].set_ylabel("S-N (pixel)")
         ax[0][0].arrow(0.90, 0.80, -0.1, 0, color='white', transform=ax[0][0].transAxes,
                        length_includes_head=True, head_width=0.015)  # draw arrows to indicate direction
         ax[0][0].text(0.78, 0.83, "E", color='white', transform=ax[0][0].transAxes)
@@ -373,20 +373,20 @@ class ImageFFT:
         ax[0][1].axvline(x=0, lw=0.2, color='black')
 
         ax[0][1].set_title(vislabel)
-        ax[0][1].set_xlabel(r"$\leftarrow u$ [1/pixel]")
-        ax[0][1].set_ylabel(r"$v \rightarrow$ [1/pixel]")
+        ax[0][1].set_xlabel(r"$\leftarrow u$ (1/pixel)")
+        ax[0][1].set_ylabel(r"$v \rightarrow$ (1/pixel)")
 
         # complex phase of the FFT in pixel scale
         phi_plot = ax[0][2].imshow(cphi, cmap=color_map,
                                    extent=(self.num_pix_x / 2 + 0.5, -self.num_pix_x / 2 + 0.5,
                                            -self.num_pix_y / 2 + 0.5, self.num_pix_y / 2 + 0.5))
-        fig.colorbar(phi_plot, ax=ax[0][2], label=r'$\phi$ [$^\circ$]', fraction=0.046, pad=0.04)
+        fig.colorbar(phi_plot, ax=ax[0][2], label=r'$\phi$ ($^\circ$)', fraction=0.046, pad=0.04)
         ax[0][2].axhline(y=0, lw=0.2, color='black')
         ax[0][2].axvline(x=0, lw=0.2, color='black')
 
         ax[0][2].set_title(r'Complex Phase $\phi$')
-        ax[0][2].set_xlabel(r"$\leftarrow u$ [1/pixel]")
-        ax[0][2].set_ylabel(r"$v \rightarrow$ [1/pixel]")
+        ax[0][2].set_xlabel(r"$\leftarrow u$ (1/pixel)")
+        ax[0][2].set_ylabel(r"$v \rightarrow$ (1/pixel)")
 
         # intensity plotted in angle scale
         img_plot = ax[1][0].imshow(self.img, cmap=color_map, aspect='auto', norm=normi,
@@ -427,8 +427,8 @@ class ImageFFT:
         ax[1][1].axvline(x=0, lw=0.2, color='black')
 
         ax[1][1].set_title(vislabel)
-        ax[1][1].set_xlabel(r"$\leftarrow B_u$ [$\mathrm{M \lambda}$]")
-        ax[1][1].set_ylabel(r"$B_v \rightarrow$ [$\mathrm{M \lambda}$]")
+        ax[1][1].set_xlabel(r"$\leftarrow B_u$ ($\mathrm{M \lambda}$)")
+        ax[1][1].set_ylabel(r"$B_v \rightarrow$ ($\mathrm{M \lambda}$)")
 
         # complex phase of the FFT in MegaLambda (baseline length) scale
         phi_plot = ax[1][2].imshow(cphi, cmap=color_map,
@@ -436,12 +436,12 @@ class ImageFFT:
                                            step_baseu,
                                            (-self.num_pix_y / 2 + 0.5) * step_basev, (self.num_pix_y / 2 + 0.5) *
                                            step_basev))
-        fig.colorbar(phi_plot, ax=ax[1][2], label=r'$\phi$ [$^\circ$]', fraction=0.046, pad=0.04)
+        fig.colorbar(phi_plot, ax=ax[1][2], label=r'$\phi$ ($^\circ$)', fraction=0.046, pad=0.04)
         ax[1][2].axhline(y=0, lw=0.2, color='black')
         ax[1][2].axvline(x=0, lw=0.2, color='black')
         ax[1][2].set_title(r'Complex Phase $\phi$')
-        ax[1][2].set_xlabel(r"$\leftarrow B_u$ [$\mathrm{M \lambda}$]")
-        ax[1][2].set_ylabel(r"$B_v \rightarrow$ [$\mathrm{M \lambda}$]")
+        ax[1][2].set_xlabel(r"$\leftarrow B_u$ ($\mathrm{M \lambda}$)")
+        ax[1][2].set_ylabel(r"$B_v \rightarrow$ ($\mathrm{M \lambda}$)")
 
         # draw lines/cuts along which we will plot some curves
         ax[1][1].plot(np.zeros_like(basev[1:int(self.num_pix_y / 2) + 1]), basev[1:int(self.num_pix_y / 2) + 1],
@@ -480,7 +480,7 @@ class ImageFFT:
         ax2[1].plot(basev[1:], phi_ver, c='g', lw=0.7, zorder=1000, ls='--')
 
         ax2[0].set_title(f'{vislabel} cuts')
-        ax2[0].set_xlabel(r'$B$ [$\mathrm{M \lambda}$]')
+        ax2[0].set_xlabel(r'$B$ ($\mathrm{M \lambda}$)')
         ax2[0].set_ylabel(vislabel)
 
         if plot_vistype == 'vis' or plot_vistype == 'vis2':
@@ -496,8 +496,8 @@ class ImageFFT:
             ax2[0].set_ylim(np.min(np.append(vhor, vver)), 1.1 * np.max(np.append(vhor, vver)))
 
         ax2[1].set_title(r'$\phi$ cuts')
-        ax2[1].set_xlabel(r'$B$ [$\mathrm{M \lambda}$]')
-        ax2[1].set_ylabel(r'$\phi$ [$^\circ$]')
+        ax2[1].set_xlabel(r'$B$ ($\mathrm{M \lambda}$)')
+        ax2[1].set_ylabel(r'$\phi$ ($^\circ$)')
         ax2[1].axvline(x=0, c='k', lw=0.3, ls="-", zorder=0)
         ax2[1].axhline(y=0, c='k', lw=0.3, ls="-", zorder=0)
         ax2[1].axhline(y=180, c='k', lw=0.3, ls="--", zorder=0)
@@ -562,7 +562,7 @@ def read_image_fft_mcfost(img_path: str, disk_only: bool = False):
 
 def get_image_fft_list(mod_dir: str, img_dir: str, read_method: str = 'mcfost', ebminv: float = 0.0,
                        reddening_law: str = f'{constants.PROJECT_ROOT}'
-                                            f'/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat')\
+                                            f'/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat') \
         -> list[ImageFFT] | None:
     """
     Function that takes the path to an RT model's directory and a subdirectory containing image files, and returns a

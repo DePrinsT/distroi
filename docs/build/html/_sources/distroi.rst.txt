@@ -18,38 +18,6 @@ Subpackages
 Submodules
 ----------
 
-distroi.image\_fft module
--------------------------
-
-.. automodule:: distroi.image_fft
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-distroi.sed module
-------------------
-
-.. automodule:: distroi.sed
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-distroi.oi\_observables module
-------------------------------
-
-.. automodule:: distroi.oi_observables
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-distroi.geom\_comps module
---------------------------
-
-.. automodule:: distroi.geom_comps
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 distroi.beam module
 -------------------
 
@@ -66,3 +34,34 @@ distroi.constants module
    :undoc-members:
    :show-inheritance:
 
+distroi.geom\_comps module
+--------------------------
+
+.. automodule:: distroi.geom_comps
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+distroi.image\_fft module
+-------------------------
+
+.. automodule:: distroi.image_fft
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+distroi.oi\_observables module
+------------------------------
+
+.. automodule:: distroi.oi_observables
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+distroi.sed module
+------------------
+
+.. automodule:: distroi.sed
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,7 +1,7 @@
 """
-Contains classes to represent the OI point spread function (PSF) and a Gaussian fit to it. The former is called the
-'dirty beam', the latter just 'beam'. Methods to calculate the dirty beam from the uv coverage of an OIContainer object
-and get the beam from a fit to the dirty beam's inner few resolution elements (a 'Gaussian beam') are included.
+Contains a class to represent a model for the OI point spread function (PSF) (a Gaussian fit). The formal PSF is called the
+'dirty beam'. Methods to calculate the dirty beam from the uv coverage of an OIContainer object and get a fit to the dirty beam's
+inner few resolution elements (a 'Gaussian beam') are included.
 """
 
 from distroi import constants
@@ -13,6 +13,7 @@ import numpy as np
 from scipy.optimize import curve_fit
 
 import matplotlib.pyplot as plt
+from matplotlib.patches import Ellipse
 
 constants.set_matplotlib_params()  # set project matplotlib parameters
 
@@ -20,7 +21,7 @@ constants.set_matplotlib_params()  # set project matplotlib parameters
 class Beam:
     """
     Class containing information for a 2D Gaussian beam, typically acquired from a fit to the inner regions of a
-    dirty beam.
+    dirty beam (the formal PSF).
 
     :param dict dictionary: Dictionary containing keys and values representing several instance variables described
         below. Should include 'sig_min', 'sig_maj' and 'pa'.
@@ -89,7 +90,7 @@ def gaussian_2d(points: tuple[np.ndarray, np.ndarray], amp: float = 1, x0: float
 
 
 def calc_gaussian_beam(container: oi_observables.OIContainer, vistype: str = 'vis2', make_plots: bool = False,
-                       fig_dir: str = None, show_plots: bool = False, num_res: int = 2, pix_per_res: int = 16) \
+                       fig_dir: str = None, show_plots: bool = False, num_res: int = 3, pix_per_res: int = 16) \
         -> Beam | None:
     """
     Given an OIContainer and the uv frequencies to be used, calculates the clean beam Gaussian parameters by making a
@@ -155,6 +156,15 @@ def calc_gaussian_beam(container: oi_observables.OIContainer, vistype: str = 'vi
     popt_and_cov = curve_fit(gaussian_2d, (x, y), np.ravel(img_dirty), p0=init_guess, bounds=bounds)
     popt, pcov = popt_and_cov[0], popt_and_cov[1]  # extract optimized parameters and covariance matrix
 
+    # make beam object
+    dictionary = {'sig_min': popt[3], 'sig_maj': popt[3] + popt[4]}
+    if popt[5] < 0:  # PA in degrees
+        dictionary['pa'] = popt[5] + 180  # always set PA as positive (between 0 and 180)
+    else:
+        dictionary['pa'] = popt[5]
+
+    gauss_beam = Beam(dictionary)  # create Beam object
+
     if make_plots:
         fig, ax = plt.subplots(2, 2, figsize=(10, 10), sharey=True)
         color_map = 'inferno_r'
@@ -167,14 +177,21 @@ def calc_gaussian_beam(container: oi_observables.OIContainer, vistype: str = 'vi
         ax[0][0].set_title("Dirty Beam")
         ax[0][0].set_xlabel("E-W (mas)")
         ax[0][0].set_ylabel("S-N (mas)")
+        ax[0][0].set_xlim((num_pix / 2) * pixelscale, (-num_pix / 2) * pixelscale)
+        ax[0][0].set_ylim((-num_pix / 2) * pixelscale, (num_pix / 2) * pixelscale)
         ax[0][0].arrow(0.90, 0.80, -0.1, 0, color='white', transform=ax[0][0].transAxes,
-                       length_includes_head=True, head_width=0.015)  # draw arrows to indicate direction
+                       length_includes_head=True, head_width=0.015, zorder=2000)  # draw arrows to indicate direction
         ax[0][0].text(0.78, 0.83, "E", color='white', transform=ax[0][0].transAxes)
         ax[0][0].arrow(0.90, 0.80, 0, 0.1, color='white', transform=ax[0][0].transAxes,
-                       length_includes_head=True, head_width=0.015)
+                       length_includes_head=True, head_width=0.015, zorder=2000)
         ax[0][0].text(0.92, 0.90, "N", color='white', transform=ax[0][0].transAxes)
-        ax[0][0].axhline(y=0, lw=0.5, color='white')
-        ax[0][0].axvline(x=0, lw=0.5, color='white')
+        fit_text = ax[0][0].text(0.05, 0.05, r'$\mathrm{FWHM}_{min} = $' + f'{gauss_beam.fwhm_min:.3g} mas ; ' +
+                                 r'$\mathrm{FWHM}_{maj} = $' + f'{gauss_beam.fwhm_maj:.3g} mas ; ' + '\n' + 'PA = ' +
+                                 f'{gauss_beam.pa:.4g}' + r'$^{\circ}$', color='black',
+                                 transform=ax[0][0].transAxes, fontsize=10)
+        fit_text.set_bbox(dict(facecolor='white', alpha=0.5, edgecolor='white'))
+        ax[0][0].axhline(y=0, lw=0.5, color='white', alpha=0.5, zorder=0)
+        ax[0][0].axvline(x=0, lw=0.5, color='white', alpha=0.5, zorder=0)
 
         # plot Gaussian fit to the beam, note the output of gaussian_2d is 1D so needs to be reshaped
         img_fitted = np.reshape(gaussian_2d((x, y), *popt), np.shape(img_dirty))
@@ -185,11 +202,13 @@ def calc_gaussian_beam(container: oi_observables.OIContainer, vistype: str = 'vi
                                                (num_pix / 2) * pixelscale))
         ax[0][1].set_title("Gaussian Fit")
         ax[0][1].set_xlabel("E-W (mas)")
-        ax[0][1].axhline(y=0, lw=0.5, color='white')
-        ax[0][1].axvline(x=0, lw=0.5, color='white')
+        ax[0][1].set_xlim((num_pix / 2) * pixelscale, (-num_pix / 2) * pixelscale)
+        ax[0][1].set_ylim((-num_pix / 2) * pixelscale, (num_pix / 2) * pixelscale)
+        ax[0][1].axhline(y=0, lw=0.5, color='white', alpha=0.5, zorder=0)
+        ax[0][1].axvline(x=0, lw=0.5, color='white', alpha=0.5, zorder=0)
 
         # plot residuals
-        img_res_plot = ax[1][0].imshow(img_dirty - img_fitted, aspect='auto', cmap='viridis',
+        img_res_plot = ax[1][0].imshow(img_dirty - img_fitted, aspect='auto', cmap='grey',
                                        extent=((num_pix / 2) * pixelscale,
                                                (-num_pix / 2) * pixelscale,
                                                (-num_pix / 2) * pixelscale,
@@ -197,8 +216,25 @@ def calc_gaussian_beam(container: oi_observables.OIContainer, vistype: str = 'vi
         ax[1][0].set_title("Residuals")
         ax[1][0].set_xlabel("E-W (mas)")
         ax[1][0].set_ylabel("S-N (mas)")
-        ax[1][0].axhline(y=0, lw=0.5, color='white')
-        ax[1][0].axvline(x=0, lw=0.5, color='white')
+        ax[1][0].set_xlim((num_pix / 2) * pixelscale, (-num_pix / 2) * pixelscale)
+        ax[1][0].set_ylim((-num_pix / 2) * pixelscale, (num_pix / 2) * pixelscale)
+        ax[1][0].axhline(y=0, lw=0.5, color='white', alpha=0.5, zorder=0)
+        ax[1][0].axvline(x=0, lw=0.5, color='white', alpha=0.5, zorder=0)
+
+        res_ellipse1 = Ellipse(xy=(0, 0), width=gauss_beam.sig_min,
+                               height=gauss_beam.sig_maj, angle=-gauss_beam.pa, edgecolor='b', lw=2.0,
+                               fc='none', alpha=1)
+        res_ellipse2 = Ellipse(xy=(0, 0), width=gauss_beam.sig_min,
+                               height=gauss_beam.sig_maj, angle=-gauss_beam.pa, edgecolor='b', lw=2.0,
+                               fc='none', alpha=1)
+        res_ellipse3 = Ellipse(xy=(0, 0), width=gauss_beam.sig_min,
+                               height=gauss_beam.sig_maj, angle=-gauss_beam.pa, edgecolor='b', lw=2.0,
+                               fc='none', alpha=1, label='FWHM')
+        ax[0][0].add_patch(res_ellipse1)
+        ax[0][1].add_patch(res_ellipse2)
+        ax[1][0].add_patch(res_ellipse3)
+        ax[0][0].plot([], [], label=r'$1\sigma$ ellipse', color='b')
+        ax[0][0].legend(loc='upper left', frameon=True, framealpha=0.5)
 
         plt.tight_layout()  # colorbar after tight layout, otherwise it messes up the plot
         fig.colorbar(img_fit_plot, ax=ax[0].ravel().tolist(), label=r'$I_{dirty}/ \mathrm{max}(I_{dirty})$', pad=0.02)
@@ -206,20 +242,12 @@ def calc_gaussian_beam(container: oi_observables.OIContainer, vistype: str = 'vi
         ax[1][1].remove()
 
         if fig_dir is not None:
-            # create plotting directory if it doesn't exist yet
             if not os.path.exists(fig_dir):
                 os.makedirs(fig_dir)
             plt.savefig(f"{fig_dir}/dirty_beam_fit.png", dpi=300, bbox_inches='tight')  # save if fig_dir not None
         if show_plots:
             plt.show()  # show plot if asked
 
-    dictionary = {'sig_min': popt[3], 'sig_maj': popt[3] + popt[4]}
-    if popt[5] < 0:  # PA in degrees
-        dictionary['pa'] = popt[5] + 180  # always set PA as positive (between 0 and 180)
-    else:
-        dictionary['pa'] = popt[5]
-
-    gauss_beam = Beam(dictionary)  # create Beam object
     return gauss_beam
 
 
@@ -227,7 +255,9 @@ if __name__ == "__main__":
     from distroi import oi_observables
 
     fig_dir = '/home/toond/Downloads/pionier_resolution'
-    data_dir, data_file = '../examples/data/IRAS0844-4431/PIONIER/', '*.fits'
+    data_dir, data_file = '../examples/data/IRAS08544-4431/PIONIER/', '*.fits'
     container_data = oi_observables.read_oicontainer_oifits(data_dir, data_file)
-    beam = calc_gaussian_beam(container_data, vistype='vis2', make_plots=False, show_plots=False, fig_dir=fig_dir,
-                              num_res=2, pix_per_res=32)
+    beam = calc_gaussian_beam(container_data, vistype='vis2', make_plots=True, show_plots=True, fig_dir=fig_dir,
+                              num_res=2, pix_per_res=16)
+    print(beam.fwhm_maj, beam.fwhm_min)
+    print(1 / np.max(container_data.v2base) * 1e-6 * constants.RAD2MAS)

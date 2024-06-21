@@ -348,7 +348,7 @@ def plot_data_vs_model(sed_dat: SED, sed_mod: SED, fig_dir: str = None, flux_for
 
 
 if __name__ == "__main__":
-    sed_data = read_sed_repo_phot('../examples/data/IRAS0844-4431/SED/IRAS08544-4431.phot')
+    sed_data = read_sed_repo_phot('../examples/data/IRAS08544-4431/SED/IRAS08544-4431.phot')
     sed_model = read_sed_mcfost('../examples/models/IRAS08544-4431_test_model/data_th/sed_rt.fits.gz')
     sed_star = read_sed_mcfost('../examples/models/IRAS08544-4431_test_model/data_th/sed_rt.fits.gz',
                                star_only=True)

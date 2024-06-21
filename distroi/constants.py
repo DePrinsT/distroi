@@ -47,6 +47,8 @@ JY_2WATT_PER_M2_HZ: float = 1 / WATT_PER_M2_HZ_2JY  # conversion spectral flux d
 ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M: float = 1e3  # conversion spectral flux density (F_lam)
 # from erg s^-1 cm^-2 micron^-1  to SI (W m^-2 m^-1)
 WATT_PER_M2_M_2ERG_PER_S_CM2_MICRON: float = 1 / ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M  # conversion spectral flux density
+
+
 # (F_lam) from SI (W m^-2 m^-1) to erg s^-1 cm^-2 micron^-1
 
 
@@ -76,7 +78,7 @@ def set_matplotlib_params() -> None:
 
 # function to redden flux
 def redden_flux(wavelength: np.ndarray | float, flux: np.ndarray | float, ebminv: float,
-                reddening_law: str = PROJECT_ROOT + '/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat')\
+                reddening_law: str = PROJECT_ROOT + '/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat') \
         -> np.ndarray:
     """
     Takes wavelength(s) and the associated flux values, and reddens them according to the specified E(B-V) value.
@@ -112,7 +114,7 @@ def redden_flux(wavelength: np.ndarray | float, flux: np.ndarray | float, ebminv
 
 
 # blackbody radiance functions
-def bb_flam_at_wavelength(temp: float, wavelength: np.ndarray | float):
+def bb_flam_at_wavelength(wavelength: np.ndarray | float, temp: float) -> np.ndarray | float:
     """
     Given a temperature and wavelength, returns the spectral radiance of a blackbody curve in B_lam format and SI units.
 
@@ -127,7 +129,7 @@ def bb_flam_at_wavelength(temp: float, wavelength: np.ndarray | float):
     return radiance
 
 
-def bb_flam_at_frequency(temp: float, frequency: np.ndarray | float):
+def bb_flam_at_frequency(frequency: np.ndarray | float, temp: float) -> np.ndarray | float:
     """
     Given a temperature and frequency, returns the spectral radiance of a blackbody curve in B_lam format and SI units.
 
@@ -141,7 +143,7 @@ def bb_flam_at_frequency(temp: float, frequency: np.ndarray | float):
     return radiance
 
 
-def bb_fnu_at_frequency(temp: float, frequency: np.ndarray | float):
+def bb_fnu_at_frequency(frequency: np.ndarray | float, temp: float) -> np.ndarray | float:
     """
     Given a temperature and wavelength, returns the spectral radiance of a blackbody curve in B_nu format and SI units.
 
@@ -155,7 +157,7 @@ def bb_fnu_at_frequency(temp: float, frequency: np.ndarray | float):
     return radiance
 
 
-def bb_fnu_at_wavelength(temp: float, wavelength: np.ndarray | float):
+def bb_fnu_at_wavelength(wavelength: np.ndarray | float, temp: float) -> np.ndarray | float:
     """
     Given a temperature and wavelength, returns the spectral radiance of a blackbody curve in B_nu format and SI units.
 
@@ -167,3 +169,12 @@ def bb_fnu_at_wavelength(temp: float, wavelength: np.ndarray | float):
     freq = SPEED_OF_LIGHT / (wavelength * MICRON2M)  # frequency in Hertz
     radiance = bb_fnu_at_frequency(temp=temp, frequency=freq)
     return radiance
+
+
+if __name__ == '__main__':
+    fig, ax = plt.subplots(1, 1)
+    temp = 2000
+    wave = np.linspace(1.0, 3.0, 100)
+    ax.plot(wave, bb_flam_at_wavelength(wave, temp))
+    ax.axvline(x=2898 / temp)
+    plt.show()
