@@ -4,28 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="58406770-33a2-415d-85da-ce2b89629f19" name="Changes" comment="Added data plotting function to OIContainer class.">
-      <change afterPath="$PROJECT_DIR$/distroi/auxiliary/oifits_time_base.py" afterDir="false" />
+    <list default="true" id="58406770-33a2-415d-85da-ce2b89629f19" name="Changes" comment="Added interactive plotting module to analyse the uv coverage of OI time-series within a ceratin time window to the distroi.auxiliary subpackage.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/distroi/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/distroi/oi_observables.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/oi_observables.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/build/doctrees/distroi.auxiliary.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/doctrees/distroi.auxiliary.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/build/doctrees/distroi.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/doctrees/distroi.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/build/doctrees/environment.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/doctrees/environment.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/build/html/_sources/distroi.auxiliary.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/_sources/distroi.auxiliary.rst.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/build/html/distroi.auxiliary.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/distroi.auxiliary.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/build/html/distroi.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/distroi.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/build/html/genindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/genindex.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/build/html/objects.inv" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/objects.inv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/build/html/py-modindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/py-modindex.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/build/html/searchindex.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/html/searchindex.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/source/distroi.auxiliary.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/source/distroi.auxiliary.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/monochromatic/closure_phases.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/monochromatic/closure_phases.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/monochromatic/uv_plane.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/monochromatic/uv_plane.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/monochromatic/visibilities.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/monochromatic/visibilities.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/chromatic/closure_phases.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/chromatic/closure_phases.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/chromatic/uv_plane.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/chromatic/uv_plane.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/chromatic/visibilities.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/chromatic/visibilities.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/distroi/auxiliary/oifits_time_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/auxiliary/oifits_time_base.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,37 +70,37 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Python.__init__.executor": "Run",
-    "Python.beam.executor": "Run",
-    "Python.constants.executor": "Run",
-    "Python.geom_comps.executor": "Run",
-    "Python.geometric.executor": "Run",
-    "Python.image.executor": "Run",
-    "Python.image_fft.executor": "Run",
-    "Python.oi_observables.executor": "Run",
-    "Python.oifits_time_base.executor": "Run",
-    "Python.sed.executor": "Run",
-    "Python.single_disk_model.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "full.screen.before.presentation.mode": "false",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "/home/toond/Documents/phd/data/notebooks/time_base.ipynb",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.stylelint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.stylelint": "",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "editor.preferences.completion",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Python.__init__.executor&quot;: &quot;Run&quot;,
+    &quot;Python.beam.executor&quot;: &quot;Run&quot;,
+    &quot;Python.constants.executor&quot;: &quot;Run&quot;,
+    &quot;Python.geom_comps.executor&quot;: &quot;Run&quot;,
+    &quot;Python.geometric.executor&quot;: &quot;Run&quot;,
+    &quot;Python.image.executor&quot;: &quot;Run&quot;,
+    &quot;Python.image_fft.executor&quot;: &quot;Run&quot;,
+    &quot;Python.oi_observables.executor&quot;: &quot;Run&quot;,
+    &quot;Python.oifits_time_base.executor&quot;: &quot;Run&quot;,
+    &quot;Python.sed.executor&quot;: &quot;Run&quot;,
+    &quot;Python.single_disk_model.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/toond/Documents/phd/data/notebooks/time_base.ipynb&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.completion&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
-  <component name="RunManager">
+}</component>
+  <component name="RunManager" selected="Python.beam">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -307,7 +288,9 @@
       <workItem from="1719079936429" duration="596000" />
       <workItem from="1719080685785" duration="8432000" />
       <workItem from="1719089253024" duration="75000" />
-      <workItem from="1719213546776" duration="25303000" />
+      <workItem from="1719213546776" duration="25659000" />
+      <workItem from="1719242532693" duration="19000" />
+      <workItem from="1719242575869" duration="380000" />
     </task>
     <task id="LOCAL-00001" summary="Renamed the package to DISTROI (Disk Inner STructure Reconnaisance through Optical Interferometry).">
       <option name="closed" value="true" />
@@ -509,7 +492,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718955453638</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Added interactive plotting module to analyse the uv coverage of OI time-series within a ceratin time window to the distroi.auxiliary subpackage.">
+      <option name="closed" value="true" />
+      <created>1719241912613</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1719241912613</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -539,7 +530,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Renamed the package to DISTROI (Disk Inner STructure Reconnaisance through Optical Interferometry)." />
     <MESSAGE value="Renamed the package to DISTROI (Disk Inner STructure Reconnaisance through Optical Interferometry), attempt2" />
     <MESSAGE value="Addapted the documentation to match the new name." />
     <MESSAGE value="Extra change to README" />
@@ -564,7 +554,8 @@
     <MESSAGE value="Added type hinting to the main project modules. Added abstract class/method definitions for geometrical components and their spectral dependence." />
     <MESSAGE value="Commiting fitting package docs files (fitting not yet implemented -&gt; placeholder)" />
     <MESSAGE value="Added data plotting function to OIContainer class." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added data plotting function to OIContainer class." />
+    <MESSAGE value="Added interactive plotting module to analyse the uv coverage of OI time-series within a ceratin time window to the distroi.auxiliary subpackage." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added interactive plotting module to analyse the uv coverage of OI time-series within a ceratin time window to the distroi.auxiliary subpackage." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/distroi$oi_observables.coverage" NAME="oi_observables Coverage Results" MODIFIED="1719230565225" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi" />

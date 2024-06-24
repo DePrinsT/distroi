@@ -187,13 +187,13 @@ def time_window_plot(data_dir: str, data_file: str, init_window_width: float, co
     # also a button to plot and print info for the observations' uv coverage within the time window
     window_t0_slider_ax = fig.add_axes((0.25, 0.10, 0.65, 0.03))
     window_width_slider_ax = fig.add_axes((0.25, 0.05, 0.65, 0.03))
-    uc_coverage_plot_button_ax = fig.add_axes((0.8, 0.15, 0.15, 0.04))
+    uv_coverage_plot_button_ax = fig.add_axes((0.8, 0.15, 0.15, 0.04))
 
     window_t0_slider = Slider(window_t0_slider_ax, r'$t_{0,window} - t_{0,data}$ (days)', -0.1 * obs_timespan,
                               1.1 * obs_timespan, valinit=0, color='r', alpha=0.3)
     window_width_slider = Slider(window_width_slider_ax, r'$\Delta t_{window}$ (days)', 1, 1.1 * obs_timespan,
                                  valinit=min(1.1 * init_window_width, obs_timespan), color='r', alpha=0.3)
-    uc_coverage_plot_button = Button(uc_coverage_plot_button_ax, 'uv coverage', color='white')
+    uv_coverage_plot_button = Button(uv_coverage_plot_button_ax, 'uv coverage', color='white')
 
     # create initial list containing the files with observations within the specified time window
     files_within_window = []
@@ -204,6 +204,16 @@ def time_window_plot(data_dir: str, data_file: str, init_window_width: float, co
     files_within_window = list(sorted(set(files_within_window)))  # remove duplicates and sort
 
     def window_t0_slider_on_change(val):  # update function for time window t0 slider
+        files_within_window.clear()  # clear the within window filelist
+        # select datapoints within timewindow and the associated filenames
+        mjd_t0_slider = np.min(obs_mjd) + window_t0_slider.val  # beginning of time window t0 slider in MJD
+
+        file_name_selection = []
+        for j in range(0, len(obs_mjd)):  # append values only within time window
+            if mjd_t0_slider <= obs_mjd[j] <= (mjd_t0_slider + window_width_slider.val):
+                file_name_selection.append(file_names[j])
+        files_within_window.extend(sorted(set(file_name_selection)))  # remake the files within window list
+
         t_begin_span = timestamp_to_plt_float(np.min(date_times)) + val  # set beginning of vspan
         # adapt polygon vertices accordingly
         vspan.set_xy(np.array([[t_begin_span, 0],
@@ -215,10 +225,20 @@ def time_window_plot(data_dir: str, data_file: str, init_window_width: float, co
         return
 
     def window_width_slider_on_change(val):  # update function for time window width slider
+        files_within_window.clear()  # clear the within window filelist
+        # select datapoints within timewindow and the associated filenames
+        mjd_t0_slider = np.min(obs_mjd) + window_t0_slider.val  # beginning of time window t0 slider in MJD
+
+        file_name_selection = []
+        for j in range(0, len(obs_mjd)):  # append values only within time window
+            if mjd_t0_slider <= obs_mjd[j] <= (mjd_t0_slider + window_width_slider.val):
+                file_name_selection.append(file_names[j])
+        files_within_window.extend(sorted(set(file_name_selection)))  # remake the files within window list
         window_t0_slider_on_change(window_t0_slider.val)
+
         return
 
-    def uc_coverage_plot_button_on_click(mouse_event):
+    def uv_coverage_plot_button_on_click(mouse_event):
         files_within_window.clear()  # clear the within window filelist
 
         # select datapoints within timewindow and the associated filenames
@@ -266,7 +286,7 @@ def time_window_plot(data_dir: str, data_file: str, init_window_width: float, co
     # assign update functions to sliders and button
     window_t0_slider.on_changed(window_t0_slider_on_change)
     window_width_slider.on_changed(window_width_slider_on_change)
-    uc_coverage_plot_button.on_clicked(uc_coverage_plot_button_on_click)
+    uv_coverage_plot_button.on_clicked(uv_coverage_plot_button_on_click)
 
     # format the date x-axis date labels nicely
     for label in main_ax.get_xticklabels():
@@ -281,7 +301,6 @@ def time_window_plot(data_dir: str, data_file: str, init_window_width: float, co
         if not os.path.exists(copy_dir):
             os.makedirs(copy_dir)
         for filepath in files_within_window:
-            print("I'm copying")
             shutil.copy(filepath, copy_dir)  # copy over the files within the time window
 
     return files_within_window
