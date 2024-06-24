@@ -92,6 +92,7 @@
 <li class="toctree-l2"><a class="reference internal" href="distroi.auxiliary.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="distroi.auxiliary.html#module-distroi.auxiliary.ReadOIFITS">distroi.auxiliary.ReadOIFITS module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="distroi.auxiliary.html#module-distroi.auxiliary.SelectData">distroi.auxiliary.SelectData module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distroi.auxiliary.html#module-distroi.auxiliary.oifits_time_base">distroi.auxiliary.oifits_time_base module</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="distroi.fitting.html">distroi.fitting package</a></li>
@@ -103,15 +104,15 @@
 </div>
 <div class="section" id="module-distroi.beam">
 <span id="distroi-beam-module"></span><h2>distroi.beam module<a class="headerlink" href="#module-distroi.beam" title="Permalink to this headline"></a></h2>
-<p>Contains classes to represent the OI point spread function (PSF) and a Gaussian fit to it. The former is called the
-‘dirty beam’, the latter just ‘beam’. Methods to calculate the dirty beam from the uv coverage of an OIContainer object
-and get the beam from a fit to the dirty beam’s inner few resolution elements (a ‘Gaussian beam’) are included.</p>
+<p>Contains a class to represent a model for the OI point spread function (PSF) (a Gaussian fit). The formal PSF is called the
+‘dirty beam’. Methods to calculate the dirty beam from the uv coverage of an OIContainer object and get a fit to the dirty beam’s
+inner few resolution elements (a ‘Gaussian beam’) are included.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="distroi.beam.Beam">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.beam.</span></span><span class="sig-name descname"><span class="pre">Beam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.beam.Beam" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Class containing information for a 2D Gaussian beam, typically acquired from a fit to the inner regions of a
-dirty beam.</p>
+dirty beam (the formal PSF).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>dictionary</strong> (<em>dict</em>) – Dictionary containing keys and values representing several instance variables described

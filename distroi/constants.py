@@ -63,7 +63,9 @@ def set_matplotlib_params() -> None:
     # setting some matplotlib parameters
     plt.rcParams['font.family'] = 'serif'
     plt.rcParams['mathtext.fontset'] = 'dejavuserif'
-    plt.rcParams['legend.frameon'] = False
+    plt.rcParams['legend.frameon'] = True
+    plt.rcParams['legend.edgecolor'] = 'black'
+    plt.rcParams['legend.framealpha'] = 1.0
     plt.rcParams['lines.markersize'] = 6.0
     plt.rcParams['lines.linewidth'] = 2.0
 

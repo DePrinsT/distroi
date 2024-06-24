@@ -19,6 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="distroi.fitting package" href="distroi.fitting.html" />
     <link rel="prev" title="distroi package" href="distroi.html" /> 
 </head>
 
@@ -45,8 +46,10 @@
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-distroi.auxiliary.ReadOIFITS">distroi.auxiliary.ReadOIFITS module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-distroi.auxiliary.SelectData">distroi.auxiliary.SelectData module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-distroi.auxiliary.oifits_time_base">distroi.auxiliary.oifits_time_base module</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.fitting.html">distroi.fitting package</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="distroi.html#submodules">Submodules</a></li>
@@ -462,6 +465,64 @@ All defaults are set to False. Set to a number if applicable</p>
 <dd></dd></dl>
 
 </div>
+<div class="section" id="module-distroi.auxiliary.oifits_time_base">
+<span id="distroi-auxiliary-oifits-time-base-module"></span><h2>distroi.auxiliary.oifits_time_base module<a class="headerlink" href="#module-distroi.auxiliary.oifits_time_base" title="Permalink to this headline"></a></h2>
+<p>Provides function to interactively plot multiple OIFITS files as a time-series, allowing the user to specify and adapt a certain
+time window. In other words, it allows the user to investigate the timebase of the observations. Functionalities are provided to
+plot the uv coverage of data within the time window, and retrieve the paths of OIFITS files with observations within the time
+window (and optionally copy them to a specified directory). NOTE: Because of the spawning of interactive plots,
+this functionalities in this module cannot be properly used in jupyter  notebooks, instead use them within a python script.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.auxiliary.oifits_time_base.time_window_plot">
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.oifits_time_base.</span></span><span class="sig-name descname"><span class="pre">time_window_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_window_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.auxiliary.oifits_time_base.time_window_plot" title="Permalink to this definition"></a></dt>
+<dd><p>Produces an interactive matplotlib plot showing the specified OIFITS file as a time-series. The specified time window is
+shown as a red-shaded area. Sliders are provided to change the position and width of this time window. The ‘uv coverage’
+button can then be clicked in order to plot the uv coverage of the data included within the time window. After all plots
+are closed, returns a list with the filepaths of OIFITS files which contain observations within the interactively set time
+window. NOTE: Because the uv coverage button spawns another plot, this function cannot be properly used in jupyter
+notebooks, instead use this method within a python script.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_dir</strong> (<em>str</em>) – Path to the directory where the OIFITS files are stored.</p></li>
+<li><p><strong>data_file</strong> (<em>str</em>) – Data filename. Use wildcards to read in multiple files at once.</p></li>
+<li><p><strong>init_window_width</strong> (<em>float</em>) – Initial width of the time window in days. Needs to be larger or equal to 1 day or function
+will not plot and return None instead.</p></li>
+<li><p><strong>copy_dir</strong> (<em>str</em>) – If specified, the OIFITS files that have observations within the interactively set time window will be
+copied to this directory.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return files_within_window</dt>
+<dd class="field-even"><p>List of filepaths corresponding to the OIFITS files that have observations within the
+interactively set time window.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.auxiliary.oifits_time_base.timestamp_to_plt_float">
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.oifits_time_base.</span></span><span class="sig-name descname"><span class="pre">timestamp_to_plt_float</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas._libs.tslibs.timestamps.Timestamp</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#distroi.auxiliary.oifits_time_base.timestamp_to_plt_float" title="Permalink to this definition"></a></dt>
+<dd><p>Pass along a pandas Timestamp object and convert it to the amount of days passed since
+midnight 1970-01-01 UTC as a float. This is also how numpy converts Timestamp instances
+to floats for plotting purposes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>date_time</strong> (<em>pd.Timestamp</em>) – Pandas Timestamp instance.</p>
+</dd>
+<dt class="field-even">Return date_plt_float</dt>
+<dd class="field-even"><p>The Timestamp converted to a float value to be used in matplotlib when specifying e.g. position along
+the axes.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
 </div>
 
 
@@ -469,6 +530,7 @@ All defaults are set to False. Set to a number if applicable</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="distroi.html" class="btn btn-neutral float-left" title="distroi package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="distroi.fitting.html" class="btn btn-neutral float-right" title="distroi.fitting package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

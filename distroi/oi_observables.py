@@ -528,7 +528,7 @@ def plot_data_vs_model(container_data: OIContainer, container_mod: OIContainer, 
     clb = fig.colorbar(sc, cax=cax)
     clb.set_label(r'$\lambda$ ($\mu$m)', labelpad=5)
 
-    ax.set_xlim(ax.get_xlim()[::-1])
+    ax.set_xlim(ax.get_xlim()[::-1])  # switch x-axis direction
     ax.set_title(f'uv coverage')
     ax.set_xlabel(r"$\leftarrow B_u$ ($\mathrm{M \lambda}$)")
     ax.set_ylabel(r"$B_v \rightarrow$ ($\mathrm{M \lambda}$)")
@@ -597,7 +597,7 @@ def plot_data_vs_model(container_data: OIContainer, container_mod: OIContainer, 
 
 
 if __name__ == "__main__":
-    object_id = 'U_Mon'
+    object_id = 'IRAS15469-5311'
     data_dir, data_file = (f'/home/toond/Documents/phd/data/{object_id}/inspiring/PIONIER/',
                            '*.fits')
     container_data = read_oicontainer_oifits(data_dir, data_file)
