@@ -44,17 +44,18 @@ def time_window_plot(data_dir: str, data_file: str, init_window_width: float, co
     """
     Produces an interactive matplotlib plot showing the specified OIFITS file as a time-series. The specified time window is
     shown as a red-shaded area. Sliders are provided to change the position and width of this time window. The 'uv coverage'
-    button can then be clicked in order to plot the uv coverage of the data included within the time window. After all plots
-    are closed, returns a list with the filepaths of OIFITS files which contain observations within the interactively set time
-    window. NOTE: Because the uv coverage button spawns another plot, this function cannot be properly used in jupyter
-    notebooks, instead use this method within a python script.
+    button can then be clicked in order to plot the uv coverage of the data included within the time window. If the copy_dir
+    argument is passed along, the 'Copy files' button can be pressed to copy over the OIFITS file which contain observations
+    within the interactively set time window. After all plots are closed, returns a list with the filepaths of these OIFITS files.
+    NOTE: Because the uv coverage button spawns another plot, this function cannot be properly used in jupyter notebooks,
+    instead use this method within a python script.
 
     :param str data_dir: Path to the directory where the OIFITS files are stored.
     :param str data_file: Data filename. Use wildcards to read in multiple files at once.
     :param float init_window_width: Initial width of the time window in days. Needs to be larger or equal to 1 day or function
         will not plot and return None instead.
     :param str copy_dir: If specified, the OIFITS files that have observations within the interactively set time window will be
-        copied to this directory.
+        copied to this directory upon using the 'Copy files' button.
     :return files_within_window: List of filepaths corresponding to the OIFITS files that have observations within the
          interactively set time window.
     :rtype: list[str]
@@ -185,9 +186,10 @@ def time_window_plot(data_dir: str, data_file: str, init_window_width: float, co
 
     # add sliders to move the time window across the plot and adapt its width
     # also a button to plot and print info for the observations' uv coverage within the time window
+    # and one to copy files to copy_dir if specified
     window_t0_slider_ax = fig.add_axes((0.25, 0.10, 0.65, 0.03))
     window_width_slider_ax = fig.add_axes((0.25, 0.05, 0.65, 0.03))
-    uv_coverage_plot_button_ax = fig.add_axes((0.8, 0.15, 0.15, 0.04))
+    uv_coverage_plot_button_ax = fig.add_axes((0.8, 0.15, 0.12, 0.04))
 
     window_t0_slider = Slider(window_t0_slider_ax, r'$t_{0,window} - t_{0,data}$ (days)', -0.1 * obs_timespan,
                               1.1 * obs_timespan, valinit=0, color='r', alpha=0.3)
@@ -288,6 +290,20 @@ def time_window_plot(data_dir: str, data_file: str, init_window_width: float, co
     window_width_slider.on_changed(window_width_slider_on_change)
     uv_coverage_plot_button.on_clicked(uv_coverage_plot_button_on_click)
 
+    # additional axis and button for copying
+    if copy_dir is not None:
+        copy_files_button_ax = fig.add_axes((0.68, 0.15, 0.10, 0.04))
+        copy_files_button = Button(copy_files_button_ax, 'Copy files', color='white')
+
+        def copy_files_button_on_click(mouse_event):
+            if not os.path.exists(copy_dir):  # make directory if it doesn't exist yet
+                os.makedirs(copy_dir)
+            for filepath in files_within_window:
+                shutil.copy(filepath, copy_dir)  # copy over the files within the time window
+            return
+
+        copy_files_button.on_clicked(copy_files_button_on_click)  # assign to button
+
     # format the date x-axis date labels nicely
     for label in main_ax.get_xticklabels():
         label.set_ha("right")
@@ -296,11 +312,24 @@ def time_window_plot(data_dir: str, data_file: str, init_window_width: float, co
 
     plt.show()
 
-    # create copy directory if it doesn't exist yet
-    if copy_dir is not None:
-        if not os.path.exists(copy_dir):
-            os.makedirs(copy_dir)
-        for filepath in files_within_window:
-            shutil.copy(filepath, copy_dir)  # copy over the files within the time window
-
     return files_within_window
+
+
+if __name__ == "__main__":
+    target_ids = ['AI_Sco', 'EN_TrA', 'HD93662', 'HD95767', 'HD108015', 'HR4049', 'IRAS08544-4431', 'IRAS15469-5311', 'IW_Car',
+                  'PS_Gem', 'U_Mon']
+    orbital_periods = [977.0, 1448.0, 572.0, 1989.0, 903.6, 430.6, 501.1, 390.0, 1449.0, 1288.6, 2550.0]
+    porb_dict = dict(zip(target_ids, orbital_periods))  # dictionary of targets and orbital periods
+
+    # set properties for run
+    target_id = 'HD93662'
+    data_dir = f'/home/toond/Documents/phd/data/{target_id}/inspiring/PIONIER/all_data/'
+    data_file = '*.fits'
+    init_time_window = 0.15 * porb_dict[target_id]
+
+    # run time-series plotting function and print filenames of OIFITS files with observations within the plot's time window
+    # filenames = time_window_plot(data_dir, data_file, init_time_window)
+    # print(filenames)
+
+    # alternative call where I copy the resulting OIFITS files withim the plot's time window to a folder in my downloads
+    filenames = time_window_plot(data_dir, data_file, init_time_window, copy_dir='/home/toond/Downloads/random_epoch/')

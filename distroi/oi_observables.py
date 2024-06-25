@@ -597,9 +597,24 @@ def plot_data_vs_model(container_data: OIContainer, container_mod: OIContainer, 
 
 
 if __name__ == "__main__":
-    object_id = 'IRAS15469-5311'
-    data_dir, data_file = (f'/home/toond/Documents/phd/data/{object_id}/inspiring/PIONIER/',
+    from distroi.beam import calc_gaussian_beam
+
+    # object_id_list = ['AI_Sco', 'EN_TrA', 'HD93662', 'HD95767', 'HD108015', 'HR4049', 'IRAS08544-4431', 'IRAS15469-5311',
+    #                   'IW_Car', 'PS_Gem', 'U_Mon']
+    # for object_id in object_id_list:
+    #     data_dir, data_file = (f'/home/toond/Documents/phd/data/{object_id}/inspiring/PIONIER/all_data/',
+    #                            '*.fits')
+    #     container_data = read_oicontainer_oifits(data_dir, data_file)
+    #     fig_dir = f'{data_dir}/figures/'
+    #     container_data.plot_data(fig_dir=fig_dir)
+    #     beam = calc_gaussian_beam(container_data, vistype='vis2', make_plots=True, show_plots=True, fig_dir=fig_dir,
+    #                               num_res=2, pix_per_res=48)
+
+    object_id = 'HD93662'
+    data_dir, data_file = (f'/home/toond/Documents/phd/data/{object_id}/inspiring/PIONIER/img_ep_jan2021-mar2021/',
                            '*.fits')
     container_data = read_oicontainer_oifits(data_dir, data_file)
     fig_dir = f'{data_dir}/figures/'
     container_data.plot_data(fig_dir=fig_dir)
+    beam = calc_gaussian_beam(container_data, vistype='vis2', make_plots=True, show_plots=True, fig_dir=fig_dir,
+                              num_res=2, pix_per_res=48)

@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="58406770-33a2-415d-85da-ce2b89629f19" name="Changes" comment="Added interactive plotting module to analyse the uv coverage of OI time-series within a ceratin time window to the distroi.auxiliary subpackage.">
+    <list default="true" id="58406770-33a2-415d-85da-ce2b89629f19" name="Changes" comment="Fixed some minor bugs in oifits_time_base.py">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/distroi/auxiliary/oifits_time_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/auxiliary/oifits_time_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/distroi/oi_observables.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/oi_observables.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build/doctrees/environment.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build/doctrees/environment.pickle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,37 +72,37 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Python.__init__.executor&quot;: &quot;Run&quot;,
-    &quot;Python.beam.executor&quot;: &quot;Run&quot;,
-    &quot;Python.constants.executor&quot;: &quot;Run&quot;,
-    &quot;Python.geom_comps.executor&quot;: &quot;Run&quot;,
-    &quot;Python.geometric.executor&quot;: &quot;Run&quot;,
-    &quot;Python.image.executor&quot;: &quot;Run&quot;,
-    &quot;Python.image_fft.executor&quot;: &quot;Run&quot;,
-    &quot;Python.oi_observables.executor&quot;: &quot;Run&quot;,
-    &quot;Python.oifits_time_base.executor&quot;: &quot;Run&quot;,
-    &quot;Python.sed.executor&quot;: &quot;Run&quot;,
-    &quot;Python.single_disk_model.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/toond/Documents/phd/data/notebooks/time_base.ipynb&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.completion&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Python.__init__.executor": "Run",
+    "Python.beam.executor": "Run",
+    "Python.constants.executor": "Run",
+    "Python.geom_comps.executor": "Run",
+    "Python.geometric.executor": "Run",
+    "Python.image.executor": "Run",
+    "Python.image_fft.executor": "Run",
+    "Python.oi_observables.executor": "Run",
+    "Python.oifits_time_base.executor": "Run",
+    "Python.sed.executor": "Run",
+    "Python.single_disk_model.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "full.screen.before.presentation.mode": "false",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "/home/toond/Documents/phd/data/notebooks/time_base.ipynb",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.stylelint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.stylelint": "",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RunManager" selected="Python.beam">
+}]]></component>
+  <component name="RunManager">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -238,8 +240,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.beam" />
         <item itemvalue="Python.oi_observables" />
+        <item itemvalue="Python.beam" />
       </list>
     </recent_temporary>
   </component>
@@ -290,7 +292,9 @@
       <workItem from="1719089253024" duration="75000" />
       <workItem from="1719213546776" duration="25659000" />
       <workItem from="1719242532693" duration="19000" />
-      <workItem from="1719242575869" duration="380000" />
+      <workItem from="1719242575869" duration="425000" />
+      <workItem from="1719298948083" duration="89000" />
+      <workItem from="1719299042206" duration="7258000" />
     </task>
     <task id="LOCAL-00001" summary="Renamed the package to DISTROI (Disk Inner STructure Reconnaisance through Optical Interferometry).">
       <option name="closed" value="true" />
@@ -500,7 +504,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719241912613</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Fixed some minor bugs in oifits_time_base.py">
+      <option name="closed" value="true" />
+      <created>1719242993555</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1719242993555</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -530,7 +542,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Renamed the package to DISTROI (Disk Inner STructure Reconnaisance through Optical Interferometry), attempt2" />
     <MESSAGE value="Addapted the documentation to match the new name." />
     <MESSAGE value="Extra change to README" />
     <MESSAGE value="Extended and properly formatted the documentation for image.py." />
@@ -555,14 +566,15 @@
     <MESSAGE value="Commiting fitting package docs files (fitting not yet implemented -&gt; placeholder)" />
     <MESSAGE value="Added data plotting function to OIContainer class." />
     <MESSAGE value="Added interactive plotting module to analyse the uv coverage of OI time-series within a ceratin time window to the distroi.auxiliary subpackage." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added interactive plotting module to analyse the uv coverage of OI time-series within a ceratin time window to the distroi.auxiliary subpackage." />
+    <MESSAGE value="Fixed some minor bugs in oifits_time_base.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed some minor bugs in oifits_time_base.py" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/distroi$oi_observables.coverage" NAME="oi_observables Coverage Results" MODIFIED="1719230565225" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi" />
+    <SUITE FILE_PATH="coverage/distroi$oi_observables.coverage" NAME="oi_observables Coverage Results" MODIFIED="1719306935908" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi" />
     <SUITE FILE_PATH="coverage/distroi$constants.coverage" NAME="constants Coverage Results" MODIFIED="1718027268947" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi" />
     <SUITE FILE_PATH="coverage/distroi$geom_comps.coverage" NAME="geom_comps Coverage Results" MODIFIED="1718117255467" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi" />
     <SUITE FILE_PATH="coverage/distroi$single_disk_model.coverage" NAME="single_disk_model Coverage Results" MODIFIED="1719220826029" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
-    <SUITE FILE_PATH="coverage/distroi$beam.coverage" NAME="beam Coverage Results" MODIFIED="1719214621611" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi" />
-    <SUITE FILE_PATH="coverage/distroi$oifits_time_base.coverage" NAME="oifits_time_base Coverage Results" MODIFIED="1719240779543" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi/auxiliary" />
+    <SUITE FILE_PATH="coverage/distroi$beam.coverage" NAME="beam Coverage Results" MODIFIED="1719302029247" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi" />
+    <SUITE FILE_PATH="coverage/distroi$oifits_time_base.coverage" NAME="oifits_time_base Coverage Results" MODIFIED="1719306755049" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi/auxiliary" />
   </component>
 </project>
