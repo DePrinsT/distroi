@@ -127,6 +127,63 @@ class UniformDisk(GeomComp):
             return vis
 
 
+class Gaussian(GeomComp):
+    """
+    Class representing a Gaussian geomteric component:
+
+    :param float fwhm: Full-width-half-maximum of the Gaussian in the image plane (in mas units).
+    :param tuple(float) coords:  2D tuples with (x, y) coordinates of the point's coordinates (in mas).
+        Note that positive x is defined as leftward and positive y as upward (i.e. the East and North repesctively
+        in the OI convention). If not given, will default to (0, 0).
+    :param SpecDep spec_dep: Optional spectral dependence of the component. If None, the spectral dependency will be
+        assumed flat in correlated flux accross wavelength (note that flatness in correlated flux means a spectral
+        dependency ~ wavelength ^ -2 for F_lam).
+    :ivar float fwhm: See parameter description.
+    :ivar tuple(float) coords: See parameter description.
+    :ivar SpecDep spec_dep: See parameter description.
+    """
+
+    def __init__(self, fwhm: float, coords: tuple[float, float] = None, spec_dep: SpecDep = None):
+        self.fwhm = fwhm
+        if coords is None:
+            self.coords = (0, 0)
+        else:
+            self.coords = coords
+        self.spec_dep = spec_dep
+
+    def calc_vis(self, u: np.ndarray | float, v: np.ndarray | float, wavelength: np.ndarray | float = None,
+                 ref_wavelength: float = None, ref_corr_flux: float = None) -> np.ndarray | float:
+        """
+        Calculate the visibility at given spatial frequencies. Wavelengths corresponding to these spatial frequencies a
+        and a reference flux value (at reference wavelength) can also be passed along, in which case the returned
+        visibilities will be in correlated flux (Jy) instead of normalized.
+
+        :param np.ndarray u: 1D array with spatial x-axis frequencies in 1/radian. Must be the same size as u.
+        :param np.ndarray v: 1D array with spatial y-axis frequencies in 1/radian. Must be the same size as v
+        :param np.ndarray wavelength: 1D array with wavelength values in micron.
+        :param float ref_wavelength: Reference wavelength in micron.
+        :param float ref_corr_flux: Reference correlated flux in Jy corresponding to ref_wavelength. If provided
+            together with ref_corr_flux, then the returned visibilities are in correlated flux.
+        :return vis: 1D array with the calculated visibilities (normalized or in corrleated flux, depending on the
+            optional arguments)
+        :rtype: np.ndarray
+        """
+        # todo: check if correct, lots of sources online disagree
+        norm_comp_vis = np.exp(-1 * np.pi ** 2 * (self.fwhm * constants.MAS2RAD) ** 2 * (u ** 2 + v ** 2) / (4 * np.log(2)))
+        # add position phase term
+        norm_comp_vis_phase = norm_comp_vis * np.exp(-2j * np.pi * (u * self.coords[0] * constants.MAS2RAD +
+                                                                    v * self.coords[1] * constants.MAS2RAD))
+        if wavelength is None or ref_wavelength is None or ref_corr_flux is None:
+            vis = norm_comp_vis_phase
+            return vis
+        else:
+            frequency = constants.SPEED_OF_LIGHT / (wavelength * constants.MICRON2M)
+            ref_frequency = constants.SPEED_OF_LIGHT / (ref_wavelength * constants.MICRON2M)
+            corr_flux = self.spec_dep.flux_from_ref(x=frequency, x_ref=ref_frequency, ref_flux=ref_corr_flux, flux_form='fnu')
+            vis = corr_flux * norm_comp_vis_phase
+            return vis
+
+
 class PointSource(GeomComp):
     """
     Class representing a point source geometric component.
@@ -167,6 +224,7 @@ class PointSource(GeomComp):
         """
 
         norm_comp_vis = np.exp(-2j * np.pi * (u * self.coords[0] * constants.MAS2RAD + v * self.coords[1] * constants.MAS2RAD))
+        print('stuff going on')
         if wavelength is None or ref_wavelength is None or ref_corr_flux is None:
             vis = norm_comp_vis
             return vis
@@ -458,70 +516,33 @@ class ThinAccDiskSpecDep(SpecDep):
         # todo: implement!
         return
 
-
-if __name__ == "__main__":
-    import matplotlib.pyplot as plt
-
-    # # in wavelength
-    # ref_x = 1
-    # ref_flux = 1
-    # x = np.linspace(0.1, 3, 100)
-    # temp = 6000
-    # spec_dep = BlackBodySpecDep(temp=temp)
-    # plt.plot(x, spec_dep.flux_from_ref(x, ref_x, ref_flux, flux_form='flam'))
-    # plt.axvline(x=temp / temp)
-    # plt.show()
-    constants.set_matplotlib_params()  # set project matplotlib parameters
-    temp = 3000
-    spec_dep = BlackBodySpecDep(temp=temp)
-    spec_dep = PowerLawSpecDep(power=-4, flux_form='flam')
-    disk = UniformDisk(radius=(1 / (100 * 1e6) * constants.RAD2MAS), coords=(0, 0), spec_dep=spec_dep)
-    n_points = 100
-    n_wave = 6
-    u = np.array(list(np.linspace(1e6, 100 * 1e6, n_points)) * n_wave)
-    v = np.array(list(np.linspace(1e6, 100 * 1e6, n_points)) * n_wave)
-    wave = np.repeat(np.linspace(100, 200, n_wave), n_points)
-    vis = disk.calc_vis(u, v, wavelength=wave, ref_wavelength=100, ref_corr_flux=1)
-
-    fig, ax = plt.subplots()
-    scat = ax.scatter(np.sqrt(u ** 2 + v ** 2), abs(vis) / np.max(abs(vis)), s=5, c=wave, cmap='inferno')
-    ax.set_xlabel(r'Baseline [M$\lambda$]')
-    ax.set_ylabel(r'$F_{corr} (Jy)$')
-    plt.colorbar(scat)
-
-    fig, ax = plt.subplots()
-    scat = ax.scatter(np.sqrt(u ** 2 + v ** 2), np.angle(vis, deg=True), s=5, c=wave, cmap='inferno')
-    ax.set_xlabel(r'Baseline (M$\lambda$)')
-    ax.set_ylabel(r'$\phi_{CP}$ ($^\circ$)')
-    plt.colorbar(scat)
-    plt.show()
-
-    # wave = np.array(wave2.extend())
-
-    # in frequency
-
-    #
-    # ref_x = 1
-    # ref_flux = 1
-    # x = np.linspace(1, 3, 100)
-    #
-    # spec_dep = PowerLawSpecDep(power=2, flux_form='fnu')
-    # plt.plot(x, spec_dep.flux_from_ref(x, ref_x, ref_flux, flux_form='flam'))
-    #
-    # plt.scatter(ref_x, ref_flux, color='black')
-    # plt.plot(x, (x ** -4), ls='--', label="^-4", alpha=0.5)
-    # plt.plot(x, (x ** -3), ls='--', label="^-3", alpha=0.5)
-    # plt.plot(x, (x ** -2), ls='--', label="^-2", alpha=0.5)
-    # plt.plot(x, (x ** -1), ls='--', label="^-1", alpha=0.5)
-    # plt.plot(x, (x ** 0), ls='--', label="^0", alpha=0.5)
-    # plt.plot(x, (x ** 1), ls='--', label="^1", alpha=0.5)
-    # plt.plot(x, (x ** 2), ls='--', label="^2", alpha=0.5)
-    # plt.plot(x, (x ** 3), ls='--', label="^3", alpha=0.5)
-    # plt.plot(x, (x ** 4), ls='--', label="^4", alpha=0.5)
-    #
-    # plt.yscale('log')
-    # plt.xscale('log')
-    # plt.grid(True, which="minor", alpha=0.5, linestyle='--')
-    # plt.grid(True, which="major")
-    # plt.legend(loc="best")
-    # plt.show()
+# if __name__ == "__main__":
+#     import matplotlib.pyplot as plt
+#
+#     # TEST THAT WORKS
+#     constants.set_matplotlib_params()  # set project matplotlib parameters
+#     # temp = 3000
+#     # spec_dep = BlackBodySpecDep(temp=temp)
+#     spec_dep = PowerLawSpecDep(power=-4, flux_form='flam')
+#     # disk = UniformDisk(radius=(1 / (100 * 1e6) * constants.RAD2MAS), coords=(0, 0), spec_dep=spec_dep)
+#     disk = Gaussian(fwhm=(0.4 / (100 * 1e6) * constants.RAD2MAS), coords=(0, 0), spec_dep=spec_dep)
+#     n_points = 100
+#     n_wave = 6
+#     u = np.array(list(np.linspace(1e6, 100 * 1e6, n_points)) * n_wave)
+#     v = np.array(list(np.linspace(1e6, 100 * 1e6, n_points)) * n_wave)
+#     wave = np.repeat(np.linspace(0.5, 1.5, n_wave), n_points)
+#     vis = disk.calc_vis(u, v, wavelength=wave, ref_wavelength=1, ref_corr_flux=1)
+#
+#     fig, ax = plt.subplots()
+#     scat = ax.scatter(np.sqrt(u ** 2 + v ** 2), abs(vis) / np.max(abs(vis)), s=5, c=wave, cmap='inferno')
+#     ax.set_xlabel(r'Baseline ($\lambda$)')
+#     ax.set_ylabel(r'$F_{corr} (Jy)$')
+#     plt.colorbar(scat)
+#     print(np.min(1 / u) * constants.RAD2MAS)
+#
+#     fig, ax = plt.subplots()
+#     scat = ax.scatter(np.sqrt(u ** 2 + v ** 2), np.angle(vis, deg=True), s=5, c=wave, cmap='inferno')
+#     ax.set_xlabel(r'Baseline ($\lambda$)')
+#     ax.set_ylabel(r'$\phi_{CP}$ ($^\circ$)')
+#     plt.colorbar(scat)
+#     plt.show()

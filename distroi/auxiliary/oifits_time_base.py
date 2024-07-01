@@ -194,7 +194,7 @@ def time_window_plot(data_dir: str, data_file: str, init_window_width: float, co
     window_t0_slider = Slider(window_t0_slider_ax, r'$t_{0,window} - t_{0,data}$ (days)', -0.1 * obs_timespan,
                               1.1 * obs_timespan, valinit=0, color='r', alpha=0.3)
     window_width_slider = Slider(window_width_slider_ax, r'$\Delta t_{window}$ (days)', 1, 1.1 * obs_timespan,
-                                 valinit=min(1.1 * init_window_width, obs_timespan), color='r', alpha=0.3)
+                                 valinit=min(1.0 * init_window_width, obs_timespan), color='r', alpha=0.3)
     uv_coverage_plot_button = Button(uv_coverage_plot_button_ax, 'uv coverage', color='white')
 
     # create initial list containing the files with observations within the specified time window
@@ -293,7 +293,7 @@ def time_window_plot(data_dir: str, data_file: str, init_window_width: float, co
     # additional axis and button for copying
     if copy_dir is not None:
         copy_files_button_ax = fig.add_axes((0.68, 0.15, 0.10, 0.04))
-        copy_files_button = Button(copy_files_button_ax, 'Copy files', color='white')
+        copy_files_button = Button(copy_files_button_ax, 'copy files', color='white')
 
         def copy_files_button_on_click(mouse_event):
             if not os.path.exists(copy_dir):  # make directory if it doesn't exist yet
@@ -322,7 +322,7 @@ if __name__ == "__main__":
     porb_dict = dict(zip(target_ids, orbital_periods))  # dictionary of targets and orbital periods
 
     # set properties for run
-    target_id = 'HD93662'
+    target_id = 'IRAS08544-4431'
     data_dir = f'/home/toond/Documents/phd/data/{target_id}/inspiring/PIONIER/all_data/'
     data_file = '*.fits'
     init_time_window = 0.15 * porb_dict[target_id]

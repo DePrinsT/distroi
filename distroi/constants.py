@@ -1,6 +1,6 @@
 """
-Contains constants, unit conversions, utility functions and plotting settings to be uniformly used throughout the
-DISTROI project.
+Contains constants, unit conversions, miscellaneoud universal functions and plotting settings to be uniformly used throughout the
+project.
 
 :var str PROJECT_ROOT: Path to the root of the distroi project on the user's system.
 :var float SPEED_OF_LIGHT: In SI units.
@@ -172,11 +172,10 @@ def bb_fnu_at_wavelength(wavelength: np.ndarray | float, temp: float) -> np.ndar
     radiance = bb_fnu_at_frequency(temp=temp, frequency=freq)
     return radiance
 
-
-if __name__ == '__main__':
-    fig, ax = plt.subplots(1, 1)
-    temp = 2000
-    wave = np.linspace(1.0, 3.0, 100)
-    ax.plot(wave, bb_flam_at_wavelength(wave, temp))
-    ax.axvline(x=2898 / temp)
-    plt.show()
+# if __name__ == '__main__':
+#     fig, ax = plt.subplots(1, 1)
+#     temp = 2000
+#     wave = np.linspace(1.0, 3.0, 100)
+#     ax.plot(wave, bb_flam_at_wavelength(wave, temp))
+#     ax.axvline(x=2898 / temp)
+#     plt.show()

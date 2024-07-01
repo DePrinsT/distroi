@@ -90,7 +90,7 @@ def gaussian_2d(points: tuple[np.ndarray, np.ndarray], amp: float = 1, x0: float
 
 
 def calc_gaussian_beam(container: oi_observables.OIContainer, vistype: str = 'vis2', make_plots: bool = False,
-                       fig_dir: str = None, show_plots: bool = False, num_res: int = 3, pix_per_res: int = 16) \
+                       fig_dir: str = None, show_plots: bool = False, num_res: int = 2, pix_per_res: int = 32) \
         -> Beam | None:
     """
     Given an OIContainer and the uv frequencies to be used, calculates the clean beam Gaussian parameters by making a
@@ -111,7 +111,7 @@ def calc_gaussian_beam(container: oi_observables.OIContainer, vistype: str = 'vi
         Going abive this can skew the Gaussian fit or cause it to fail, as the non-Gaussian behavior of the PSF becomes
         more apparent further away from the dirty beam center. It will also increase calculation time as O(n^2).
     :param int pix_per_res: Amount of dirty beam pixels used per resolution element. This should be even.
-        Set to 16 by default. Increasing this can significantly increase computation time (scales as O(n^2)).
+        Set to 32 by default. Increasing this can significantly increase computation time (scales as O(n^2)).
     :return gauss_beam: Beam object containing the information of the Gaussian fit.
     :rtype: Beam
 
@@ -174,7 +174,7 @@ def calc_gaussian_beam(container: oi_observables.OIContainer, vistype: str = 'vi
                                                  (-num_pix / 2) * pixelscale,
                                                  (-num_pix / 2) * pixelscale,
                                                  (num_pix / 2) * pixelscale))
-        ax[0][0].set_title("Dirty Beam")
+        ax[0][0].set_title("Dirty beam")
         ax[0][0].set_xlabel("E-W (mas)")
         ax[0][0].set_ylabel("S-N (mas)")
         ax[0][0].set_xlim((num_pix / 2) * pixelscale, (-num_pix / 2) * pixelscale)
@@ -189,7 +189,7 @@ def calc_gaussian_beam(container: oi_observables.OIContainer, vistype: str = 'vi
                                  r'$\mathrm{FWHM}_{maj} = $' + f'{gauss_beam.fwhm_maj:.3g} mas ; ' + '\n' + 'PA = ' +
                                  f'{gauss_beam.pa:.4g}' + r'$^{\circ}$', color='black',
                                  transform=ax[0][0].transAxes, fontsize=10)
-        fit_text.set_bbox(dict(facecolor='white', alpha=0.5, edgecolor='white'))
+        fit_text.set_bbox(dict(facecolor='white', alpha=0.5, edgecolor='black'))
         ax[0][0].axhline(y=0, lw=0.5, color='white', alpha=0.5, zorder=0)
         ax[0][0].axvline(x=0, lw=0.5, color='white', alpha=0.5, zorder=0)
 
@@ -200,7 +200,7 @@ def calc_gaussian_beam(container: oi_observables.OIContainer, vistype: str = 'vi
                                                (-num_pix / 2) * pixelscale,
                                                (-num_pix / 2) * pixelscale,
                                                (num_pix / 2) * pixelscale))
-        ax[0][1].set_title("Gaussian Fit")
+        ax[0][1].set_title("Gaussian fit")
         ax[0][1].set_xlabel("E-W (mas)")
         ax[0][1].set_xlim((num_pix / 2) * pixelscale, (-num_pix / 2) * pixelscale)
         ax[0][1].set_ylim((-num_pix / 2) * pixelscale, (num_pix / 2) * pixelscale)
@@ -249,15 +249,3 @@ def calc_gaussian_beam(container: oi_observables.OIContainer, vistype: str = 'vi
             plt.show()  # show plot if asked
 
     return gauss_beam
-
-
-if __name__ == "__main__":
-    from distroi import oi_observables
-
-    fig_dir = '/home/toond/Downloads/pionier_resolution'
-    data_dir, data_file = '../examples/data/IRAS08544-4431/PIONIER/', '*.fits'
-    container_data = oi_observables.read_oicontainer_oifits(data_dir, data_file)
-    beam = calc_gaussian_beam(container_data, vistype='vis2', make_plots=True, show_plots=True, fig_dir=fig_dir,
-                              num_res=2, pix_per_res=16)
-    print(beam.fwhm_maj, beam.fwhm_min)
-    print(1 / np.max(container_data.v2base) * 1e-6 * constants.RAD2MAS)
