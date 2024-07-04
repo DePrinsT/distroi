@@ -610,8 +610,8 @@ if __name__ == "__main__":
     #     beam = calc_gaussian_beam(container_data, vistype='vis2', make_plots=True, show_plots=True, fig_dir=fig_dir,
     #                               num_res=2, pix_per_res=48)
 
-    object_id = 'AI_Sco'
-    data_dir, data_file = (f'/home/toond/Documents/phd/data/{object_id}/inspiring/PIONIER/img_ep_may2022-sep2022/',
+    object_id = 'IRAS15469-5311'
+    data_dir, data_file = (f'/home/toond/Documents/phd/data/{object_id}/inspiring/PIONIER/img_ep_jan2021-mar2021/',
                            '*.fits')
     container_data = read_oicontainer_oifits(data_dir, data_file)
     fig_dir = f'{data_dir}/figures/'

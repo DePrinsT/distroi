@@ -4,18 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="58406770-33a2-415d-85da-ce2b89629f19" name="Changes" comment="Added copy files button to time_window_plot method in oifits_time_base.py">
+    <list default="true" id="58406770-33a2-415d-85da-ce2b89629f19" name="Changes" comment="Added Gaussian to the geometric components (though still needs to be checked if the used function is correct).">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/distroi/auxiliary/oifits_time_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/auxiliary/oifits_time_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/distroi/beam.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/beam.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/distroi/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/constants.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/distroi/geom_comps.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/geom_comps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/distroi/image_fft.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/image_fft.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/distroi/oi_observables.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/oi_observables.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/monochromatic/closure_phases.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/monochromatic/closure_phases.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/monochromatic/visibilities.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/MATISSE_N/monochromatic/visibilities.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/chromatic/closure_phases.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/chromatic/closure_phases.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/chromatic/visibilities.png" beforeDir="false" afterPath="$PROJECT_DIR$/examples/figures/single_disk_model/PIONIER/chromatic/visibilities.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/distroi/sed.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/sed.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +92,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/toond/Documents/phd/data/notebooks/time_base.ipynb&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/toond/Documents/phd/PMOIRED_examples/notebooks/EX1 angular diameter alphaCenA.ipynb&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -316,7 +311,14 @@
       <workItem from="1719568510346" duration="959000" />
       <workItem from="1719825999771" duration="88000" />
       <workItem from="1719828582553" duration="24000" />
-      <workItem from="1719834346807" duration="6491000" />
+      <workItem from="1719834346807" duration="6736000" />
+      <workItem from="1719917355636" duration="140000" />
+      <workItem from="1719918575739" duration="3172000" />
+      <workItem from="1719932067529" duration="56000" />
+      <workItem from="1719932347429" duration="3000" />
+      <workItem from="1720007663342" duration="754000" />
+      <workItem from="1720084651696" duration="751000" />
+      <workItem from="1720100385380" duration="13427000" />
     </task>
     <task id="LOCAL-00001" summary="Renamed the package to DISTROI (Disk Inner STructure Reconnaisance through Optical Interferometry).">
       <option name="closed" value="true" />
@@ -542,7 +544,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719307190536</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="Added Gaussian to the geometric components (though still needs to be checked if the used function is correct).">
+      <option name="closed" value="true" />
+      <created>1719844702720</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1719844702720</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -572,7 +582,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Extra change to README" />
     <MESSAGE value="Extended and properly formatted the documentation for image.py." />
     <MESSAGE value="Extended the documentation, added requirements.txt file and distroiEnv.yml file to create suitable conda environment." />
     <MESSAGE value="Added info on the example script in the readme." />
@@ -597,14 +606,16 @@
     <MESSAGE value="Added interactive plotting module to analyse the uv coverage of OI time-series within a ceratin time window to the distroi.auxiliary subpackage." />
     <MESSAGE value="Fixed some minor bugs in oifits_time_base.py" />
     <MESSAGE value="Added copy files button to time_window_plot method in oifits_time_base.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added copy files button to time_window_plot method in oifits_time_base.py" />
+    <MESSAGE value="Added Gaussian to the geometric components (though still needs to be checked if the used function is correct)." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Gaussian to the geometric components (though still needs to be checked if the used function is correct)." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/distroi$oi_observables.coverage" NAME="oi_observables Coverage Results" MODIFIED="1719417001494" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi" />
-    <SUITE FILE_PATH="coverage/distroi$constants.coverage" NAME="constants Coverage Results" MODIFIED="1718027268947" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi" />
-    <SUITE FILE_PATH="coverage/distroi$geom_comps.coverage" NAME="geom_comps Coverage Results" MODIFIED="1719844492696" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi" />
+    <SUITE FILE_PATH="coverage/distroi$oi_observables.coverage" NAME="oi_observables Coverage Results" MODIFIED="1720007807003" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi" />
+    <SUITE FILE_PATH="coverage/distroi$geom_comps.coverage" NAME="geom_comps Coverage Results" MODIFIED="1719844731034" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi" />
+    <SUITE FILE_PATH="coverage/distroi$constants.coverage" NAME="constants Coverage Results" MODIFIED="1720104648481" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi" />
     <SUITE FILE_PATH="coverage/distroi$single_disk_model.coverage" NAME="single_disk_model Coverage Results" MODIFIED="1719834507136" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
-    <SUITE FILE_PATH="coverage/distroi$beam.coverage" NAME="beam Coverage Results" MODIFIED="1719568583161" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi" />
-    <SUITE FILE_PATH="coverage/distroi$oifits_time_base.coverage" NAME="oifits_time_base Coverage Results" MODIFIED="1719834355152" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi/auxiliary" />
+    <SUITE FILE_PATH="coverage/distroi$sed.coverage" NAME="sed Coverage Results" MODIFIED="1720113889476" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi" />
+    <SUITE FILE_PATH="coverage/distroi$beam.coverage" NAME="beam Coverage Results" MODIFIED="1719918624773" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi" />
+    <SUITE FILE_PATH="coverage/distroi$oifits_time_base.coverage" NAME="oifits_time_base Coverage Results" MODIFIED="1719918630834" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi/auxiliary" />
   </component>
 </project>

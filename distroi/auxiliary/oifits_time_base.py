@@ -322,7 +322,7 @@ if __name__ == "__main__":
     porb_dict = dict(zip(target_ids, orbital_periods))  # dictionary of targets and orbital periods
 
     # set properties for run
-    target_id = 'IRAS08544-4431'
+    target_id = 'IRAS15469-5311'
     data_dir = f'/home/toond/Documents/phd/data/{target_id}/inspiring/PIONIER/all_data/'
     data_file = '*.fits'
     init_time_window = 0.15 * porb_dict[target_id]

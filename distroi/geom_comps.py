@@ -73,7 +73,7 @@ class UniformDisk(GeomComp):
     """
     Class representing a uniform disk geometric component.
     
-    :param float radius: The radius of the disk in milli-arcsecond.
+    :param float diameter: The radius of the disk in milli-arcsecond.
     :param tuple(float) coords:  2D tuples with (x, y) coordinates of the disk center's coordinates (in mas).
         Note that positive x is defined as leftward and positive y as upward (i.e. the East and North repesctively
         in the OI convention). If not given, will default to (0, 0).
@@ -85,8 +85,8 @@ class UniformDisk(GeomComp):
     :ivar SpecDep spec_dep: See parameter description.
     """
 
-    def __init__(self, radius: float, coords: tuple[float, float] = None, spec_dep: SpecDep = None):
-        self.radius = radius
+    def __init__(self, diameter: float, coords: tuple[float, float] = None, spec_dep: SpecDep = None):
+        self.diameter = diameter
         if coords is None:
             self.coords = (0, 0)
         else:
@@ -111,8 +111,8 @@ class UniformDisk(GeomComp):
         :rtype: np.ndarray
         """
 
-        norm_comp_vis = (2 * bessel_j1(np.pi * self.radius * constants.MAS2RAD * np.sqrt(u ** 2 + v ** 2)) / (
-                np.pi * self.radius * constants.MAS2RAD * np.sqrt(u ** 2 + v ** 2)))
+        norm_comp_vis = (2 * bessel_j1(np.pi * self.diameter * constants.MAS2RAD * np.sqrt(u ** 2 + v ** 2)) / (
+                np.pi * self.diameter * constants.MAS2RAD * np.sqrt(u ** 2 + v ** 2)))
         # add position phase term
         norm_comp_vis_phase = norm_comp_vis * np.exp(-2j * np.pi * (u * self.coords[0] * constants.MAS2RAD +
                                                                     v * self.coords[1] * constants.MAS2RAD))

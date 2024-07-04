@@ -172,10 +172,31 @@ def bb_fnu_at_wavelength(wavelength: np.ndarray | float, temp: float) -> np.ndar
     radiance = bb_fnu_at_frequency(temp=temp, frequency=freq)
     return radiance
 
-# if __name__ == '__main__':
-#     fig, ax = plt.subplots(1, 1)
-#     temp = 2000
-#     wave = np.linspace(1.0, 3.0, 100)
-#     ax.plot(wave, bb_flam_at_wavelength(wave, temp))
-#     ax.axvline(x=2898 / temp)
-#     plt.show()
+
+# flux convertion functions for all these silly astronomy units
+def flam_cgs_per_mum_to_fnu_jansky(flam: np.ndarray | float, wavelength: np.ndarray | float) -> np.ndarray | float:
+    """
+    Function to convert spectral flux densities in F_lam format and units of erg s^-1 cm^-2 micron^-1 to F_nu format in Jansky
+    (Jy). Wavelengths are in micron.
+
+    :param np.ndarray | float flam: Spectral flux density in F_lam format and units of erg s^-1 cm^-2 micron^-1.
+    :param np.ndarray | float wavelength: Associated wavelengths in micron.
+    :return fnu: Spectral flux density in F_nu format and Jy units
+    """
+
+    wavelength_si = wavelength * MICRON2M  # wavelength in SI
+    flam_si = flam * ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M  # flam in SI
+    fnu = flam_si * wavelength_si ** 2 / SPEED_OF_LIGHT  # fnu in SI units
+    fnu = fnu * WATT_PER_M2_HZ_2JY  # set fnu in Jy
+
+    return fnu
+
+
+if __name__ == '__main__':
+    print((WATT_PER_M2_HZ_2JY * MICRON2M ** 2 * ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M / SPEED_OF_LIGHT) * 6.743e-10 * 0.36 ** 2)
+    # fig, ax = plt.subplots(1, 1)
+    # temp = 2000
+    # wave = np.linspace(1.0, 3.0, 100)
+    # ax.plot(wave, bb_flam_at_wavelength(wave, temp))
+    # ax.axvline(x=2898 / temp)
+    # plt.show()
