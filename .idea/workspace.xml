@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="58406770-33a2-415d-85da-ce2b89629f19" name="Changes" comment="Added Gaussian to the geometric components (though still needs to be checked if the used function is correct).">
+    <list default="true" id="58406770-33a2-415d-85da-ce2b89629f19" name="Changes" comment="Added optional photometric band and catalogue source attributes to the SED class.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/distroi/auxiliary/oifits_time_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/auxiliary/oifits_time_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/distroi/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/distroi/geom_comps.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/geom_comps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/distroi/oi_observables.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/oi_observables.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/distroi/sed.py" beforeDir="false" afterPath="$PROJECT_DIR$/distroi/sed.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -104,7 +100,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.beam">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -318,7 +314,12 @@
       <workItem from="1719932347429" duration="3000" />
       <workItem from="1720007663342" duration="754000" />
       <workItem from="1720084651696" duration="751000" />
-      <workItem from="1720100385380" duration="13427000" />
+      <workItem from="1720100385380" duration="14255000" />
+      <workItem from="1720188201791" duration="50000" />
+      <workItem from="1720188420743" duration="1416000" />
+      <workItem from="1720191759859" duration="51000" />
+      <workItem from="1720271980723" duration="6000" />
+      <workItem from="1720273035557" duration="152000" />
     </task>
     <task id="LOCAL-00001" summary="Renamed the package to DISTROI (Disk Inner STructure Reconnaisance through Optical Interferometry).">
       <option name="closed" value="true" />
@@ -552,7 +553,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719844702720</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Added optional photometric band and catalogue source attributes to the SED class.">
+      <option name="closed" value="true" />
+      <created>1720113948173</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1720113948173</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -582,7 +591,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Extended and properly formatted the documentation for image.py." />
     <MESSAGE value="Extended the documentation, added requirements.txt file and distroiEnv.yml file to create suitable conda environment." />
     <MESSAGE value="Added info on the example script in the readme." />
     <MESSAGE value="Added a .readthedocs.yaml file to test if the documentation builds on readthedocs." />
@@ -607,15 +615,16 @@
     <MESSAGE value="Fixed some minor bugs in oifits_time_base.py" />
     <MESSAGE value="Added copy files button to time_window_plot method in oifits_time_base.py" />
     <MESSAGE value="Added Gaussian to the geometric components (though still needs to be checked if the used function is correct)." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Gaussian to the geometric components (though still needs to be checked if the used function is correct)." />
+    <MESSAGE value="Added optional photometric band and catalogue source attributes to the SED class." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added optional photometric band and catalogue source attributes to the SED class." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/distroi$oi_observables.coverage" NAME="oi_observables Coverage Results" MODIFIED="1720007807003" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi" />
+    <SUITE FILE_PATH="coverage/distroi$oi_observables.coverage" NAME="oi_observables Coverage Results" MODIFIED="1720191783747" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi" />
     <SUITE FILE_PATH="coverage/distroi$geom_comps.coverage" NAME="geom_comps Coverage Results" MODIFIED="1719844731034" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi" />
     <SUITE FILE_PATH="coverage/distroi$constants.coverage" NAME="constants Coverage Results" MODIFIED="1720104648481" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi" />
     <SUITE FILE_PATH="coverage/distroi$single_disk_model.coverage" NAME="single_disk_model Coverage Results" MODIFIED="1719834507136" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
-    <SUITE FILE_PATH="coverage/distroi$sed.coverage" NAME="sed Coverage Results" MODIFIED="1720113889476" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi" />
-    <SUITE FILE_PATH="coverage/distroi$beam.coverage" NAME="beam Coverage Results" MODIFIED="1719918624773" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi" />
-    <SUITE FILE_PATH="coverage/distroi$oifits_time_base.coverage" NAME="oifits_time_base Coverage Results" MODIFIED="1719918630834" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi/auxiliary" />
+    <SUITE FILE_PATH="coverage/distroi$sed.coverage" NAME="sed Coverage Results" MODIFIED="1720114297014" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi" />
+    <SUITE FILE_PATH="coverage/distroi$oifits_time_base.coverage" NAME="oifits_time_base Coverage Results" MODIFIED="1720188211327" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi/auxiliary" />
+    <SUITE FILE_PATH="coverage/distroi$beam.coverage" NAME="beam Coverage Results" MODIFIED="1720191778850" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/distroi" />
   </component>
 </project>

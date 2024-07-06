@@ -302,6 +302,7 @@ def plot_data_vs_model(sed_dat: SED, sed_mod: SED, fig_dir: str = None, flux_for
 
     return
 
+
 # def plot_reddened_model_fit(filepath_data, folder_mcfost, reddening_law, ebminv_guess, fig_dir='./', az=0, inc=0):
 #     """
 #     Takes the paths to both an SED data .phot file from the SED repository and the directory of an MCFOST model run.
@@ -361,28 +362,28 @@ def plot_data_vs_model(sed_dat: SED, sed_mod: SED, fig_dir: str = None, flux_for
 #     return
 
 
-# if __name__ == "__main__":
-#     object_id = 'U_Mon'
-#     iras_id = 'IRAS07284-0940'
-#     plotting = True
-#     low_wave_lims = [3, 4.2, 8]
-#     high_wave_lims = [4, 5, 13]
-#
-#     sed_data = read_sed_repo_phot(f'/home/toond/Documents/phd/data/{object_id}/SED/{iras_id}.phot')
-#     for i in range(len(low_wave_lims)):
-#         low_wave_lim = low_wave_lims[i]
-#         high_wave_lim = high_wave_lims[i]
-#         for (i, wave) in enumerate(sed_data.wavelengths):
-#             if low_wave_lim <= wave <= high_wave_lim:
-#                 print(f'wavelength: \t {wave} \t flux: \t {sed_data.fnu[i]} \t eflux: \t {sed_data.fnu_err[i]}'
-#                       f'\t photband: \t {sed_data.bands[i]} \t source: \t {sed_data.sources[i]} \t ')
-#         print('')
-#     if plotting:
-#         fig, ax = plt.subplots()
-#         ax.errorbar(sed_data.wavelengths, sed_data.fnu, sed_data.fnu_err, fmt='o', markersize=4)
-#         ax.set_xscale('log')
-#         ax.set_yscale('log')
-#         plt.show()
+if __name__ == "__main__":
+    object_id = 'HD93662'
+    iras_id = 'IRAS10456-5712'
+    plotting = True
+    low_wave_lims = [3, 4.2, 8]
+    high_wave_lims = [4, 5, 13]
+
+    sed_data = read_sed_repo_phot(f'/home/toond/Documents/phd/data/{object_id}/SED/{iras_id}.phot')
+    for i in range(len(low_wave_lims)):
+        low_wave_lim = low_wave_lims[i]
+        high_wave_lim = high_wave_lims[i]
+        for (i, wave) in enumerate(sed_data.wavelengths):
+            if low_wave_lim <= wave <= high_wave_lim:
+                print(f'wavelength: \t {wave} \t flux: \t {sed_data.fnu[i]} \t eflux: \t {sed_data.fnu_err[i]}'
+                      f'\t photband: \t {sed_data.bands[i]} \t source: \t {sed_data.sources[i]} \t ')
+        print('')
+    if plotting:
+        fig, ax = plt.subplots()
+        ax.errorbar(sed_data.wavelengths, sed_data.fnu, sed_data.fnu_err, fmt='o', markersize=4)
+        ax.set_xscale('log')
+        ax.set_yscale('log')
+        plt.show()
 
 # sed_data = read_sed_repo_phot('../examples/data/IRAS08544-4431/SED/IRAS08544-4431.phot')
 # sed_model = read_sed_mcfost('../examples/models/IRAS08544-4431_test_model/data_th/sed_rt.fits.gz')
