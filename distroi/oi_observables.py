@@ -618,3 +618,4 @@ if __name__ == "__main__":
     container_data.plot_data(fig_dir=fig_dir)
     beam = calc_gaussian_beam(container_data, vistype='vis2', make_plots=True, show_plots=True, fig_dir=fig_dir,
                               num_res=2, pix_per_res=64)
+    print('blabla')
