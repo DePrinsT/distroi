@@ -18,42 +18,11 @@ Subpackages
 Submodules
 ----------
 
-distroi.constants module
-------------------------
+.. toctree::
+   :maxdepth: 2
 
-.. automodule:: distroi.constants
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-distroi.geom\_comps module
---------------------------
-
-.. automodule:: distroi.geom_comps
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-distroi.image\_fft module
--------------------------
-
-.. automodule:: distroi.image_fft
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-distroi.oi\_observables module
-------------------------------
-
-.. automodule:: distroi.oi_observables
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-distroi.sed module
-------------------
-
-.. automodule:: distroi.sed
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   distroi.constants
+   distroi.geom_comps
+   distroi.image_fft
+   distroi.oi_observables
+   distroi.sed
