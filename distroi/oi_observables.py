@@ -177,7 +177,7 @@ class OIContainer:
         clb.set_label(r"$\lambda$ ($\mu$m)", labelpad=5)
 
         ax.set_xlim(ax.get_xlim()[::-1])
-        ax.set_title(f"uv coverage")
+        ax.set_title("uv coverage")
         ax.set_xlabel(r"$\leftarrow B_u$ ($\mathrm{M \lambda}$)")
         ax.set_ylabel(r"$B_v \rightarrow$ ($\mathrm{M \lambda}$)")
         if fig_dir is not None:
@@ -204,7 +204,7 @@ class OIContainer:
         clb = fig.colorbar(sc, pad=0.01, aspect=40)
         clb.set_label(r"$\lambda$ ($\mu$m)", labelpad=5)
         ax.set_ylabel(vislabel)
-        ax.set_title(f"Visibilities")
+        ax.set_title("Visibilities")
 
         if log_plotv:
             ax.set_ylim(0.5 * np.min(vis), 1.1 * np.max(vis))
@@ -245,7 +245,7 @@ class OIContainer:
         clb.set_label(r"$\lambda$ ($\mu$m)", labelpad=5)
 
         ax.set_ylabel(r"$\phi_{CP}$ ($^\circ$)")
-        ax.set_title(f"Closure Phases")
+        ax.set_title("Closure Phases")
         ax.set_ylim(
             np.min(self.t3phi - self.t3phierr), np.max(self.t3phi + self.t3phierr)
         )
@@ -687,7 +687,7 @@ def plot_data_vs_model(
     clb.set_label(r"$\lambda$ ($\mu$m)", labelpad=5)
 
     ax.set_xlim(ax.get_xlim()[::-1])  # switch x-axis direction
-    ax.set_title(f"uv coverage")
+    ax.set_title("uv coverage")
     ax.set_xlabel(r"$\leftarrow B_u$ ($\mathrm{M \lambda}$)")
     ax.set_ylabel(r"$B_v \rightarrow$ ($\mathrm{M \lambda}$)")
     if fig_dir is not None:
@@ -715,7 +715,7 @@ def plot_data_vs_model(
     ax[0].scatter(
         basedata,
         vismod,
-        label=f"model",
+        label="model",
         marker="o",
         facecolor="white",
         edgecolor="r",
@@ -734,7 +734,7 @@ def plot_data_vs_model(
 
     ax[0].set_ylabel(vislabel)
     ax[0].legend()
-    ax[0].set_title(f"Visibilities")
+    ax[0].set_title("Visibilities")
     ax[0].tick_params(axis="x", direction="in", pad=-15)
 
     if log_plotv:
@@ -772,7 +772,7 @@ def plot_data_vs_model(
     ax[0].scatter(
         container_data.t3bmax,
         container_mod.t3phi,
-        label=f"model",
+        label="model",
         marker="o",
         facecolor="white",
         edgecolor="r",
@@ -791,7 +791,7 @@ def plot_data_vs_model(
 
     ax[0].set_ylabel(r"$\phi_{CP}$ ($^\circ$)")
     ax[0].legend()
-    ax[0].set_title(f"Closure Phases")
+    ax[0].set_title("Closure Phases")
     ax[0].tick_params(axis="x", direction="in", pad=-15)
     ax[0].set_ylim(
         min(

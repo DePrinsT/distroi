@@ -444,7 +444,7 @@ def time_window_plot(
         clb.set_label(r"$\lambda$ ($\mu$m)", labelpad=5)
 
         uv_cov_ax.set_xlim(uv_cov_ax.get_xlim()[::-1])  # switch x-axis direction
-        uv_cov_ax.set_title(f"uv coverage within time window")
+        uv_cov_ax.set_title("uv coverage within time window")
         uv_cov_ax.set_xlabel(r"$\leftarrow B_u$ ($\mathrm{M \lambda}$)")
         uv_cov_ax.set_ylabel(r"$B_v \rightarrow$ ($\mathrm{M \lambda}$)")
 
