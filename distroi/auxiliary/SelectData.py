@@ -2,15 +2,25 @@
 Module to read in data from OIFITS files within certain limits. Modification of the original file stored at
 '/STER/akke/Python/Image2OIFITS' in the local system of KU Leuven's Institute of Astronomy.
 """
+
 from distroi.auxiliary import ReadOIFITS as oifits
 import numpy as np
 
 
 # This is used to select OIFITS data within certain limits and returns it as a ReadOIFITS 'data' object.
 # Mostly used to calculate chi2 from observation OIFITS VS model image OIFITS files
-def SelectData(data_dir, data_file, wave_1=None, wave_2=None, lim_V2_err=None, lim_V2=None, base_1=None,
-               base_2=None, lim_T3_err=None):
-    ''' Returns the data that is selected based on:
+def SelectData(
+    data_dir,
+    data_file,
+    wave_1=None,
+    wave_2=None,
+    lim_V2_err=None,
+    lim_V2=None,
+    base_1=None,
+    base_2=None,
+    lim_T3_err=None,
+):
+    """Returns the data that is selected based on:
     wave_1: the lower bound of the wavelength range
     that should be taken into account (in micron)
     wave_2: the upper bound of the wavelength range (in micron)
@@ -21,25 +31,50 @@ def SelectData(data_dir, data_file, wave_1=None, wave_2=None, lim_V2_err=None, l
     (baseline should be in B/lambda)
     lim_T3_err: limit up to which the closure phases should be taken into account
     All defaults are set to False. Set to a number if applicable
-    '''
+    """
     data = oifits.read(data_dir, data_file, removeFlagged=True)
     if lim_V2_err != None:
         Select_viserr(data, lim_V2_err)
 
     if lim_V2 != None:
         Select_vis2_lim(data, lim_V2)
-    if wave_1 != None and wave_2 != None or wave_1 != None and wave_2 == None or wave_1 == None and wave_2 != None:
+    if (
+        wave_1 != None
+        and wave_2 != None
+        or wave_1 != None
+        and wave_2 == None
+        or wave_1 == None
+        and wave_2 != None
+    ):
         Select_vis_t3_wavelength(data, wave_1, wave_2)
     if lim_T3_err != None:
         Select_T3err(data, lim_T3_err)
-    if base_1 != None and base_2 != None or base_1 != None and base_2 == None or base_1 == None and base_2 != None:
+    if (
+        base_1 != None
+        and base_2 != None
+        or base_1 != None
+        and base_2 == None
+        or base_1 == None
+        and base_2 != None
+    ):
         Select_vis_t3_base(data, base_1, base_2)
     return data
 
 
-def SelectData_data_and_image(data_dir, data_file, img_dir, img_file, wave_1=None, wave_2=None, lim_V2_err=None,
-                              lim_V2=None, base_1=None, base_2=None, lim_T3_err=None):
-    ''' Returns the data that is selected based on:
+def SelectData_data_and_image(
+    data_dir,
+    data_file,
+    img_dir,
+    img_file,
+    wave_1=None,
+    wave_2=None,
+    lim_V2_err=None,
+    lim_V2=None,
+    base_1=None,
+    base_2=None,
+    lim_T3_err=None,
+):
+    """Returns the data that is selected based on:
     wave_1: the lower bound of the wavelength range
     that should be taken into account (in micron)
     wave_2: the upper bound of the wavelength range (in micron)
@@ -50,7 +85,7 @@ def SelectData_data_and_image(data_dir, data_file, img_dir, img_file, wave_1=Non
     (baseline should be in B/lambda)
     lim_T3_err: limit up to which the closure phases should be taken into account
     All defaults are set to False. Set to a number if applicable
-    '''
+    """
     data = oifits.read(data_dir, data_file, removeFlagged=True)
     img_data = oifits.read(img_dir, img_file, removeFlagged=True)
     if lim_V2_err != None:
@@ -58,11 +93,25 @@ def SelectData_data_and_image(data_dir, data_file, img_dir, img_file, wave_1=Non
 
     if lim_V2 != None:
         Select_vis2_lim(data, lim_V2, img_data)
-    if wave_1 != None and wave_2 != None or wave_1 != None and wave_2 == None or wave_1 == None and wave_2 != None:
+    if (
+        wave_1 != None
+        and wave_2 != None
+        or wave_1 != None
+        and wave_2 == None
+        or wave_1 == None
+        and wave_2 != None
+    ):
         Select_vis_t3_wavelength(data, wave_1, wave_2, img_data)
     if lim_T3_err != None:
         Select_T3err(data, lim_T3_err, img_data)
-    if base_1 != None and base_2 != None or base_1 != None and base_2 == None or base_1 == None and base_2 != None:
+    if (
+        base_1 != None
+        and base_2 != None
+        or base_1 != None
+        and base_2 == None
+        or base_1 == None
+        and base_2 != None
+    ):
         Select_vis_t3_base(data, base_1, base_2, img_data)
     return data, img_data
 
@@ -70,7 +119,7 @@ def SelectData_data_and_image(data_dir, data_file, img_dir, img_file, wave_1=Non
 def Select_viserr(data, lim_V2_err, img_data=None):
     try:
         if data.vis2:
-            print('Selecting data up to V2err of {}'.format(lim_V2_err))
+            print("Selecting data up to V2err of {}".format(lim_V2_err))
             for i in np.arange(len(data.vis2)):
                 print(i)
                 maskv2 = data.vis2[i].vis2err < lim_V2_err
@@ -89,11 +138,15 @@ def Select_viserr(data, lim_V2_err, img_data=None):
         else:
             raise IndexError
     except IndexError:
-        print('No OIVIS2 table detected... not setting limits on V2err')
+        print("No OIVIS2 table detected... not setting limits on V2err")
 
     try:
         if data.vis:
-            print('Selecting data up to visibility amplitudes errors of {}'.format(lim_V2_err))
+            print(
+                "Selecting data up to visibility amplitudes errors of {}".format(
+                    lim_V2_err
+                )
+            )
             for i in np.arange(len(data.vis)):
                 maskv = data.vis[i].visamp < lim_V2_err
                 data.vis[i].visamp = data.vis[i].visamp[maskv]
@@ -104,14 +157,14 @@ def Select_viserr(data, lim_V2_err, img_data=None):
         else:
             raise IndexError
     except IndexError:
-        print('No OIVIS table detected ... - not setting limits on visamperr')
+        print("No OIVIS table detected ... - not setting limits on visamperr")
     return data, img_data
 
 
 def Select_vis2_lim(data, lim_V2, img_data=None):
     try:
         if data.vis2:
-            print('Selecting data up to V2 of {}'.format(lim_V2))
+            print("Selecting data up to V2 of {}".format(lim_V2))
             for i in np.arange(len(data.vis2)):
                 maskv2 = data.vis2[i].vis2data > lim_V2
                 data.vis2[i].vis2data = data.vis2[i].vis2data[maskv2]
@@ -128,11 +181,11 @@ def Select_vis2_lim(data, lim_V2, img_data=None):
         else:
             raise IndexError
     except IndexError:
-        print('No OIVIS2 table detected... not setting limits on V2')
+        print("No OIVIS2 table detected... not setting limits on V2")
 
     try:
         if data.vis:
-            print('Selecting data up to visibility amplitudes of {}'.format(lim_V2))
+            print("Selecting data up to visibility amplitudes of {}".format(lim_V2))
             for i in np.arange(len(data.vis)):
                 maskv = data.vis[i].visamp > lim_V2
                 data.vis[i].visamp = data.vis[i].visamp[maskv]
@@ -149,24 +202,36 @@ def Select_vis2_lim(data, lim_V2, img_data=None):
         else:
             raise IndexError
     except IndexError:
-        print('No OIVIS table detected... not setting limits on visamp')
+        print("No OIVIS table detected... not setting limits on visamp")
     return data, img_data
 
 
 def Select_vis_t3_wavelength(data, wave_1, wave_2, img_data=None):
     try:
         if data.vis2:
-
             for i in np.arange(len(data.vis2)):
                 if wave_1 != None and wave_2 == None:
                     C = np.where(data.vis2[i].effwave > wave_1)[0]
-                    print('Selecting data from wave {} to max data wavelength {} m'.format(wave_1, wave_2))
+                    print(
+                        "Selecting data from wave {} to max data wavelength {} m".format(
+                            wave_1, wave_2
+                        )
+                    )
                 elif wave_1 != None and wave_2 != None:
-                    C = np.where((data.vis2[i].effwave < wave_2) & (data.vis2[i].effwave > wave_1))[0]
-                    print('Selecting data from wave {} to wave {} m'.format(wave_1, wave_2))
+                    C = np.where(
+                        (data.vis2[i].effwave < wave_2)
+                        & (data.vis2[i].effwave > wave_1)
+                    )[0]
+                    print(
+                        "Selecting data from wave {} to wave {} m".format(
+                            wave_1, wave_2
+                        )
+                    )
                 elif wave_1 == None and wave_2 != None:
                     C = np.where(data.vis2[i].effwave < wave_2)[0]
-                    print('Selecting data from min data wavelength to {} m'.format(wave_2))
+                    print(
+                        "Selecting data from min data wavelength to {} m".format(wave_2)
+                    )
                 data.vis2[i].vis2data = data.vis2[i].vis2data[C]
                 data.vis2[i].vis2err = data.vis2[i].vis2err[C]
                 data.vis2[i].effwave = data.vis2[i].effwave[C]
@@ -181,20 +246,32 @@ def Select_vis_t3_wavelength(data, wave_1, wave_2, img_data=None):
         else:
             raise IndexError
     except IndexError:
-        print('No OIVIS2 table detected...')
+        print("No OIVIS2 table detected...")
 
     try:
         if data.vis:
             for i in np.arange(len(data.vis)):
                 if wave_1 != None and wave_2 == None:
                     C = np.where(data.vis[i].effwave > wave_1)[0]
-                    print('Selecting data from wave {} to max data wavelength {} m'.format(wave_1, wave_2))
+                    print(
+                        "Selecting data from wave {} to max data wavelength {} m".format(
+                            wave_1, wave_2
+                        )
+                    )
                 elif wave_1 != None and wave_2 != None:
-                    C = np.where((data.vis[i].effwave < wave_2) & (data.vis[i].effwave > wave_1))[0]
-                    print('Selecting data from wave {} to wave {} m'.format(wave_1, wave_2))
+                    C = np.where(
+                        (data.vis[i].effwave < wave_2) & (data.vis[i].effwave > wave_1)
+                    )[0]
+                    print(
+                        "Selecting data from wave {} to wave {} m".format(
+                            wave_1, wave_2
+                        )
+                    )
                 elif wave_1 == None and wave_2 != None:
                     C = np.where(data.vis[i].effwave < wave_2)[0]
-                    print('Selecting data from min data wavelength to {} m'.format(wave_2))
+                    print(
+                        "Selecting data from min data wavelength to {} m".format(wave_2)
+                    )
                 data.vis[i].visamp = data.vis[i].visamp[C]
                 data.vis[i].visamperr = data.vis[i].visamperr[C]
                 data.vis[i].effwave = data.vis[i].effwave[C]
@@ -209,20 +286,32 @@ def Select_vis_t3_wavelength(data, wave_1, wave_2, img_data=None):
         else:
             raise IndexError
     except IndexError:
-        print('No OIVIS table detected...')
+        print("No OIVIS table detected...")
 
     try:
         if data.t3:
             for i in np.arange(len(data.t3)):
                 if wave_1 != None and wave_2 == None:
                     C = np.where(data.t3[i].effwave > wave_1)[0]
-                    print('Selecting data from wave {} to max data wavelength {} m'.format(wave_1, wave_2))
+                    print(
+                        "Selecting data from wave {} to max data wavelength {} m".format(
+                            wave_1, wave_2
+                        )
+                    )
                 elif wave_1 != None and wave_2 != None:
-                    C = np.where((data.t3[i].effwave < wave_2) & (data.t3[i].effwave > wave_1))[0]
-                    print('Selecting data from wave {} to wave {} m'.format(wave_1, wave_2))
+                    C = np.where(
+                        (data.t3[i].effwave < wave_2) & (data.t3[i].effwave > wave_1)
+                    )[0]
+                    print(
+                        "Selecting data from wave {} to wave {} m".format(
+                            wave_1, wave_2
+                        )
+                    )
                 elif wave_1 == None and wave_2 != None:
                     C = np.where(data.t3[i].effwave < wave_2)[0]
-                    print('Selecting data from min data wavelength to {} m'.format(wave_2))
+                    print(
+                        "Selecting data from min data wavelength to {} m".format(wave_2)
+                    )
                 data.t3[i].t3amp = data.t3[i].t3amp[C]
                 data.t3[i].t3amperr = data.t3[i].t3amperr[C]
                 data.t3[i].t3phi = data.t3[i].t3phi[C]
@@ -245,14 +334,14 @@ def Select_vis_t3_wavelength(data, wave_1, wave_2, img_data=None):
         else:
             raise IndexError
     except IndexError:
-        print('No T3 table detected...')
+        print("No T3 table detected...")
     return data, img_data
 
 
 def Select_T3err(data, lim_T3_err, img_data=None):
     try:
         if data.t3:
-            print('Selecting data up to T3 of {}'.format(lim_T3_err))
+            print("Selecting data up to T3 of {}".format(lim_T3_err))
             for i in np.arange(len(data.vis2)):
                 maskT3 = data.t3[i].t3amperr < lim_T3_err
                 data.t3[i].t3amp = data.t3[i].t3amp[maskT3]
@@ -277,7 +366,7 @@ def Select_T3err(data, lim_T3_err, img_data=None):
         else:
             raise IndexError
     except IndexError:
-        print('No T3table detected...')
+        print("No T3table detected...")
 
     return data, img_data
 
@@ -289,13 +378,23 @@ def Select_vis_t3_base(data, base_1, base_2, img_data=None):
                 base = np.sqrt(data.vis2[i].uf ** 2 + data.vis2[i].vf ** 2)
                 if base_1 != None and base_2 == None:
                     C = np.where(base > base_1)[0]
-                    print('Selecting data from data baseline {} to the maximum baseline'.format(base_1))
+                    print(
+                        "Selecting data from data baseline {} to the maximum baseline".format(
+                            base_1
+                        )
+                    )
                 elif base_1 != None and base_2 != None:
                     C = np.where((base < base_2) & (base > base_1))[0]
-                    print('Selecting data from base {} to base {} m'.format(base_1, base_2))
+                    print(
+                        "Selecting data from base {} to base {} m".format(
+                            base_1, base_2
+                        )
+                    )
                 elif base_1 == None and base_2 != None:
                     C = np.where(base < base_2)[0]
-                    print('Selecting data from min data baseline to {} m'.format(base_2))
+                    print(
+                        "Selecting data from min data baseline to {} m".format(base_2)
+                    )
                 data.vis2[i].vis2data = data.vis2[i].vis2data[C]
                 data.vis2[i].vis2err = data.vis2[i].vis2err[C]
                 data.vis2[i].effwave = data.vis2[i].effwave[C]
@@ -304,20 +403,32 @@ def Select_vis_t3_base(data, base_1, base_2, img_data=None):
         else:
             raise IndexError
     except IndexError:
-        print('No OIVIS2 table detected... - no limit on vis2 baselines')
+        print("No OIVIS2 table detected... - no limit on vis2 baselines")
 
     try:
         if data.vis:
             for i in np.arange(len(data.vis)):
                 if base_1 != None and base_2 == None:
                     C = np.where(data.vis[i].base > base_1)[0]
-                    print('Selecting data from wave {} to max data wavelength {} m'.format(base_1, base_2))
+                    print(
+                        "Selecting data from wave {} to max data wavelength {} m".format(
+                            base_1, base_2
+                        )
+                    )
                 elif base_1 != None and base_2 != None:
-                    C = np.where((data.vis[i].base < base_2) & (data.t3[i].baSe > base_1))[0]
-                    print('Selecting data from wave {} to wave {} m'.format(base_1, base_2))
+                    C = np.where(
+                        (data.vis[i].base < base_2) & (data.t3[i].baSe > base_1)
+                    )[0]
+                    print(
+                        "Selecting data from wave {} to wave {} m".format(
+                            base_1, base_2
+                        )
+                    )
                 elif base_1 == None and base_2 != None:
                     C = np.where(data.vis[i].base < base_2)[0]
-                    print('Selecting data from min data wavelength to {} m'.format(base_2))
+                    print(
+                        "Selecting data from min data wavelength to {} m".format(base_2)
+                    )
                 data.vis[i].visamp = data.vis[i].visamp[C]
                 data.vis[i].visamperr = data.vis[i].visamperr[C]
                 data.vis[i].effwave = data.vis[i].effwave[C]
@@ -327,7 +438,7 @@ def Select_vis_t3_base(data, base_1, base_2, img_data=None):
         else:
             raise IndexError
     except IndexError:
-        print('No OIVIS table detected... - no limit on vis baselines')
+        print("No OIVIS table detected... - no limit on vis baselines")
 
     # try:
     #     if data.t3:

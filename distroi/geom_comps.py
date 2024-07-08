@@ -20,7 +20,13 @@ class SpecDep(ABC):
     """
 
     @abstractmethod
-    def flux_from_ref(self, x: np.ndarray | float, x_ref: float, ref_flux: float, flux_form: str = 'flam') -> np.ndarray | float:
+    def flux_from_ref(
+        self,
+        x: np.ndarray | float,
+        x_ref: float,
+        ref_flux: float,
+        flux_form: str = "flam",
+    ) -> np.ndarray | float:
         """
         Retrieve the flux at certain wavelengths/frequencies when given a reference flux value and wavelength/frequency.
 
@@ -43,28 +49,34 @@ class GeomComp(ABC):
     """
     Abstract class representing a geometric model component.
 
-    :ivar SpecDep spec_dep: Optional spectral dependence of the component. If None, the spectral dependency will be
+    :ivar SpecDep | None spec_dep: Optional spectral dependence of the component. If None, the spectral dependency will be
         assumed flat in correlated flux accross wavelength (note that flatness in correlated flux means a spectral
         dependency ~ wavelength ^ -2 for F_lam).
     """
 
     @abstractmethod
-    def calc_vis(self, u: np.ndarray | float, v: np.ndarray | float, wavelength: np.ndarray | float = None,
-                 ref_wavelength: float = None, ref_corr_flux: float = None) -> np.ndarray | float:
+    def calc_vis(
+        self,
+        u: np.ndarray | float,
+        v: np.ndarray | float,
+        wavelength: np.ndarray | float = None,
+        ref_wavelength: float = None,
+        ref_corr_flux: float = None,
+    ) -> np.ndarray | float:
         """
         Calculate the visibility of the geometric component at given spatial frequencies. Wavelengths corresponding to
         these spatial frequencies and a reference total flux (at reference wavelength) can also be passed along, in
         which case the returned visibilities will be in correlated flux (Jy) instead of normalized.
 
-        :param np.ndarray u: 1D array with spatial x-axis frequencies in 1/radian. Must be the same size as u.
-        :param np.ndarray v: 1D array with spatial y-axis frequencies in 1/radian. Must be the same size as v
-        :param np.ndarray wavelength: 1D array with wavelength values in micron.
-        :param float ref_wavelength: Reference wavelength in micron.
-        :param float ref_corr_flux: Reference correlated flux in Jy corresponding to ref_wavelength. If provided
+        :param np.ndarray | float u: 1D array with spatial x-axis frequencies in 1/radian. Must be the same size as u.
+        :param np.ndarray | float v: 1D array with spatial y-axis frequencies in 1/radian. Must be the same size as v
+        :param np.ndarray | float wavelength: 1D array with wavelength values in micron.
+        :param float | None ref_wavelength: Reference wavelength in micron.
+        :param float | None ref_corr_flux: Reference correlated flux in Jy corresponding to ref_wavelength. If provided
             together with ref_corr_flux, then the returned visibilities are in correlated flux.
         :return vis: 1D array with the calculated visibilities (normalized or in corrleated flux, depending on the
             optional arguments)
-        :rtype: np.ndarray
+        :rtype: np.ndarray | float
         """
         pass
 
@@ -72,7 +84,7 @@ class GeomComp(ABC):
 class UniformDisk(GeomComp):
     """
     Class representing a uniform disk geometric component.
-    
+
     :param float diameter: The radius of the disk in milli-arcsecond.
     :param tuple(float) coords:  2D tuples with (x, y) coordinates of the disk center's coordinates (in mas).
         Note that positive x is defined as leftward and positive y as upward (i.e. the East and North repesctively
@@ -85,7 +97,12 @@ class UniformDisk(GeomComp):
     :ivar SpecDep spec_dep: See parameter description.
     """
 
-    def __init__(self, diameter: float, coords: tuple[float, float] = None, spec_dep: SpecDep = None):
+    def __init__(
+        self,
+        diameter: float,
+        coords: tuple[float, float] = None,
+        spec_dep: SpecDep = None,
+    ):
         self.diameter = diameter
         if coords is None:
             self.coords = (0, 0)
@@ -93,8 +110,14 @@ class UniformDisk(GeomComp):
             self.coords = coords
         self.spec_dep = spec_dep
 
-    def calc_vis(self, u: np.ndarray | float, v: np.ndarray | float, wavelength: np.ndarray | float = None,
-                 ref_wavelength: float = None, ref_corr_flux: float = None) -> np.ndarray | float:
+    def calc_vis(
+        self,
+        u: np.ndarray | float,
+        v: np.ndarray | float,
+        wavelength: np.ndarray | float = None,
+        ref_wavelength: float = None,
+        ref_corr_flux: float = None,
+    ) -> np.ndarray | float:
         """
         Calculate the visibility at given spatial frequencies. Wavelengths corresponding to these spatial frequencies a
         and a reference flux value (at reference wavelength) can also be passed along, in which case the returned
@@ -111,18 +134,36 @@ class UniformDisk(GeomComp):
         :rtype: np.ndarray
         """
 
-        norm_comp_vis = (2 * bessel_j1(np.pi * self.diameter * constants.MAS2RAD * np.sqrt(u ** 2 + v ** 2)) / (
-                np.pi * self.diameter * constants.MAS2RAD * np.sqrt(u ** 2 + v ** 2)))
+        norm_comp_vis = (
+            2
+            * bessel_j1(
+                np.pi * self.diameter * constants.MAS2RAD * np.sqrt(u**2 + v**2)
+            )
+            / (np.pi * self.diameter * constants.MAS2RAD * np.sqrt(u**2 + v**2))
+        )
         # add position phase term
-        norm_comp_vis_phase = norm_comp_vis * np.exp(-2j * np.pi * (u * self.coords[0] * constants.MAS2RAD +
-                                                                    v * self.coords[1] * constants.MAS2RAD))
+        norm_comp_vis_phase = norm_comp_vis * np.exp(
+            -2j
+            * np.pi
+            * (
+                u * self.coords[0] * constants.MAS2RAD
+                + v * self.coords[1] * constants.MAS2RAD
+            )
+        )
         if wavelength is None or ref_wavelength is None or ref_corr_flux is None:
             vis = norm_comp_vis_phase
             return vis
         else:
             frequency = constants.SPEED_OF_LIGHT / (wavelength * constants.MICRON2M)
-            ref_frequency = constants.SPEED_OF_LIGHT / (ref_wavelength * constants.MICRON2M)
-            corr_flux = self.spec_dep.flux_from_ref(x=frequency, x_ref=ref_frequency, ref_flux=ref_corr_flux, flux_form='fnu')
+            ref_frequency = constants.SPEED_OF_LIGHT / (
+                ref_wavelength * constants.MICRON2M
+            )
+            corr_flux = self.spec_dep.flux_from_ref(
+                x=frequency,
+                x_ref=ref_frequency,
+                ref_flux=ref_corr_flux,
+                flux_form="fnu",
+            )
             vis = corr_flux * norm_comp_vis_phase
             return vis
 
@@ -143,7 +184,9 @@ class Gaussian(GeomComp):
     :ivar SpecDep spec_dep: See parameter description.
     """
 
-    def __init__(self, fwhm: float, coords: tuple[float, float] = None, spec_dep: SpecDep = None):
+    def __init__(
+        self, fwhm: float, coords: tuple[float, float] = None, spec_dep: SpecDep = None
+    ):
         self.fwhm = fwhm
         if coords is None:
             self.coords = (0, 0)
@@ -151,8 +194,14 @@ class Gaussian(GeomComp):
             self.coords = coords
         self.spec_dep = spec_dep
 
-    def calc_vis(self, u: np.ndarray | float, v: np.ndarray | float, wavelength: np.ndarray | float = None,
-                 ref_wavelength: float = None, ref_corr_flux: float = None) -> np.ndarray | float:
+    def calc_vis(
+        self,
+        u: np.ndarray | float,
+        v: np.ndarray | float,
+        wavelength: np.ndarray | float = None,
+        ref_wavelength: float = None,
+        ref_corr_flux: float = None,
+    ) -> np.ndarray | float:
         """
         Calculate the visibility at given spatial frequencies. Wavelengths corresponding to these spatial frequencies a
         and a reference flux value (at reference wavelength) can also be passed along, in which case the returned
@@ -169,17 +218,36 @@ class Gaussian(GeomComp):
         :rtype: np.ndarray
         """
         # todo: check if correct, lots of sources online disagree
-        norm_comp_vis = np.exp(-1 * np.pi ** 2 * (self.fwhm * constants.MAS2RAD) ** 2 * (u ** 2 + v ** 2) / (4 * np.log(2)))
+        norm_comp_vis = np.exp(
+            -1
+            * np.pi**2
+            * (self.fwhm * constants.MAS2RAD) ** 2
+            * (u**2 + v**2)
+            / (4 * np.log(2))
+        )
         # add position phase term
-        norm_comp_vis_phase = norm_comp_vis * np.exp(-2j * np.pi * (u * self.coords[0] * constants.MAS2RAD +
-                                                                    v * self.coords[1] * constants.MAS2RAD))
+        norm_comp_vis_phase = norm_comp_vis * np.exp(
+            -2j
+            * np.pi
+            * (
+                u * self.coords[0] * constants.MAS2RAD
+                + v * self.coords[1] * constants.MAS2RAD
+            )
+        )
         if wavelength is None or ref_wavelength is None or ref_corr_flux is None:
             vis = norm_comp_vis_phase
             return vis
         else:
             frequency = constants.SPEED_OF_LIGHT / (wavelength * constants.MICRON2M)
-            ref_frequency = constants.SPEED_OF_LIGHT / (ref_wavelength * constants.MICRON2M)
-            corr_flux = self.spec_dep.flux_from_ref(x=frequency, x_ref=ref_frequency, ref_flux=ref_corr_flux, flux_form='fnu')
+            ref_frequency = constants.SPEED_OF_LIGHT / (
+                ref_wavelength * constants.MICRON2M
+            )
+            corr_flux = self.spec_dep.flux_from_ref(
+                x=frequency,
+                x_ref=ref_frequency,
+                ref_flux=ref_corr_flux,
+                flux_form="fnu",
+            )
             vis = corr_flux * norm_comp_vis_phase
             return vis
 
@@ -205,8 +273,14 @@ class PointSource(GeomComp):
             self.coords = coords
         self.spec_dep = spec_dep
 
-    def calc_vis(self, u: np.ndarray | float, v: np.ndarray | float, wavelength: np.ndarray | float = None,
-                 ref_wavelength: float = None, ref_corr_flux: float = None) -> np.ndarray | float:
+    def calc_vis(
+        self,
+        u: np.ndarray | float,
+        v: np.ndarray | float,
+        wavelength: np.ndarray | float = None,
+        ref_wavelength: float = None,
+        ref_corr_flux: float = None,
+    ) -> np.ndarray | float:
         """
         Calculate the visibility at given spatial frequencies. Wavelengths corresponding to these spatial frequencies a
         and a reference flux value (at reference wavelength) can also be passed along, in which case the returned
@@ -223,15 +297,29 @@ class PointSource(GeomComp):
         :rtype: np.ndarray
         """
 
-        norm_comp_vis = np.exp(-2j * np.pi * (u * self.coords[0] * constants.MAS2RAD + v * self.coords[1] * constants.MAS2RAD))
-        print('stuff going on')
+        norm_comp_vis = np.exp(
+            -2j
+            * np.pi
+            * (
+                u * self.coords[0] * constants.MAS2RAD
+                + v * self.coords[1] * constants.MAS2RAD
+            )
+        )
+        print("stuff going on")
         if wavelength is None or ref_wavelength is None or ref_corr_flux is None:
             vis = norm_comp_vis
             return vis
         else:
             frequency = constants.SPEED_OF_LIGHT / (wavelength * constants.MICRON2M)
-            ref_frequency = constants.SPEED_OF_LIGHT / (ref_wavelength * constants.MICRON2M)
-            corr_flux = self.spec_dep.flux_from_ref(x=frequency, x_ref=ref_frequency, ref_flux=ref_corr_flux, flux_form='fnu')
+            ref_frequency = constants.SPEED_OF_LIGHT / (
+                ref_wavelength * constants.MICRON2M
+            )
+            corr_flux = self.spec_dep.flux_from_ref(
+                x=frequency,
+                x_ref=ref_frequency,
+                ref_flux=ref_corr_flux,
+                flux_form="fnu",
+            )
             vis = corr_flux * norm_comp_vis
             return vis
 
@@ -249,8 +337,14 @@ class Overresolved(GeomComp):
     def __init__(self, spec_dep=None):
         self.spec_dep = spec_dep
 
-    def calc_vis(self, u: np.ndarray | float, v: np.ndarray | float, wavelength: np.ndarray | float = None,
-                 ref_wavelength: float = None, ref_corr_flux: float = None) -> np.ndarray | float:
+    def calc_vis(
+        self,
+        u: np.ndarray | float,
+        v: np.ndarray | float,
+        wavelength: np.ndarray | float = None,
+        ref_wavelength: float = None,
+        ref_corr_flux: float = None,
+    ) -> np.ndarray | float:
         """
         Calculate the visibility at given spatial frequencies. Automatically returns an
 
@@ -283,7 +377,13 @@ class BlackBodySpecDep(SpecDep):
     def __init__(self, temp):
         self.temp = temp
 
-    def flux_from_ref(self, x: np.ndarray | float, x_ref: float, ref_flux: float, flux_form: str = 'flam') -> np.ndarray | float:
+    def flux_from_ref(
+        self,
+        x: np.ndarray | float,
+        x_ref: float,
+        ref_flux: float,
+        flux_form: str = "flam",
+    ) -> np.ndarray | float:
         """
         Retrieve the flux at certain wavelengths/frequencies when given a reference flux value and wavelength/frequency.
 
@@ -300,23 +400,41 @@ class BlackBodySpecDep(SpecDep):
         :rtype: np.ndarray | float
         """
         # check requested flux format
-        if flux_form not in ('flam', 'lam_flam', 'fnu', 'nu_fnu'):
-            print("Flux format 'flux_form' not recognized, defaulting to 'flam' instead.")
-            flux_form = 'flam'
+        if flux_form not in ("flam", "lam_flam", "fnu", "nu_fnu"):
+            print(
+                "Flux format 'flux_form' not recognized, defaulting to 'flam' instead."
+            )
+            flux_form = "flam"
 
         # different cases for requested flux format and power law flux format
-        if flux_form == 'flam':
-            flux = ref_flux * (constants.bb_flam_at_wavelength(x, temp=self.temp) /
-                               constants.bb_flam_at_wavelength(x_ref, temp=self.temp))
-        if flux_form == 'fnu':
-            flux = ref_flux * (constants.bb_fnu_at_frequency(x, temp=self.temp) /
-                               constants.bb_fnu_at_frequency(x_ref, temp=self.temp))
-        if flux_form == 'lam_flam':
-            flux = ref_flux * (x / x_ref) * (constants.bb_flam_at_wavelength(x, temp=self.temp) /
-                                             constants.bb_flam_at_wavelength(x_ref, temp=self.temp))
-        if flux_form == 'nu_fnu':
-            flux = ref_flux * (x / x_ref) * (constants.bb_fnu_at_frequency(x, temp=self.temp) /
-                                             constants.bb_fnu_at_frequency(x_ref, temp=self.temp))
+        if flux_form == "flam":
+            flux = ref_flux * (
+                constants.bb_flam_at_wavelength(x, temp=self.temp)
+                / constants.bb_flam_at_wavelength(x_ref, temp=self.temp)
+            )
+        if flux_form == "fnu":
+            flux = ref_flux * (
+                constants.bb_fnu_at_frequency(x, temp=self.temp)
+                / constants.bb_fnu_at_frequency(x_ref, temp=self.temp)
+            )
+        if flux_form == "lam_flam":
+            flux = (
+                ref_flux
+                * (x / x_ref)
+                * (
+                    constants.bb_flam_at_wavelength(x, temp=self.temp)
+                    / constants.bb_flam_at_wavelength(x_ref, temp=self.temp)
+                )
+            )
+        if flux_form == "nu_fnu":
+            flux = (
+                ref_flux
+                * (x / x_ref)
+                * (
+                    constants.bb_fnu_at_frequency(x, temp=self.temp)
+                    / constants.bb_fnu_at_frequency(x_ref, temp=self.temp)
+                )
+            )
         return flux
 
 
@@ -335,19 +453,27 @@ class PowerLawSpecDep(SpecDep):
     :ivar float power: See parameter description.
     """
 
-    def __init__(self, power, flux_form='flam'):
-        if flux_form not in ('flam', 'lam_flam', 'fnu', 'nu_fnu'):
-            print("Flux format 'flux_form' not recognized, defaulting to 'flam' instead.")
-            self.flux_form = 'flam'
+    def __init__(self, power, flux_form="flam"):
+        if flux_form not in ("flam", "lam_flam", "fnu", "nu_fnu"):
+            print(
+                "Flux format 'flux_form' not recognized, defaulting to 'flam' instead."
+            )
+            self.flux_form = "flam"
         self.power = power
         self.flux_form = flux_form
 
-    def flux_from_ref(self, x: np.ndarray | float, x_ref: float, ref_flux: float, flux_form: str = 'flam') -> np.ndarray | float:
+    def flux_from_ref(
+        self,
+        x: np.ndarray | float,
+        x_ref: float,
+        ref_flux: float,
+        flux_form: str = "flam",
+    ) -> np.ndarray | float:
         """
         Retrieve the flux at certain wavelengths/frequencies when given a reference flux value and wavelength/frequency.
 
         :param np.ndarray | float x: Wavelengths/frequencies (in micron/Hz) at which to calculate the flux.
-        :param np.ndarray | float x_ref: Reference wavelength/frequency (in micron/Hz) at which to calculate the flux. 
+        :param np.ndarray | float x_ref: Reference wavelength/frequency (in micron/Hz) at which to calculate the flux.
             In case of 'flam' and 'lam_flam', x_ref is assumed to be a wavelength, while in case of 'fnu' and 'nu_fnu',
             x_ref is assumed to be a frequency.
         :param float ref_flux: Reference flux from which to calculate the flux, in the specified 'flux_form' format.
@@ -360,42 +486,44 @@ class PowerLawSpecDep(SpecDep):
         """
 
         # check requested flux format
-        if flux_form not in ('flam', 'lam_flam', 'fnu', 'nu_fnu'):
-            print("Flux format 'flux_form' not recognized, defaulting to 'flam' instead.")
-            flux_form = 'flam'
+        if flux_form not in ("flam", "lam_flam", "fnu", "nu_fnu"):
+            print(
+                "Flux format 'flux_form' not recognized, defaulting to 'flam' instead."
+            )
+            flux_form = "flam"
 
         # different cases for requested flux format and power law flux format
-        if flux_form == 'flam' and self.flux_form == 'flam':
+        if flux_form == "flam" and self.flux_form == "flam":
             flux = ref_flux * (x / x_ref) ** self.power
-        elif flux_form == 'flam' and self.flux_form == 'lam_flam':
+        elif flux_form == "flam" and self.flux_form == "lam_flam":
             flux = ref_flux * (x / x_ref) ** (self.power - 1)
-        elif flux_form == 'flam' and self.flux_form == 'fnu':
+        elif flux_form == "flam" and self.flux_form == "fnu":
             flux = ref_flux * (x / x_ref) ** (-self.power - 2)
-        elif flux_form == 'flam' and self.flux_form == 'nu_fnu':
+        elif flux_form == "flam" and self.flux_form == "nu_fnu":
             flux = ref_flux * (x / x_ref) ** (-self.power - 1)
-        elif flux_form == 'fnu' and self.flux_form == 'flam':
+        elif flux_form == "fnu" and self.flux_form == "flam":
             flux = ref_flux * (x / x_ref) ** (-self.power - 2)
-        elif flux_form == 'fnu' and self.flux_form == 'lam_flam':
+        elif flux_form == "fnu" and self.flux_form == "lam_flam":
             flux = ref_flux * (x / x_ref) ** (-self.power - 1)
-        elif flux_form == 'fnu' and self.flux_form == 'fnu':
+        elif flux_form == "fnu" and self.flux_form == "fnu":
             flux = ref_flux * (x / x_ref) ** self.power
-        elif flux_form == 'fnu' and self.flux_form == 'nu_fnu':
+        elif flux_form == "fnu" and self.flux_form == "nu_fnu":
             flux = ref_flux * (x / x_ref) ** (self.power - 1)
-        elif flux_form == 'lam_flam' and self.flux_form == 'flam':
+        elif flux_form == "lam_flam" and self.flux_form == "flam":
             flux = ref_flux * (x / x_ref) ** (self.power + 1)
-        elif flux_form == 'lam_flam' and self.flux_form == 'lam_flam':
+        elif flux_form == "lam_flam" and self.flux_form == "lam_flam":
             flux = ref_flux * (x / x_ref) ** self.power
-        elif flux_form == 'lam_flam' and flux_form == 'fnu':
+        elif flux_form == "lam_flam" and flux_form == "fnu":
             flux = ref_flux * (x / x_ref) ** (-self.power - 1)
-        elif flux_form == 'lam_flam' and self.flux_form == 'nu_fnu':
+        elif flux_form == "lam_flam" and self.flux_form == "nu_fnu":
             flux = ref_flux * (x / x_ref) ** -self.power
-        elif flux_form == 'nu_fnu' and self.flux_form == 'flam':
+        elif flux_form == "nu_fnu" and self.flux_form == "flam":
             flux = ref_flux * (x / x_ref) ** (-self.power - 1)
-        elif flux_form == 'nu_fnu' and self.flux_form == 'lam_flam':
+        elif flux_form == "nu_fnu" and self.flux_form == "lam_flam":
             flux = ref_flux * (x / x_ref) ** -self.power
-        elif flux_form == 'nu_fnu' and self.flux_form == 'fnu':
+        elif flux_form == "nu_fnu" and self.flux_form == "fnu":
             flux = ref_flux * (x / x_ref) ** (self.power + 1)
-        elif flux_form == 'nu_fnu' and self.flux_form == 'nu_fnu':
+        elif flux_form == "nu_fnu" and self.flux_form == "nu_fnu":
             flux = ref_flux * (x / x_ref) ** self.power
         return flux
 
@@ -413,13 +541,21 @@ class FlatSpecDep(SpecDep):
         transformation between 'fnu' and 'flam' matters.
     """
 
-    def __init__(self, flux_form='flam'):
-        if flux_form not in ('flam', 'lam_flam', 'fnu', 'nu_fnu'):
-            print("Flux format 'flux_form' not recognized, defaulting to 'flam' instead.")
-            self.flux_form = 'flam'
+    def __init__(self, flux_form="flam"):
+        if flux_form not in ("flam", "lam_flam", "fnu", "nu_fnu"):
+            print(
+                "Flux format 'flux_form' not recognized, defaulting to 'flam' instead."
+            )
+            self.flux_form = "flam"
         self.flux_form = flux_form
 
-    def flux_from_ref(self, x: np.ndarray | float, x_ref: float, ref_flux: float, flux_form: str = 'flam') -> np.ndarray | float:
+    def flux_from_ref(
+        self,
+        x: np.ndarray | float,
+        x_ref: float,
+        ref_flux: float,
+        flux_form: str = "flam",
+    ) -> np.ndarray | float:
         """
         Retrieve the flux at certain wavelengths/frequencies when given a reference flux value and wavelength/frequency.
 
@@ -437,42 +573,44 @@ class FlatSpecDep(SpecDep):
         """
 
         # check requested flux format
-        if flux_form not in ('flam', 'lam_flam', 'fnu', 'nu_fnu'):
-            print("Flux format 'flux_form' not recognized, defaulting to 'flam' instead.")
-            flux_form = 'flam'
+        if flux_form not in ("flam", "lam_flam", "fnu", "nu_fnu"):
+            print(
+                "Flux format 'flux_form' not recognized, defaulting to 'flam' instead."
+            )
+            flux_form = "flam"
 
         # different cases for requested flux format and power law flux format
-        if flux_form == 'flam' and self.flux_form == 'flam':
+        if flux_form == "flam" and self.flux_form == "flam":
             flux = ref_flux
-        elif flux_form == 'flam' and self.flux_form == 'lam_flam':
+        elif flux_form == "flam" and self.flux_form == "lam_flam":
             flux = ref_flux * (x / x_ref) ** -1
-        elif flux_form == 'flam' and self.flux_form == 'fnu':
+        elif flux_form == "flam" and self.flux_form == "fnu":
             flux = ref_flux * (x / x_ref) ** -2
-        elif flux_form == 'flam' and self.flux_form == 'nu_fnu':
+        elif flux_form == "flam" and self.flux_form == "nu_fnu":
             flux = ref_flux * (x / x_ref) ** -1
-        elif flux_form == 'fnu' and self.flux_form == 'flam':
+        elif flux_form == "fnu" and self.flux_form == "flam":
             flux = ref_flux * (x / x_ref) ** -2
-        elif flux_form == 'fnu' and self.flux_form == 'lam_flam':
+        elif flux_form == "fnu" and self.flux_form == "lam_flam":
             flux = ref_flux * (x / x_ref) ** -1
-        elif flux_form == 'fnu' and self.flux_form == 'fnu':
+        elif flux_form == "fnu" and self.flux_form == "fnu":
             flux = ref_flux
-        elif flux_form == 'fnu' and self.flux_form == 'nu_fnu':
+        elif flux_form == "fnu" and self.flux_form == "nu_fnu":
             flux = ref_flux * (x / x_ref) ** -1
-        elif flux_form == 'lam_flam' and self.flux_form == 'flam':
+        elif flux_form == "lam_flam" and self.flux_form == "flam":
             flux = ref_flux * (x / x_ref)
-        elif flux_form == 'lam_flam' and self.flux_form == 'lam_flam':
+        elif flux_form == "lam_flam" and self.flux_form == "lam_flam":
             flux = ref_flux
-        elif flux_form == 'lam_flam' and self.flux_form == 'fnu':
+        elif flux_form == "lam_flam" and self.flux_form == "fnu":
             flux = ref_flux * (x / x_ref) ** -1
-        elif flux_form == 'lam_flam' and self.flux_form == 'nu_fnu':
+        elif flux_form == "lam_flam" and self.flux_form == "nu_fnu":
             flux = ref_flux
-        elif flux_form == 'nu_fnu' and self.flux_form == 'flam':
+        elif flux_form == "nu_fnu" and self.flux_form == "flam":
             flux = ref_flux * (x / x_ref) ** -1
-        elif flux_form == 'nu_fnu' and self.flux_form == 'lam_flam':
+        elif flux_form == "nu_fnu" and self.flux_form == "lam_flam":
             flux = ref_flux
-        elif flux_form == 'nu_fnu' and self.flux_form == 'fnu':
+        elif flux_form == "nu_fnu" and self.flux_form == "fnu":
             flux = ref_flux * (x / x_ref)
-        elif flux_form == 'nu_fnu' and self.flux_form == 'nu_fnu':
+        elif flux_form == "nu_fnu" and self.flux_form == "nu_fnu":
             flux = ref_flux
         return flux
 
@@ -490,14 +628,27 @@ class ThinAccDiskSpecDep(SpecDep):
     :param float eta_rad: Radiative efficiency, expressed as a fraction between 0 and 1
     """
 
-    def __init__(self, acc_rate: float, star_mass: float, r_in: float, r_out: float, eta_rad: float):
+    def __init__(
+        self,
+        acc_rate: float,
+        star_mass: float,
+        r_in: float,
+        r_out: float,
+        eta_rad: float,
+    ):
         self.acc_rate = acc_rate
         self.star_mass = star_mass
         self.r_in = r_in
         self.r_out = r_out
         self.eta_rad = eta_rad
 
-    def flux_from_ref(self, x: np.ndarray | float, x_ref: float, ref_flux: float, flux_form: str = 'flam') -> np.ndarray | float:
+    def flux_from_ref(
+        self,
+        x: np.ndarray | float,
+        x_ref: float,
+        ref_flux: float,
+        flux_form: str = "flam",
+    ) -> np.ndarray | float:
         """
         Retrieve the flux at certain wavelengths/frequencies when given a reference flux value and wavelength/frequency.
 
@@ -515,6 +666,7 @@ class ThinAccDiskSpecDep(SpecDep):
         """
         # todo: implement!
         return
+
 
 # if __name__ == "__main__":
 #     import matplotlib.pyplot as plt

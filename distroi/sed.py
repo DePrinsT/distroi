@@ -53,20 +53,26 @@ class SED:
         self.sources = None  # catalogues associated in case of an observed SED
 
         if dictionary is not None:
-            self.wavelengths, self.flam, self.flam_err = (dictionary['wavelengths'], dictionary['flam'],
-                                                          dictionary['flam_err'])
+            self.wavelengths, self.flam, self.flam_err = (
+                dictionary["wavelengths"],
+                dictionary["flam"],
+                dictionary["flam_err"],
+            )
 
-            if 'bands' in dictionary.keys():
-                self.bands = dictionary['bands']
-            if 'sources' in dictionary.keys():
-                self.sources = dictionary['sources']
+            if "bands" in dictionary.keys():
+                self.bands = dictionary["bands"]
+            if "sources" in dictionary.keys():
+                self.sources = dictionary["sources"]
 
             # calculate and add frequency-based variables
             self.add_freq_vars()
 
-    def redden(self, ebminv: float, reddening_law: str = constants.PROJECT_ROOT + '/utils/ISM_reddening/'
-                                                                                  'ISMreddening_law_Cardelli1989.dat') \
-            -> None:
+    def redden(
+        self,
+        ebminv: float,
+        reddening_law: str = constants.PROJECT_ROOT + "/utils/ISM_reddening/"
+        "ISMreddening_law_Cardelli1989.dat",
+    ) -> None:
         """
         Further reddens the SED according to the approriate E(B-V) and a corresponding reddening law.
 
@@ -76,13 +82,22 @@ class SED:
             of your own reddening laws.
         :rtype: None
         """
-        self.flam = constants.redden_flux(self.wavelengths, self.flam, ebminv, reddening_law=reddening_law)
-        self.fnu = constants.redden_flux(self.wavelengths, self.fnu, ebminv, reddening_law=reddening_law)
+        self.flam = constants.redden_flux(
+            self.wavelengths, self.flam, ebminv, reddening_law=reddening_law
+        )
+        self.fnu = constants.redden_flux(
+            self.wavelengths, self.fnu, ebminv, reddening_law=reddening_law
+        )
 
         return
 
-    def plot(self, fig_dir: str = None, flux_form: str = 'lam_flam', log_plot: bool = True, show_plots: bool = True) \
-            -> None:
+    def plot(
+        self,
+        fig_dir: str = None,
+        flux_form: str = "lam_flam",
+        log_plot: bool = True,
+        show_plots: bool = True,
+    ) -> None:
         """
         Make a scatter plot of the SED.
 
@@ -98,10 +113,16 @@ class SED:
         :rtype: None
         """
         wavelengths_si = self.wavelengths * constants.MICRON2M  # wavelength in SI
-        self.frequencies = constants.SPEED_OF_LIGHT / wavelengths_si  # set frequencies in Hz
+        self.frequencies = (
+            constants.SPEED_OF_LIGHT / wavelengths_si
+        )  # set frequencies in Hz
 
-        self.fnu = constants.flam_cgs_per_mum_to_fnu_jansky(self.flam, self.wavelengths)  # fnu in Jy
-        self.fnu_err = constants.flam_cgs_per_mum_to_fnu_jansky(self.flam_err, self.wavelengths)  # fnu_err in Jy
+        self.fnu = constants.flam_cgs_per_mum_to_fnu_jansky(
+            self.flam, self.wavelengths
+        )  # fnu in Jy
+        self.fnu_err = constants.flam_cgs_per_mum_to_fnu_jansky(
+            self.flam_err, self.wavelengths
+        )  # fnu_err in Jy
 
         return
 
@@ -126,14 +147,26 @@ def read_sed_mcfost(sed_path: str, star_only: bool = False) -> SED:
     sed_array = hdul[0].data  # lam*F_lam in SI (W m^-2)
     wavelengths = np.array(hdul[1].data) * constants.MICRON2M  # wavelengths in SI units
 
-    dictionary['wavelengths'] = wavelengths * constants.M2MICRON  # store SED object wavelengths in micron
+    dictionary["wavelengths"] = (
+        wavelengths * constants.M2MICRON
+    )  # store SED object wavelengths in micron
     if not star_only:
-        flam = np.array(sed_array[0, az, inc, :]) / wavelengths  # flam in SI units (W m^-2 m^-1)
-        dictionary['flam'] = flam * constants.WATT_PER_M2_M_2ERG_PER_S_CM2_MICRON  # store in erg s^-1 cm^-2 micron^-1
+        flam = (
+            np.array(sed_array[0, az, inc, :]) / wavelengths
+        )  # flam in SI units (W m^-2 m^-1)
+        dictionary["flam"] = (
+            flam * constants.WATT_PER_M2_M_2ERG_PER_S_CM2_MICRON
+        )  # store in erg s^-1 cm^-2 micron^-1
     else:
-        flam = np.array(sed_array[1, az, inc, :]) / wavelengths  # single out star only, flam in SI units (W m^-2 m^-1)
-        dictionary['flam'] = flam * constants.WATT_PER_M2_M_2ERG_PER_S_CM2_MICRON  # store in erg s^-1 cm^-2 micron^-1
-    dictionary['flam_err'] = np.zeros_like(flam)  # set errors to 0 since we're dealing with a model
+        flam = (
+            np.array(sed_array[1, az, inc, :]) / wavelengths
+        )  # single out star only, flam in SI units (W m^-2 m^-1)
+        dictionary["flam"] = (
+            flam * constants.WATT_PER_M2_M_2ERG_PER_S_CM2_MICRON
+        )  # store in erg s^-1 cm^-2 micron^-1
+    dictionary["flam_err"] = np.zeros_like(
+        flam
+    )  # set errors to 0 since we're dealing with a model
 
     # return an SED object
     sed = SED(dictionary)
@@ -155,30 +188,68 @@ def read_sed_repo_phot(sed_path: str, wave_lims: tuple[float, float] = None) -> 
 
     # Open up the observed photometric data, note that the flux units are in erg s^-1 cm^-2 angstrom^-1 and wavelengths
     # in angstrom. We convert these below.
-    df = pd.read_csv(sed_path, sep=r'\s+', header=3,
-                     names=['meas', 'e_meas', 'flag', 'unit', 'photband', 'source',
-                            '_r', '_RAJ2000', '_DEJ2000', 'cwave', 'cmeas', 'e_cmeas',
-                            'cunit', 'color', 'include', 'phase', 'bibcode', 'comments'])
-    df = df[df['cwave'].notna()]  # filter out rows with NaN in the wavelength (these are often colour measurements)
+    df = pd.read_csv(
+        sed_path,
+        sep=r"\s+",
+        header=3,
+        names=[
+            "meas",
+            "e_meas",
+            "flag",
+            "unit",
+            "photband",
+            "source",
+            "_r",
+            "_RAJ2000",
+            "_DEJ2000",
+            "cwave",
+            "cmeas",
+            "e_cmeas",
+            "cunit",
+            "color",
+            "include",
+            "phase",
+            "bibcode",
+            "comments",
+        ],
+    )
+    df = df[
+        df["cwave"].notna()
+    ]  # filter out rows with NaN in the wavelength (these are often colour measurements)
 
-    df['cwave'] *= constants.AA2MICRON  # convert from angstrom to micron
-    df['cmeas'] *= constants.MICRON2AA  # convert from erg s^-1 cm^-2 angstrom^-1 to erg s^-1 cm^-2 micron^-1
-    df['e_cmeas'] *= constants.MICRON2AA  # convert from erg s^-1 cm^-2 angstrom^-1 to erg s^-1 cm^-2 micron^-1
+    df["cwave"] *= constants.AA2MICRON  # convert from angstrom to micron
+    df["cmeas"] *= (
+        constants.MICRON2AA
+    )  # convert from erg s^-1 cm^-2 angstrom^-1 to erg s^-1 cm^-2 micron^-1
+    df["e_cmeas"] *= (
+        constants.MICRON2AA
+    )  # convert from erg s^-1 cm^-2 angstrom^-1 to erg s^-1 cm^-2 micron^-1
 
     if wave_lims is not None:
-        df = df[df['cwave'] > wave_lims[0]]  # filter according to wavelength limits
-        df = df[df['cwave'] < wave_lims[1]]
+        df = df[df["cwave"] > wave_lims[0]]  # filter according to wavelength limits
+        df = df[df["cwave"] < wave_lims[1]]
 
     # sort values according to ascending wavelength for convenience
-    wavelengths, flam, flam_err, photband, source = list(zip(*sorted(zip(df['cwave'], df['cmeas'], df['e_cmeas'],
-                                                                         df['photband'], df['source']))))
+    wavelengths, flam, flam_err, photband, source = list(
+        zip(
+            *sorted(
+                zip(
+                    df["cwave"],
+                    df["cmeas"],
+                    df["e_cmeas"],
+                    df["photband"],
+                    df["source"],
+                )
+            )
+        )
+    )
 
-    dictionary['wavelengths'] = np.array(wavelengths)
-    dictionary['flam'] = np.array(flam)
-    dictionary['flam_err'] = np.array(flam_err)
+    dictionary["wavelengths"] = np.array(wavelengths)
+    dictionary["flam"] = np.array(flam)
+    dictionary["flam_err"] = np.array(flam_err)
 
-    dictionary['bands'] = photband
-    dictionary['sources'] = source
+    dictionary["bands"] = photband
+    dictionary["sources"] = source
 
     # Return an SED object
     sed = SED(dictionary=dictionary)
@@ -186,10 +257,15 @@ def read_sed_repo_phot(sed_path: str, wave_lims: tuple[float, float] = None) -> 
 
 
 # todo: add support for fitting reddening on Fnu, lam_Flam or nu_Fnu instead
-def chi2reddened(sed_obs: SED, sed_mod: SED, ebminv: float, reddening_law: str = f'{constants.PROJECT_ROOT}'
-                                                                                 f'/utils/ISM_reddening'
-                                                                                 f'/ISMreddening_law_'
-                                                                                 f'Cardelli1989.dat') -> float:
+def chi2reddened(
+    sed_obs: SED,
+    sed_mod: SED,
+    ebminv: float,
+    reddening_law: str = f"{constants.PROJECT_ROOT}"
+    f"/utils/ISM_reddening"
+    f"/ISMreddening_law_"
+    f"Cardelli1989.dat",
+) -> float:
     """
     Returns the chi2 between an RT model SED and an observed SED under a certain amount of additional reddening.
     Note that this doesn't actually redden any of the SED objects, only calculates the chi2 assuming the model SED
@@ -211,23 +287,28 @@ def chi2reddened(sed_obs: SED, sed_mod: SED, ebminv: float, reddening_law: str =
     wavelengths_mod = sed_mod.wavelengths
 
     # get reddened model SED flux
-    flam_mod_red = constants.redden_flux(wavelengths_mod, flam_mod, ebminv=ebminv,
-                                         reddening_law=reddening_law)
+    flam_mod_red = constants.redden_flux(
+        wavelengths_mod, flam_mod, ebminv=ebminv, reddening_law=reddening_law
+    )
     # interpolate the model to the wavelength values of the data
     f = interp1d(wavelengths_mod, flam_mod_red)
     flam_mod_red_interp = np.array(f(wavelengths_obs))
     # calculate chi2
-    chi2 = np.sum((flam_obs - flam_mod_red_interp) ** 2 / flam_obs_err ** 2)
+    chi2 = np.sum((flam_obs - flam_mod_red_interp) ** 2 / flam_obs_err**2)
 
     return chi2
 
 
 # todo: add support for fitting reddening on Fnu, lam_Flam or nu_Fnu instead
-def reddening_fit(sed_obs: SED, sed_mod: SED, ebminv_guess: float, reddening_law: str = f'{constants.PROJECT_ROOT}'
-                                                                                        f'/utils/ISM_reddening'
-                                                                                        f'/ISMreddening_law_'
-                                                                                        f'Cardelli1989.dat') \
-        -> tuple[float, float]:
+def reddening_fit(
+    sed_obs: SED,
+    sed_mod: SED,
+    ebminv_guess: float,
+    reddening_law: str = f"{constants.PROJECT_ROOT}"
+    f"/utils/ISM_reddening"
+    f"/ISMreddening_law_"
+    f"Cardelli1989.dat",
+) -> tuple[float, float]:
     """
     Fits an additional reddening E(B-V) value to make a model SED match up to an observed SED as much as possible. In
     case of a successfull fit, the model SED is subsequently reddened according to the fitted value E(B-V) and the
@@ -241,18 +322,33 @@ def reddening_fit(sed_obs: SED, sed_mod: SED, ebminv_guess: float, reddening_law
         the observed SED.
     :rtype: tuple(float)
     """
-    par_min = minimize(lambda ebminv: chi2reddened(sed_obs, sed_mod, ebminv, reddening_law=reddening_law),
-                       np.array(ebminv_guess))
+    par_min = minimize(
+        lambda ebminv: chi2reddened(
+            sed_obs, sed_mod, ebminv, reddening_law=reddening_law
+        ),
+        np.array(ebminv_guess),
+    )
     ebminv_opt = par_min["x"][0]  # optimal value of E(B-V)
-    chi2 = chi2reddened(sed_obs, sed_mod, ebminv=ebminv_opt, reddening_law=reddening_law)
-    sed_mod.redden(ebminv=ebminv_opt, reddening_law=reddening_law)  # redden model SED according to the fitted E(B-V)
+    chi2 = chi2reddened(
+        sed_obs, sed_mod, ebminv=ebminv_opt, reddening_law=reddening_law
+    )
+    sed_mod.redden(
+        ebminv=ebminv_opt, reddening_law=reddening_law
+    )  # redden model SED according to the fitted E(B-V)
 
     return ebminv_opt, chi2
 
 
-def plot_data_vs_model(sed_dat: SED, sed_mod: SED, fig_dir: str = None, flux_form: str = 'lam_flam',
-                       sed_mod_alt: SED = None, alt_label: str = None, log_plot: bool = True,
-                       show_plots: bool = True) -> None:
+def plot_data_vs_model(
+    sed_dat: SED,
+    sed_mod: SED,
+    fig_dir: str = None,
+    flux_form: str = "lam_flam",
+    sed_mod_alt: SED = None,
+    alt_label: str = None,
+    log_plot: bool = True,
+    show_plots: bool = True,
+) -> None:
     """
     Plots the data (observed) SED against the model SED. Note that this function shares a name with a similar function
     in the oi_observables module. Take care with your namespace if you use both functions in the same script.
@@ -273,30 +369,53 @@ def plot_data_vs_model(sed_dat: SED, sed_mod: SED, fig_dir: str = None, flux_for
     :rtype: None
     """
     fig, ax = plt.subplots(figsize=(8, 8))
-    ax.errorbar(sed_dat.wavelengths, sed_dat.wavelengths * sed_dat.flam, sed_dat.wavelengths * sed_dat.flam_err,
-                label='data', fmt='bd', mfc='white', capsize=5, zorder=100)
-    ax.plot(sed_mod.wavelengths, sed_mod.wavelengths * sed_mod.flam, ls='-', c='r', zorder=1)
-    ax.plot(sed_mod_alt.wavelengths, sed_mod_alt.wavelengths * sed_mod_alt.flam, ls='--', c='r', alpha=0.4, zorder=2)
-    ax.set_title('SED')
+    ax.errorbar(
+        sed_dat.wavelengths,
+        sed_dat.wavelengths * sed_dat.flam,
+        sed_dat.wavelengths * sed_dat.flam_err,
+        label="data",
+        fmt="bd",
+        mfc="white",
+        capsize=5,
+        zorder=100,
+    )
+    ax.plot(
+        sed_mod.wavelengths, sed_mod.wavelengths * sed_mod.flam, ls="-", c="r", zorder=1
+    )
+    ax.plot(
+        sed_mod_alt.wavelengths,
+        sed_mod_alt.wavelengths * sed_mod_alt.flam,
+        ls="--",
+        c="r",
+        alpha=0.4,
+        zorder=2,
+    )
+    ax.set_title("SED")
 
-    if flux_form == 'lam_flam':
+    if flux_form == "lam_flam":
         ax.set_xlabel(r"$\lambda \, \mathrm{(\mu m)}$")
         ax.set_ylabel(r"$\lambda F_{\lambda} \, \mathrm{(erg \, cm^{-2} \, s^{-1})}$")
-    elif flux_form == 'nu_fnu':
+    elif flux_form == "nu_fnu":
         ax.set_xlabel(r"$\nu \, \mathrm{(Hz)}$")
         ax.set_ylabel(r"$\nu F_{\nu} \, \mathrm{(Hz \, Jy)}$")
     if log_plot:
         ax.set_xlim(0.5 * np.min(sed_dat.wavelengths), 2 * np.max(sed_dat.wavelengths))
-        ax.set_ylim(0.5 * np.min(sed_dat.wavelengths * sed_dat.flam), 2.0 *
-                    max(np.max(sed_dat.wavelengths * sed_dat.flam), np.max(sed_mod.wavelengths * sed_mod.flam)))
-        ax.set_xscale('log')
-        ax.set_yscale('log')
+        ax.set_ylim(
+            0.5 * np.min(sed_dat.wavelengths * sed_dat.flam),
+            2.0
+            * max(
+                np.max(sed_dat.wavelengths * sed_dat.flam),
+                np.max(sed_mod.wavelengths * sed_mod.flam),
+            ),
+        )
+        ax.set_xscale("log")
+        ax.set_yscale("log")
     plt.tight_layout()
 
     if fig_dir is not None:
         if not os.path.exists(fig_dir):
             os.makedirs(fig_dir)
-        plt.savefig(f"{fig_dir}/sed_comparison.png", dpi=300, bbox_inches='tight')
+        plt.savefig(f"{fig_dir}/sed_comparison.png", dpi=300, bbox_inches="tight")
     if show_plots:
         plt.show()
 
@@ -363,26 +482,32 @@ def plot_data_vs_model(sed_dat: SED, sed_mod: SED, fig_dir: str = None, flux_for
 
 
 if __name__ == "__main__":
-    object_id = 'HD93662'
-    iras_id = 'IRAS10456-5712'
+    object_id = "HD93662"
+    iras_id = "IRAS10456-5712"
     plotting = True
     low_wave_lims = [3, 4.2, 8]
     high_wave_lims = [4, 5, 13]
 
-    sed_data = read_sed_repo_phot(f'/home/toond/Documents/phd/data/{object_id}/SED/{iras_id}.phot')
+    sed_data = read_sed_repo_phot(
+        f"/home/toond/Documents/phd/data/{object_id}/SED/{iras_id}.phot"
+    )
     for i in range(len(low_wave_lims)):
         low_wave_lim = low_wave_lims[i]
         high_wave_lim = high_wave_lims[i]
-        for (i, wave) in enumerate(sed_data.wavelengths):
+        for i, wave in enumerate(sed_data.wavelengths):
             if low_wave_lim <= wave <= high_wave_lim:
-                print(f'wavelength: \t {wave} \t flux: \t {sed_data.fnu[i]} \t eflux: \t {sed_data.fnu_err[i]}'
-                      f'\t photband: \t {sed_data.bands[i]} \t source: \t {sed_data.sources[i]} \t ')
-        print('')
+                print(
+                    f"wavelength: \t {wave} \t flux: \t {sed_data.fnu[i]} \t eflux: \t {sed_data.fnu_err[i]}"
+                    f"\t photband: \t {sed_data.bands[i]} \t source: \t {sed_data.sources[i]} \t "
+                )
+        print("")
     if plotting:
         fig, ax = plt.subplots()
-        ax.errorbar(sed_data.wavelengths, sed_data.fnu, sed_data.fnu_err, fmt='o', markersize=4)
-        ax.set_xscale('log')
-        ax.set_yscale('log')
+        ax.errorbar(
+            sed_data.wavelengths, sed_data.fnu, sed_data.fnu_err, fmt="o", markersize=4
+        )
+        ax.set_xscale("log")
+        ax.set_yscale("log")
         plt.show()
 
 # sed_data = read_sed_repo_phot('../examples/data/IRAS08544-4431/SED/IRAS08544-4431.phot')

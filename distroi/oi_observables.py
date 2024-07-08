@@ -92,33 +92,38 @@ class OIContainer:
 
         # Read in from the dictionary
         if dictionary is not None:
-            self.vuf = dictionary['vuf']
-            self.vvf = dictionary['vvf']
-            self.vwave = dictionary['vwave']
-            self.v = dictionary['v']
-            self.verr = dictionary['verr']
-            self.vbase = dictionary['vbase']
+            self.vuf = dictionary["vuf"]
+            self.vvf = dictionary["vvf"]
+            self.vwave = dictionary["vwave"]
+            self.v = dictionary["v"]
+            self.verr = dictionary["verr"]
+            self.vbase = dictionary["vbase"]
 
-            self.v2uf = dictionary['v2uf']
-            self.v2vf = dictionary['v2vf']
-            self.v2wave = dictionary['v2wave']
-            self.v2 = dictionary['v2']
-            self.v2err = dictionary['v2err']
-            self.v2base = dictionary['v2base']
+            self.v2uf = dictionary["v2uf"]
+            self.v2vf = dictionary["v2vf"]
+            self.v2wave = dictionary["v2wave"]
+            self.v2 = dictionary["v2"]
+            self.v2err = dictionary["v2err"]
+            self.v2base = dictionary["v2base"]
 
-            self.t3uf1 = dictionary['t3uf1']
-            self.t3vf1 = dictionary['t3vf1']
-            self.t3uf2 = dictionary['t3uf2']
-            self.t3vf2 = dictionary['t3vf2']
-            self.t3uf3 = dictionary['t3uf3']
-            self.t3vf3 = dictionary['t3vf3']
-            self.t3wave = dictionary['t3wave']
-            self.t3phi = dictionary['t3phi']
-            self.t3phierr = dictionary['t3phierr']
-            self.t3bmax = dictionary['t3bmax']
+            self.t3uf1 = dictionary["t3uf1"]
+            self.t3vf1 = dictionary["t3vf1"]
+            self.t3uf2 = dictionary["t3uf2"]
+            self.t3vf2 = dictionary["t3vf2"]
+            self.t3uf3 = dictionary["t3uf3"]
+            self.t3vf3 = dictionary["t3vf3"]
+            self.t3wave = dictionary["t3wave"]
+            self.t3phi = dictionary["t3phi"]
+            self.t3phierr = dictionary["t3phierr"]
+            self.t3bmax = dictionary["t3bmax"]
 
-    def plot_data(self, fig_dir: str = None, log_plotv: bool = False, plot_vistype: str = 'vis2', show_plots: bool = True) \
-            -> None:
+    def plot_data(
+        self,
+        fig_dir: str = None,
+        log_plotv: bool = False,
+        plot_vistype: str = "vis2",
+        show_plots: bool = True,
+    ) -> None:
         """
         Plots the data included in the OIContainer instance. Currently, plots uv coverage, a (squared) visibility curve and
         closure phases.
@@ -137,18 +142,18 @@ class OIContainer:
                 os.makedirs(fig_dir)
 
         # set spatial frequencies, visibilities and plotting label based on specified option
-        if plot_vistype == 'vis2':
+        if plot_vistype == "vis2":
             uf, vf = self.v2uf, self.v2vf
             vis, viserr = self.v2, self.v2err
-            wave, base, vislabel = self.v2wave, self.v2base, '$V^2$'
-        elif plot_vistype == 'vis':
+            wave, base, vislabel = self.v2wave, self.v2base, "$V^2$"
+        elif plot_vistype == "vis":
             uf, vf = self.vuf, self.vvf
             vis, viserr = self.v, self.verr
             wave, base = self.vwave, self.vbase
             if not self.vis_in_fcorr:
-                vislabel = '$V$'
+                vislabel = "$V$"
             else:
-                vislabel = r'$F_{corr}$ (Jy)'
+                vislabel = r"$F_{corr}$ (Jy)"
         else:
             print("parameter plot_vistype is not recognized, will return None!")
             return
@@ -157,71 +162,112 @@ class OIContainer:
         fig, ax = plt.subplots(1, 1, figsize=(8, 8))
         fig.subplots_adjust(right=0.8)
         cax = fig.add_axes([0.82, 0.15, 0.02, 0.7])
-        ax.set_aspect('equal', adjustable='datalim')  # make plot axes have same scale
-        ax.scatter(uf / 1e6, vf / 1e6,
-                   c=wave * constants.M2MICRON, s=1,
-                   cmap='gist_rainbow_r')
-        sc = ax.scatter(-uf / 1e6, -vf / 1e6,
-                        c=wave * constants.M2MICRON, s=1,
-                        cmap='gist_rainbow_r')
+        ax.set_aspect("equal", adjustable="datalim")  # make plot axes have same scale
+        ax.scatter(
+            uf / 1e6, vf / 1e6, c=wave * constants.M2MICRON, s=1, cmap="gist_rainbow_r"
+        )
+        sc = ax.scatter(
+            -uf / 1e6,
+            -vf / 1e6,
+            c=wave * constants.M2MICRON,
+            s=1,
+            cmap="gist_rainbow_r",
+        )
         clb = fig.colorbar(sc, cax=cax)
-        clb.set_label(r'$\lambda$ ($\mu$m)', labelpad=5)
+        clb.set_label(r"$\lambda$ ($\mu$m)", labelpad=5)
 
         ax.set_xlim(ax.get_xlim()[::-1])
-        ax.set_title(f'uv coverage')
+        ax.set_title(f"uv coverage")
         ax.set_xlabel(r"$\leftarrow B_u$ ($\mathrm{M \lambda}$)")
         ax.set_ylabel(r"$B_v \rightarrow$ ($\mathrm{M \lambda}$)")
         if fig_dir is not None:
-            plt.savefig(f"{fig_dir}/uv_plane.png", dpi=300, bbox_inches='tight')
+            plt.savefig(f"{fig_dir}/uv_plane.png", dpi=300, bbox_inches="tight")
 
         # plot (squared) visibilities
         fig, ax = plt.subplots(1, 1, figsize=(10, 6))
-        sc = ax.scatter(base, vis, c=wave * constants.M2MICRON, s=2, cmap='gist_rainbow_r')
-        ax.errorbar(base, vis, viserr, ecolor='grey', marker='', capsize=0, zorder=0, markersize=2, ls='', alpha=0.5,
-                    elinewidth=0.5)
+        sc = ax.scatter(
+            base, vis, c=wave * constants.M2MICRON, s=2, cmap="gist_rainbow_r"
+        )
+        ax.errorbar(
+            base,
+            vis,
+            viserr,
+            ecolor="grey",
+            marker="",
+            capsize=0,
+            zorder=0,
+            markersize=2,
+            ls="",
+            alpha=0.5,
+            elinewidth=0.5,
+        )
         clb = fig.colorbar(sc, pad=0.01, aspect=40)
-        clb.set_label(r'$\lambda$ ($\mu$m)', labelpad=5)
+        clb.set_label(r"$\lambda$ ($\mu$m)", labelpad=5)
         ax.set_ylabel(vislabel)
-        ax.set_title(f'Visibilities')
+        ax.set_title(f"Visibilities")
 
         if log_plotv:
             ax.set_ylim(0.5 * np.min(vis), 1.1 * np.max(vis))
-            ax.set_yscale('log')
+            ax.set_yscale("log")
         else:
             ax.set_ylim(0, 1.1 * np.max(vis))
 
         ax.set_xlim(0, np.max(base) * 1.05)
-        ax.axhline(y=1, c='k', ls='--', lw=1, zorder=0)
-        ax.set_xlabel(r'$B$ ($\mathrm{M \lambda}$)')
+        ax.axhline(y=1, c="k", ls="--", lw=1, zorder=0)
+        ax.set_xlabel(r"$B$ ($\mathrm{M \lambda}$)")
         ax.set_ylabel(vislabel)
         if fig_dir is not None:
-            plt.savefig(f"{fig_dir}/visibilities.png", dpi=300, bbox_inches='tight')
+            plt.savefig(f"{fig_dir}/visibilities.png", dpi=300, bbox_inches="tight")
 
         # plot phi_closure
         fig, ax = plt.subplots(1, 1, figsize=(10, 6))
-        sc = ax.scatter(self.t3bmax, self.t3phi, c=self.t3wave * constants.M2MICRON, s=2, cmap='gist_rainbow_r')
-        ax.errorbar(self.t3bmax, self.t3phi, self.t3phierr, ecolor='grey', marker='', capsize=0, zorder=0, markersize=2, ls='',
-                    alpha=0.5, elinewidth=0.5)
+        sc = ax.scatter(
+            self.t3bmax,
+            self.t3phi,
+            c=self.t3wave * constants.M2MICRON,
+            s=2,
+            cmap="gist_rainbow_r",
+        )
+        ax.errorbar(
+            self.t3bmax,
+            self.t3phi,
+            self.t3phierr,
+            ecolor="grey",
+            marker="",
+            capsize=0,
+            zorder=0,
+            markersize=2,
+            ls="",
+            alpha=0.5,
+            elinewidth=0.5,
+        )
         clb = fig.colorbar(sc, pad=0.01, aspect=40)
-        clb.set_label(r'$\lambda$ ($\mu$m)', labelpad=5)
+        clb.set_label(r"$\lambda$ ($\mu$m)", labelpad=5)
 
-        ax.set_ylabel(r'$\phi_{CP}$ ($^\circ$)')
-        ax.set_title(f'Closure Phases')
-        ax.set_ylim(np.min(self.t3phi - self.t3phierr), np.max(self.t3phi + self.t3phierr))
+        ax.set_ylabel(r"$\phi_{CP}$ ($^\circ$)")
+        ax.set_title(f"Closure Phases")
+        ax.set_ylim(
+            np.min(self.t3phi - self.t3phierr), np.max(self.t3phi + self.t3phierr)
+        )
         ax.set_xlim(0, np.max(self.t3bmax) * 1.05)
-        ax.axhline(y=0, c='k', ls='--', lw=1, zorder=0)
-        ax.set_xlabel(r'$B_{max}$ ($\mathrm{M \lambda}$)')
-        ax.set_ylabel(r'error $(\sigma_{\phi_{CP}})$')
+        ax.axhline(y=0, c="k", ls="--", lw=1, zorder=0)
+        ax.set_xlabel(r"$B_{max}$ ($\mathrm{M \lambda}$)")
+        ax.set_ylabel(r"error $(\sigma_{\phi_{CP}})$")
         if fig_dir is not None:
-            plt.savefig(f"{fig_dir}/closure_phases.png", dpi=300, bbox_inches='tight')
+            plt.savefig(f"{fig_dir}/closure_phases.png", dpi=300, bbox_inches="tight")
         if show_plots:
             plt.show()
 
         return None
 
 
-def read_oicontainer_oifits(data_dir: str, data_file: str, wave_lims: tuple[float, float] = None,
-                            v2lim: float = None, fcorr: bool = False) -> OIContainer:
+def read_oicontainer_oifits(
+    data_dir: str,
+    data_file: str,
+    wave_lims: tuple[float, float] = None,
+    v2lim: float = None,
+    fcorr: bool = False,
+) -> OIContainer:
     """
     Retrieve data from (multiple) OIFITS files and return in an OIConatiner class instance.
 
@@ -235,19 +281,39 @@ def read_oicontainer_oifits(data_dir: str, data_file: str, wave_lims: tuple[floa
     """
     # if condition because * constants.MICRON2M fails if wavelimits None
     if wave_lims is not None:
-        oidata = SelectData.SelectData(data_dir=data_dir, data_file=data_file,
-                                       wave_1=wave_lims[0] * constants.MICRON2M,
-                                       wave_2=wave_lims[1] * constants.MICRON2M, lim_V2=v2lim)
+        oidata = SelectData.SelectData(
+            data_dir=data_dir,
+            data_file=data_file,
+            wave_1=wave_lims[0] * constants.MICRON2M,
+            wave_2=wave_lims[1] * constants.MICRON2M,
+            lim_V2=v2lim,
+        )
     else:
-        oidata = SelectData.SelectData(data_dir=data_dir, data_file=data_file, lim_V2=v2lim)
+        oidata = SelectData.SelectData(
+            data_dir=data_dir, data_file=data_file, lim_V2=v2lim
+        )
 
     # dictionary to construct OIContainer instance
     dictionary = {}
 
     # arrays to store all necessary variables in a 1d array
     vufdat, vvfdat, vwavedat, vdat, verr = [], [], [], [], []  # for visibility tables
-    v2ufdat, v2vfdat, v2wavedat, v2dat, v2err = [], [], [], [], []  # for squared visibility tables
-    uf1dat, vf1dat, uf2dat, vf2dat, t3wavedat, t3phidat, t3phierr = [], [], [], [], [], [], []  # for closure phase
+    v2ufdat, v2vfdat, v2wavedat, v2dat, v2err = (
+        [],
+        [],
+        [],
+        [],
+        [],
+    )  # for squared visibility tables
+    uf1dat, vf1dat, uf2dat, vf2dat, t3wavedat, t3phidat, t3phierr = (
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+    )  # for closure phase
     # tables
 
     # get V data
@@ -282,14 +348,14 @@ def read_oicontainer_oifits(data_dir: str, data_file: str, wave_lims: tuple[floa
     vwavedat = np.array(vwavedat)
     vdat = np.array(vdat)
     verr = np.array(verr)
-    vbase = np.sqrt(vufdat ** 2 + vvfdat ** 2) / 1e6  # uv baseline length in MegaLambda
+    vbase = np.sqrt(vufdat**2 + vvfdat**2) / 1e6  # uv baseline length in MegaLambda
 
     v2ufdat = np.array(v2ufdat)  # transfer into numpy arrays
     v2vfdat = np.array(v2vfdat)
     v2wavedat = np.array(v2wavedat)
     v2dat = np.array(v2dat)
     v2err = np.array(v2err)
-    v2base = np.sqrt(v2ufdat ** 2 + v2vfdat ** 2) / 1e6  # uv baseline length in MegaLambda
+    v2base = np.sqrt(v2ufdat**2 + v2vfdat**2) / 1e6  # uv baseline length in MegaLambda
 
     uf1dat = np.array(uf1dat)
     vf1dat = np.array(vf1dat)
@@ -299,44 +365,52 @@ def read_oicontainer_oifits(data_dir: str, data_file: str, wave_lims: tuple[floa
     t3phidat = np.array(t3phidat)
     t3phierr = np.array(t3phierr)
 
-    uf3dat = uf1dat + uf2dat  # 3d baseline (frequency) and max baseline of closure triangle (in MegaLambda)
+    uf3dat = (
+        uf1dat + uf2dat
+    )  # 3d baseline (frequency) and max baseline of closure triangle (in MegaLambda)
     vf3dat = vf1dat + vf2dat
-    t3bmax = np.maximum(np.sqrt(uf3dat ** 2 + vf3dat ** 2),
-                        np.maximum(np.sqrt(uf1dat ** 2 + vf1dat ** 2),
-                                   np.sqrt(uf2dat ** 2 + vf2dat ** 2))) / 1e6
+    t3bmax = (
+        np.maximum(
+            np.sqrt(uf3dat**2 + vf3dat**2),
+            np.maximum(np.sqrt(uf1dat**2 + vf1dat**2), np.sqrt(uf2dat**2 + vf2dat**2)),
+        )
+        / 1e6
+    )
 
     # fill in data observables dictionary
-    dictionary['vuf'] = vufdat  # spatial freqs in 1/rad
-    dictionary['vvf'] = vvfdat
-    dictionary['vwave'] = vwavedat  # wavelengths in meter
-    dictionary['v'] = vdat
-    dictionary['verr'] = verr  # baseline length in MegaLambda
-    dictionary['vbase'] = vbase
+    dictionary["vuf"] = vufdat  # spatial freqs in 1/rad
+    dictionary["vvf"] = vvfdat
+    dictionary["vwave"] = vwavedat  # wavelengths in meter
+    dictionary["v"] = vdat
+    dictionary["verr"] = verr  # baseline length in MegaLambda
+    dictionary["vbase"] = vbase
 
-    dictionary['v2uf'] = v2ufdat  # spatial freqs in 1/rad
-    dictionary['v2vf'] = v2vfdat
-    dictionary['v2wave'] = v2wavedat  # wavelengths in meter
-    dictionary['v2'] = v2dat
-    dictionary['v2err'] = v2err  # baseline length in MegaLambda
-    dictionary['v2base'] = v2base
+    dictionary["v2uf"] = v2ufdat  # spatial freqs in 1/rad
+    dictionary["v2vf"] = v2vfdat
+    dictionary["v2wave"] = v2wavedat  # wavelengths in meter
+    dictionary["v2"] = v2dat
+    dictionary["v2err"] = v2err  # baseline length in MegaLambda
+    dictionary["v2base"] = v2base
 
-    dictionary['t3uf1'] = uf1dat  # spatial freqs in 1/rad
-    dictionary['t3vf1'] = vf1dat
-    dictionary['t3uf2'] = uf2dat
-    dictionary['t3vf2'] = vf2dat
-    dictionary['t3uf3'] = uf3dat
-    dictionary['t3vf3'] = vf3dat
-    dictionary['t3wave'] = t3wavedat  # wavelengths in meter
-    dictionary['t3phi'] = t3phidat  # closure phases in degrees
-    dictionary['t3phierr'] = t3phierr
-    dictionary['t3bmax'] = t3bmax  # max baseline lengths in MegaLambda
+    dictionary["t3uf1"] = uf1dat  # spatial freqs in 1/rad
+    dictionary["t3vf1"] = vf1dat
+    dictionary["t3uf2"] = uf2dat
+    dictionary["t3vf2"] = vf2dat
+    dictionary["t3uf3"] = uf3dat
+    dictionary["t3vf3"] = vf3dat
+    dictionary["t3wave"] = t3wavedat  # wavelengths in meter
+    dictionary["t3phi"] = t3phidat  # closure phases in degrees
+    dictionary["t3phierr"] = t3phierr
+    dictionary["t3bmax"] = t3bmax  # max baseline lengths in MegaLambda
 
     # Return an OIContainer object
     container = OIContainer(dictionary=dictionary, fcorr=fcorr)
     return container
 
 
-def calc_mod_observables(container_data: OIContainer, img_fft_list: list[image_fft.ImageFFT]) -> OIContainer:
+def calc_mod_observables(
+    container_data: OIContainer, img_fft_list: list[image_fft.ImageFFT]
+) -> OIContainer:
     """
     Loads in OI observables from an OIContainer, typically containing observational data, and calculates model image
     observables at the same uv coverage. The model images are passed along as a list of ImageFFT objects. If the
@@ -353,7 +427,6 @@ def calc_mod_observables(container_data: OIContainer, img_fft_list: list[image_f
     """
 
     if len(img_fft_list) == 1:  # monochromatic case for a single image
-
         # create interpolator for the normalized complex FFT
         interp_norm = mod_comp_vis_interpolator(img_fft_list)
 
@@ -369,58 +442,106 @@ def calc_mod_observables(container_data: OIContainer, img_fft_list: list[image_f
         # Calculate closure phases. We use the convention such that triangle ABC -> (u1,v1) = AB; (u2,v2) = BC; (u3,
         # v3) = AC, not CA This causes a minus sign shift for 3rd baseline when calculating closure phase (for real
         # images), so we take the complex conjugate there.
-        t3phimod = np.angle(interp_norm((container_data.t3vf1, container_data.t3uf1)) *
-                            interp_norm((container_data.t3vf2, container_data.t3uf2)) *
-                            np.conjugate(interp_norm((container_data.t3vf3, container_data.t3uf3))), deg=True)
+        t3phimod = np.angle(
+            interp_norm((container_data.t3vf1, container_data.t3uf1))
+            * interp_norm((container_data.t3vf2, container_data.t3uf2))
+            * np.conjugate(interp_norm((container_data.t3vf3, container_data.t3uf3))),
+            deg=True,
+        )
 
     else:  # case for multiple images simultaneously
-
         # create interpolator for the normalized complex FFT
         interp_norm = mod_comp_vis_interpolator(img_fft_list)
 
         # Calculate visibilities (requires separate interpolator for correlated fluxes if needed).
         if container_data.vis_in_fcorr:
             interp_fcorr = mod_comp_vis_interpolator(img_fft_list, fcorr=True)
-            vmod = abs(interp_fcorr((container_data.vwave, container_data.vvf, container_data.vuf)))
+            vmod = abs(
+                interp_fcorr(
+                    (container_data.vwave, container_data.vvf, container_data.vuf)
+                )
+            )
         else:
-            vmod = abs(interp_norm((container_data.vwave, container_data.vvf, container_data.vuf)))
+            vmod = abs(
+                interp_norm(
+                    (container_data.vwave, container_data.vvf, container_data.vuf)
+                )
+            )
 
         # Calculate squared visibilities.
-        v2mod = abs(interp_norm((container_data.v2wave, container_data.v2vf, container_data.v2uf))) ** 2
+        v2mod = (
+            abs(
+                interp_norm(
+                    (container_data.v2wave, container_data.v2vf, container_data.v2uf)
+                )
+            )
+            ** 2
+        )
 
         # Calculate closure phases. We use the convention such that triangle ABC -> (u1,v1) = AB; (u2,v2) = BC; (u3,
         # v3) = AC, not CA This causes a minus sign shift for 3rd baseline when calculating closure phase (for real
         # images), so we take the complex conjugate there.
-        t3phimod = np.angle(interp_norm((container_data.t3wave, container_data.t3vf1, container_data.t3uf1)) *
-                            interp_norm((container_data.t3wave, container_data.t3vf2, container_data.t3uf2)) *
-                            np.conjugate(interp_norm((container_data.t3wave, container_data.t3vf3,
-                                                      container_data.t3uf3))), deg=True)
+        t3phimod = np.angle(
+            interp_norm(
+                (container_data.t3wave, container_data.t3vf1, container_data.t3uf1)
+            )
+            * interp_norm(
+                (container_data.t3wave, container_data.t3vf2, container_data.t3uf2)
+            )
+            * np.conjugate(
+                interp_norm(
+                    (container_data.t3wave, container_data.t3vf3, container_data.t3uf3)
+                )
+            ),
+            deg=True,
+        )
 
     # initialize dictionary to construct OIContainer for model observables
-    observables_mod = {'vuf': container_data.vuf, 'vvf': container_data.vvf, 'vwave': container_data.vwave, 'v': vmod,
-                       'verr': container_data.verr, 'vbase': container_data.vbase, 'v2uf': container_data.v2uf,
-                       'v2vf': container_data.v2vf, 'v2wave': container_data.v2wave, 'v2': v2mod,
-                       'v2err': container_data.v2err, 'v2base': container_data.v2base, 't3uf1': container_data.t3uf1,
-                       't3vf1': container_data.t3vf1, 't3uf2': container_data.t3uf2, 't3vf2': container_data.t3vf2,
-                       't3uf3': container_data.t3uf3, 't3vf3': container_data.t3vf3, 't3wave': container_data.t3wave,
-                       't3phi': t3phimod, 't3phierr': container_data.t3phierr, 't3bmax': container_data.t3bmax}
+    observables_mod = {
+        "vuf": container_data.vuf,
+        "vvf": container_data.vvf,
+        "vwave": container_data.vwave,
+        "v": vmod,
+        "verr": container_data.verr,
+        "vbase": container_data.vbase,
+        "v2uf": container_data.v2uf,
+        "v2vf": container_data.v2vf,
+        "v2wave": container_data.v2wave,
+        "v2": v2mod,
+        "v2err": container_data.v2err,
+        "v2base": container_data.v2base,
+        "t3uf1": container_data.t3uf1,
+        "t3vf1": container_data.t3vf1,
+        "t3uf2": container_data.t3uf2,
+        "t3vf2": container_data.t3vf2,
+        "t3uf3": container_data.t3uf3,
+        "t3vf3": container_data.t3vf3,
+        "t3wave": container_data.t3wave,
+        "t3phi": t3phimod,
+        "t3phierr": container_data.t3phierr,
+        "t3bmax": container_data.t3bmax,
+    }
 
     # return an OIContainer object
-    container_mod = OIContainer(dictionary=observables_mod, fcorr=container_data.vis_in_fcorr)
+    container_mod = OIContainer(
+        dictionary=observables_mod, fcorr=container_data.vis_in_fcorr
+    )
     return container_mod
 
 
-def mod_comp_vis_interpolator(img_fft_list: list[image_fft.ImageFFT], fcorr: bool = False) -> RegularGridInterpolator:
+def mod_comp_vis_interpolator(
+    img_fft_list: list[image_fft.ImageFFT], fcorr: bool = False
+) -> RegularGridInterpolator:
     """
-    Creates a scipy RegularGridInterpolator from model ImageFFT objects, which can be used to interpolate the complex 
-    visibility to different spatial frequencies than those returned by the FFT algorithm and, optionally, 
-    different wavelengths than those of the RT model images themselves. Note: The interpolator will throw errors if 
-    arguments outside their bounds are supplied! Note: Expects, in case of multiple model images, that every image 
+    Creates a scipy RegularGridInterpolator from model ImageFFT objects, which can be used to interpolate the complex
+    visibility to different spatial frequencies than those returned by the FFT algorithm and, optionally,
+    different wavelengths than those of the RT model images themselves. Note: The interpolator will throw errors if
+    arguments outside their bounds are supplied! Note: Expects, in case of multiple model images, that every image
     included has the same pixelscale and amount of pixels (in both x- and y-direction).
 
     :param list img_fft_list: List of ImageFFT objects to create an interpolator from. If the list has length one,
-        i.e. a monochromatic model for the emission, the returned interpolator can only take the 2 spatial frequencies 
-        as arguments. If the list contains multiple objects, i.e. a chromatic model for the emission, the interpolator 
+        i.e. a monochromatic model for the emission, the returned interpolator can only take the 2 spatial frequencies
+        as arguments. If the list contains multiple objects, i.e. a chromatic model for the emission, the interpolator
         will also be able to take wavelength as an argument and will be able to interpolate along the wavelength
         dimension.
     :param bool fcorr: Set to True if you want the returned interpolator to produce absolute, non-normalized
@@ -434,37 +555,64 @@ def mod_comp_vis_interpolator(img_fft_list: list[image_fft.ImageFFT], fcorr: boo
 
     if len(img_fft_list) == 1:  # single image -> monochromatic emission model
         img = img_fft_list[0]
-        wavelength, ftot, fft, uf, vf = (img.wavelength, img.ftot, img.fft, img.uf, img.vf)
-        if fcorr:  # create interpolator and normalize FFT to complex visibilities if needed
-            interpolator = RegularGridInterpolator((vf, uf), fft, method='linear')  # make interpol absolute FFT
+        wavelength, ftot, fft, uf, vf = (
+            img.wavelength,
+            img.ftot,
+            img.fft,
+            img.uf,
+            img.vf,
+        )
+        if (
+            fcorr
+        ):  # create interpolator and normalize FFT to complex visibilities if needed
+            interpolator = RegularGridInterpolator(
+                (vf, uf), fft, method="linear"
+            )  # make interpol absolute FFT
         else:
-            interpolator = RegularGridInterpolator((vf, uf), fft / ftot, method='linear')  # same normalized
+            interpolator = RegularGridInterpolator(
+                (vf, uf), fft / ftot, method="linear"
+            )  # same normalized
 
     else:  # multiple images -> chromatic emission model
-
         mod_wavelengths = []  # list of model image wavelengths in meter
         fft_chromatic = []  # 3d 'array' list to store the different model image FFTs accros wavelength
 
         for img in img_fft_list:
-            wavelength, ftot, fft, uf, vf = (img.wavelength, img.ftot, img.fft, img.uf, img.vf)
+            wavelength, ftot, fft, uf, vf = (
+                img.wavelength,
+                img.ftot,
+                img.fft,
+                img.uf,
+                img.vf,
+            )
             if fcorr:  # attach FFTs to chromatic list and normalize FFTs to complex visibilities if needed
                 fft_chromatic.append(fft)  # store image's FFT in chromatic list
             else:
                 fft_chromatic.append(fft / ftot)
-            mod_wavelengths.append(wavelength * constants.MICRON2M)  # store image wavelength in meter
+            mod_wavelengths.append(
+                wavelength * constants.MICRON2M
+            )  # store image wavelength in meter
 
         # sort lists according to ascending wavelength just to be sure (required for making the interpolator)
-        mod_wavelengths, fft_chromatic = list(zip(*sorted(zip(mod_wavelengths, fft_chromatic))))
+        mod_wavelengths, fft_chromatic = list(
+            zip(*sorted(zip(mod_wavelengths, fft_chromatic)))
+        )
 
-        # make interpolator from multiple FFTs, note this assumes all images have the same pixelscale 
+        # make interpolator from multiple FFTs, note this assumes all images have the same pixelscale
         # and amount of pixels (in both x and y directions)
         fft_chromatic = np.array(fft_chromatic)
         interpolator = RegularGridInterpolator((mod_wavelengths, vf, uf), fft_chromatic)
     return interpolator
 
 
-def plot_data_vs_model(container_data: OIContainer, container_mod: OIContainer, fig_dir: str = None,
-                       log_plotv: bool = False, plot_vistype: str = 'vis2', show_plots: bool = True) -> None:
+def plot_data_vs_model(
+    container_data: OIContainer,
+    container_mod: OIContainer,
+    fig_dir: str = None,
+    log_plotv: bool = False,
+    plot_vistype: str = "vis2",
+    show_plots: bool = True,
+) -> None:
     """
     Plots the data against the model OI observables. Currently, plots uv coverage, a (squared) visibility curve and
     closure phases. Note that this function shares a name with a similar function in the sed module. Take care with
@@ -486,7 +634,7 @@ def plot_data_vs_model(container_data: OIContainer, container_mod: OIContainer, 
             os.makedirs(fig_dir)
 
     # set spatial frequencies, visibilities and plotting label based on specified option
-    if plot_vistype == 'vis2':
+    if plot_vistype == "vis2":
         ufdata = container_data.v2uf
         vfdata = container_data.v2vf
         vismod = container_mod.v2
@@ -494,8 +642,8 @@ def plot_data_vs_model(container_data: OIContainer, container_mod: OIContainer, 
         viserrdata = container_data.v2err
         wavedata = container_data.v2wave
         basedata = container_data.v2base
-        vislabel = '$V^2$'
-    elif plot_vistype == 'vis':
+        vislabel = "$V^2$"
+    elif plot_vistype == "vis":
         ufdata = container_data.vuf
         vfdata = container_data.vvf
         vismod = container_mod.v
@@ -504,11 +652,13 @@ def plot_data_vs_model(container_data: OIContainer, container_mod: OIContainer, 
         viserrdata = container_data.verr
         basedata = container_data.vbase
         if (not container_data.vis_in_fcorr) and (not container_mod.vis_in_fcorr):
-            vislabel = '$V$'
+            vislabel = "$V$"
         elif container_data.vis_in_fcorr and container_mod.vis_in_fcorr:
-            vislabel = r'$F_{corr}$ (Jy)'
+            vislabel = r"$F_{corr}$ (Jy)"
         else:
-            print("container_data and container_mod do not have the same value for vis_in_fcorr, will return None!")
+            print(
+                "container_data and container_mod do not have the same value for vis_in_fcorr, will return None!"
+            )
             return
     else:
         print("parameter plot_vistype is not recognized, will return None!")
@@ -518,78 +668,148 @@ def plot_data_vs_model(container_data: OIContainer, container_mod: OIContainer, 
     fig, ax = plt.subplots(1, 1, figsize=(8, 8))
     fig.subplots_adjust(right=0.8)
     cax = fig.add_axes([0.82, 0.15, 0.02, 0.7])
-    ax.set_aspect('equal', adjustable='datalim')  # make plot axes have the same scale
-    ax.scatter(ufdata / 1e6, vfdata / 1e6,
-               c=wavedata * constants.M2MICRON, s=1,
-               cmap='gist_rainbow_r')
-    sc = ax.scatter(-ufdata / 1e6, -vfdata / 1e6,
-                    c=wavedata * constants.M2MICRON, s=1,
-                    cmap='gist_rainbow_r')
+    ax.set_aspect("equal", adjustable="datalim")  # make plot axes have the same scale
+    ax.scatter(
+        ufdata / 1e6,
+        vfdata / 1e6,
+        c=wavedata * constants.M2MICRON,
+        s=1,
+        cmap="gist_rainbow_r",
+    )
+    sc = ax.scatter(
+        -ufdata / 1e6,
+        -vfdata / 1e6,
+        c=wavedata * constants.M2MICRON,
+        s=1,
+        cmap="gist_rainbow_r",
+    )
     clb = fig.colorbar(sc, cax=cax)
-    clb.set_label(r'$\lambda$ ($\mu$m)', labelpad=5)
+    clb.set_label(r"$\lambda$ ($\mu$m)", labelpad=5)
 
     ax.set_xlim(ax.get_xlim()[::-1])  # switch x-axis direction
-    ax.set_title(f'uv coverage')
+    ax.set_title(f"uv coverage")
     ax.set_xlabel(r"$\leftarrow B_u$ ($\mathrm{M \lambda}$)")
     ax.set_ylabel(r"$B_v \rightarrow$ ($\mathrm{M \lambda}$)")
     if fig_dir is not None:
-        plt.savefig(f"{fig_dir}/uv_plane.png", dpi=300, bbox_inches='tight')
+        plt.savefig(f"{fig_dir}/uv_plane.png", dpi=300, bbox_inches="tight")
 
     # plot (squared) visibilities
     fig = plt.figure(figsize=(10, 8))
     gs = fig.add_gridspec(2, hspace=0, height_ratios=[1, 0.3])
     ax = gs.subplots(sharex=True)
 
-    ax[0].errorbar(basedata, visdata, viserrdata, label='data', mec='royalblue',
-                   marker='o', capsize=0, zorder=0, markersize=2, ls='', alpha=0.8, elinewidth=0.5)
-    ax[0].scatter(basedata, vismod, label=f'model', marker='o',
-                  facecolor='white', edgecolor='r', s=4, alpha=0.6)
-    ax[1].scatter(basedata, (vismod - visdata) / viserrdata,
-                  marker='o', facecolor='white', edgecolor='r', s=4, alpha=0.6)
+    ax[0].errorbar(
+        basedata,
+        visdata,
+        viserrdata,
+        label="data",
+        mec="royalblue",
+        marker="o",
+        capsize=0,
+        zorder=0,
+        markersize=2,
+        ls="",
+        alpha=0.8,
+        elinewidth=0.5,
+    )
+    ax[0].scatter(
+        basedata,
+        vismod,
+        label=f"model",
+        marker="o",
+        facecolor="white",
+        edgecolor="r",
+        s=4,
+        alpha=0.6,
+    )
+    ax[1].scatter(
+        basedata,
+        (vismod - visdata) / viserrdata,
+        marker="o",
+        facecolor="white",
+        edgecolor="r",
+        s=4,
+        alpha=0.6,
+    )
 
     ax[0].set_ylabel(vislabel)
     ax[0].legend()
-    ax[0].set_title(f'Visibilities')
+    ax[0].set_title(f"Visibilities")
     ax[0].tick_params(axis="x", direction="in", pad=-15)
 
     if log_plotv:
         ax[0].set_ylim(0.5 * np.min(visdata), 1.1 * np.max(np.maximum(visdata, vismod)))
-        ax[0].set_yscale('log')
+        ax[0].set_yscale("log")
     else:
         ax[0].set_ylim(0, 1.1 * np.max(np.maximum(visdata, vismod)))
 
     ax[1].set_xlim(0, np.max(basedata) * 1.05)
-    ax[1].axhline(y=0, c='k', ls='--', lw=1, zorder=0)
-    ax[1].set_xlabel(r'$B$ ($\mathrm{M \lambda}$)')
-    ax[1].set_ylabel(r'error $(\sigma)$')
+    ax[1].axhline(y=0, c="k", ls="--", lw=1, zorder=0)
+    ax[1].set_xlabel(r"$B$ ($\mathrm{M \lambda}$)")
+    ax[1].set_ylabel(r"error $(\sigma)$")
     if fig_dir is not None:
-        plt.savefig(f"{fig_dir}/visibilities.png", dpi=300, bbox_inches='tight')
+        plt.savefig(f"{fig_dir}/visibilities.png", dpi=300, bbox_inches="tight")
 
     # plot phi_closure
     fig = plt.figure(figsize=(10, 8))
     gs = fig.add_gridspec(2, hspace=0, height_ratios=[1, 0.3])
     ax = gs.subplots(sharex=True)
 
-    ax[0].errorbar(container_data.t3bmax, container_data.t3phi, container_data.t3phierr, label='data', mec='royalblue',
-                   marker='o', capsize=0, zorder=0, markersize=2, ls='', alpha=0.8, elinewidth=0.5)
-    ax[0].scatter(container_data.t3bmax, container_mod.t3phi, label=f'model', marker='o',
-                  facecolor='white', edgecolor='r', s=4, alpha=0.6)
-    ax[1].scatter(container_data.t3bmax, (container_mod.t3phi - container_data.t3phi) / container_data.t3phierr,
-                  marker='o', facecolor='white', edgecolor='r', s=4, alpha=0.6)
+    ax[0].errorbar(
+        container_data.t3bmax,
+        container_data.t3phi,
+        container_data.t3phierr,
+        label="data",
+        mec="royalblue",
+        marker="o",
+        capsize=0,
+        zorder=0,
+        markersize=2,
+        ls="",
+        alpha=0.8,
+        elinewidth=0.5,
+    )
+    ax[0].scatter(
+        container_data.t3bmax,
+        container_mod.t3phi,
+        label=f"model",
+        marker="o",
+        facecolor="white",
+        edgecolor="r",
+        s=4,
+        alpha=0.6,
+    )
+    ax[1].scatter(
+        container_data.t3bmax,
+        (container_mod.t3phi - container_data.t3phi) / container_data.t3phierr,
+        marker="o",
+        facecolor="white",
+        edgecolor="r",
+        s=4,
+        alpha=0.6,
+    )
 
-    ax[0].set_ylabel(r'$\phi_{CP}$ ($^\circ$)')
+    ax[0].set_ylabel(r"$\phi_{CP}$ ($^\circ$)")
     ax[0].legend()
-    ax[0].set_title(f'Closure Phases')
+    ax[0].set_title(f"Closure Phases")
     ax[0].tick_params(axis="x", direction="in", pad=-15)
-    ax[0].set_ylim(min(np.min(container_data.t3phi - container_data.t3phierr), np.min(container_mod.t3phi)),
-                   max(np.max(container_data.t3phi + container_data.t3phierr), np.max(container_mod.t3phi)))
+    ax[0].set_ylim(
+        min(
+            np.min(container_data.t3phi - container_data.t3phierr),
+            np.min(container_mod.t3phi),
+        ),
+        max(
+            np.max(container_data.t3phi + container_data.t3phierr),
+            np.max(container_mod.t3phi),
+        ),
+    )
 
     ax[1].set_xlim(0, np.max(container_data.t3bmax) * 1.05)
-    ax[1].axhline(y=0, c='k', ls='--', lw=1, zorder=0)
-    ax[1].set_xlabel(r'$B_{max}$ ($\mathrm{M \lambda}$)')
-    ax[1].set_ylabel(r'error $(\sigma_{\phi_{CP}})$')
+    ax[1].axhline(y=0, c="k", ls="--", lw=1, zorder=0)
+    ax[1].set_xlabel(r"$B_{max}$ ($\mathrm{M \lambda}$)")
+    ax[1].set_ylabel(r"error $(\sigma_{\phi_{CP}})$")
     if fig_dir is not None:
-        plt.savefig(f"{fig_dir}/closure_phases.png", dpi=300, bbox_inches='tight')
+        plt.savefig(f"{fig_dir}/closure_phases.png", dpi=300, bbox_inches="tight")
     if show_plots:
         plt.show()
 
@@ -597,7 +817,7 @@ def plot_data_vs_model(container_data: OIContainer, container_mod: OIContainer, 
 
 
 if __name__ == "__main__":
-    from distroi.beam import calc_gaussian_beam
+    from distroi.auxiliary.beam import calc_gaussian_beam
 
     # object_id_list = ['AI_Sco', 'EN_TrA', 'HD93662', 'HD95767', 'HD108015', 'HR4049', 'IRAS08544-4431', 'IRAS15469-5311',
     #                   'IW_Car', 'PS_Gem', 'U_Mon']
@@ -610,11 +830,20 @@ if __name__ == "__main__":
     #     beam = calc_gaussian_beam(container_data, vistype='vis2', make_plots=True, show_plots=True, fig_dir=fig_dir,
     #                               num_res=2, pix_per_res=48)
 
-    object_id = 'IRAS15469-5311'
-    data_dir, data_file = (f'/home/toond/Documents/phd/data/{object_id}/inspiring/PIONIER/img_ep_jan2021-mar2021/',
-                           '*.fits')
+    object_id = "IRAS15469-5311"
+    data_dir, data_file = (
+        f"/home/toond/Documents/phd/data/{object_id}/inspiring/PIONIER/img_ep_jan2021-mar2021/",
+        "*.fits",
+    )
     container_data = read_oicontainer_oifits(data_dir, data_file)
-    fig_dir = f'{data_dir}/figures/'
+    fig_dir = f"{data_dir}/figures/"
     container_data.plot_data(fig_dir=fig_dir)
-    beam = calc_gaussian_beam(container_data, vistype='vis2', make_plots=True, show_plots=True, fig_dir=fig_dir,
-                              num_res=2, pix_per_res=64)
+    beam = calc_gaussian_beam(
+        container_data,
+        vistype="vis2",
+        make_plots=True,
+        show_plots=True,
+        fig_dir=fig_dir,
+        num_res=2,
+        pix_per_res=64,
+    )

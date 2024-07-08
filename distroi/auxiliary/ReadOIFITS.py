@@ -12,16 +12,17 @@ import matplotlib.pyplot as plt
 
 # OIFITS READING MODULE
 
+
 # colour class used by Blender (svn.blender.org)
 class bcolors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
+    HEADER = "\033[95m"
+    OKBLUE = "\033[94m"
+    OKGREEN = "\033[92m"
+    WARNING = "\033[93m"
+    FAIL = "\033[91m"
+    ENDC = "\033[0m"
+    BOLD = "\033[1m"
+    UNDERLINE = "\033[4m"
 
 
 # Define some functions to print out messages in different colours
@@ -81,12 +82,12 @@ def flatten(L):
 # returns baseline lengths for your V/V2 data and maximum baseline length for the closure phase measurements
 def Bases(data):
     # gives you back the bases lengths for V2 and cpres
-    u, u1, u2, u3 = data['u']
-    v, v1, v2, v3 = data['v']
-    base = np.sqrt(u ** 2 + v ** 2)
-    B1 = np.sqrt(u1 ** 2 + v1 ** 2)
-    B2 = np.sqrt(u2 ** 2 + v2 ** 2)
-    B3 = np.sqrt(u3 ** 2 + v3 ** 2)
+    u, u1, u2, u3 = data["u"]
+    v, v1, v2, v3 = data["v"]
+    base = np.sqrt(u**2 + v**2)
+    B1 = np.sqrt(u1**2 + v1**2)
+    B2 = np.sqrt(u2**2 + v2**2)
+    B3 = np.sqrt(u3**2 + v3**2)
     Bmax = np.maximum(B1, B2, B3)
 
     return base, Bmax
@@ -97,7 +98,7 @@ def Bases(data):
 # will be an OIVIS2 object (defined below), which will contain all the data corresponding to 1 OI_VIS2 HDU extension
 # in an OIFITS file
 class data:
-    def __init__(self, dir='./', files='*fits', removeFlagged=True):
+    def __init__(self, dir="./", files="*fits", removeFlagged=True):
         self.files = files
         self.dir = dir
         self.target = []  # OITARGET()
@@ -113,26 +114,29 @@ class data:
         self.extendMJD()
         if removeFlagged:
             self.filterFlagged()
-        header('Success! \o/')
+        header("Success! \o/")
 
     # Function to write the data in the 'data' object to a new OIFITS file. Note it does this for all the .fits
     # extensions included (i.e. if there are multiple OI_WAVELENGTH extensions in the original read-in file) by
     # iterating.
     def writeOIFITS(self, dir, file, overwrite=False):
-
         hdus = []
         # creat primary hdu
         hdr = fits.Header()
-        hdr['COMMENT'] = 'Generated with ReadOIFITS'
+        hdr["COMMENT"] = "Generated with ReadOIFITS"
         primary = fits.PrimaryHDU([], header=hdr)
         hdus.append(primary)
         # write OI_TARGET
         for i in np.arange(len(self.target)):
             hdr = fits.Header()
-            hdr['EXTNAME'] = 'OI_TARGET'
+            hdr["EXTNAME"] = "OI_TARGET"
             nt = len(self.target[i].target_id)
-            targetid = fits.Column(name='TARGET_ID', format='I1', array=self.target[i].target_id)
-            target = fits.Column(name='TARGET', format='A32', array=self.target[i].target)
+            targetid = fits.Column(
+                name="TARGET_ID", format="I1", array=self.target[i].target_id
+            )
+            target = fits.Column(
+                name="TARGET", format="A32", array=self.target[i].target
+            )
             cols = fits.ColDefs([targetid, target])
             oitarget = fits.BinTableHDU.from_columns(cols, header=hdr)
             hdus.append(oitarget)
@@ -140,12 +144,20 @@ class data:
         # write OI_ARRAY
         for i in np.arange(len(self.array)):
             hdr = fits.Header()
-            hdr['EXTNAME'] = 'OI_ARRAY'
-            hdr['ARRNAME'] = self.array[i].arrname
-            telname = fits.Column(name='TEL_NAME', format='A16', array=self.array[i].tel_name)
-            staname = fits.Column(name='STA_NAME', format='A16', array=self.array[i].sta_name)
-            staid = fits.Column(name='STA_INDEX', format='I1', array=self.array[i].sta_index)
-            diam = fits.Column(name='DIAMETER', format='E1', array=self.array[i].diameter)
+            hdr["EXTNAME"] = "OI_ARRAY"
+            hdr["ARRNAME"] = self.array[i].arrname
+            telname = fits.Column(
+                name="TEL_NAME", format="A16", array=self.array[i].tel_name
+            )
+            staname = fits.Column(
+                name="STA_NAME", format="A16", array=self.array[i].sta_name
+            )
+            staid = fits.Column(
+                name="STA_INDEX", format="I1", array=self.array[i].sta_index
+            )
+            diam = fits.Column(
+                name="DIAMETER", format="E1", array=self.array[i].diameter
+            )
             cols = fits.ColDefs([telname, staname, staid, diam])
             oiarray = fits.BinTableHDU.from_columns(cols, header=hdr)
             hdus.append(oiarray)
@@ -153,10 +165,14 @@ class data:
         # write OI_WAVELENGTH
         for i in np.arange(len(self.wave)):
             hdr = fits.Header()
-            hdr['EXTNAME'] = 'OI_WAVELENGTH'
-            hdr['INSNAME'] = self.wave[i].insname
-            effwave = fits.Column(name='EFF_WAVE', format='E1', array=self.wave[i].effwave)
-            effband = fits.Column(name='EFF_BAND', format='E1', array=self.wave[i].effband)
+            hdr["EXTNAME"] = "OI_WAVELENGTH"
+            hdr["INSNAME"] = self.wave[i].insname
+            effwave = fits.Column(
+                name="EFF_WAVE", format="E1", array=self.wave[i].effwave
+            )
+            effband = fits.Column(
+                name="EFF_BAND", format="E1", array=self.wave[i].effband
+            )
             cols = fits.ColDefs([effwave, effband])
             oiwave = fits.BinTableHDU.from_columns(cols, header=hdr)
             hdus.append(oiwave)
@@ -164,88 +180,163 @@ class data:
         # write OI_VIS, note here we must set the dimensionality based on the amount of wavelengths observed (nw)
         for i in np.arange(len(self.vis)):
             hdr = fits.Header()
-            hdr['EXTNAME'] = 'OI_VIS'
-            hdr['INSNAME'] = self.vis[i].insname
-            hdr['ARRNAME'] = self.vis[i].arrname
-            hdr['AMPTYP'] = self.vis[i].amptype
-            hdr['PHITYP'] = self.vis[i].phitype
-            hdr['DATE-OBS'] = self.vis[i].dateobs
+            hdr["EXTNAME"] = "OI_VIS"
+            hdr["INSNAME"] = self.vis[i].insname
+            hdr["ARRNAME"] = self.vis[i].arrname
+            hdr["AMPTYP"] = self.vis[i].amptype
+            hdr["PHITYP"] = self.vis[i].phitype
+            hdr["DATE-OBS"] = self.vis[i].dateobs
             # print(self.vis[i].targetid)
-            targetid = fits.Column(name='TARGET_ID', format='1I', array=self.vis[i].targetid)
-            mjd = fits.Column(name='MJD', format='1D', array=self.vis[i].mjd[:, 0])
+            targetid = fits.Column(
+                name="TARGET_ID", format="1I", array=self.vis[i].targetid
+            )
+            mjd = fits.Column(name="MJD", format="1D", array=self.vis[i].mjd[:, 0])
             nw = self.vis[i].visamp.shape[1]
-            visamp = fits.Column(name='VISAMP', format=str(nw) + 'D', array=self.vis[i].visamp)
-            visamperr = fits.Column(name='VISAMPERR', format=str(nw) + 'D', array=self.vis[i].visamperr)
-            visphi = fits.Column(name='VISPHI', format=str(nw) + 'D', array=self.vis[i].visphi)
-            visphierr = fits.Column(name='VISPHIERR', format=str(nw) + 'D', array=self.vis[i].visphierr)
-            ucoord = fits.Column(name='UCOORD', format='1D', array=self.vis[i].ucoord)
-            vcoord = fits.Column(name='VCOORD', format='1D', array=self.vis[i].vcoord)
-            staindex = fits.Column(name='STA_INDEX', format='2I', array=self.vis[i].staid)
-            flag = fits.Column(name='FLAG', format=str(nw) + 'L', array=self.vis[i].flag)
-            cols = fits.ColDefs([targetid, mjd, visamp, visamperr, visphi, visphierr, ucoord, vcoord, staindex, flag])
+            visamp = fits.Column(
+                name="VISAMP", format=str(nw) + "D", array=self.vis[i].visamp
+            )
+            visamperr = fits.Column(
+                name="VISAMPERR", format=str(nw) + "D", array=self.vis[i].visamperr
+            )
+            visphi = fits.Column(
+                name="VISPHI", format=str(nw) + "D", array=self.vis[i].visphi
+            )
+            visphierr = fits.Column(
+                name="VISPHIERR", format=str(nw) + "D", array=self.vis[i].visphierr
+            )
+            ucoord = fits.Column(name="UCOORD", format="1D", array=self.vis[i].ucoord)
+            vcoord = fits.Column(name="VCOORD", format="1D", array=self.vis[i].vcoord)
+            staindex = fits.Column(
+                name="STA_INDEX", format="2I", array=self.vis[i].staid
+            )
+            flag = fits.Column(
+                name="FLAG", format=str(nw) + "L", array=self.vis[i].flag
+            )
+            cols = fits.ColDefs(
+                [
+                    targetid,
+                    mjd,
+                    visamp,
+                    visamperr,
+                    visphi,
+                    visphierr,
+                    ucoord,
+                    vcoord,
+                    staindex,
+                    flag,
+                ]
+            )
             oivis = fits.BinTableHDU.from_columns(cols, header=hdr)
             hdus.append(oivis)
 
         # write OI_VIS2
         for i in np.arange(len(self.vis2)):
             hdr = fits.Header()
-            hdr['EXTNAME'] = 'OI_VIS2'
-            hdr['INSNAME'] = self.vis2[i].insname
-            hdr['ARRNAME'] = self.vis2[i].arrname
-            hdr['DATE-OBS'] = self.vis2[i].dateobs
-            targetid = fits.Column(name='TARGET_ID', format='1I', array=self.vis2[i].targetid)
-            mjd = fits.Column(name='MJD', format='1D', array=self.vis2[i].mjd[:, 0])
+            hdr["EXTNAME"] = "OI_VIS2"
+            hdr["INSNAME"] = self.vis2[i].insname
+            hdr["ARRNAME"] = self.vis2[i].arrname
+            hdr["DATE-OBS"] = self.vis2[i].dateobs
+            targetid = fits.Column(
+                name="TARGET_ID", format="1I", array=self.vis2[i].targetid
+            )
+            mjd = fits.Column(name="MJD", format="1D", array=self.vis2[i].mjd[:, 0])
             nw = self.vis2[i].vis2data.shape[1]
-            vis2 = fits.Column(name='VIS2DATA', format=str(nw) + 'D', array=self.vis2[i].vis2data)
-            vis2err = fits.Column(name='VIS2ERR', format=str(nw) + 'D', array=self.vis2[i].vis2err)
-            ucoord = fits.Column(name='UCOORD', format='1D', array=self.vis2[i].ucoord)
-            vcoord = fits.Column(name='VCOORD', format='1D', array=self.vis2[i].vcoord)
-            staindex = fits.Column(name='STA_INDEX', format='2I', array=self.vis2[i].staid)
-            flag = fits.Column(name='FLAG', format=str(nw) + 'L', array=self.vis2[i].flag)
-            cols = fits.ColDefs([targetid, mjd, vis2, vis2err, ucoord, vcoord, staindex, flag])
+            vis2 = fits.Column(
+                name="VIS2DATA", format=str(nw) + "D", array=self.vis2[i].vis2data
+            )
+            vis2err = fits.Column(
+                name="VIS2ERR", format=str(nw) + "D", array=self.vis2[i].vis2err
+            )
+            ucoord = fits.Column(name="UCOORD", format="1D", array=self.vis2[i].ucoord)
+            vcoord = fits.Column(name="VCOORD", format="1D", array=self.vis2[i].vcoord)
+            staindex = fits.Column(
+                name="STA_INDEX", format="2I", array=self.vis2[i].staid
+            )
+            flag = fits.Column(
+                name="FLAG", format=str(nw) + "L", array=self.vis2[i].flag
+            )
+            cols = fits.ColDefs(
+                [targetid, mjd, vis2, vis2err, ucoord, vcoord, staindex, flag]
+            )
             oivis2 = fits.BinTableHDU.from_columns(cols, header=hdr)
             hdus.append(oivis2)
 
         # write OI_T3, note how STA_INDEX now holds 3 values (we're now dealing with 3 telescopes)
         for i in np.arange(len(self.t3)):
             hdr = fits.Header()
-            hdr['EXTNAME'] = 'OI_T3'
-            hdr['INSNAME'] = self.t3[i].insname
-            hdr['ARRNAME'] = self.t3[i].arrname
-            hdr['DATE-OBS'] = self.t3[i].dateobs
-            targetid = fits.Column(name='TARGET_ID', format='1I', array=self.t3[i].targetid)
-            mjd = fits.Column(name='MJD', format='1D', array=self.t3[i].mjd[:, 0])
+            hdr["EXTNAME"] = "OI_T3"
+            hdr["INSNAME"] = self.t3[i].insname
+            hdr["ARRNAME"] = self.t3[i].arrname
+            hdr["DATE-OBS"] = self.t3[i].dateobs
+            targetid = fits.Column(
+                name="TARGET_ID", format="1I", array=self.t3[i].targetid
+            )
+            mjd = fits.Column(name="MJD", format="1D", array=self.t3[i].mjd[:, 0])
             nw = self.t3[i].t3phi.shape[1]
-            t3amp = fits.Column(name='T3AMP', format=str(nw) + 'D', array=self.t3[i].t3amp)
-            t3amperr = fits.Column(name='T3AMPERR', format=str(nw) + 'D', array=self.t3[i].t3amperr)
-            t3phi = fits.Column(name='T3PHI', format=str(nw) + 'D', array=self.t3[i].t3phi)
-            t3phierr = fits.Column(name='T3PHIERR', format=str(nw) + 'D', array=self.t3[i].t3phierr)
-            u1coord = fits.Column(name='U1COORD', format='1D', array=self.t3[i].u1coord)
-            v1coord = fits.Column(name='V1COORD', format='1D', array=self.t3[i].v1coord)
-            u2coord = fits.Column(name='U2COORD', format='1D', array=self.t3[i].u2coord)
-            v2coord = fits.Column(name='V2COORD', format='1D', array=self.t3[i].v2coord)
-            staindex = fits.Column(name='STA_INDEX', format='3I', array=self.t3[i].staid)
-            flag = fits.Column(name='FLAG', format=str(nw) + 'L', array=self.t3[i].flag)
+            t3amp = fits.Column(
+                name="T3AMP", format=str(nw) + "D", array=self.t3[i].t3amp
+            )
+            t3amperr = fits.Column(
+                name="T3AMPERR", format=str(nw) + "D", array=self.t3[i].t3amperr
+            )
+            t3phi = fits.Column(
+                name="T3PHI", format=str(nw) + "D", array=self.t3[i].t3phi
+            )
+            t3phierr = fits.Column(
+                name="T3PHIERR", format=str(nw) + "D", array=self.t3[i].t3phierr
+            )
+            u1coord = fits.Column(name="U1COORD", format="1D", array=self.t3[i].u1coord)
+            v1coord = fits.Column(name="V1COORD", format="1D", array=self.t3[i].v1coord)
+            u2coord = fits.Column(name="U2COORD", format="1D", array=self.t3[i].u2coord)
+            v2coord = fits.Column(name="V2COORD", format="1D", array=self.t3[i].v2coord)
+            staindex = fits.Column(
+                name="STA_INDEX", format="3I", array=self.t3[i].staid
+            )
+            flag = fits.Column(name="FLAG", format=str(nw) + "L", array=self.t3[i].flag)
             cols = fits.ColDefs(
-                [targetid, mjd, t3amp, t3amperr, t3phi, t3phierr, u1coord, v1coord, u2coord, v2coord, staindex, flag])
+                [
+                    targetid,
+                    mjd,
+                    t3amp,
+                    t3amperr,
+                    t3phi,
+                    t3phierr,
+                    u1coord,
+                    v1coord,
+                    u2coord,
+                    v2coord,
+                    staindex,
+                    flag,
+                ]
+            )
             oit3 = fits.BinTableHDU.from_columns(cols, header=hdr)
             hdus.append(oit3)
 
         # Write OI_FLUX
         for i in np.arange(len(self.flux)):
             hdr = fits.Header()
-            hdr['EXTNAME'] = 'OI_FLUX'
-            hdr['INSNAME'] = self.flux[i].insname
-            hdr['ARRNAME'] = self.flux[i].arrname
-            hdr['DATE-OBS'] = self.flux[i].dateobs
-            hdr['CALSTAT'] = self.flux[i].calstat
-            targetid = fits.Column(name='TARGET_ID', format='1I', array=self.flux[i].targetid)
-            mjd = fits.Column(name='MJD', format='1D', array=self.flux[i].mjd)
+            hdr["EXTNAME"] = "OI_FLUX"
+            hdr["INSNAME"] = self.flux[i].insname
+            hdr["ARRNAME"] = self.flux[i].arrname
+            hdr["DATE-OBS"] = self.flux[i].dateobs
+            hdr["CALSTAT"] = self.flux[i].calstat
+            targetid = fits.Column(
+                name="TARGET_ID", format="1I", array=self.flux[i].targetid
+            )
+            mjd = fits.Column(name="MJD", format="1D", array=self.flux[i].mjd)
             nw = self.flux[i].fluxdata.shape[1]
-            flux = fits.Column(name='FLUXDATA', format=str(nw) + 'D', array=self.flux[i].fluxdata)
-            fluxerr = fits.Column(name='FLUXERR', format=str(nw) + 'D', array=self.flux[i].fluxerr)
-            staindex = fits.Column(name='STA_INDEX', format='2I', array=self.flux[i].staid)
-            flag = fits.Column(name='FLAG', format=str(nw) + 'L', array=self.flux[i].flag)
+            flux = fits.Column(
+                name="FLUXDATA", format=str(nw) + "D", array=self.flux[i].fluxdata
+            )
+            fluxerr = fits.Column(
+                name="FLUXERR", format=str(nw) + "D", array=self.flux[i].fluxerr
+            )
+            staindex = fits.Column(
+                name="STA_INDEX", format="2I", array=self.flux[i].staid
+            )
+            flag = fits.Column(
+                name="FLAG", format=str(nw) + "L", array=self.flux[i].flag
+            )
             cols = fits.ColDefs([targetid, mjd, flux, fluxerr, staindex, flag])
             oiflux = fits.BinTableHDU.from_columns(cols, header=hdr)
             hdus.append(oiflux)
@@ -257,8 +348,20 @@ class data:
     # Function to plot the squared visibilities, closure phases and UV coverage. Some clipping limits and axis limits
     # defined as well. Note there's a lot of confusing 1e+/-6 factors in here which I haven't figured out, but the
     # plots look alright.
-    def plotV2CP(self, save=False, name='Data.pdf', V2sigclip=1, CPsigclip=180, Blim=0, CPext=200, V2min=0.0, V2max=1.0,
-                 xlog=False, ylog=False, lines=True):
+    def plotV2CP(
+        self,
+        save=False,
+        name="Data.pdf",
+        V2sigclip=1,
+        CPsigclip=180,
+        Blim=0,
+        CPext=200,
+        V2min=0.0,
+        V2max=1.0,
+        xlog=False,
+        ylog=False,
+        lines=True,
+    ):
         # Plot the vis2 and cp from the data and the model
         data = self.givedataJK()
 
@@ -282,12 +385,16 @@ class data:
                 base.append(basei * 1e-6)  # express V2 baseline lengths in MegaLambda
 
             b1, b2, b3, Bmax = [], [], [], []
-            for u1i, v1i, u2i, v2i, u3i, v3i, wavei in zip(u1, v1, u2, v2, u3, v3, waveCP):
+            for u1i, v1i, u2i, v2i, u3i, v3i, wavei in zip(
+                u1, v1, u2, v2, u3, v3, waveCP
+            ):
                 b1i = np.sqrt(np.power(u1i, 2) + np.power(v1i, 2)) / wavei
                 b2i = np.sqrt(np.power(u2i, 2) + np.power(v2i, 2)) / wavei
                 b3i = np.sqrt(np.power(u3i, 2) + np.power(v3i, 2)) / wavei
                 Bmaxi = np.maximum(b1i, b2i, b3i)
-                Bmax.append(Bmaxi * 1e-6)  # express max baseline length in triangle in MegaLambda
+                Bmax.append(
+                    Bmaxi * 1e-6
+                )  # express max baseline length in triangle in MegaLambda
 
             for basei, V2i in zip(base, V2data):
                 ax1.plot(basei, V2i)  # plot V2 curves
@@ -298,11 +405,24 @@ class data:
             maskv2 = V2err < V2sigclip  # V2err < 0.2 and
             maskcp = CPerr < CPsigclip
 
-            sc = ax1.scatter(base[maskv2], V2data[maskv2], s=0.1, c=waveV2[maskv2], cmap='gist_rainbow_r')
+            sc = ax1.scatter(
+                base[maskv2],
+                V2data[maskv2],
+                s=0.1,
+                c=waveV2[maskv2],
+                cmap="gist_rainbow_r",
+            )
             clb = fig.colorbar(sc, cax=cax)
-            clb.set_label(r'Wavelength ($\mu$m)', rotation=270, labelpad=15)
-            a, b, c = ax1.errorbar(base[maskv2], V2data[maskv2], yerr=V2err[maskv2], marker='', elinewidth=0.05, ls='',
-                                   zorder=0)
+            clb.set_label(r"Wavelength ($\mu$m)", rotation=270, labelpad=15)
+            a, b, c = ax1.errorbar(
+                base[maskv2],
+                V2data[maskv2],
+                yerr=V2err[maskv2],
+                marker="",
+                elinewidth=0.05,
+                ls="",
+                zorder=0,
+            )
 
         if Blim == 0:
             if lines:
@@ -319,44 +439,59 @@ class data:
 
         if xlog:
             ax1.set_xlim(min(base) - 1, Blim)
-            ax1.set_xscale('log')
+            ax1.set_xscale("log")
         if ylog:
             ax1.set_ylim(0.9 * np.min(np.abs(V2data)), 1)
-            ax1.set_yscale('log')
+            ax1.set_yscale("log")
 
-        ax1.set_xlabel(r'B (M$\lambda$)', fontsize=8)
-        ax1.set_title('Squared visibilities')
+        ax1.set_xlabel(r"B (M$\lambda$)", fontsize=8)
+        ax1.set_title("Squared visibilities")
 
-        ax2.axhline(y=0, ls='--', c='grey', lw=0.3)
+        ax2.axhline(y=0, ls="--", c="grey", lw=0.3)
         if lines:
             for bmaxi, CPi in zip(Bmax, CPdata):
                 ax2.plot(bmaxi, CPi)
         else:
-            sc = ax2.scatter(Bmax[maskcp], CPdata[maskcp], s=0.1, c=waveCP[maskcp], cmap='gist_rainbow_r')
-            a2, b2, c2 = ax2.errorbar(Bmax[maskcp], CPdata[maskcp], yerr=CPerr[maskcp], elinewidth=0.05, marker='',
-                                      ls='', zorder=0)
+            sc = ax2.scatter(
+                Bmax[maskcp],
+                CPdata[maskcp],
+                s=0.1,
+                c=waveCP[maskcp],
+                cmap="gist_rainbow_r",
+            )
+            a2, b2, c2 = ax2.errorbar(
+                Bmax[maskcp],
+                CPdata[maskcp],
+                yerr=CPerr[maskcp],
+                elinewidth=0.05,
+                marker="",
+                ls="",
+                zorder=0,
+            )
 
-        ax2.set_xlabel(r'B$_\mathrm{max}$ (M$\lambda$)', fontsize=8)
-        ax2.set_title('Closure phases')
+        ax2.set_xlabel(r"B$_\mathrm{max}$ (M$\lambda$)", fontsize=8)
+        ax2.set_title("Closure phases")
         ax2.set_xlim(0, Blim)
         ax2.set_ylim(-CPext, CPext)
         if xlog:
             ax2.set_xlim(min(Bmax) - 1, Blim)
-            ax2.set_xscale('log')
+            ax2.set_xscale("log")
 
         if save:
-            plt.savefig(dir + name + '_Data.pdf')
+            plt.savefig(dir + name + "_Data.pdf")
         else:
             plt.show()
 
-        u, u1, u2, u3 = data['u']
-        v, v1, v2, v3 = data['v']
+        u, u1, u2, u3 = data["u"]
+        v, v1, v2, v3 = data["v"]
 
         # Plot of the UV coverage
         fig, ax = plt.subplots(1, 1)
         cax = fig.add_axes(ax)
         if lines:
-            waveV2, waveCP, base, Bmax, V2data, V2err, CPdata, CPerr = Load(data)  # Don't know why Load(data) is called
+            waveV2, waveCP, base, Bmax, V2data, V2err, CPdata, CPerr = Load(
+                data
+            )  # Don't know why Load(data) is called
             # when it wasn't previously for the V2 plot if lines=True (there lines=False used Load(data) instead).
             base /= waveV2
             u /= waveV2
@@ -364,18 +499,20 @@ class data:
         else:
             u *= 1e-6
             v *= 1e-6
-        sc = ax.scatter([u, -u], [v, -v], c=[waveV2, waveV2], s=0.1, cmap='gist_rainbow_r')
+        sc = ax.scatter(
+            [u, -u], [v, -v], c=[waveV2, waveV2], s=0.1, cmap="gist_rainbow_r"
+        )
         clb = fig.colorbar(sc)
-        clb.set_label(r'Wavelength ($\mu$m)', rotation=270, labelpad=15)
-        ax.set_xlabel('u (M$\lambda$)', fontsize=8)
-        ax.set_ylabel('v (M$\lambda$)', fontsize=8)
-        ax.set_title('uv plane')
+        clb.set_label(r"Wavelength ($\mu$m)", rotation=270, labelpad=15)
+        ax.set_xlabel("u (M$\lambda$)", fontsize=8)
+        ax.set_ylabel("v (M$\lambda$)", fontsize=8)
+        ax.set_title("uv plane")
         ax.set_ylim(-Blim, Blim)
         ax.set_xlim(Blim, -Blim)
         fig.tight_layout()
 
         if save:
-            plt.savefig(dir + name + '_Datauv.pdf')
+            plt.savefig(dir + name + "_Datauv.pdf")
         else:
             plt.show()
 
@@ -383,7 +520,7 @@ class data:
 
     # Function to filter out flagged data points, work on OIVIS, OIVIS2 and OIT3 tables in the .fits file
     def filterFlagged(self):
-        inform('Removing flagged data...')
+        inform("Removing flagged data...")
         # OIVIS
         for i in np.arange(len(self.vis)):
             vis = self.vis[i]
@@ -424,7 +561,7 @@ class data:
     # This iterates over tables, e.g. OIVIS tables, and extends the MJD arrays to 2D so an MJD is associated to every
     # data point, including in the spectral direction.
     def extendMJD(self):
-        inform('Assigning mjd...')
+        inform("Assigning mjd...")
         # OIVIS
         for i in np.arange(len(self.vis)):
             mjd = []
@@ -453,7 +590,7 @@ class data:
     # Function not used by any other methods
     def giveV2(self, removeflagged=True):
         if self.vis2 == []:
-            fail('There is no V2 data in the files')
+            fail("There is no V2 data in the files")
         else:
             V2, V2e, u, v, lam, mjd = [], [], [], [], [], []
             for data in self.vis2:
@@ -531,23 +668,38 @@ class data:
             except:
                 pass
             # writing in the dictionnary
-            dataJK['uvV'] = (u.flatten(), v.flatten())
-            dataJK['waveV'] = wave.flatten()
+            dataJK["uvV"] = (u.flatten(), v.flatten())
+            dataJK["waveV"] = wave.flatten()
             # vis = {}
             # vis['visamp'], vis['visamperr'], vis['visphi'], vis['visphierr'] = visamp, visamperr, visphi, visphierr
-            dataJK['vis'] = (visamp.flatten(), visamperr.flatten(), visphi.flatten(), visphierr.flatten())
+            dataJK["vis"] = (
+                visamp.flatten(),
+                visamperr.flatten(),
+                visphi.flatten(),
+                visphierr.flatten(),
+            )
         else:
             # writing in the dictionnary
-            dataJK['uvV'] = (np.array([]), np.array([]))
-            dataJK['waveV'] = np.array([])
+            dataJK["uvV"] = (np.array([]), np.array([]))
+            dataJK["waveV"] = np.array([])
             # vis = {}
             # vis['visamp'], vis['visamperr'], vis['visphi'], vis['visphierr'] = visamp, visamperr, visphi, visphierr
-            dataJK['vis'] = (np.array([]), np.array([]), np.array([]), np.array([]))
+            dataJK["vis"] = (np.array([]), np.array([]), np.array([]), np.array([]))
 
         # OIVIS2
         u, v, wave, vis2, vis2err = [], [], [], [], []
-        u1, v1, u2, v2, u3, v3, wavecp, t3phi, t3phierr = [], [], [], [], [], [], [], [], []
-        if (self.vis2 != [] and self.t3 != []):
+        u1, v1, u2, v2, u3, v3, wavecp, t3phi, t3phierr = (
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+        )
+        if self.vis2 != [] and self.t3 != []:
             for i in np.arange(len(self.vis2)):
                 # fetching
                 ui = self.vis2[i].uf
@@ -591,7 +743,9 @@ class data:
                 v2i = self.t3[i].vf2
                 u3i, v3i = [], []
                 for x1, x2, y1, y2 in zip(u1i, u2i, v1i, v2i):
-                    u3i.extend([x1 + x2])  # calculating the 3d closure baseline from the other 2. IS THIS WRONG?
+                    u3i.extend(
+                        [x1 + x2]
+                    )  # calculating the 3d closure baseline from the other 2. IS THIS WRONG?
                     v3i.extend([y1 + y2])
                 u3i = np.reshape(u3i, np.array(u1i).shape)
                 v3i = np.reshape(v3i, np.array(v1i).shape)
@@ -643,18 +797,18 @@ class data:
                 pass
 
             # writing in the dictionnary
-            dataJK['u'] = (u.flatten(), u1.flatten(), u2.flatten(), u3.flatten())
-            dataJK['v'] = (v.flatten(), v1.flatten(), v2.flatten(), v3.flatten())
-            dataJK['wave'] = (wave.flatten(), wavecp.flatten())
-            dataJK['v2'] = (vis2.flatten(), vis2err.flatten())
-            dataJK['cp'] = (t3phi.flatten(), t3phierr.flatten())
+            dataJK["u"] = (u.flatten(), u1.flatten(), u2.flatten(), u3.flatten())
+            dataJK["v"] = (v.flatten(), v1.flatten(), v2.flatten(), v3.flatten())
+            dataJK["wave"] = (wave.flatten(), wavecp.flatten())
+            dataJK["v2"] = (vis2.flatten(), vis2err.flatten())
+            dataJK["cp"] = (t3phi.flatten(), t3phierr.flatten())
         else:
             # writing in the dictionnary
-            dataJK['u'] = (np.array([]), np.array([]), np.array([]), np.array([]))
-            dataJK['v'] = (np.array([]), np.array([]), np.array([]), np.array([]))
-            dataJK['wave'] = (np.array([]), np.array([]))
-            dataJK['v2'] = (np.array([]), np.array([]))
-            dataJK['cp'] = (np.array([]), np.array([]))
+            dataJK["u"] = (np.array([]), np.array([]), np.array([]), np.array([]))
+            dataJK["v"] = (np.array([]), np.array([]), np.array([]), np.array([]))
+            dataJK["wave"] = (np.array([]), np.array([]))
+            dataJK["v2"] = (np.array([]), np.array([]))
+            dataJK["cp"] = (np.array([]), np.array([]))
 
         return dataJK
 
@@ -662,7 +816,7 @@ class data:
     # in .uf attributes of the table classes. I.e. spatial frequency associated to 3d baseline in OIT3 table is uf3, vf3
     # Note that these are not properties associated to e.g. the OIVIS class at initilaization (this function adds them)
     def associateFreq(self):
-        inform('Assigning spatial frequencies...')
+        inform("Assigning spatial frequencies...")
         # OIVIS
         for i in np.arange(len(self.vis)):
             uf, vf = [], []
@@ -706,7 +860,7 @@ class data:
             self.t3[i].vf2 = np.array(vf2)
 
     def associateWave(self):
-        inform('Assigning wavelengths...')
+        inform("Assigning wavelengths...")
         # fetch the wavelengths from OIWAVE
         waveid = {}
         for i in np.arange(len(self.wave)):
@@ -724,7 +878,7 @@ class data:
                     wave.append(effwave)
                 self.vis[i].effwave = np.array(wave)
             except:
-                fail('No wavetable corresponding to {} found...'.format(name))
+                fail("No wavetable corresponding to {} found...".format(name))
 
         # Associate the right waves to OIVIS2
         for i in np.arange(len(self.vis2)):
@@ -737,7 +891,7 @@ class data:
                     wave.append(effwave)
                 self.vis2[i].effwave = np.array(wave)
             except:
-                fail('No wavetable corresponding to {} found...'.format(name))
+                fail("No wavetable corresponding to {} found...".format(name))
 
         # Associate the right waves to OIT3
         for i in np.arange(len(self.t3)):
@@ -750,7 +904,7 @@ class data:
                     wave.append(effwave)
                 self.t3[i].effwave = np.array(wave)
             except:
-                fail('No wavetable corresponding to {} found...'.format(name))
+                fail("No wavetable corresponding to {} found...".format(name))
 
         # Associate the right waves to OIFLUX
         for i in np.arange(len(self.flux)):
@@ -763,10 +917,10 @@ class data:
                     wave.append(effwave)
                 self.flux[i].effwave = np.array(wave)
             except:
-                fail('No wavetable corresponding to {} found...'.format(name))
+                fail("No wavetable corresponding to {} found...".format(name))
 
     def read(self):
-        header('Reading from {}{}'.format(self.dir, self.files))
+        header("Reading from {}{}".format(self.dir, self.files))
         dir = self.dir
         files = self.files
         listOfFiles = os.listdir(dir)
@@ -774,7 +928,7 @@ class data:
         for entry in listOfFiles:
             if fnmatch.fnmatch(entry, files):
                 i += 1
-                inform('Reading ' + entry + '...')
+                inform("Reading " + entry + "...")
                 self.readfile(entry)
 
     def readfile(self, file):
@@ -784,126 +938,177 @@ class data:
         while err == False:
             i += 1
             try:
-                extname = hdul[i].header['EXTNAME']
-                print('Reading ' + extname)
-                if extname == 'OI_TARGET':
+                extname = hdul[i].header["EXTNAME"]
+                print("Reading " + extname)
+                if extname == "OI_TARGET":
                     self.readTARGET(hdul[i])
-                elif extname == 'OI_ARRAY':
+                elif extname == "OI_ARRAY":
                     self.readARRAY(hdul[i])
-                elif extname == 'OI_WAVELENGTH':
+                elif extname == "OI_WAVELENGTH":
                     self.readWAVE(hdul[i])
-                elif extname == 'OI_VIS':
+                elif extname == "OI_VIS":
                     self.readVIS(hdul[i])
-                elif extname == 'OI_VIS2':
+                elif extname == "OI_VIS2":
                     self.readVIS2(hdul[i])
-                elif extname == 'OI_T3':
+                elif extname == "OI_T3":
                     self.readT3(hdul[i])
-                elif extname == 'OI_FLUX':
+                elif extname == "OI_FLUX":
                     self.readFLUX(hdul[i])
             except IndexError:
                 err = True
 
     def readTARGET(self, hd):
-        target_id = hd.data['TARGET_ID']
-        target = hd.data['TARGET']
+        target_id = hd.data["TARGET_ID"]
+        target = hd.data["TARGET"]
         tar = OITARGET(target_id=target_id, target=target)
         self.target.append(tar)
 
     def readARRAY(self, hd):
-        arrname = hd.header['ARRNAME']
-        tel = hd.data['TEL_NAME']
-        sta = hd.data['STA_NAME']
-        staid = hd.data['STA_INDEX']
-        diam = hd.data['DIAMETER']
-        arr = OIARRAY(arrname=arrname, tel_name=tel, sta_name=sta, sta_index=staid, diameter=diam)
+        arrname = hd.header["ARRNAME"]
+        tel = hd.data["TEL_NAME"]
+        sta = hd.data["STA_NAME"]
+        staid = hd.data["STA_INDEX"]
+        diam = hd.data["DIAMETER"]
+        arr = OIARRAY(
+            arrname=arrname, tel_name=tel, sta_name=sta, sta_index=staid, diameter=diam
+        )
         self.array.append(arr)
 
     def readVIS2(self, hd):
-        insname = hd.header['INSNAME']
-        arrname = hd.header['ARRNAME']
-        dateobs = hd.header['DATE-OBS']
-        targetid = hd.data['TARGET_ID']
-        mjd = hd.data['MJD']
-        vis2data = hd.data['VIS2DATA']
-        vis2err = hd.data['VIS2ERR']
-        u = hd.data['UCOORD']
-        v = hd.data['VCOORD']
-        sta = hd.data['STA_INDEX']
-        flag = hd.data['FLAG']
-        vis2 = OIVIS2(arrname, insname, dateobs=dateobs, mjd=mjd, vis2data=vis2data, vis2err=vis2err, ucoord=u,
-                      vcoord=v, flag=flag, targetid=targetid, staid=sta)
+        insname = hd.header["INSNAME"]
+        arrname = hd.header["ARRNAME"]
+        dateobs = hd.header["DATE-OBS"]
+        targetid = hd.data["TARGET_ID"]
+        mjd = hd.data["MJD"]
+        vis2data = hd.data["VIS2DATA"]
+        vis2err = hd.data["VIS2ERR"]
+        u = hd.data["UCOORD"]
+        v = hd.data["VCOORD"]
+        sta = hd.data["STA_INDEX"]
+        flag = hd.data["FLAG"]
+        vis2 = OIVIS2(
+            arrname,
+            insname,
+            dateobs=dateobs,
+            mjd=mjd,
+            vis2data=vis2data,
+            vis2err=vis2err,
+            ucoord=u,
+            vcoord=v,
+            flag=flag,
+            targetid=targetid,
+            staid=sta,
+        )
         self.vis2.append(vis2)
 
     def readT3(self, hd):
-        insname = hd.header['INSNAME']
-        arrname = hd.header['ARRNAME']
-        dateobs = hd.header['DATE-OBS']
-        t3amp = hd.data['T3AMP']
-        t3phi = hd.data['T3PHI']
-        t3amperr = hd.data['T3AMPERR']
-        t3phierr = hd.data['T3PHIERR']
-        mjd = hd.data['MJD']
-        targetid = hd.data['TARGET_ID']
-        u1 = hd.data['U1COORD']
-        u2 = hd.data['U2COORD']
-        v1 = hd.data['V1COORD']
-        v2 = hd.data['V2COORD']
-        staid = hd.data['STA_INDEX']
-        flag = hd.data['FLAG']
-        T3 = OIT3(arrname, insname, dateobs=dateobs, mjd=mjd, t3amp=t3amp, t3amperr=t3amperr, t3phi=t3phi,
-                  t3phierr=t3phierr, u1coord=u1, v1coord=v1, u2coord=u2, v2coord=v2, flag=flag, targetid=targetid,
-                  staid=staid)
+        insname = hd.header["INSNAME"]
+        arrname = hd.header["ARRNAME"]
+        dateobs = hd.header["DATE-OBS"]
+        t3amp = hd.data["T3AMP"]
+        t3phi = hd.data["T3PHI"]
+        t3amperr = hd.data["T3AMPERR"]
+        t3phierr = hd.data["T3PHIERR"]
+        mjd = hd.data["MJD"]
+        targetid = hd.data["TARGET_ID"]
+        u1 = hd.data["U1COORD"]
+        u2 = hd.data["U2COORD"]
+        v1 = hd.data["V1COORD"]
+        v2 = hd.data["V2COORD"]
+        staid = hd.data["STA_INDEX"]
+        flag = hd.data["FLAG"]
+        T3 = OIT3(
+            arrname,
+            insname,
+            dateobs=dateobs,
+            mjd=mjd,
+            t3amp=t3amp,
+            t3amperr=t3amperr,
+            t3phi=t3phi,
+            t3phierr=t3phierr,
+            u1coord=u1,
+            v1coord=v1,
+            u2coord=u2,
+            v2coord=v2,
+            flag=flag,
+            targetid=targetid,
+            staid=staid,
+        )
         self.t3.append(T3)
 
     def readVIS(self, hd):
-        insname = hd.header['INSNAME']
-        arrname = hd.header['ARRNAME']
+        insname = hd.header["INSNAME"]
+        arrname = hd.header["ARRNAME"]
         try:
-            amptype = hd.header['AMPTYP']
-            phitype = hd.header['PHITYP']
+            amptype = hd.header["AMPTYP"]
+            phitype = hd.header["PHITYP"]
         except KeyError:
-            amptype = 'unknown'
-            phitype = 'unknown'
-        dateobs = hd.header['DATE-OBS']
-        mjd = hd.data['MJD']
-        targetid = hd.data['TARGET_ID']
-        visamp = hd.data['VISAMP']
-        visamperr = hd.data['VISAMPERR']
-        visphi = hd.data['VISPHI']
-        visphierr = hd.data['VISPHIERR']
-        u = hd.data['UCOORD']
-        v = hd.data['VCOORD']
-        staid = hd.data['STA_INDEX']
-        flag = hd.data['FLAG']
-        VIS = OIVIS(arrname, insname, amptype=amptype, phitype=phitype, dateobs=dateobs, mjd=mjd, visamp=visamp,
-                    visamperr=visamperr, visphi=visphi, visphierr=visphierr, ucoord=u, vcoord=v, flag=flag,
-                    targetid=targetid, staid=staid)
+            amptype = "unknown"
+            phitype = "unknown"
+        dateobs = hd.header["DATE-OBS"]
+        mjd = hd.data["MJD"]
+        targetid = hd.data["TARGET_ID"]
+        visamp = hd.data["VISAMP"]
+        visamperr = hd.data["VISAMPERR"]
+        visphi = hd.data["VISPHI"]
+        visphierr = hd.data["VISPHIERR"]
+        u = hd.data["UCOORD"]
+        v = hd.data["VCOORD"]
+        staid = hd.data["STA_INDEX"]
+        flag = hd.data["FLAG"]
+        VIS = OIVIS(
+            arrname,
+            insname,
+            amptype=amptype,
+            phitype=phitype,
+            dateobs=dateobs,
+            mjd=mjd,
+            visamp=visamp,
+            visamperr=visamperr,
+            visphi=visphi,
+            visphierr=visphierr,
+            ucoord=u,
+            vcoord=v,
+            flag=flag,
+            targetid=targetid,
+            staid=staid,
+        )
         self.vis.append(VIS)
 
     def readWAVE(self, hd):
-        insname = hd.header['INSNAME']
-        effwave = np.array(hd.data['EFF_WAVE'])
-        effband = np.array(hd.data['EFF_BAND'])
+        insname = hd.header["INSNAME"]
+        effwave = np.array(hd.data["EFF_WAVE"])
+        effband = np.array(hd.data["EFF_BAND"])
         wave0 = OIWAVE(insname, effwave=effwave, effband=effband)
         self.wave.append(wave0)
         # print(self.wave, self.wave[0].effwave)
 
     def readFLUX(self, hd):
-        dateobs = hd.header['DATE-OBS']
-        insname = hd.header['INSNAME']
-        arrname = hd.header['ARRNAME']
-        calstat = hd.header['CALSTAT']
-        targetid = hd.data['TARGET_ID']
-        mjd = hd.data['MJD']
+        dateobs = hd.header["DATE-OBS"]
+        insname = hd.header["INSNAME"]
+        arrname = hd.header["ARRNAME"]
+        calstat = hd.header["CALSTAT"]
+        targetid = hd.data["TARGET_ID"]
+        mjd = hd.data["MJD"]
         try:
-            flux = hd.data['FLUXDATA']
+            flux = hd.data["FLUXDATA"]
         except KeyError:
-            flux = hd.data['FLUX']  # for GRAVITY
-        fluxerr = hd.data['FLUXERR']
-        staid = hd.data['STA_INDEX']
-        flag = hd.data['FLAG']
-        fl = OIFLUX(insname, arrname, calstat=calstat, dateobs=dateobs, mjd=mjd, fluxdata=flux, fluxerr=fluxerr,
-                    flag=flag, staid=staid, targetid=targetid)
+            flux = hd.data["FLUX"]  # for GRAVITY
+        fluxerr = hd.data["FLUXERR"]
+        staid = hd.data["STA_INDEX"]
+        flag = hd.data["FLAG"]
+        fl = OIFLUX(
+            insname,
+            arrname,
+            calstat=calstat,
+            dateobs=dateobs,
+            mjd=mjd,
+            fluxdata=flux,
+            fluxerr=fluxerr,
+            flag=flag,
+            staid=staid,
+            targetid=targetid,
+        )
         self.flux.append(fl)
 
 
@@ -918,7 +1123,7 @@ class OITARGET:
 
     def printtarget(self):
         for t, i in zip(self.target, self.target_id):
-            inform('Target #{} is {}'.format(i, t))
+            inform("Target #{} is {}".format(i, t))
 
     def givetargetid(self):
         return self.target, self.target_id
@@ -945,7 +1150,9 @@ class OITARGET:
 
 
 class OIARRAY:
-    def __init__(self, arrname='UNKNOWN', tel_name=[], sta_name=[], sta_index=[], diameter=[]):
+    def __init__(
+        self, arrname="UNKNOWN", tel_name=[], sta_name=[], sta_index=[], diameter=[]
+    ):
         self.arrname = arrname
         self.tel_name = tel_name
         self.sta_name = sta_name
@@ -973,8 +1180,20 @@ class OIWAVE:
 
 
 class OIVIS2:
-    def __init__(self, arrname, insname, dateobs=0, mjd=[], vis2data=[], vis2err=[], ucoord=[], vcoord=[], flag=[],
-                 staid=[], targetid=[]):
+    def __init__(
+        self,
+        arrname,
+        insname,
+        dateobs=0,
+        mjd=[],
+        vis2data=[],
+        vis2err=[],
+        ucoord=[],
+        vcoord=[],
+        flag=[],
+        staid=[],
+        targetid=[],
+    ):
         self.arrname = arrname
         self.insname = insname
         self.dateobs = dateobs
@@ -989,8 +1208,24 @@ class OIVIS2:
 
 
 class OIVIS:
-    def __init__(self, arrname, insname, amptype='UNKNOWN', phitype='UNKNOWN', dateobs=0, mjd=[], visamp=[],
-                 visamperr=[], visphi=[], visphierr=[], ucoord=[], vcoord=[], flag=[], targetid=[], staid=[]):
+    def __init__(
+        self,
+        arrname,
+        insname,
+        amptype="UNKNOWN",
+        phitype="UNKNOWN",
+        dateobs=0,
+        mjd=[],
+        visamp=[],
+        visamperr=[],
+        visphi=[],
+        visphierr=[],
+        ucoord=[],
+        vcoord=[],
+        flag=[],
+        targetid=[],
+        staid=[],
+    ):
         self.arrname = arrname
         self.insname = insname
         self.dateobs = dateobs
@@ -1009,8 +1244,24 @@ class OIVIS:
 
 
 class OIT3:
-    def __init__(self, arrname, insname, dateobs=0, mjd=[], t3amp=[], t3amperr=[], t3phi=[], t3phierr=[], u1coord=[],
-                 v1coord=[], u2coord=[], v2coord=[], flag=[], targetid=[], staid=[]):
+    def __init__(
+        self,
+        arrname,
+        insname,
+        dateobs=0,
+        mjd=[],
+        t3amp=[],
+        t3amperr=[],
+        t3phi=[],
+        t3phierr=[],
+        u1coord=[],
+        v1coord=[],
+        u2coord=[],
+        v2coord=[],
+        flag=[],
+        targetid=[],
+        staid=[],
+    ):
         self.arrname = arrname
         self.insname = insname
         self.dateobs = dateobs
@@ -1029,8 +1280,19 @@ class OIT3:
 
 
 class OIFLUX:
-    def __init__(self, insname, arrname, calstat='unknown', dateobs=0, mjd=[], fluxdata=[], fluxerr=[], flag=[],
-                 targetid=[], staid=[]):
+    def __init__(
+        self,
+        insname,
+        arrname,
+        calstat="unknown",
+        dateobs=0,
+        mjd=[],
+        fluxdata=[],
+        fluxerr=[],
+        flag=[],
+        targetid=[],
+        staid=[],
+    ):
         self.insname = insname
         self.arrname = arrname
         self.dateobs = dateobs
@@ -1105,9 +1367,9 @@ def ListV2(data):
 
 def DataUnpack(data):
     # Unpacking the data
-    u = data['u']
-    v = data['v']
-    wave = data['wave']
+    u = data["u"]
+    v = data["v"]
+    wave = data["wave"]
     # vis2, vis2err = data['v2']
     # cp, cperr = data['cp']
     wavev2, wavecp = wave
@@ -1116,8 +1378,8 @@ def DataUnpack(data):
 
 
 def GiveDataValues(data):
-    V2, V2err = data['v2']
-    CP, CPerr = data['cp']
+    V2, V2err = data["v2"]
+    CP, CPerr = data["cp"]
 
     return V2, V2err, CP, CPerr
 
@@ -1162,8 +1424,12 @@ def ListCP(data):
     tmpv3 = []
     for i in np.arange(nCP):
         # print (u[i] - ubase)
-        if np.abs(u1[i] - u1base) < 1e-5 and np.abs(v1[i] - v1base) < 1e-5 and np.abs(u2[i] - u2base) < 1e-5 and np.abs(
-                v2[i] - v2base) < 1e-5:
+        if (
+            np.abs(u1[i] - u1base) < 1e-5
+            and np.abs(v1[i] - v1base) < 1e-5
+            and np.abs(u2[i] - u2base) < 1e-5
+            and np.abs(v2[i] - v2base) < 1e-5
+        ):
             tmpCP.append(CP[i])
             tmpCPerr.append(CPerr[i])
             tmpu1.append(u1[i])
@@ -1224,9 +1490,9 @@ def ListCP(data):
 
 def Load(data):
     # Loading the dataset
-    wave = data['wave']
-    V2data, V2err = data['v2']
-    CPdata, CPerr = data['cp']
+    wave = data["wave"]
+    V2data, V2err = data["v2"]
+    CPdata, CPerr = data["cp"]
     base, Bmax = Bases(data)
 
     # Setting things for the plot
