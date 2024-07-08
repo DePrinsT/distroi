@@ -25,6 +25,14 @@ distroi.auxiliary.SelectData module
    :undoc-members:
    :show-inheritance:
 
+distroi.auxiliary.beam module
+-----------------------------
+
+.. automodule:: distroi.auxiliary.beam
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 distroi.auxiliary.oifits\_time\_base module
 -------------------------------------------
 

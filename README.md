@@ -1,3 +1,10 @@
+
+<p align='center'>
+  <br/>
+  <img src="./docs/logo/distroi_logo.png" width="240" height="64">
+  <br/>
+</p>
+
 # DISTROI
 
 **DISTROI**, or **D**isk **I**nner **ST**ructure **R**econnaissance through **O**ptical **I**nteferometry, is a Python 

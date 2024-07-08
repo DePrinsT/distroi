@@ -26,7 +26,8 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> DISTROI
+            <a href="index.html">
+            <img src="_static/distroi_logo.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -129,7 +130,7 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="distroi.auxiliary.html#distroi.auxiliary.ReadOIFITS.bcolors">bcolors (class in distroi.auxiliary.ReadOIFITS)</a>
 </li>
-      <li><a href="distroi.html#distroi.beam.Beam">Beam (class in distroi.beam)</a>
+      <li><a href="distroi.auxiliary.html#distroi.auxiliary.beam.Beam">Beam (class in distroi.auxiliary.beam)</a>
 </li>
       <li><a href="distroi.html#distroi.geom_comps.BlackBodySpecDep">BlackBodySpecDep (class in distroi.geom_comps)</a>
 </li>
@@ -143,13 +144,15 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="distroi.html#distroi.beam.calc_gaussian_beam">calc_gaussian_beam() (in module distroi.beam)</a>
+      <li><a href="distroi.auxiliary.html#distroi.auxiliary.beam.calc_gaussian_beam">calc_gaussian_beam() (in module distroi.auxiliary.beam)</a>
 </li>
       <li><a href="distroi.html#distroi.oi_observables.calc_mod_observables">calc_mod_observables() (in module distroi.oi_observables)</a>
 </li>
-      <li><a href="distroi.html#distroi.geom_comps.GeomComp.calc_vis">calc_vis() (distroi.geom_comps.GeomComp method)</a>
+      <li><a href="distroi.html#distroi.geom_comps.Gaussian.calc_vis">calc_vis() (distroi.geom_comps.Gaussian method)</a>
 
       <ul>
+        <li><a href="distroi.html#distroi.geom_comps.GeomComp.calc_vis">(distroi.geom_comps.GeomComp method)</a>
+</li>
         <li><a href="distroi.html#distroi.geom_comps.Overresolved.calc_vis">(distroi.geom_comps.Overresolved method)</a>
 </li>
         <li><a href="distroi.html#distroi.geom_comps.PointSource.calc_vis">(distroi.geom_comps.PointSource method)</a>
@@ -188,6 +191,13 @@
 </li>
       </ul></li>
       <li>
+    distroi.auxiliary.beam
+
+      <ul>
+        <li><a href="distroi.auxiliary.html#module-distroi.auxiliary.beam">module</a>
+</li>
+      </ul></li>
+      <li>
     distroi.auxiliary.oifits_time_base
 
       <ul>
@@ -201,20 +211,13 @@
         <li><a href="distroi.auxiliary.html#module-distroi.auxiliary.ReadOIFITS">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     distroi.auxiliary.SelectData
 
       <ul>
         <li><a href="distroi.auxiliary.html#module-distroi.auxiliary.SelectData">module</a>
-</li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li>
-    distroi.beam
-
-      <ul>
-        <li><a href="distroi.html#module-distroi.beam">module</a>
 </li>
       </ul></li>
       <li>
@@ -283,6 +286,8 @@
 </li>
       <li><a href="distroi.auxiliary.html#distroi.auxiliary.ReadOIFITS.data.filterFlagged">filterFlagged() (distroi.auxiliary.ReadOIFITS.data method)</a>
 </li>
+      <li><a href="distroi.html#distroi.constants.flam_cgs_per_mum_to_fnu_jansky">flam_cgs_per_mum_to_fnu_jansky() (in module distroi.constants)</a>
+</li>
       <li><a href="distroi.html#distroi.geom_comps.FlatSpecDep">FlatSpecDep (class in distroi.geom_comps)</a>
 </li>
       <li><a href="distroi.auxiliary.html#distroi.auxiliary.ReadOIFITS.flatten">flatten() (in module distroi.auxiliary.ReadOIFITS)</a>
@@ -309,7 +314,9 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="distroi.html#distroi.beam.gaussian_2d">gaussian_2d() (in module distroi.beam)</a>
+      <li><a href="distroi.html#distroi.geom_comps.Gaussian">Gaussian (class in distroi.geom_comps)</a>
+</li>
+      <li><a href="distroi.auxiliary.html#distroi.auxiliary.beam.gaussian_2d">gaussian_2d() (in module distroi.auxiliary.beam)</a>
 </li>
       <li><a href="distroi.html#distroi.geom_comps.GeomComp">GeomComp (class in distroi.geom_comps)</a>
 </li>
@@ -353,8 +360,6 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="distroi.html#distroi.image_fft.image_fft_list_add_bb_ps_and_ov">image_fft_list_add_bb_ps_and_ov() (in module distroi.image_fft)</a>
-</li>
       <li><a href="distroi.html#distroi.image_fft.ImageFFT">ImageFFT (class in distroi.image_fft)</a>
 </li>
   </ul></td>
@@ -395,13 +400,13 @@
 </li>
         <li><a href="distroi.auxiliary.html#module-distroi.auxiliary">distroi.auxiliary</a>
 </li>
+        <li><a href="distroi.auxiliary.html#module-distroi.auxiliary.beam">distroi.auxiliary.beam</a>
+</li>
         <li><a href="distroi.auxiliary.html#module-distroi.auxiliary.oifits_time_base">distroi.auxiliary.oifits_time_base</a>
 </li>
         <li><a href="distroi.auxiliary.html#module-distroi.auxiliary.ReadOIFITS">distroi.auxiliary.ReadOIFITS</a>
 </li>
         <li><a href="distroi.auxiliary.html#module-distroi.auxiliary.SelectData">distroi.auxiliary.SelectData</a>
-</li>
-        <li><a href="distroi.html#module-distroi.beam">distroi.beam</a>
 </li>
         <li><a href="distroi.html#module-distroi.constants">distroi.constants</a>
 </li>
@@ -454,7 +459,7 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="distroi.html#distroi.image_fft.ImageFFT.perform_fft">perform_fft() (distroi.image_fft.ImageFFT method)</a>
 </li>
-      <li><a href="distroi.html#distroi.beam.Beam.plot">plot() (distroi.beam.Beam method)</a>
+      <li><a href="distroi.auxiliary.html#distroi.auxiliary.beam.Beam.plot">plot() (distroi.auxiliary.beam.Beam method)</a>
 
       <ul>
         <li><a href="distroi.html#distroi.sed.SED.plot">(distroi.sed.SED method)</a>

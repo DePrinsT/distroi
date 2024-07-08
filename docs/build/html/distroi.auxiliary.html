@@ -28,7 +28,8 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> DISTROI
+            <a href="index.html">
+            <img src="_static/distroi_logo.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -46,6 +47,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-distroi.auxiliary.ReadOIFITS">distroi.auxiliary.ReadOIFITS module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-distroi.auxiliary.SelectData">distroi.auxiliary.SelectData module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-distroi.auxiliary.beam">distroi.auxiliary.beam module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-distroi.auxiliary.oifits_time_base">distroi.auxiliary.oifits_time_base module</a></li>
 </ul>
 </li>
@@ -53,7 +55,6 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="distroi.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="distroi.html#module-distroi.beam">distroi.beam module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="distroi.html#module-distroi.constants">distroi.constants module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="distroi.html#module-distroi.geom_comps">distroi.geom_comps module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="distroi.html#module-distroi.image_fft">distroi.image_fft module</a></li>
@@ -465,6 +466,112 @@ All defaults are set to False. Set to a number if applicable</p>
 <dd></dd></dl>
 
 </div>
+<div class="section" id="module-distroi.auxiliary.beam">
+<span id="distroi-auxiliary-beam-module"></span><h2>distroi.auxiliary.beam module<a class="headerlink" href="#module-distroi.auxiliary.beam" title="Permalink to this headline"></a></h2>
+<p>Contains a class to represent a model for the OI point spread function (PSF) (a Gaussian fit). The formal PSF is called the
+‘dirty beam’. Methods to calculate the dirty beam from the uv coverage of an OIContainer object and get a fit to the dirty beam’s
+inner few resolution elements (a ‘Gaussian beam’) are included.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="distroi.auxiliary.beam.Beam">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.beam.</span></span><span class="sig-name descname"><span class="pre">Beam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.beam.Beam" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class containing information for a 2D Gaussian beam, typically acquired from a fit to the inner regions of a
+dirty beam (the formal PSF).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dictionary</strong> (<em>dict</em>) – Dictionary containing keys and values representing several instance variables described
+below. Should include ‘sig_min’, ‘sig_maj’ and ‘pa’.</p>
+</dd>
+<dt class="field-even">Variables</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>sig_min</strong> (<em>float</em>) – Standard deviation of the Gaussian along the minor axis.</p></li>
+<li><p><strong>sig_maj</strong> (<em>float</em>) – Standard deviation of the Gaussian along the major axis.</p></li>
+<li><p><strong>pa</strong> (<em>float</em>) – Position angle of the Gaussian’s major axis, anticlockwise from North to East.</p></li>
+<li><p><strong>fwhm_min</strong> (<em>float</em>) – Full-width-half-maximum (FWHM) of the Gaussian along the minor axis. This defines the
+resolution corresponding to the uv-coverage along this axis.</p></li>
+<li><p><strong>fwhm_maj</strong> (<em>float</em>) – FWHM of the Gaussian along the major axis. This defines the resolution
+corresponding to the uv-coverage along this axis.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="distroi.auxiliary.beam.Beam.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.auxiliary.beam.Beam.plot" title="Permalink to this definition"></a></dt>
+<dd><p>Makes a colour plot of the Beam, including contours representing the sigma/FWHM levels
+:return:</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.auxiliary.beam.calc_gaussian_beam">
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.beam.</span></span><span class="sig-name descname"><span class="pre">calc_gaussian_beam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="distroi.html#distroi.oi_observables.OIContainer" title="distroi.oi_observables.OIContainer"><span class="pre">distroi.oi_observables.OIContainer</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">vistype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'vis2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">make_plots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_plots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_res</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pix_per_res</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">32</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#distroi.auxiliary.beam.Beam" title="distroi.auxiliary.beam.Beam"><span class="pre">distroi.auxiliary.beam.Beam</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.auxiliary.beam.calc_gaussian_beam" title="Permalink to this definition"></a></dt>
+<dd><p>Given an OIContainer and the uv frequencies to be used, calculates the clean beam Gaussian parameters by making a
+Gaussian fit to the dirty beam. The dirty beam acts as the interferometric point spread funtion (PSF)
+corresponding to the chosen uv coverage, by setting visibilities constant at the observed uv points and inverting
+the Fourier transform directly to the image plane.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>container</strong> (<a class="reference internal" href="distroi.html#distroi.oi_observables.OIContainer" title="distroi.oi_observables.OIContainer"><em>OIContainer</em></a>) – Container with observables for which we want to calculate the resolution corresponding
+to its uv coverage.</p></li>
+<li><p><strong>vistype</strong> (<em>str</em><em>, </em><em>optional</em>) – Sets the uv coverage to be used for the Gaussian beam calculation. ‘vis2’ for the
+coverage corresponding to the squared visibility measurements or ‘vis’ for the uv coverage corresponding to the
+visibility/correlated flux measurements.</p></li>
+<li><p><strong>make_plots</strong> (<em>bool</em>) – Set to True to make plots of the dirty beam.</p></li>
+<li><p><strong>fig_dir</strong> (<em>str</em>) – Set to a directory in which you want the plots to be saved.</p></li>
+<li><p><strong>show_plots</strong> – Set to True if you want the generated plots to be shown in a window.</p></li>
+<li><p><strong>num_res</strong> (<em>int</em>) – The number of resolution elements to be included in the calculation. A resolution element is
+defined as 1 / ‘max_uv’, with max_uv the maximum norm of the uv frequency points. Set to 2 by default.
+Going abive this can skew the Gaussian fit or cause it to fail, as the non-Gaussian behavior of the PSF becomes
+more apparent further away from the dirty beam center. It will also increase calculation time as O(n^2).</p></li>
+<li><p><strong>pix_per_res</strong> (<em>int</em>) – Amount of dirty beam pixels used per resolution element. This should be even.
+Set to 32 by default. Increasing this can significantly increase computation time (scales as O(n^2)).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return gauss_beam</dt>
+<dd class="field-even"><p>Beam object containing the information of the Gaussian fit.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#distroi.auxiliary.beam.Beam" title="distroi.auxiliary.beam.Beam">Beam</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.auxiliary.beam.gaussian_2d">
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.beam.</span></span><span class="sig-name descname"><span class="pre">gaussian_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sig_min</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sig_maj_min_sig_min</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pa</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="headerlink" href="#distroi.auxiliary.beam.gaussian_2d" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Definition for calculating the value of a 2D Elliptical Gaussian at a given point. Defined by an amplitude,</dt><dd><p>xy center, standard deviations along major/minor axis, a major axis position angle and an offset.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>points</strong> (<em>tuple</em><em>(</em><em>float</em><em> | </em><em>np</em><em>)</em>) – 2D tuples describing the (x, y) points to be inserted. Note that positive x is
+defined as leftward and positive y as upward (i.e. the East and North repesctively in the OI convention).</p></li>
+<li><p><strong>amp</strong> (<em>float</em>) – Amplitude of the Gaussian.</p></li>
+<li><p><strong>x0</strong> (<em>float</em>) – x-coordinate center of the Guassian.</p></li>
+<li><p><strong>y0</strong> (<em>float</em>) – y-coordinate center of the Gaussian.</p></li>
+<li><p><strong>sig_min</strong> (<em>float</em>) – Standard deviation in the minor axis direction.</p></li>
+<li><p><strong>sig_maj_min_sig_min</strong> – How much the standard deviation in major ellipse axis direction is greater than that of
+minor axis direction. Defined so it can always be greater than or equal to sig_min when used in
+scipy.optimize.curve_fit.</p></li>
+<li><p><strong>pa</strong> (<em>float</em>) – Position angle of the Gaussian (i.e. the major axis direction) anti-clockwise, starting North
+(positive y).</p></li>
+<li><p><strong>offset</strong> (<em>float</em>) – Base level offset from 0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return values</dt>
+<dd class="field-even"><p>A raveled 1D array containg the values of the Gaussian calculated at the points.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
 <div class="section" id="module-distroi.auxiliary.oifits_time_base">
 <span id="distroi-auxiliary-oifits-time-base-module"></span><h2>distroi.auxiliary.oifits_time_base module<a class="headerlink" href="#module-distroi.auxiliary.oifits_time_base" title="Permalink to this headline"></a></h2>
 <p>Provides function to interactively plot multiple OIFITS files as a time-series, allowing the user to specify and adapt a certain
@@ -477,10 +584,11 @@ this functionalities in this module cannot be properly used in jupyter  notebook
 <span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.oifits_time_base.</span></span><span class="sig-name descname"><span class="pre">time_window_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_window_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.auxiliary.oifits_time_base.time_window_plot" title="Permalink to this definition"></a></dt>
 <dd><p>Produces an interactive matplotlib plot showing the specified OIFITS file as a time-series. The specified time window is
 shown as a red-shaded area. Sliders are provided to change the position and width of this time window. The ‘uv coverage’
-button can then be clicked in order to plot the uv coverage of the data included within the time window. After all plots
-are closed, returns a list with the filepaths of OIFITS files which contain observations within the interactively set time
-window. NOTE: Because the uv coverage button spawns another plot, this function cannot be properly used in jupyter
-notebooks, instead use this method within a python script.</p>
+button can then be clicked in order to plot the uv coverage of the data included within the time window. If the copy_dir
+argument is passed along, the ‘Copy files’ button can be pressed to copy over the OIFITS file which contain observations
+within the interactively set time window. After all plots are closed, returns a list with the filepaths of these OIFITS files.
+NOTE: Because the uv coverage button spawns another plot, this function cannot be properly used in jupyter notebooks,
+instead use this method within a python script.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -489,7 +597,7 @@ notebooks, instead use this method within a python script.</p>
 <li><p><strong>init_window_width</strong> (<em>float</em>) – Initial width of the time window in days. Needs to be larger or equal to 1 day or function
 will not plot and return None instead.</p></li>
 <li><p><strong>copy_dir</strong> (<em>str</em>) – If specified, the OIFITS files that have observations within the interactively set time window will be
-copied to this directory.</p></li>
+copied to this directory upon using the ‘Copy files’ button.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return files_within_window</dt>
