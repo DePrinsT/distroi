@@ -847,3 +847,5 @@ if __name__ == "__main__":
         num_res=2,
         pix_per_res=64,
     )
+
+    print('shabooble')
