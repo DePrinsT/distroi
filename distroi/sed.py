@@ -103,7 +103,7 @@ class SED:
 
         :rtype: None
         """
-        # todo: plot
+        # TODO: plot
         return
 
     def add_freq_vars(self) -> None:
@@ -256,7 +256,7 @@ def read_sed_repo_phot(sed_path: str, wave_lims: tuple[float, float] = None) -> 
     return sed
 
 
-# todo: add support for fitting reddening on Fnu, lam_Flam or nu_Fnu instead
+# TODO: add support for fitting reddening on Fnu, lam_Flam or nu_Fnu instead
 def chi2reddened(
     sed_obs: SED,
     sed_mod: SED,
@@ -299,7 +299,7 @@ def chi2reddened(
     return chi2
 
 
-# todo: add support for fitting reddening on Fnu, lam_Flam or nu_Fnu instead
+# TODO: add support for fitting reddening on Fnu, lam_Flam or nu_Fnu instead
 def reddening_fit(
     sed_obs: SED,
     sed_mod: SED,

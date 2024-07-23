@@ -86,7 +86,7 @@
 transform (FFT).</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="distroi.image_fft.ImageFFT">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.image_fft.</span></span><span class="sig-name descname"><span class="pre">ImageFFT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image_fft.ImageFFT" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.image_fft.</span></span><span class="sig-name descname"><span class="pre">ImageFFT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uvf_pad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image_fft.ImageFFT" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Class containing information on a model image and its FFT. Contains all properties in order to fully describe
 both the image and its FFT. Note that all these properties are expected if all class methods are to work. While
@@ -95,22 +95,30 @@ defining a corresponding image reader function analogous to ‘read_image_fft_mc
 image, as long as the amount of pixels in each dimension is even.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>dictionary</strong> (<em>dict</em>) – Dictionary containing keys and values representing several instance variables described
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dictionary</strong> (<em>dict</em>) – Dictionary containing keys and values representing several instance variables described
 below. Should include ‘wavelength’, ‘pixelscale_x’/’y’, ‘num_pix_x’/’y’, ‘img’, and ‘ftot’. The other required
-instance variables (related to the FFT) are set automatically through perform_fft().</p>
+instance variables (related to the FFT) are set automatically through perform_fft().</p></li>
+<li><p><strong>uvf_pad</strong> (<em>tuple</em><em>[</em><em>np.ndarray</em><em>, </em><em>np.ndarray</em><em>]</em>) – Tuple of 2 np.ndarrays holding a uv-frequency points in units of 1/rad.
+If added, the read-in image will be be padded on the outside by pixels with 0 flux to increase the field of view (FOV).
+The frequency separation between values in the resulting FFT will then be as small as the smallest separation between uv frequency points in uvf_pad. This mitigates interpolation errors of the FFT in frequency space which occur when the original image FOV is too small.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Variables</dt>
 <dd class="field-even"><ul class="simple">
 <li><p><strong>wavelength</strong> (<em>float</em>) – ImageFFT wavelength in micron.</p></li>
 <li><p><strong>pixelscale_x</strong> (<em>float</em>) – Pixelscale in radian in x (East-West) direction.</p></li>
 <li><p><strong>pixelscale_y</strong> (<em>float</em>) – Pixelscale in radian in y (North-South) direction.</p></li>
-<li><p><strong>num_pix_x</strong> (<em>int</em>) – Amount of pixels in the x direction.</p></li>
-<li><p><strong>num_pix_y</strong> (<em>int</em>) – Amount of pixels in the y direction.</p></li>
+<li><p><strong>num_pix_x</strong> (<em>int</em>) – Amount of image pixels in the x direction.</p></li>
+<li><p><strong>num_pix_y</strong> (<em>int</em>) – Amount of image pixels in the y direction.</p></li>
 <li><p><strong>img</strong> (<em>np.ndarray</em>) – 2D numpy array containing the image flux in Jy. 1st index = image y-axis,
 2nd index = image x-axis.</p></li>
 <li><p><strong>ftot</strong> (<em>float</em>) – Total image flux in Jy</p></li>
 <li><p><strong>fft</strong> (<em>np.ndarray</em>) – Complex 2D numpy FFT of img in Jy, i.e. in correlated flux formulation.</p></li>
-<li><p><strong>w_x</strong> (<em>np.ndarray</em>) – 1D array with numpy FFT x-axis frequencies in units of 1/pixelscale_x.</p></li>
+<li><p><strong>num_pix_fft_x</strong> (<em>int</em>) – Amount of image FFT pixels in the x direction.</p></li>
+<li><p><strong>num_pix_fft_y</strong> (<em>int</em>) – Amount of image FFT pixels in the y direction.</p></li>
+<li><p><strong>w_x</strong> (<em>np.ndarray</em>) – 1D array with numpy FFT x-axis frequencies in units of 1/pixelscale_x. This can be different from
+num_pix_x due to padding if ‘uvf_pad’ is provided.</p></li>
 <li><p><strong>w_y</strong> (<em>np.ndarray</em>) – 1D array with numpy FFT y-axis frequencies in units of 1/pixelscale_y.</p></li>
 <li><p><strong>uf</strong> (<em>np.ndarray</em>) – 1D array with FFT spatial x-axis frequencies in 1/radian, i.e. uf = w_x/pixelscale_x.</p></li>
 <li><p><strong>vf</strong> (<em>np.ndarray</em>) – 1D array with FFT spatial y-axis frequencies in 1/radian, i.e. vf = w_y/pixelscale_y.</p></li>
@@ -227,11 +235,16 @@ depends on e.g. inclination of the RT model.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.image_fft.ImageFFT.perform_fft">
-<span class="sig-name descname"><span class="pre">perform_fft</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image_fft.ImageFFT.perform_fft" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">perform_fft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uvf_pad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.image_fft.ImageFFT.perform_fft" title="Permalink to this definition"></a></dt>
 <dd><p>Perform the numpy FFT and set the required properties related to the image’s FFT.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>None</p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>uvf_pad</strong> (<em>tuple</em><em>[</em><em>np.ndarray</em><em>, </em><em>np.ndarray</em><em>]</em>) – Tuple of 2 np.ndarrays holding a uv-frequency points in units of 1/rad.
+If added, the read-in image will be be padded on the outside by pixels with 0 flux to increase the field of view (FOV).
+The frequency separation between values in the resulting FFT will then be as small as the smallest separation between uv frequency points in uvf_pad. This mitigates interpolation errors of the FFT in frequency space which occur when the original image FOV is too small.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>

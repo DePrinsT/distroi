@@ -12,11 +12,12 @@ print('TEST ON VLTI/PIONIER DATA')
 data_dir, data_file = './data/IRAS08544-4431/PIONIER/', '*.fits'
 mod_dir = './models/IRAS08544-4431_test_model/'
 fig_dir = './figures/single_disk_model/PIONIER'
-#
-# # FFT test + output info on frequencies
-# img_dir = 'PIONIER/data_1.65/'
-# img = image_fft.read_image_fft_mcfost(img_path=f'{mod_dir}{img_dir}/RT.fits.gz', disk_only=True)
-# img.diagnostic_plot(f'{fig_dir}/fft', log_plotv=True, show_plots=True)
+
+# FFT test + output info on frequencies
+img_dir = 'PIONIER/data_1.65/'
+img = image_fft.read_image_fft_mcfost(img_path=f'{mod_dir}{img_dir}/RT.fits.gz', disk_only=True)
+print(img.freq_info())
+img.diagnostic_plot(f'{fig_dir}/fft', log_plotv=True, show_plots=True)
 #
 # # Monochromatic model observables test
 # img_dir = 'PIONIER/data_1.65/'
@@ -31,6 +32,7 @@ img_dir = 'PIONIER/'
 container_data = oi_observables.read_oicontainer_oifits(data_dir, data_file)
 img_fft_list = image_fft.get_image_fft_list(mod_dir, img_dir)
 container_model = oi_observables.calc_mod_observables(container_data, img_fft_list)
+container_model.plot_data(show_plots=True)
 oi_observables.plot_data_vs_model(container_data, container_model, fig_dir=f'{fig_dir}/chromatic',
                                   show_plots=True)
 #
@@ -90,12 +92,12 @@ oi_observables.plot_data_vs_model(container_data, container_model, fig_dir=f'{fi
 # oi_observables.plot_data_vs_model(container_data, container_model, fig_dir=f'{fig_dir}/chromatic', log_plotv=True,
 #                                   show_plots=True)
 
-# MATISSE N-BAND tests
-# ------------------------
-print('TEST ON VLTI/MATISSE N-BAND DATA')
-data_dir, data_file = './data/IRAS08544-4431/MATISSE_N/', '*.fits'
-mod_dir = './models/IRAS08544-4431_test_model/'
-fig_dir = './figures/single_disk_model/MATISSE_N'
+# # MATISSE N-BAND tests
+# # ------------------------
+# print('TEST ON VLTI/MATISSE N-BAND DATA')
+# data_dir, data_file = './data/IRAS08544-4431/MATISSE_N/', '*.fits'
+# mod_dir = './models/IRAS08544-4431_test_model/'
+# fig_dir = './figures/single_disk_model/MATISSE_N'
 
 # # FFT test
 # img_dir = 'MATISSE_N/data_10.0/'
@@ -104,13 +106,13 @@ fig_dir = './figures/single_disk_model/MATISSE_N'
 # img.diagnostic_plot(f'{fig_dir}/fft', plot_vistype='fcorr', log_plotv=True, show_plots=True)
 # print(img.freq_info())
 
-# Monochromatic model observables test
-img_dir = 'MATISSE_N/data_10.0/'
-container_data = oi_observables.read_oicontainer_oifits(data_dir, data_file, wave_lims=(9.75, 10.20), fcorr=True)
-img_fft_list = image_fft.get_image_fft_list(mod_dir, img_dir, ebminv=1.4)
-container_model = oi_observables.calc_mod_observables(container_data, img_fft_list)
-oi_observables.plot_data_vs_model(container_data, container_model, fig_dir=f'{fig_dir}/monochromatic',
-                                  log_plotv=True, show_plots=True, plot_vistype='vis')
+# # Monochromatic model observables test
+# img_dir = 'MATISSE_N/data_10.0/'
+# container_data = oi_observables.read_oicontainer_oifits(data_dir, data_file, wave_lims=(9.75, 10.20), fcorr=True)
+# img_fft_list = image_fft.get_image_fft_list(mod_dir, img_dir, ebminv=1.4)
+# container_model = oi_observables.calc_mod_observables(container_data, img_fft_list)
+# oi_observables.plot_data_vs_model(container_data, container_model, fig_dir=f'{fig_dir}/monochromatic',
+#                                   log_plotv=True, show_plots=True, plot_vistype='vis')
 
 # # Chromatic model observables test
 # img_dir = 'MATISSE_N/'

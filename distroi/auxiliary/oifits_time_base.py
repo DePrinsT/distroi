@@ -533,5 +533,5 @@ if __name__ == "__main__":
         data_dir,
         data_file,
         init_time_window,
-        copy_dir="/home/toond/Downloads/random_epoch/",
+        copy_dir="/home/toond/Documents/phd/img_rec/IRAS15469-5311_test_data"
     )

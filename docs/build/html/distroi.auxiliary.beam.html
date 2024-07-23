@@ -137,8 +137,8 @@ visibility/correlated flux measurements.</p></li>
 <li><p><strong>fig_dir</strong> (<em>str</em>) – Set to a directory in which you want the plots to be saved.</p></li>
 <li><p><strong>show_plots</strong> – Set to True if you want the generated plots to be shown in a window.</p></li>
 <li><p><strong>num_res</strong> (<em>int</em>) – The number of resolution elements to be included in the calculation. A resolution element is
-defined as 1 / ‘max_uv’, with max_uv the maximum norm of the uv frequency points. Set to 2 by default.
-Going abive this can skew the Gaussian fit or cause it to fail, as the non-Gaussian behavior of the PSF becomes
+defined as 1 / (2 x ‘max_uv’), with max_uv the maximum norm of the probed uv frequency points. Set to 2 by default.
+Going above this can skew the Gaussian fit or cause it to fail, as the non-Gaussian behavior of the PSF becomes
 more apparent further away from the dirty beam center. It will also increase calculation time as O(n^2).</p></li>
 <li><p><strong>pix_per_res</strong> (<em>int</em>) – Amount of dirty beam pixels used per resolution element. This should be even.
 Set to 32 by default. Increasing this can significantly increase computation time (scales as O(n^2)).</p></li>

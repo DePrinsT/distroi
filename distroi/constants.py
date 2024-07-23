@@ -43,7 +43,7 @@ RAD2MAS: float = 1 / MAS2RAD  # radian to milli-arcsecond
 MICRON2M: float = 1e-6  # micrometer to meter
 M2MICRON: float = 1 / MICRON2M  # meter to micron
 HZ2GHZ: float = 1e-9  # Hertz to gigaHertz
-GHZ2Hz: float = 1 / HZ2GHZ  # gigaHertz to Hertz
+GHZ2HZ: float = 1 / HZ2GHZ  # gigaHertz to Hertz
 MICRON2AA: float = 1e4  # micron to angstrom
 AA2MICRON: float = 1 / MICRON2AA  # angstrom to micron
 WATT_PER_M2_HZ_2JY: float = (
@@ -80,6 +80,7 @@ def set_matplotlib_params() -> None:
     plt.rcParams["legend.framealpha"] = 1.0
     plt.rcParams["lines.markersize"] = 6.0
     plt.rcParams["lines.linewidth"] = 2.0
+    # plt.rcParams["image.interpolation"] = 'bicubic'  # set interpolation method for imshow
 
     plt.rc("font", size=12)  # controls default text sizes
     plt.rc("axes", titlesize=14)  # fontsize of the axes title

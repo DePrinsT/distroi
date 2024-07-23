@@ -217,7 +217,7 @@ class Gaussian(GeomComp):
             optional arguments)
         :rtype: np.ndarray
         """
-        # todo: check if correct, lots of sources online disagree
+        # TODO: check if correct, lots of sources online disagree
         norm_comp_vis = np.exp(
             -1
             * np.pi**2
@@ -664,7 +664,7 @@ class ThinAccDiskSpecDep(SpecDep):
             the units of both input and output will correspond to those of x_ref and ref_flux.
         :rtype: np.ndarray | float
         """
-        # todo: implement!
+        # TODO: implement!
         return
 
 

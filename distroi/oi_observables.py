@@ -264,7 +264,7 @@ class OIContainer:
 def read_oicontainer_oifits(
     data_dir: str,
     data_file: str,
-    wave_lims: tuple[float, float] = None,
+    wave_lims: tuple[float, float] | None = None,
     v2lim: float = None,
     fcorr: bool = False,
 ) -> OIContainer:
@@ -502,13 +502,13 @@ def calc_mod_observables(
         "vvf": container_data.vvf,
         "vwave": container_data.vwave,
         "v": vmod,
-        "verr": container_data.verr,
+        "verr": np.zeros_like(container_data.verr),
         "vbase": container_data.vbase,
         "v2uf": container_data.v2uf,
         "v2vf": container_data.v2vf,
         "v2wave": container_data.v2wave,
         "v2": v2mod,
-        "v2err": container_data.v2err,
+        "v2err": np.zeros_like(container_data.v2err),
         "v2base": container_data.v2base,
         "t3uf1": container_data.t3uf1,
         "t3vf1": container_data.t3vf1,
@@ -518,7 +518,7 @@ def calc_mod_observables(
         "t3vf3": container_data.t3vf3,
         "t3wave": container_data.t3wave,
         "t3phi": t3phimod,
-        "t3phierr": container_data.t3phierr,
+        "t3phierr": np.zeros_like(container_data.t3phierr),
         "t3bmax": container_data.t3bmax,
     }
 
@@ -838,6 +838,17 @@ if __name__ == "__main__":
     container_data = read_oicontainer_oifits(data_dir, data_file)
     fig_dir = f"{data_dir}/figures/"
     container_data.plot_data(fig_dir=fig_dir)
+
+    u = container_data.v2uf
+    v = container_data.v2vf
+    max_uv_dist = np.max(
+        np.sqrt(u**2 + v**2)
+    )  # max distance in 1/rad from origin, sets pixelscale for image space
+    pix_res = (
+        0.5 / max_uv_dist
+    ) * constants.RAD2MAS  # smallest resolution element (at Nyquist sampling)
+    print(f"resolution element is: {pix_res:.4E}")
+
     beam = calc_gaussian_beam(
         container_data,
         vistype="vis2",
@@ -848,4 +859,4 @@ if __name__ == "__main__":
         pix_per_res=64,
     )
 
-    print('shabooble')
+    print("shabooble")
