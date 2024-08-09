@@ -9,10 +9,13 @@ project.
 :var float MAS2RAD: Conversion of milli-arcsecond to radian.
 :var float RAD2MAS: Conversion of radian to milli-arcsecond.
 :var float MICRON2M: Conversion of meter to micrometer/micron.
+:var float M2MICRON: Conversion of micrometer/micron to meter.
 :var float MICRON2AA: Conversion of micrometer/micron to Angstrom.
 :var float AA2MICRON: Conversion of Angstrom to micrometer/micron.
-:var float M2MICRON: Conversion of micrometer/micron to meter.
 :var float WATT_PER_METER2_HZ_2JY: Flux density conversion of W m^-2 Hz^-1 to Jansky (Jy).
+:var float JY_2WATT_PER_METER2_HZ: Flux density conversion of Jansky (Jy) to W m^-2 Hz^-1.
+:var float ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M: Flux density conversion of erg s^-1 cm^-2 micron^-1 to W m^-2 m^-1.
+:var float WATT_PER_M2_M_2ERG_PER_S_CM2_MICRON: Flux density conversion of W m^-2 m^-1 to erg s^-1 cm^-2 micron^-1.
 """
 
 import os
@@ -24,16 +27,12 @@ import matplotlib.pyplot as plt
 from scipy.interpolate import interp1d
 
 # constants
-PROJECT_ROOT: str = os.path.dirname(
-    os.path.dirname(os.path.abspath(__file__))
-)  # root of the package
+PROJECT_ROOT: str = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # root of the package
 SPEED_OF_LIGHT: float = 299792458.0  # speed of light in SI units (m s^-1)
 K_BOLTZMANN: float = 1.380649e-23  # Boltzmann's constant in SI unis (J K^-1)
 H_PLANCK: float = 6.62607015e-34  # Planck constant in SI units (J Hz^-1)
 B_WIEN: float = 2.897771955e-3  # Wien's displacement constant in SI units (m K)
-SIG_STEFAN_BOLTZMANN: float = (
-    5.670374419e-8  # Stefan-Boltzmann constant in SI units (W m^-2 K^-4)
-)
+SIG_STEFAN_BOLTZMANN: float = 5.670374419e-8  # Stefan-Boltzmann constant in SI units (W m^-2 K^-4)
 
 # unit conversions
 DEG2RAD: float = np.pi / 180  # degree to radian
@@ -46,21 +45,11 @@ HZ2GHZ: float = 1e-9  # Hertz to gigaHertz
 GHZ2HZ: float = 1 / HZ2GHZ  # gigaHertz to Hertz
 MICRON2AA: float = 1e4  # micron to angstrom
 AA2MICRON: float = 1 / MICRON2AA  # angstrom to micron
-WATT_PER_M2_HZ_2JY: float = (
-    1e26  # conversion spectral flux density (F_nu) from SI (W m^-2 Hz^-1) to Jansky
-)
-JY_2WATT_PER_M2_HZ: float = (
-    1 / WATT_PER_M2_HZ_2JY
-)  # conversion spectral flux density (F_nu) from Jansky to SI
-ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M: float = (
-    1e3  # conversion spectral flux density (F_lam)
-)
+WATT_PER_M2_HZ_2JY: float = 1e26  # conversion spectral flux density (F_nu) from SI (W m^-2 Hz^-1) to Jansky
+JY_2WATT_PER_M2_HZ: float = 1 / WATT_PER_M2_HZ_2JY  # conversion spectral flux density (F_nu) from Jansky to SI
+ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M: float = 1e3  # conversion spectral flux density (F_lam)
 # from erg s^-1 cm^-2 micron^-1  to SI (W m^-2 m^-1)
-WATT_PER_M2_M_2ERG_PER_S_CM2_MICRON: float = (
-    1 / ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M
-)  # conversion spectral flux density
-
-
+WATT_PER_M2_M_2ERG_PER_S_CM2_MICRON: float = 1 / ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M  # conversion spectral flux density
 # (F_lam) from SI (W m^-2 m^-1) to erg s^-1 cm^-2 micron^-1
 
 
@@ -96,8 +85,7 @@ def redden_flux(
     wavelength: np.ndarray | float,
     flux: np.ndarray | float,
     ebminv: float,
-    reddening_law: str = PROJECT_ROOT
-    + "/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat",
+    reddening_law: str = PROJECT_ROOT + "/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat",
 ) -> np.ndarray:
     """
     Takes wavelength(s) and the associated flux values, and reddens them according to the specified E(B-V) value.
@@ -118,9 +106,7 @@ def redden_flux(
         return flux
     else:
         # read in the ISM reddening law wavelengths in Angström and A/E in magnitude
-        df_law = pd.read_csv(
-            reddening_law, header=2, names=["WAVE", "A/E"], sep=r"\s+", engine="python"
-        )
+        df_law = pd.read_csv(reddening_law, header=2, names=["WAVE", "A/E"], sep=r"\s+", engine="python")
         # set wavelength to micrometer
         wave_law = np.array(df_law["WAVE"]) * AA2MICRON
         ae_law = np.array(df_law["A/E"])
@@ -134,9 +120,7 @@ def redden_flux(
 
 
 # blackbody radiance functions
-def bb_flam_at_wavelength(
-    wavelength: np.ndarray | float, temp: float
-) -> np.ndarray | float:
+def bb_flam_at_wavelength(wavelength: np.ndarray | float, temp: float) -> np.ndarray | float:
     """
     Given a temperature and wavelength, returns the spectral radiance of a blackbody curve in B_lam format and SI units.
 
@@ -152,9 +136,7 @@ def bb_flam_at_wavelength(
     return radiance
 
 
-def bb_flam_at_frequency(
-    frequency: np.ndarray | float, temp: float
-) -> np.ndarray | float:
+def bb_flam_at_frequency(frequency: np.ndarray | float, temp: float) -> np.ndarray | float:
     """
     Given a temperature and frequency, returns the spectral radiance of a blackbody curve in B_lam format and SI units.
 
@@ -168,9 +150,7 @@ def bb_flam_at_frequency(
     return radiance
 
 
-def bb_fnu_at_frequency(
-    frequency: np.ndarray | float, temp: float
-) -> np.ndarray | float:
+def bb_fnu_at_frequency(frequency: np.ndarray | float, temp: float) -> np.ndarray | float:
     """
     Given a temperature and wavelength, returns the spectral radiance of a blackbody curve in B_nu format and SI units.
 
@@ -179,15 +159,11 @@ def bb_fnu_at_frequency(
     :return radiance: B_nu spectral radiance of the blackbody in SI units (W m^-2 Hz^-1 sterradian^-1).
     :rtype: float
     """
-    radiance = (2 * H_PLANCK * frequency**3 / SPEED_OF_LIGHT**2) / (
-        np.exp(H_PLANCK * frequency / (K_BOLTZMANN * temp)) - 1
-    )
+    radiance = (2 * H_PLANCK * frequency**3 / SPEED_OF_LIGHT**2) / (np.exp(H_PLANCK * frequency / (K_BOLTZMANN * temp)) - 1)
     return radiance
 
 
-def bb_fnu_at_wavelength(
-    wavelength: np.ndarray | float, temp: float
-) -> np.ndarray | float:
+def bb_fnu_at_wavelength(wavelength: np.ndarray | float, temp: float) -> np.ndarray | float:
     """
     Given a temperature and wavelength, returns the spectral radiance of a blackbody curve in B_nu format and SI units.
 
@@ -202,9 +178,7 @@ def bb_fnu_at_wavelength(
 
 
 # flux convertion functions for all these silly astronomy units
-def flam_cgs_per_mum_to_fnu_jansky(
-    flam: np.ndarray | float, wavelength: np.ndarray | float
-) -> np.ndarray | float:
+def flam_cgs_per_mum_to_fnu_jansky(flam: np.ndarray | float, wavelength: np.ndarray | float) -> np.ndarray | float:
     """
     Function to convert spectral flux densities in F_lam format and units of erg s^-1 cm^-2 micron^-1 to F_nu format in Jansky
     (Jy). Wavelengths are in micron.
@@ -223,16 +197,7 @@ def flam_cgs_per_mum_to_fnu_jansky(
 
 
 if __name__ == "__main__":
-    print(
-        (
-            WATT_PER_M2_HZ_2JY
-            * MICRON2M**2
-            * ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M
-            / SPEED_OF_LIGHT
-        )
-        * 6.743e-10
-        * 0.36**2
-    )
+    print((WATT_PER_M2_HZ_2JY * MICRON2M**2 * ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M / SPEED_OF_LIGHT) * 6.743e-10 * 0.36**2)
     # fig, ax = plt.subplots(1, 1)
     # temp = 2000
     # wave = np.linspace(1.0, 3.0, 100)
