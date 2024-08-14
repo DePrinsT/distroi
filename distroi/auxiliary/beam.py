@@ -1,7 +1,7 @@
 """
-Contains a class to represent a model for the OI point spread function (PSF) (a Gaussian fit). The formal PSF is called the
-'dirty beam'. Methods to calculate the dirty beam from the uv coverage of an OIContainer object and get a fit to the dirty beam's
-inner few resolution elements (a 'Gaussian beam') are included.
+Contains a class to represent a model for the OI point spread function (PSF) (a Gaussian fit). The formal PSF
+is called the 'dirty beam'. Methods to calculate the dirty beam from the uv coverage of an OIContainer object and
+get a fit to the dirty beam's inner few resolution elements (a 'Gaussian beam') are included.
 """
 
 from distroi import constants
@@ -35,6 +35,9 @@ class Beam:
     """
 
     def __init__(self, dictionary):
+        """
+        Initializes a Beam object.
+        """
         self.sig_min = dictionary["sig_min"]  # sigma along short axis in mas
         self.sig_maj = dictionary["sig_maj"]  # sigma y in mas
         self.pa = dictionary["pa"]  # position angle (PA) in degrees
@@ -87,19 +90,11 @@ def gaussian_2d(
 
     # set multiplication factors for representing the rotation matrix
     # note the matrix assumes positive x is to the right, so we also add a minus to the
-    a = (np.cos(theta) ** 2) / (2 * sig_min**2) + (np.sin(theta) ** 2) / (
-        2 * sig_maj**2
-    )
+    a = (np.cos(theta) ** 2) / (2 * sig_min**2) + (np.sin(theta) ** 2) / (2 * sig_maj**2)
     b = -(np.sin(2 * theta)) / (4 * sig_min**2) + (np.sin(2 * theta)) / (4 * sig_maj**2)
-    c = (np.sin(theta) ** 2) / (2 * sig_min**2) + (np.cos(theta) ** 2) / (
-        2 * sig_maj**2
-    )
-    values = offset + amp * np.exp(
-        -(a * ((x - x0) ** 2) + 2 * b * (x - x0) * (y - y0) + c * ((y - y0) ** 2))
-    )
-    values = np.array(
-        values
-    ).ravel()  # ravel to a 1D array, so it can be used in scipy curve fitting
+    c = (np.sin(theta) ** 2) / (2 * sig_min**2) + (np.cos(theta) ** 2) / (2 * sig_maj**2)
+    values = offset + amp * np.exp(-(a * ((x - x0) ** 2) + 2 * b * (x - x0) * (y - y0) + c * ((y - y0) ** 2)))
+    values = np.array(values).ravel()  # ravel to a 1D array, so it can be used in scipy curve fitting
 
     return values
 
@@ -128,9 +123,10 @@ def calc_gaussian_beam(
     :param str fig_dir: Set to a directory in which you want the plots to be saved.
     :param show_plots: Set to True if you want the generated plots to be shown in a window.
     :param int num_res: The number of resolution elements to be included in the calculation. A resolution element is
-        defined as 1 / (2 x 'max_uv'), with max_uv the maximum norm of the probed uv frequency points. Set to 2 by default.
-        Going above this can skew the Gaussian fit or cause it to fail, as the non-Gaussian behavior of the PSF becomes
-        more apparent further away from the dirty beam center. It will also increase calculation time as O(n^2).
+        defined as 1 / (2 x 'max_uv'), with max_uv the maximum norm of the probed uv frequency points.
+        Set to 2 by default. Going above this can skew the Gaussian fit or cause it to fail, as the non-Gaussian
+        behavior of the PSF becomes more apparent further away from the dirty beam center.
+        It will also increase calculation time as O(n^2).
     :param int pix_per_res: Amount of dirty beam pixels used per resolution element. This should be even.
         Set to 32 by default. Increasing this can significantly increase computation time (scales as O(n^2)).
     :return gauss_beam: Beam object containing the information of the Gaussian fit.
@@ -138,9 +134,7 @@ def calc_gaussian_beam(
 
     """
     if pix_per_res % 2 != 0:
-        print(
-            "calc_gaussian_beam() currently only supports even values for 'pix_per_res'. Function will return None!"
-        )
+        print("calc_gaussian_beam() currently only supports even values for 'pix_per_res'. Function will return None!")
         return None
 
     if vistype == "vis2":
@@ -150,22 +144,14 @@ def calc_gaussian_beam(
         u = container.vuf
         v = container.vvf
 
-    max_uv_dist = np.max(
-        np.sqrt(u**2 + v**2)
-    )  # max distance in 1/rad from origin, sets pixelscale for image space
-    pix_res = (
-        0.5 / max_uv_dist
-    ) * constants.RAD2MAS  # smallest resolution element (at Nyquist sampling)
-    pixelscale = (
-        pix_res / pix_per_res
-    )  # overresolve the dirty beam so the image is clearer
+    max_uv_dist = np.max(np.sqrt(u**2 + v**2))  # max distance in 1/rad from origin, sets pixelscale for image space
+    pix_res = (0.5 / max_uv_dist) * constants.RAD2MAS  # smallest resolution element (at Nyquist sampling)
+    pixelscale = pix_res / pix_per_res  # overresolve the dirty beam so the image is clearer
     num_pix = num_res * pix_per_res
     fov = num_pix * pixelscale  # fov in mas
 
     # note we do not make x go from high to low in this array, since plotting with extent already does that for us
-    x = np.linspace(
-        -fov / 2 + 0.5 * pixelscale, fov / 2 - 0.5 * pixelscale, num_pix
-    )  # get image pixel centres
+    x = np.linspace(-fov / 2 + 0.5 * pixelscale, fov / 2 - 0.5 * pixelscale, num_pix)  # get image pixel centres
     y = np.linspace(-fov / 2 + 0.5 * pixelscale, fov / 2 - 0.5 * pixelscale, num_pix)
     x, y = np.meshgrid(x, y)  # put into a meshgrid
 
@@ -174,13 +160,7 @@ def calc_gaussian_beam(
     for i in range(np.shape(img_dirty)[0]):
         for j in range(np.shape(img_dirty)[1]):
             # convert image positions to rad for multiplication with u, v (in 1/rad)
-            img_dirty[i][j] = np.sum(
-                np.real(
-                    np.exp(
-                        2j * np.pi * ((x[i][j] * u) + (y[i][j] * v)) * constants.MAS2RAD
-                    )
-                )
-            )
+            img_dirty[i][j] = np.sum(np.real(np.exp(2j * np.pi * ((x[i][j] * u) + (y[i][j] * v)) * constants.MAS2RAD)))
     # normalize dirty image to maximum value (makes fitting easier)
     img_dirty /= np.max(img_dirty)
 
@@ -191,20 +171,13 @@ def calc_gaussian_beam(
         [0, -np.inf, -np.inf, 0, 0, -90.01, -np.inf],
         [np.inf, np.inf, np.inf, np.inf, np.inf, 90.01, np.inf],
     )  # defined so sig_maj >= sig_min
-    popt_and_cov = curve_fit(
-        gaussian_2d, (x, y), np.ravel(img_dirty), p0=init_guess, bounds=bounds
-    )
-    popt, pcov = (
-        popt_and_cov[0],
-        popt_and_cov[1],
-    )  # extract optimized parameters and covariance matrix
+    popt_and_cov = curve_fit(gaussian_2d, (x, y), np.ravel(img_dirty), p0=init_guess, bounds=bounds)
+    popt = popt_and_cov[0]  # extract optimized parameter.
 
     # make beam object
     dictionary = {"sig_min": popt[3], "sig_maj": popt[3] + popt[4]}
     if popt[5] < 0:  # PA in degrees
-        dictionary["pa"] = (
-            popt[5] + 180
-        )  # always set PA as positive (between 0 and 180)
+        dictionary["pa"] = popt[5] + 180  # always set PA as positive (between 0 and 180)
     else:
         dictionary["pa"] = popt[5]
 
@@ -214,7 +187,7 @@ def calc_gaussian_beam(
         fig, ax = plt.subplots(2, 2, figsize=(10, 10), sharey=True)
         color_map = "inferno_r"
         # plot dirty beam
-        img_dirty_plot = ax[0][0].imshow(
+        ax[0][0].imshow(
             img_dirty,
             aspect="auto",
             cmap=color_map,
@@ -368,9 +341,7 @@ def calc_gaussian_beam(
         if fig_dir is not None:
             if not os.path.exists(fig_dir):
                 os.makedirs(fig_dir)
-            plt.savefig(
-                f"{fig_dir}/dirty_beam_fit.png", dpi=300, bbox_inches="tight"
-            )  # save if fig_dir not None
+            plt.savefig(f"{fig_dir}/dirty_beam_fit.png", dpi=300, bbox_inches="tight")  # save if fig_dir not None
         if show_plots:
             plt.show()  # show plot if asked
 

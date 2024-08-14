@@ -1,9 +1,11 @@
 """
-Provides function to interactively plot multiple OIFITS files as a time-series, allowing the user to specify and adapt a certain
-time window. In other words, it allows the user to investigate the timebase of the observations. Functionalities are provided to
-plot the uv coverage of data within the time window, and retrieve the paths of OIFITS files with observations within the time
-window (and optionally copy them to a specified directory). NOTE: Because of the spawning of interactive plots,
-this functionalities in this module cannot be properly used in jupyter  notebooks, instead use them within a python script.
+Provides function to interactively plot multiple OIFITS files as a time-series, allowing the user to specify and adapt
+a certain time window. In other words, it allows the user to investigate the timebase of the observations.
+Functionalities are provided to plot the uv coverage of data within the time window, and retrieve
+the paths of OIFITS files with observations within the time window (and optionally copy them to a specified directory).
+
+NOTE: Because of the spawning of interactive plots, this functionalities in this module cannot be properly used
+in jupyter notebooks, instead use them within a python script.
 """
 
 import os
@@ -29,8 +31,8 @@ def timestamp_to_plt_float(date_time: pd.Timestamp) -> float:
     to floats for plotting purposes.
 
     :param pd.Timestamp date_time: Pandas Timestamp instance.
-    :return date_plt_float: The Timestamp converted to a float value to be used in matplotlib when specifying e.g. position along
-        the axes.
+    :return date_plt_float: The Timestamp converted to a float value to be used in matplotlib when specifying e.g.
+        position along the axes.
     :rtype: float
     """
     date_ref = pd.to_datetime(0, unit="D")  # reference date at midnight 1970-01-01 UTC
@@ -40,26 +42,26 @@ def timestamp_to_plt_float(date_time: pd.Timestamp) -> float:
     return date_plt_float
 
 
-def time_window_plot(
-    data_dir: str, data_file: str, init_window_width: float, copy_dir: str = None
-) -> list[str] | None:
+def time_window_plot(data_dir: str, data_file: str, init_window_width: float, copy_dir: str = None) -> list[str] | None:
     """
-    Produces an interactive matplotlib plot showing the specified OIFITS file as a time-series. The specified time window is
-    shown as a red-shaded area. Sliders are provided to change the position and width of this time window. The 'uv coverage'
-    button can then be clicked in order to plot the uv coverage of the data included within the time window. If the copy_dir
-    argument is passed along, the 'Copy files' button can be pressed to copy over the OIFITS file which contain observations
-    within the interactively set time window. After all plots are closed, returns a list with the filepaths of these OIFITS files.
-    NOTE: Because the uv coverage button spawns another plot, this function cannot be properly used in jupyter notebooks,
-    instead use this method within a python script.
+    Produces an interactive matplotlib plot showing the specified OIFITS file as a time-series.
+    The specified time window is shown as a red-shaded area. Sliders are provided to change the position and width
+    of this time window. The 'uv coverage' button can then be clicked in order to plot the uv coverage of the data
+    included within the time window. If the copy_dir argument is passed along, the 'Copy files' button can be
+    pressed to copy over the OIFITS file which contain observations within the interactively set time window.
+    After all plots are closed, returns a list with the filepaths of these OIFITS files.
+
+    NOTE: Because the uv coverage button spawns another plot,
+    this function cannot be properly used in jupyter notebooks, instead use this method within a python script.
 
     :param str data_dir: Path to the directory where the OIFITS files are stored.
     :param str data_file: Data filename. Use wildcards to read in multiple files at once.
-    :param float init_window_width: Initial width of the time window in days. Needs to be larger or equal to 1 day or function
-        will not plot and return None instead.
-    :param str copy_dir: If specified, the OIFITS files that have observations within the interactively set time window will be
-        copied to this directory upon using the 'Copy files' button.
+    :param float init_window_width: Initial width of the time window in days. Needs to be larger or equal to 1 day or
+        function will not plot and return None instead.
+    :param str copy_dir: If specified, the OIFITS files that have observations within the interactively set time window
+        will be copied to this directory upon using the 'Copy files' button.
     :return files_within_window: List of filepaths corresponding to the OIFITS files that have observations within the
-         interactively set time window.
+        interactively set time window.
     :rtype: list[str]
     """
 
@@ -76,9 +78,7 @@ def time_window_plot(
     v_coordinates = []  # list to assign v-direction baseline lengths in meter
 
     # retrieve date and UV-coverage information from the OIFITS files
-    filepaths = sorted(
-        glob.glob(f"{data_dir}{data_file}", recursive=True)
-    )  # get filenames
+    filepaths = sorted(glob.glob(f"{data_dir}{data_file}", recursive=True))  # get filenames
     for filepath in filepaths:
         hdul = fits.open(filepath)  # open oifits file
         insname_to_eff_wave_dict = {}  # dictionary to associate the OIFITS INSNAME keywoard to wavelength values
@@ -86,77 +86,47 @@ def time_window_plot(
         for hdu in hdul:
             if hdu.name == "OI_WAVELENGTH":
                 insname = hdu.header["INSNAME"]  # INSNAME keyword
-                eff_wave_col_index = hdu.columns.names.index(
-                    "EFF_WAVE"
-                )  # column index for effective wavelength
+                eff_wave_col_index = hdu.columns.names.index("EFF_WAVE")  # column index for effective wavelength
                 hdu_wavelengths = []  # list to keep wavelength values in
                 for row in hdu.data:
                     hdu_wavelengths.append(row[eff_wave_col_index])
-                insname_to_eff_wave_dict[insname] = (
-                    hdu_wavelengths  # add to dictionary linking INSNAME and wavelengths
-                )
+                insname_to_eff_wave_dict[insname] = hdu_wavelengths  # add to dictionary linking INSNAME and wavelengths
 
             if hdu.name == "OI_VIS2":  # for squared visibility tables
                 insname = hdu.header["INSNAME"]  # INSNAME keyword
-                mjd_col_index = hdu.columns.names.index(
-                    "MJD"
-                )  # column index for modified julian date (MJD)
-                ucoord_col_index = hdu.columns.names.index(
-                    "UCOORD"
-                )  # column index for projected u-baseline (in meter)
-                vcoord_col_index = hdu.columns.names.index(
-                    "VCOORD"
-                )  # column index for projected v-baseline (in meter)
+                mjd_col_index = hdu.columns.names.index("MJD")  # column index for modified julian date (MJD)
+                ucoord_col_index = hdu.columns.names.index("UCOORD")  # column index for projected u-baseline (in meter)
+                vcoord_col_index = hdu.columns.names.index("VCOORD")  # column index for projected v-baseline (in meter)
                 for row in hdu.data:
                     eff_wavelengths = insname_to_eff_wave_dict[insname]
 
-                    wavelengths.extend(
-                        eff_wavelengths
-                    )  # add wavelengths to the corresponding list
-                    file_names.extend(
-                        [filepath] * len(eff_wavelengths)
-                    )  # add filename to the list
+                    wavelengths.extend(eff_wavelengths)  # add wavelengths to the corresponding list
+                    file_names.extend([filepath] * len(eff_wavelengths))  # add filename to the list
                     obs_mjd.extend(
                         [row[mjd_col_index]] * len(eff_wavelengths)
                     )  # add rounded off MJD date to the set of dates
-                    u_coordinates.extend(
-                        [row[ucoord_col_index]] * len(eff_wavelengths)
-                    )  # add uv coordinates
+                    u_coordinates.extend([row[ucoord_col_index]] * len(eff_wavelengths))  # add uv coordinates
                     v_coordinates.extend([row[vcoord_col_index]] * len(eff_wavelengths))
 
             if hdu.name == "OI_VIS":  # for visibility tables
                 insname = hdu.header["INSNAME"]  # INSNAME keyword
-                mjd_col_index = hdu.columns.names.index(
-                    "MJD"
-                )  # column index for modified julian date (MJD)
-                ucoord_col_index = hdu.columns.names.index(
-                    "UCOORD"
-                )  # column index for projected u-baseline (in meter)
-                vcoord_col_index = hdu.columns.names.index(
-                    "VCOORD"
-                )  # column index for projected v-baseline (in meter)
+                mjd_col_index = hdu.columns.names.index("MJD")  # column index for modified julian date (MJD)
+                ucoord_col_index = hdu.columns.names.index("UCOORD")  # column index for projected u-baseline (in meter)
+                vcoord_col_index = hdu.columns.names.index("VCOORD")  # column index for projected v-baseline (in meter)
                 for row in hdu.data:
                     eff_wavelengths = insname_to_eff_wave_dict[insname]
 
-                    wavelengths.extend(
-                        eff_wavelengths
-                    )  # add wavelengths to the corresponding list
-                    file_names.extend(
-                        [filepath] * len(eff_wavelengths)
-                    )  # add filename to the list
+                    wavelengths.extend(eff_wavelengths)  # add wavelengths to the corresponding list
+                    file_names.extend([filepath] * len(eff_wavelengths))  # add filename to the list
                     obs_mjd.extend(
                         [row[mjd_col_index]] * len(eff_wavelengths)
                     )  # add rounded off MJD date to the set of dates
-                    u_coordinates.extend(
-                        [row[ucoord_col_index]] * len(eff_wavelengths)
-                    )  # add uv coordinates
+                    u_coordinates.extend([row[ucoord_col_index]] * len(eff_wavelengths))  # add uv coordinates
                     v_coordinates.extend([row[vcoord_col_index]] * len(eff_wavelengths))
 
             if hdu.name == "OI_T3":  # for closure phase tables
                 insname = hdu.header["INSNAME"]  # INSNAME keyword
-                mjd_col_index = hdu.columns.names.index(
-                    "MJD"
-                )  # column index for modified julian date (MJD)
+                mjd_col_index = hdu.columns.names.index("MJD")  # column index for modified julian date (MJD)
                 u1coord_col_index = hdu.columns.names.index(
                     "U1COORD"
                 )  # column index for 1st projected u-baseline (in meter)
@@ -172,52 +142,26 @@ def time_window_plot(
                 for row in hdu.data:
                     eff_wavelengths = insname_to_eff_wave_dict[insname]
 
-                    wavelengths.extend(
-                        eff_wavelengths
-                    )  # add wavelengths to the corresponding list
-                    file_names.extend(
-                        [filepath] * len(eff_wavelengths)
-                    )  # add filename to the list
+                    wavelengths.extend(eff_wavelengths)  # add wavelengths to the corresponding list
+                    file_names.extend([filepath] * len(eff_wavelengths))  # add filename to the list
                     obs_mjd.extend(
                         [row[mjd_col_index]] * len(eff_wavelengths)
                     )  # add rounded off MJD date to the set of dates
-                    u_coordinates.extend(
-                        [row[u1coord_col_index]] * len(eff_wavelengths)
-                    )  # add uv coordinates
-                    v_coordinates.extend(
-                        [row[v1coord_col_index]] * len(eff_wavelengths)
-                    )
+                    u_coordinates.extend([row[u1coord_col_index]] * len(eff_wavelengths))  # add uv coordinates
+                    v_coordinates.extend([row[v1coord_col_index]] * len(eff_wavelengths))
 
-                    wavelengths.extend(
-                        eff_wavelengths
-                    )  # add wavelengths to the corresponding list
-                    file_names.extend(
-                        [filepath] * len(eff_wavelengths)
-                    )  # add filename to the list
+                    wavelengths.extend(eff_wavelengths)  # add wavelengths to the corresponding list
+                    file_names.extend([filepath] * len(eff_wavelengths))  # add filename to the list
                     obs_mjd.extend([row[mjd_col_index]] * len(eff_wavelengths))
-                    u_coordinates.extend(
-                        [row[u2coord_col_index]] * len(eff_wavelengths)
-                    )
-                    v_coordinates.extend(
-                        [row[v2coord_col_index]] * len(eff_wavelengths)
-                    )
+                    u_coordinates.extend([row[u2coord_col_index]] * len(eff_wavelengths))
+                    v_coordinates.extend([row[v2coord_col_index]] * len(eff_wavelengths))
 
                     # also for 3rd baseline in the closure triangle
-                    wavelengths.extend(
-                        eff_wavelengths
-                    )  # add wavelengths to the corresponding list
-                    file_names.extend(
-                        [filepath] * len(eff_wavelengths)
-                    )  # add filename to the list
+                    wavelengths.extend(eff_wavelengths)  # add wavelengths to the corresponding list
+                    file_names.extend([filepath] * len(eff_wavelengths))  # add filename to the list
                     obs_mjd.extend([row[mjd_col_index]] * len(eff_wavelengths))
-                    u_coordinates.extend(
-                        [row[u1coord_col_index] + row[u2coord_col_index]]
-                        * len(eff_wavelengths)
-                    )
-                    v_coordinates.extend(
-                        [row[v1coord_col_index] + row[v2coord_col_index]]
-                        * len(eff_wavelengths)
-                    )
+                    u_coordinates.extend([row[u1coord_col_index] + row[u2coord_col_index]] * len(eff_wavelengths))
+                    v_coordinates.extend([row[v1coord_col_index] + row[v2coord_col_index]] * len(eff_wavelengths))
 
     # cast to numpy arrays
     wavelengths, u_coordinates, v_coordinates = (
@@ -230,21 +174,17 @@ def time_window_plot(
 
     # (Modified) Julian Date float formats
     obs_mjd = np.array(obs_mjd)  # array of rounded modified julian dates
-    obs_timespan = abs(
-        np.max(obs_mjd) - np.min(obs_mjd)
-    )  # total time spanned accross all observations in days
+    obs_timespan = abs(np.max(obs_mjd) - np.min(obs_mjd))  # total time spanned accross all observations in days
 
     # pandas Timestamp format (for plotting in matplotlib with date labels)
     obs_jd = obs_mjd + 2400000.5  # convert MJD to julian dates first
     date_times = pd.to_datetime(
         np.array(list(set(obs_jd))), origin="julian", unit="D"
     )  # no duplicates +  cast to Timestamp
-    date_timespan = np.max(date_times) - np.min(
-        date_times
-    )  # timespan in Timestamp format
-    date_init_time_window = pd.to_datetime(
-        init_window_width, unit="D"
-    ) - pd.to_datetime(0, unit="D")  # window in Timestamp
+    date_timespan = np.max(date_times) - np.min(date_times)  # timespan in Timestamp format
+    date_init_time_window = pd.to_datetime(init_window_width, unit="D") - pd.to_datetime(
+        0, unit="D"
+    )  # window in Timestamp
     # format
 
     # interactive plot with sliders to adapt time window
@@ -316,9 +256,7 @@ def time_window_plot(
         color="r",
         alpha=0.3,
     )
-    uv_coverage_plot_button = Button(
-        uv_coverage_plot_button_ax, "uv coverage", color="white"
-    )
+    uv_coverage_plot_button = Button(uv_coverage_plot_button_ax, "uv coverage", color="white")
 
     # create initial list containing the files with observations within the specified time window
     files_within_window = []
@@ -329,28 +267,20 @@ def time_window_plot(
             <= np.min(obs_mjd) + window_t0_slider.val + window_width_slider.val
         ):
             files_within_window.append(file_names[j])
-    files_within_window = list(
-        sorted(set(files_within_window))
-    )  # remove duplicates and sort
+    files_within_window = list(sorted(set(files_within_window)))  # remove duplicates and sort
 
     def window_t0_slider_on_change(val):  # update function for time window t0 slider
         files_within_window.clear()  # clear the within window filelist
         # select datapoints within timewindow and the associated filenames
-        mjd_t0_slider = (
-            np.min(obs_mjd) + window_t0_slider.val
-        )  # beginning of time window t0 slider in MJD
+        mjd_t0_slider = np.min(obs_mjd) + window_t0_slider.val  # beginning of time window t0 slider in MJD
 
         file_name_selection = []
         for j in range(0, len(obs_mjd)):  # append values only within time window
             if mjd_t0_slider <= obs_mjd[j] <= (mjd_t0_slider + window_width_slider.val):
                 file_name_selection.append(file_names[j])
-        files_within_window.extend(
-            sorted(set(file_name_selection))
-        )  # remake the files within window list
+        files_within_window.extend(sorted(set(file_name_selection)))  # remake the files within window list
 
-        t_begin_span = (
-            timestamp_to_plt_float(np.min(date_times)) + val
-        )  # set beginning of vspan
+        t_begin_span = timestamp_to_plt_float(np.min(date_times)) + val  # set beginning of vspan
         # adapt polygon vertices accordingly
         vspan.set_xy(
             np.array(
@@ -371,17 +301,13 @@ def time_window_plot(
     ):  # update function for time window width slider
         files_within_window.clear()  # clear the within window filelist
         # select datapoints within timewindow and the associated filenames
-        mjd_t0_slider = (
-            np.min(obs_mjd) + window_t0_slider.val
-        )  # beginning of time window t0 slider in MJD
+        mjd_t0_slider = np.min(obs_mjd) + window_t0_slider.val  # beginning of time window t0 slider in MJD
 
         file_name_selection = []
         for j in range(0, len(obs_mjd)):  # append values only within time window
             if mjd_t0_slider <= obs_mjd[j] <= (mjd_t0_slider + window_width_slider.val):
                 file_name_selection.append(file_names[j])
-        files_within_window.extend(
-            sorted(set(file_name_selection))
-        )  # remake the files within window list
+        files_within_window.extend(sorted(set(file_name_selection)))  # remake the files within window list
         window_t0_slider_on_change(window_t0_slider.val)
 
         return
@@ -390,9 +316,7 @@ def time_window_plot(
         files_within_window.clear()  # clear the within window filelist
 
         # select datapoints within timewindow and the associated filenames
-        mjd_t0_slider = (
-            np.min(obs_mjd) + window_t0_slider.val
-        )  # beginning of time window t0 slider in MJD
+        mjd_t0_slider = np.min(obs_mjd) + window_t0_slider.val  # beginning of time window t0 slider in MJD
 
         wavelength_selection, uf_selection, vf_selection, file_name_selection = (
             [],
@@ -416,14 +340,10 @@ def time_window_plot(
         plt.ion()  # enable interactive mode (not necessary but avoids some errors)
 
         # plot uv coverage
-        uv_cov_fig, uv_cov_ax = plt.subplots(
-            1, 1, figsize=(8, 8)
-        )  # extra figure to plot uv coverage in
+        uv_cov_fig, uv_cov_ax = plt.subplots(1, 1, figsize=(8, 8))  # extra figure to plot uv coverage in
         uv_cov_fig.subplots_adjust(right=0.8)
         uv_cov_cax = uv_cov_fig.add_axes((0.82, 0.15, 0.02, 0.7))
-        uv_cov_ax.set_aspect(
-            "equal", adjustable="datalim"
-        )  # make plot axes have the same scale
+        uv_cov_ax.set_aspect("equal", adjustable="datalim")  # make plot axes have the same scale
 
         uv_cov_ax.scatter(
             uf_selection / 1e6,
@@ -448,9 +368,7 @@ def time_window_plot(
         uv_cov_ax.set_xlabel(r"$\leftarrow B_u$ ($\mathrm{M \lambda}$)")
         uv_cov_ax.set_ylabel(r"$B_v \rightarrow$ ($\mathrm{M \lambda}$)")
 
-        files_within_window.extend(
-            sorted(set(file_name_selection))
-        )  # remake the files within window list
+        files_within_window.extend(sorted(set(file_name_selection)))  # remake the files within window list
 
         plt.show()
         return
@@ -469,9 +387,7 @@ def time_window_plot(
             if not os.path.exists(copy_dir):  # make directory if it doesn't exist yet
                 os.makedirs(copy_dir)
             for filepath in files_within_window:
-                shutil.copy(
-                    filepath, copy_dir
-                )  # copy over the files within the time window
+                shutil.copy(filepath, copy_dir)  # copy over the files within the time window
             return
 
         copy_files_button.on_clicked(copy_files_button_on_click)  # assign to button
@@ -514,9 +430,7 @@ if __name__ == "__main__":
         1288.6,
         2550.0,
     ]
-    porb_dict = dict(
-        zip(target_ids, orbital_periods)
-    )  # dictionary of targets and orbital periods
+    porb_dict = dict(zip(target_ids, orbital_periods))  # dictionary of targets and orbital periods
 
     # set properties for run
     target_id = "IRAS15469-5311"
@@ -524,14 +438,7 @@ if __name__ == "__main__":
     data_file = "*.fits"
     init_time_window = 0.15 * porb_dict[target_id]
 
-    # run time-series plotting function and print filenames of OIFITS files with observations within the plot's time window
-    # filenames = time_window_plot(data_dir, data_file, init_time_window)
-    # print(filenames)
-
     # alternative call where I copy the resulting OIFITS files withim the plot's time window to a folder in my downloads
     filenames = time_window_plot(
-        data_dir,
-        data_file,
-        init_time_window,
-        copy_dir="/home/toond/Documents/phd/img_rec/IRAS15469-5311_test_data"
+        data_dir, data_file, init_time_window, copy_dir="/home/toond/Documents/phd/img_rec/IRAS15469-5311_test_data"
     )

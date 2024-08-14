@@ -131,12 +131,8 @@ class data:
             hdr = fits.Header()
             hdr["EXTNAME"] = "OI_TARGET"
             nt = len(self.target[i].target_id)
-            targetid = fits.Column(
-                name="TARGET_ID", format="I1", array=self.target[i].target_id
-            )
-            target = fits.Column(
-                name="TARGET", format="A32", array=self.target[i].target
-            )
+            targetid = fits.Column(name="TARGET_ID", format="I1", array=self.target[i].target_id)
+            target = fits.Column(name="TARGET", format="A32", array=self.target[i].target)
             cols = fits.ColDefs([targetid, target])
             oitarget = fits.BinTableHDU.from_columns(cols, header=hdr)
             hdus.append(oitarget)
@@ -146,18 +142,10 @@ class data:
             hdr = fits.Header()
             hdr["EXTNAME"] = "OI_ARRAY"
             hdr["ARRNAME"] = self.array[i].arrname
-            telname = fits.Column(
-                name="TEL_NAME", format="A16", array=self.array[i].tel_name
-            )
-            staname = fits.Column(
-                name="STA_NAME", format="A16", array=self.array[i].sta_name
-            )
-            staid = fits.Column(
-                name="STA_INDEX", format="I1", array=self.array[i].sta_index
-            )
-            diam = fits.Column(
-                name="DIAMETER", format="E1", array=self.array[i].diameter
-            )
+            telname = fits.Column(name="TEL_NAME", format="A16", array=self.array[i].tel_name)
+            staname = fits.Column(name="STA_NAME", format="A16", array=self.array[i].sta_name)
+            staid = fits.Column(name="STA_INDEX", format="I1", array=self.array[i].sta_index)
+            diam = fits.Column(name="DIAMETER", format="E1", array=self.array[i].diameter)
             cols = fits.ColDefs([telname, staname, staid, diam])
             oiarray = fits.BinTableHDU.from_columns(cols, header=hdr)
             hdus.append(oiarray)
@@ -167,12 +155,8 @@ class data:
             hdr = fits.Header()
             hdr["EXTNAME"] = "OI_WAVELENGTH"
             hdr["INSNAME"] = self.wave[i].insname
-            effwave = fits.Column(
-                name="EFF_WAVE", format="E1", array=self.wave[i].effwave
-            )
-            effband = fits.Column(
-                name="EFF_BAND", format="E1", array=self.wave[i].effband
-            )
+            effwave = fits.Column(name="EFF_WAVE", format="E1", array=self.wave[i].effwave)
+            effband = fits.Column(name="EFF_BAND", format="E1", array=self.wave[i].effband)
             cols = fits.ColDefs([effwave, effband])
             oiwave = fits.BinTableHDU.from_columns(cols, header=hdr)
             hdus.append(oiwave)
@@ -187,31 +171,17 @@ class data:
             hdr["PHITYP"] = self.vis[i].phitype
             hdr["DATE-OBS"] = self.vis[i].dateobs
             # print(self.vis[i].targetid)
-            targetid = fits.Column(
-                name="TARGET_ID", format="1I", array=self.vis[i].targetid
-            )
+            targetid = fits.Column(name="TARGET_ID", format="1I", array=self.vis[i].targetid)
             mjd = fits.Column(name="MJD", format="1D", array=self.vis[i].mjd[:, 0])
             nw = self.vis[i].visamp.shape[1]
-            visamp = fits.Column(
-                name="VISAMP", format=str(nw) + "D", array=self.vis[i].visamp
-            )
-            visamperr = fits.Column(
-                name="VISAMPERR", format=str(nw) + "D", array=self.vis[i].visamperr
-            )
-            visphi = fits.Column(
-                name="VISPHI", format=str(nw) + "D", array=self.vis[i].visphi
-            )
-            visphierr = fits.Column(
-                name="VISPHIERR", format=str(nw) + "D", array=self.vis[i].visphierr
-            )
+            visamp = fits.Column(name="VISAMP", format=str(nw) + "D", array=self.vis[i].visamp)
+            visamperr = fits.Column(name="VISAMPERR", format=str(nw) + "D", array=self.vis[i].visamperr)
+            visphi = fits.Column(name="VISPHI", format=str(nw) + "D", array=self.vis[i].visphi)
+            visphierr = fits.Column(name="VISPHIERR", format=str(nw) + "D", array=self.vis[i].visphierr)
             ucoord = fits.Column(name="UCOORD", format="1D", array=self.vis[i].ucoord)
             vcoord = fits.Column(name="VCOORD", format="1D", array=self.vis[i].vcoord)
-            staindex = fits.Column(
-                name="STA_INDEX", format="2I", array=self.vis[i].staid
-            )
-            flag = fits.Column(
-                name="FLAG", format=str(nw) + "L", array=self.vis[i].flag
-            )
+            staindex = fits.Column(name="STA_INDEX", format="2I", array=self.vis[i].staid)
+            flag = fits.Column(name="FLAG", format=str(nw) + "L", array=self.vis[i].flag)
             cols = fits.ColDefs(
                 [
                     targetid,
@@ -236,28 +206,16 @@ class data:
             hdr["INSNAME"] = self.vis2[i].insname
             hdr["ARRNAME"] = self.vis2[i].arrname
             hdr["DATE-OBS"] = self.vis2[i].dateobs
-            targetid = fits.Column(
-                name="TARGET_ID", format="1I", array=self.vis2[i].targetid
-            )
+            targetid = fits.Column(name="TARGET_ID", format="1I", array=self.vis2[i].targetid)
             mjd = fits.Column(name="MJD", format="1D", array=self.vis2[i].mjd[:, 0])
             nw = self.vis2[i].vis2data.shape[1]
-            vis2 = fits.Column(
-                name="VIS2DATA", format=str(nw) + "D", array=self.vis2[i].vis2data
-            )
-            vis2err = fits.Column(
-                name="VIS2ERR", format=str(nw) + "D", array=self.vis2[i].vis2err
-            )
+            vis2 = fits.Column(name="VIS2DATA", format=str(nw) + "D", array=self.vis2[i].vis2data)
+            vis2err = fits.Column(name="VIS2ERR", format=str(nw) + "D", array=self.vis2[i].vis2err)
             ucoord = fits.Column(name="UCOORD", format="1D", array=self.vis2[i].ucoord)
             vcoord = fits.Column(name="VCOORD", format="1D", array=self.vis2[i].vcoord)
-            staindex = fits.Column(
-                name="STA_INDEX", format="2I", array=self.vis2[i].staid
-            )
-            flag = fits.Column(
-                name="FLAG", format=str(nw) + "L", array=self.vis2[i].flag
-            )
-            cols = fits.ColDefs(
-                [targetid, mjd, vis2, vis2err, ucoord, vcoord, staindex, flag]
-            )
+            staindex = fits.Column(name="STA_INDEX", format="2I", array=self.vis2[i].staid)
+            flag = fits.Column(name="FLAG", format=str(nw) + "L", array=self.vis2[i].flag)
+            cols = fits.ColDefs([targetid, mjd, vis2, vis2err, ucoord, vcoord, staindex, flag])
             oivis2 = fits.BinTableHDU.from_columns(cols, header=hdr)
             hdus.append(oivis2)
 
@@ -268,30 +226,18 @@ class data:
             hdr["INSNAME"] = self.t3[i].insname
             hdr["ARRNAME"] = self.t3[i].arrname
             hdr["DATE-OBS"] = self.t3[i].dateobs
-            targetid = fits.Column(
-                name="TARGET_ID", format="1I", array=self.t3[i].targetid
-            )
+            targetid = fits.Column(name="TARGET_ID", format="1I", array=self.t3[i].targetid)
             mjd = fits.Column(name="MJD", format="1D", array=self.t3[i].mjd[:, 0])
             nw = self.t3[i].t3phi.shape[1]
-            t3amp = fits.Column(
-                name="T3AMP", format=str(nw) + "D", array=self.t3[i].t3amp
-            )
-            t3amperr = fits.Column(
-                name="T3AMPERR", format=str(nw) + "D", array=self.t3[i].t3amperr
-            )
-            t3phi = fits.Column(
-                name="T3PHI", format=str(nw) + "D", array=self.t3[i].t3phi
-            )
-            t3phierr = fits.Column(
-                name="T3PHIERR", format=str(nw) + "D", array=self.t3[i].t3phierr
-            )
+            t3amp = fits.Column(name="T3AMP", format=str(nw) + "D", array=self.t3[i].t3amp)
+            t3amperr = fits.Column(name="T3AMPERR", format=str(nw) + "D", array=self.t3[i].t3amperr)
+            t3phi = fits.Column(name="T3PHI", format=str(nw) + "D", array=self.t3[i].t3phi)
+            t3phierr = fits.Column(name="T3PHIERR", format=str(nw) + "D", array=self.t3[i].t3phierr)
             u1coord = fits.Column(name="U1COORD", format="1D", array=self.t3[i].u1coord)
             v1coord = fits.Column(name="V1COORD", format="1D", array=self.t3[i].v1coord)
             u2coord = fits.Column(name="U2COORD", format="1D", array=self.t3[i].u2coord)
             v2coord = fits.Column(name="V2COORD", format="1D", array=self.t3[i].v2coord)
-            staindex = fits.Column(
-                name="STA_INDEX", format="3I", array=self.t3[i].staid
-            )
+            staindex = fits.Column(name="STA_INDEX", format="3I", array=self.t3[i].staid)
             flag = fits.Column(name="FLAG", format=str(nw) + "L", array=self.t3[i].flag)
             cols = fits.ColDefs(
                 [
@@ -320,23 +266,13 @@ class data:
             hdr["ARRNAME"] = self.flux[i].arrname
             hdr["DATE-OBS"] = self.flux[i].dateobs
             hdr["CALSTAT"] = self.flux[i].calstat
-            targetid = fits.Column(
-                name="TARGET_ID", format="1I", array=self.flux[i].targetid
-            )
+            targetid = fits.Column(name="TARGET_ID", format="1I", array=self.flux[i].targetid)
             mjd = fits.Column(name="MJD", format="1D", array=self.flux[i].mjd)
             nw = self.flux[i].fluxdata.shape[1]
-            flux = fits.Column(
-                name="FLUXDATA", format=str(nw) + "D", array=self.flux[i].fluxdata
-            )
-            fluxerr = fits.Column(
-                name="FLUXERR", format=str(nw) + "D", array=self.flux[i].fluxerr
-            )
-            staindex = fits.Column(
-                name="STA_INDEX", format="2I", array=self.flux[i].staid
-            )
-            flag = fits.Column(
-                name="FLAG", format=str(nw) + "L", array=self.flux[i].flag
-            )
+            flux = fits.Column(name="FLUXDATA", format=str(nw) + "D", array=self.flux[i].fluxdata)
+            fluxerr = fits.Column(name="FLUXERR", format=str(nw) + "D", array=self.flux[i].fluxerr)
+            staindex = fits.Column(name="STA_INDEX", format="2I", array=self.flux[i].staid)
+            flag = fits.Column(name="FLAG", format=str(nw) + "L", array=self.flux[i].flag)
             cols = fits.ColDefs([targetid, mjd, flux, fluxerr, staindex, flag])
             oiflux = fits.BinTableHDU.from_columns(cols, header=hdr)
             hdus.append(oiflux)
@@ -385,16 +321,12 @@ class data:
                 base.append(basei * 1e-6)  # express V2 baseline lengths in MegaLambda
 
             b1, b2, b3, Bmax = [], [], [], []
-            for u1i, v1i, u2i, v2i, u3i, v3i, wavei in zip(
-                u1, v1, u2, v2, u3, v3, waveCP
-            ):
+            for u1i, v1i, u2i, v2i, u3i, v3i, wavei in zip(u1, v1, u2, v2, u3, v3, waveCP):
                 b1i = np.sqrt(np.power(u1i, 2) + np.power(v1i, 2)) / wavei
                 b2i = np.sqrt(np.power(u2i, 2) + np.power(v2i, 2)) / wavei
                 b3i = np.sqrt(np.power(u3i, 2) + np.power(v3i, 2)) / wavei
                 Bmaxi = np.maximum(b1i, b2i, b3i)
-                Bmax.append(
-                    Bmaxi * 1e-6
-                )  # express max baseline length in triangle in MegaLambda
+                Bmax.append(Bmaxi * 1e-6)  # express max baseline length in triangle in MegaLambda
 
             for basei, V2i in zip(base, V2data):
                 ax1.plot(basei, V2i)  # plot V2 curves
@@ -489,9 +421,7 @@ class data:
         fig, ax = plt.subplots(1, 1)
         cax = fig.add_axes(ax)
         if lines:
-            waveV2, waveCP, base, Bmax, V2data, V2err, CPdata, CPerr = Load(
-                data
-            )  # Don't know why Load(data) is called
+            waveV2, waveCP, base, Bmax, V2data, V2err, CPdata, CPerr = Load(data)  # Don't know why Load(data) is called
             # when it wasn't previously for the V2 plot if lines=True (there lines=False used Load(data) instead).
             base /= waveV2
             u /= waveV2
@@ -499,9 +429,7 @@ class data:
         else:
             u *= 1e-6
             v *= 1e-6
-        sc = ax.scatter(
-            [u, -u], [v, -v], c=[waveV2, waveV2], s=0.1, cmap="gist_rainbow_r"
-        )
+        sc = ax.scatter([u, -u], [v, -v], c=[waveV2, waveV2], s=0.1, cmap="gist_rainbow_r")
         clb = fig.colorbar(sc)
         clb.set_label(r"Wavelength ($\mu$m)", rotation=270, labelpad=15)
         ax.set_xlabel("u (M$\lambda$)", fontsize=8)
@@ -743,9 +671,7 @@ class data:
                 v2i = self.t3[i].vf2
                 u3i, v3i = [], []
                 for x1, x2, y1, y2 in zip(u1i, u2i, v1i, v2i):
-                    u3i.extend(
-                        [x1 + x2]
-                    )  # calculating the 3d closure baseline from the other 2. IS THIS WRONG?
+                    u3i.extend([x1 + x2])  # calculating the 3d closure baseline from the other 2. IS THIS WRONG?
                     v3i.extend([y1 + y2])
                 u3i = np.reshape(u3i, np.array(u1i).shape)
                 v3i = np.reshape(v3i, np.array(v1i).shape)
@@ -969,9 +895,7 @@ class data:
         sta = hd.data["STA_NAME"]
         staid = hd.data["STA_INDEX"]
         diam = hd.data["DIAMETER"]
-        arr = OIARRAY(
-            arrname=arrname, tel_name=tel, sta_name=sta, sta_index=staid, diameter=diam
-        )
+        arr = OIARRAY(arrname=arrname, tel_name=tel, sta_name=sta, sta_index=staid, diameter=diam)
         self.array.append(arr)
 
     def readVIS2(self, hd):
@@ -1150,9 +1074,7 @@ class OITARGET:
 
 
 class OIARRAY:
-    def __init__(
-        self, arrname="UNKNOWN", tel_name=[], sta_name=[], sta_index=[], diameter=[]
-    ):
+    def __init__(self, arrname="UNKNOWN", tel_name=[], sta_name=[], sta_index=[], diameter=[]):
         self.arrname = arrname
         self.tel_name = tel_name
         self.sta_name = sta_name

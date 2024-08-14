@@ -83,9 +83,9 @@
              
   <div class="section" id="module-distroi.auxiliary.beam">
 <span id="distroi-auxiliary-beam-module"></span><h1>distroi.auxiliary.beam module<a class="headerlink" href="#module-distroi.auxiliary.beam" title="Permalink to this headline"></a></h1>
-<p>Contains a class to represent a model for the OI point spread function (PSF) (a Gaussian fit). The formal PSF is called the
-‘dirty beam’. Methods to calculate the dirty beam from the uv coverage of an OIContainer object and get a fit to the dirty beam’s
-inner few resolution elements (a ‘Gaussian beam’) are included.</p>
+<p>Contains a class to represent a model for the OI point spread function (PSF) (a Gaussian fit). The formal PSF
+is called the ‘dirty beam’. Methods to calculate the dirty beam from the uv coverage of an OIContainer object and
+get a fit to the dirty beam’s inner few resolution elements (a ‘Gaussian beam’) are included.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="distroi.auxiliary.beam.Beam">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.beam.</span></span><span class="sig-name descname"><span class="pre">Beam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.beam.Beam" title="Permalink to this definition"></a></dt>
@@ -137,9 +137,10 @@ visibility/correlated flux measurements.</p></li>
 <li><p><strong>fig_dir</strong> (<em>str</em>) – Set to a directory in which you want the plots to be saved.</p></li>
 <li><p><strong>show_plots</strong> – Set to True if you want the generated plots to be shown in a window.</p></li>
 <li><p><strong>num_res</strong> (<em>int</em>) – The number of resolution elements to be included in the calculation. A resolution element is
-defined as 1 / (2 x ‘max_uv’), with max_uv the maximum norm of the probed uv frequency points. Set to 2 by default.
-Going above this can skew the Gaussian fit or cause it to fail, as the non-Gaussian behavior of the PSF becomes
-more apparent further away from the dirty beam center. It will also increase calculation time as O(n^2).</p></li>
+defined as 1 / (2 x ‘max_uv’), with max_uv the maximum norm of the probed uv frequency points.
+Set to 2 by default. Going above this can skew the Gaussian fit or cause it to fail, as the non-Gaussian
+behavior of the PSF becomes more apparent further away from the dirty beam center.
+It will also increase calculation time as O(n^2).</p></li>
 <li><p><strong>pix_per_res</strong> (<em>int</em>) – Amount of dirty beam pixels used per resolution element. This should be even.
 Set to 32 by default. Increasing this can significantly increase computation time (scales as O(n^2)).</p></li>
 </ul>

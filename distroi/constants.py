@@ -1,6 +1,6 @@
 """
-Contains constants, unit conversions, miscellaneoud universal functions and plotting settings to be uniformly used throughout the
-project.
+Contains constants, unit conversions, miscellaneoud universal functions and plotting settings to be uniformly used
+throughout the project.
 
 :var str PROJECT_ROOT: Path to the root of the distroi project on the user's system.
 :var float SPEED_OF_LIGHT: In SI units.
@@ -159,7 +159,9 @@ def bb_fnu_at_frequency(frequency: np.ndarray | float, temp: float) -> np.ndarra
     :return radiance: B_nu spectral radiance of the blackbody in SI units (W m^-2 Hz^-1 sterradian^-1).
     :rtype: float
     """
-    radiance = (2 * H_PLANCK * frequency**3 / SPEED_OF_LIGHT**2) / (np.exp(H_PLANCK * frequency / (K_BOLTZMANN * temp)) - 1)
+    radiance = (2 * H_PLANCK * frequency**3 / SPEED_OF_LIGHT**2) / (
+        np.exp(H_PLANCK * frequency / (K_BOLTZMANN * temp)) - 1
+    )
     return radiance
 
 
@@ -180,8 +182,8 @@ def bb_fnu_at_wavelength(wavelength: np.ndarray | float, temp: float) -> np.ndar
 # flux convertion functions for all these silly astronomy units
 def flam_cgs_per_mum_to_fnu_jansky(flam: np.ndarray | float, wavelength: np.ndarray | float) -> np.ndarray | float:
     """
-    Function to convert spectral flux densities in F_lam format and units of erg s^-1 cm^-2 micron^-1 to F_nu format in Jansky
-    (Jy). Wavelengths are in micron.
+    Function to convert spectral flux densities in F_lam format and units of erg s^-1 cm^-2 micron^-1 to F_nu format in
+    Jansky (Jy). Wavelengths are in micron.
 
     :param np.ndarray | float flam: Spectral flux density in F_lam format and units of erg s^-1 cm^-2 micron^-1.
     :param np.ndarray | float wavelength: Associated wavelengths in micron.
@@ -197,7 +199,9 @@ def flam_cgs_per_mum_to_fnu_jansky(flam: np.ndarray | float, wavelength: np.ndar
 
 
 if __name__ == "__main__":
-    print((WATT_PER_M2_HZ_2JY * MICRON2M**2 * ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M / SPEED_OF_LIGHT) * 6.743e-10 * 0.36**2)
+    print(
+        (WATT_PER_M2_HZ_2JY * MICRON2M**2 * ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M / SPEED_OF_LIGHT) * 6.743e-10 * 0.36**2
+    )
     # fig, ax = plt.subplots(1, 1)
     # temp = 2000
     # wave = np.linspace(1.0, 3.0, 100)

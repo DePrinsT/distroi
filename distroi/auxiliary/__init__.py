@@ -1,3 +1,4 @@
 """
-Package containing auxiliary modules for reading in OIFITS data. Original modules written by A. Corporaal and J. Kluska.
+Package containing auxiliary modules for reading in OIFITS data. Contains adapted modules originally written by
+A. Corporaal and J. Kluska.
 """

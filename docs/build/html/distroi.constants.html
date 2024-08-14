@@ -82,8 +82,8 @@
              
   <div class="section" id="module-distroi.constants">
 <span id="distroi-constants-module"></span><h1>distroi.constants module<a class="headerlink" href="#module-distroi.constants" title="Permalink to this headline"></a></h1>
-<p>Contains constants, unit conversions, miscellaneoud universal functions and plotting settings to be uniformly used throughout the
-project.</p>
+<p>Contains constants, unit conversions, miscellaneoud universal functions and plotting settings to be uniformly used
+throughout the project.</p>
 <dl class="field-list simple">
 <dt class="field-odd">var str PROJECT_ROOT</dt>
 <dd class="field-odd"><p>Path to the root of the distroi project on the user’s system.</p>
@@ -106,17 +106,26 @@ project.</p>
 <dt class="field-odd">var float MICRON2M</dt>
 <dd class="field-odd"><p>Conversion of meter to micrometer/micron.</p>
 </dd>
-<dt class="field-even">var float MICRON2AA</dt>
-<dd class="field-even"><p>Conversion of micrometer/micron to Angstrom.</p>
-</dd>
-<dt class="field-odd">var float AA2MICRON</dt>
-<dd class="field-odd"><p>Conversion of Angstrom to micrometer/micron.</p>
-</dd>
 <dt class="field-even">var float M2MICRON</dt>
 <dd class="field-even"><p>Conversion of micrometer/micron to meter.</p>
 </dd>
+<dt class="field-odd">var float MICRON2AA</dt>
+<dd class="field-odd"><p>Conversion of micrometer/micron to Angstrom.</p>
+</dd>
+<dt class="field-even">var float AA2MICRON</dt>
+<dd class="field-even"><p>Conversion of Angstrom to micrometer/micron.</p>
+</dd>
 <dt class="field-odd">var float WATT_PER_METER2_HZ_2JY</dt>
 <dd class="field-odd"><p>Flux density conversion of W m^-2 Hz^-1 to Jansky (Jy).</p>
+</dd>
+<dt class="field-even">var float JY_2WATT_PER_METER2_HZ</dt>
+<dd class="field-even"><p>Flux density conversion of Jansky (Jy) to W m^-2 Hz^-1.</p>
+</dd>
+<dt class="field-odd">var float ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M</dt>
+<dd class="field-odd"><p>Flux density conversion of erg s^-1 cm^-2 micron^-1 to W m^-2 m^-1.</p>
+</dd>
+<dt class="field-even">var float WATT_PER_M2_M_2ERG_PER_S_CM2_MICRON</dt>
+<dd class="field-even"><p>Flux density conversion of W m^-2 m^-1 to erg s^-1 cm^-2 micron^-1.</p>
 </dd>
 </dl>
 <dl class="py function">
@@ -202,8 +211,8 @@ project.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.constants.flam_cgs_per_mum_to_fnu_jansky">
 <span class="sig-prename descclassname"><span class="pre">distroi.constants.</span></span><span class="sig-name descname"><span class="pre">flam_cgs_per_mum_to_fnu_jansky</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flam</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wavelength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></span><a class="headerlink" href="#distroi.constants.flam_cgs_per_mum_to_fnu_jansky" title="Permalink to this definition"></a></dt>
-<dd><p>Function to convert spectral flux densities in F_lam format and units of erg s^-1 cm^-2 micron^-1 to F_nu format in Jansky
-(Jy). Wavelengths are in micron.</p>
+<dd><p>Function to convert spectral flux densities in F_lam format and units of erg s^-1 cm^-2 micron^-1 to F_nu format in
+Jansky (Jy). Wavelengths are in micron.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

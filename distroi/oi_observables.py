@@ -125,8 +125,8 @@ class OIContainer:
         show_plots: bool = True,
     ) -> None:
         """
-        Plots the data included in the OIContainer instance. Currently, plots uv coverage, a (squared) visibility curve and
-        closure phases.
+        Plots the data included in the OIContainer instance. Currently, plots uv coverage, a (squared) visibility curve
+        and closure phases.
 
         :param str fig_dir: Directory to store plots in.
         :param bool log_plotv: Set to True for a logarithmic y-scale in the (squared) visibility plot.
@@ -163,9 +163,7 @@ class OIContainer:
         fig.subplots_adjust(right=0.8)
         cax = fig.add_axes([0.82, 0.15, 0.02, 0.7])
         ax.set_aspect("equal", adjustable="datalim")  # make plot axes have same scale
-        ax.scatter(
-            uf / 1e6, vf / 1e6, c=wave * constants.M2MICRON, s=1, cmap="gist_rainbow_r"
-        )
+        ax.scatter(uf / 1e6, vf / 1e6, c=wave * constants.M2MICRON, s=1, cmap="gist_rainbow_r")
         sc = ax.scatter(
             -uf / 1e6,
             -vf / 1e6,
@@ -185,9 +183,7 @@ class OIContainer:
 
         # plot (squared) visibilities
         fig, ax = plt.subplots(1, 1, figsize=(10, 6))
-        sc = ax.scatter(
-            base, vis, c=wave * constants.M2MICRON, s=2, cmap="gist_rainbow_r"
-        )
+        sc = ax.scatter(base, vis, c=wave * constants.M2MICRON, s=2, cmap="gist_rainbow_r")
         ax.errorbar(
             base,
             vis,
@@ -246,9 +242,7 @@ class OIContainer:
 
         ax.set_ylabel(r"$\phi_{CP}$ ($^\circ$)")
         ax.set_title("Closure Phases")
-        ax.set_ylim(
-            np.min(self.t3phi - self.t3phierr), np.max(self.t3phi + self.t3phierr)
-        )
+        ax.set_ylim(np.min(self.t3phi - self.t3phierr), np.max(self.t3phi + self.t3phierr))
         ax.set_xlim(0, np.max(self.t3bmax) * 1.05)
         ax.axhline(y=0, c="k", ls="--", lw=1, zorder=0)
         ax.set_xlabel(r"$B_{max}$ ($\mathrm{M \lambda}$)")
@@ -289,9 +283,7 @@ def read_oicontainer_oifits(
             lim_V2=v2lim,
         )
     else:
-        oidata = SelectData.SelectData(
-            data_dir=data_dir, data_file=data_file, lim_V2=v2lim
-        )
+        oidata = SelectData.SelectData(data_dir=data_dir, data_file=data_file, lim_V2=v2lim)
 
     # dictionary to construct OIContainer instance
     dictionary = {}
@@ -365,9 +357,7 @@ def read_oicontainer_oifits(
     t3phidat = np.array(t3phidat)
     t3phierr = np.array(t3phierr)
 
-    uf3dat = (
-        uf1dat + uf2dat
-    )  # 3d baseline (frequency) and max baseline of closure triangle (in MegaLambda)
+    uf3dat = uf1dat + uf2dat  # 3d baseline (frequency) and max baseline of closure triangle (in MegaLambda)
     vf3dat = vf1dat + vf2dat
     t3bmax = (
         np.maximum(
@@ -408,9 +398,7 @@ def read_oicontainer_oifits(
     return container
 
 
-def calc_mod_observables(
-    container_data: OIContainer, img_fft_list: list[image_fft.ImageFFT]
-) -> OIContainer:
+def calc_mod_observables(container_data: OIContainer, img_fft_list: list[image_fft.ImageFFT]) -> OIContainer:
     """
     Loads in OI observables from an OIContainer, typically containing observational data, and calculates model image
     observables at the same uv coverage. The model images are passed along as a list of ImageFFT objects. If the
@@ -456,43 +444,20 @@ def calc_mod_observables(
         # Calculate visibilities (requires separate interpolator for correlated fluxes if needed).
         if container_data.vis_in_fcorr:
             interp_fcorr = mod_comp_vis_interpolator(img_fft_list, fcorr=True)
-            vmod = abs(
-                interp_fcorr(
-                    (container_data.vwave, container_data.vvf, container_data.vuf)
-                )
-            )
+            vmod = abs(interp_fcorr((container_data.vwave, container_data.vvf, container_data.vuf)))
         else:
-            vmod = abs(
-                interp_norm(
-                    (container_data.vwave, container_data.vvf, container_data.vuf)
-                )
-            )
+            vmod = abs(interp_norm((container_data.vwave, container_data.vvf, container_data.vuf)))
 
         # Calculate squared visibilities.
-        v2mod = (
-            abs(
-                interp_norm(
-                    (container_data.v2wave, container_data.v2vf, container_data.v2uf)
-                )
-            )
-            ** 2
-        )
+        v2mod = abs(interp_norm((container_data.v2wave, container_data.v2vf, container_data.v2uf))) ** 2
 
         # Calculate closure phases. We use the convention such that triangle ABC -> (u1,v1) = AB; (u2,v2) = BC; (u3,
         # v3) = AC, not CA This causes a minus sign shift for 3rd baseline when calculating closure phase (for real
         # images), so we take the complex conjugate there.
         t3phimod = np.angle(
-            interp_norm(
-                (container_data.t3wave, container_data.t3vf1, container_data.t3uf1)
-            )
-            * interp_norm(
-                (container_data.t3wave, container_data.t3vf2, container_data.t3uf2)
-            )
-            * np.conjugate(
-                interp_norm(
-                    (container_data.t3wave, container_data.t3vf3, container_data.t3uf3)
-                )
-            ),
+            interp_norm((container_data.t3wave, container_data.t3vf1, container_data.t3uf1))
+            * interp_norm((container_data.t3wave, container_data.t3vf2, container_data.t3uf2))
+            * np.conjugate(interp_norm((container_data.t3wave, container_data.t3vf3, container_data.t3uf3))),
             deg=True,
         )
 
@@ -523,15 +488,11 @@ def calc_mod_observables(
     }
 
     # return an OIContainer object
-    container_mod = OIContainer(
-        dictionary=observables_mod, fcorr=container_data.vis_in_fcorr
-    )
+    container_mod = OIContainer(dictionary=observables_mod, fcorr=container_data.vis_in_fcorr)
     return container_mod
 
 
-def mod_comp_vis_interpolator(
-    img_fft_list: list[image_fft.ImageFFT], fcorr: bool = False
-) -> RegularGridInterpolator:
+def mod_comp_vis_interpolator(img_fft_list: list[image_fft.ImageFFT], fcorr: bool = False) -> RegularGridInterpolator:
     """
     Creates a scipy RegularGridInterpolator from model ImageFFT objects, which can be used to interpolate the complex
     visibility to different spatial frequencies than those returned by the FFT algorithm and, optionally,
@@ -562,16 +523,10 @@ def mod_comp_vis_interpolator(
             img.uf,
             img.vf,
         )
-        if (
-            fcorr
-        ):  # create interpolator and normalize FFT to complex visibilities if needed
-            interpolator = RegularGridInterpolator(
-                (vf, uf), fft, method="linear"
-            )  # make interpol absolute FFT
+        if fcorr:  # create interpolator and normalize FFT to complex visibilities if needed
+            interpolator = RegularGridInterpolator((vf, uf), fft, method="linear")  # make interpol absolute FFT
         else:
-            interpolator = RegularGridInterpolator(
-                (vf, uf), fft / ftot, method="linear"
-            )  # same normalized
+            interpolator = RegularGridInterpolator((vf, uf), fft / ftot, method="linear")  # same normalized
 
     else:  # multiple images -> chromatic emission model
         mod_wavelengths = []  # list of model image wavelengths in meter
@@ -589,14 +544,10 @@ def mod_comp_vis_interpolator(
                 fft_chromatic.append(fft)  # store image's FFT in chromatic list
             else:
                 fft_chromatic.append(fft / ftot)
-            mod_wavelengths.append(
-                wavelength * constants.MICRON2M
-            )  # store image wavelength in meter
+            mod_wavelengths.append(wavelength * constants.MICRON2M)  # store image wavelength in meter
 
         # sort lists according to ascending wavelength just to be sure (required for making the interpolator)
-        mod_wavelengths, fft_chromatic = list(
-            zip(*sorted(zip(mod_wavelengths, fft_chromatic)))
-        )
+        mod_wavelengths, fft_chromatic = list(zip(*sorted(zip(mod_wavelengths, fft_chromatic))))
 
         # make interpolator from multiple FFTs, note this assumes all images have the same pixelscale
         # and amount of pixels (in both x and y directions)
@@ -656,9 +607,7 @@ def plot_data_vs_model(
         elif container_data.vis_in_fcorr and container_mod.vis_in_fcorr:
             vislabel = r"$F_{corr}$ (Jy)"
         else:
-            print(
-                "container_data and container_mod do not have the same value for vis_in_fcorr, will return None!"
-            )
+            print("container_data and container_mod do not have the same value for vis_in_fcorr, will return None!")
             return
     else:
         print("parameter plot_vistype is not recognized, will return None!")
@@ -819,16 +768,27 @@ def plot_data_vs_model(
 if __name__ == "__main__":
     from distroi.auxiliary.beam import calc_gaussian_beam
 
-    # object_id_list = ['AI_Sco', 'EN_TrA', 'HD93662', 'HD95767', 'HD108015', 'HR4049', 'IRAS08544-4431', 'IRAS15469-5311',
-    #                   'IW_Car', 'PS_Gem', 'U_Mon']
-    # for object_id in object_id_list:
-    #     data_dir, data_file = (f'/home/toond/Documents/phd/data/{object_id}/inspiring/PIONIER/all_data/',
-    #                            '*.fits')
-    #     container_data = read_oicontainer_oifits(data_dir, data_file)
-    #     fig_dir = f'{data_dir}/figures/'
-    #     container_data.plot_data(fig_dir=fig_dir)
-    #     beam = calc_gaussian_beam(container_data, vistype='vis2', make_plots=True, show_plots=True, fig_dir=fig_dir,
-    #                               num_res=2, pix_per_res=48)
+    object_id_list = [
+        "AI_Sco",
+        "EN_TrA",
+        "HD93662",
+        "HD95767",
+        "HD108015",
+        "HR4049",
+        "IRAS08544-4431",
+        "IRAS15469-5311",
+        "IW_Car",
+        "PS_Gem",
+        "U_Mon",
+    ]
+    for object_id in object_id_list:
+        data_dir, data_file = (f"/home/toond/Documents/phd/data/{object_id}/inspiring/PIONIER/all_data/", "*.fits")
+        container_data = read_oicontainer_oifits(data_dir, data_file)
+        fig_dir = f"{data_dir}/figures/"
+        container_data.plot_data(fig_dir=fig_dir)
+        beam = calc_gaussian_beam(
+            container_data, vistype="vis2", make_plots=True, show_plots=True, fig_dir=fig_dir, num_res=2, pix_per_res=48
+        )
 
     object_id = "IRAS15469-5311"
     data_dir, data_file = (
@@ -841,12 +801,8 @@ if __name__ == "__main__":
 
     u = container_data.v2uf
     v = container_data.v2vf
-    max_uv_dist = np.max(
-        np.sqrt(u**2 + v**2)
-    )  # max distance in 1/rad from origin, sets pixelscale for image space
-    pix_res = (
-        0.5 / max_uv_dist
-    ) * constants.RAD2MAS  # smallest resolution element (at Nyquist sampling)
+    max_uv_dist = np.max(np.sqrt(u**2 + v**2))  # max distance in 1/rad from origin, sets pixelscale for image space
+    pix_res = (0.5 / max_uv_dist) * constants.RAD2MAS  # smallest resolution element (at Nyquist sampling)
     print(f"resolution element is: {pix_res:.4E}")
 
     beam = calc_gaussian_beam(

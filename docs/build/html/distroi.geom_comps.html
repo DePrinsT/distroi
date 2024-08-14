@@ -111,13 +111,13 @@ In case of ‘flam’ and ‘lam_flam’, x_ref is assumed to be a wavelength, w
 x_ref is assumed to be a frequency.</p></li>
 <li><p><strong>ref_flux</strong> (<em>float</em>) – Reference flux from which to calculate the flux, in the specified ‘flux_form’ format.</p></li>
 <li><p><strong>flux_form</strong> (<em>str</em>) – The format of the flux to be calculated. Options are ‘flam’ (default) and ‘lam_flam’,
-as well as their frequency analogues ‘fnu’ and ‘nu_fnu’. In case of ‘flam’ and ‘lam_flam’, x is assumed to be
-wavelengths, while in case of ‘fnu’ and ‘nu_fnu’, x is assumed to be frequencies.</p></li>
+as well as their frequency analogues ‘fnu’ and ‘nu_fnu’. In case of ‘flam’ and ‘lam_flam’, x is assumed to
+be wavelengths, while in case of ‘fnu’ and ‘nu_fnu’, x is assumed to be frequencies.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return flux</dt>
-<dd class="field-even"><p>The flux calculated at x using the reference wavelength/frequency and reference flux value. Note that
-the units of both input and output will correspond to those of x_ref and ref_flux.</p>
+<dd class="field-even"><p>The flux calculated at x using the reference wavelength/frequency and reference flux value. Note
+that the units of both input and output will correspond to those of x_ref and ref_flux.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>np.ndarray | float</p>
@@ -156,13 +156,13 @@ In case of ‘flam’ and ‘lam_flam’, x_ref is assumed to be a wavelength, w
 x_ref is assumed to be a frequency.</p></li>
 <li><p><strong>ref_flux</strong> (<em>float</em>) – Reference flux from which to calculate the flux, in the specified ‘flux_form’ format.</p></li>
 <li><p><strong>flux_form</strong> (<em>str</em>) – The format of the flux to be calculated. Options are ‘flam’ (default) and ‘lam_flam’,
-as well as their frequency analogues ‘fnu’ and ‘nu_fnu’. In case of ‘flam’ and ‘lam_flam’, x is assumed to be
-wavelengths, while in case of ‘fnu’ and ‘nu_fnu’, x is assumed to be frequencies.</p></li>
+as well as their frequency analogues ‘fnu’ and ‘nu_fnu’. In case of ‘flam’ and ‘lam_flam’, x is assumed to
+be wavelengths, while in case of ‘fnu’ and ‘nu_fnu’, x is assumed to be frequencies.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return flux</dt>
-<dd class="field-even"><p>The flux calculated at x using the reference wavelength/frequency and reference flux value. Note that
-the units of both input and output will correspond to those of x_ref and ref_flux.</p>
+<dd class="field-even"><p>The flux calculated at x using the reference wavelength/frequency and reference flux value. Note
+that the units of both input and output will correspond to those of x_ref and ref_flux.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>np.ndarray | float</p>
@@ -233,8 +233,8 @@ optional arguments)</p>
 <p>Abstract class representing a geometric model component.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables</dt>
-<dd class="field-odd"><p><strong>spec_dep</strong> (<a class="reference internal" href="#distroi.geom_comps.SpecDep" title="distroi.geom_comps.SpecDep"><em>SpecDep</em></a><em> | </em><em>None</em>) – Optional spectral dependence of the component. If None, the spectral dependency will be
-assumed flat in correlated flux accross wavelength (note that flatness in correlated flux means a spectral
+<dd class="field-odd"><p><strong>spec_dep</strong> (<a class="reference internal" href="#distroi.geom_comps.SpecDep" title="distroi.geom_comps.SpecDep"><em>SpecDep</em></a><em> | </em><em>None</em>) – Optional spectral dependence of the component. If None, the spectral dependency will
+be assumed flat in correlated flux accross wavelength (note that flatness in correlated flux means a spectral
 dependency ~ wavelength ^ -2 for F_lam).</p>
 </dd>
 </dl>
@@ -370,8 +370,8 @@ optional arguments)</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>power</strong> (<em>float</em>) – The power of the flux profile.</p></li>
-<li><p><strong>flux_form</strong> (<em>str</em>) – The format of the flux to be calculated. This flux will follow the specified power law dependency.
-Options are ‘flam’ (default) and ‘lam_flam’, as well as their frequency analogues ‘fnu’ and
+<li><p><strong>flux_form</strong> (<em>str</em>) – The format of the flux to be calculated. This flux will follow the specified power law
+dependency. Options are ‘flam’ (default) and ‘lam_flam’, as well as their frequency analogues ‘fnu’ and
 ‘nu_fnu’. The formats in wavelength specification (‘flam’ and ‘lam_flam’) assume the power law dependency to be
 in wavelength (i.e. flux1 / flux2 = (wavelength1 / wavelength2) ^ power), while the ones in frequency
 specification assume the power law to be in frequency (i.e. flux1 / flux2 = (frequency1 / frequency2) ^ power).
@@ -396,13 +396,13 @@ In case of ‘flam’ and ‘lam_flam’, x_ref is assumed to be a wavelength, w
 x_ref is assumed to be a frequency.</p></li>
 <li><p><strong>ref_flux</strong> (<em>float</em>) – Reference flux from which to calculate the flux, in the specified ‘flux_form’ format.</p></li>
 <li><p><strong>flux_form</strong> (<em>str</em>) – The format of the flux to be calculated. Options are ‘flam’ (default) and ‘lam_flam’,
-as well as their frequency analogues ‘fnu’ and ‘nu_fnu’. In case of ‘flam’ and ‘lam_flam’, x is assumed to be
-wavelengths, while in case of ‘fnu’ and ‘nu_fnu’, x is assumed to be frequencies.</p></li>
+as well as their frequency analogues ‘fnu’ and ‘nu_fnu’. In case of ‘flam’ and ‘lam_flam’, x is assumed to
+be wavelengths, while in case of ‘fnu’ and ‘nu_fnu’, x is assumed to be frequencies.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return flux</dt>
-<dd class="field-even"><p>The flux calculated at x using the reference wavelength/frequency and reference flux value. Note that
-the units of both input and output will correspond to those of x_ref and ref_flux.</p>
+<dd class="field-even"><p>The flux calculated at x using the reference wavelength/frequency and reference flux value. Note
+that the units of both input and output will correspond to those of x_ref and ref_flux.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>np.ndarray | float</p>
@@ -433,13 +433,13 @@ In case of ‘flam’ and ‘lam_flam’, x_ref is assumed to be a wavelength, w
 x_ref is assumed to be a frequency.</p></li>
 <li><p><strong>ref_flux</strong> (<em>float</em>) – Reference flux from which to calculate the flux, in the specified ‘flux_form’ format.</p></li>
 <li><p><strong>flux_form</strong> (<em>str</em>) – The format of the flux to be calculated. Options are ‘flam’ (default) and ‘lam_flam’,
-as well as their frequency analogues ‘fnu’ and ‘nu_fnu’. In case of ‘flam’ and ‘lam_flam’, x is assumed to be
-wavelengths, while in case of ‘fnu’ and ‘nu_fnu’, x is assumed to be frequencies.</p></li>
+as well as their frequency analogues ‘fnu’ and ‘nu_fnu’. In case of ‘flam’ and ‘lam_flam’, x is assumed to
+be wavelengths, while in case of ‘fnu’ and ‘nu_fnu’, x is assumed to be frequencies.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return flux</dt>
-<dd class="field-even"><p>The flux calculated at x using the reference wavelength/frequency and reference flux value. Note that
-the units of both input and output will correspond to those of x_ref and ref_flux.</p>
+<dd class="field-even"><p>The flux calculated at x using the reference wavelength/frequency and reference flux value.
+Note that the units of both input and output will correspond to those of x_ref and ref_flux.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>np.ndarray | float</p>
@@ -480,13 +480,13 @@ In case of ‘flam’ and ‘lam_flam’, x_ref is assumed to be a wavelength, w
 x_ref is assumed to be a frequency.</p></li>
 <li><p><strong>ref_flux</strong> (<em>float</em>) – Reference flux from which to calculate the flux, in the specified ‘flux_form’ format.</p></li>
 <li><p><strong>flux_form</strong> (<em>str</em>) – The format of the flux to be calculated. Options are ‘flam’ (default) and ‘lam_flam’,
-as well as their frequency analogues ‘fnu’ and ‘nu_fnu’. In case of ‘flam’ and ‘lam_flam’, x is assumed to be
-wavelengths, while in case of ‘fnu’ and ‘nu_fnu’, x is assumed to be frequencies.</p></li>
+as well as their frequency analogues ‘fnu’ and ‘nu_fnu’. In case of ‘flam’ and ‘lam_flam’, x is assumed to
+be wavelengths, while in case of ‘fnu’ and ‘nu_fnu’, x is assumed to be frequencies.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return flux</dt>
-<dd class="field-even"><p>The flux calculated at x using the reference wavelength/frequency and reference flux value. Note that
-the units of both input and output will correspond to those of x_ref and ref_flux.</p>
+<dd class="field-even"><p>The flux calculated at x using the reference wavelength/frequency and reference flux value. Note
+that the units of both input and output will correspond to those of x_ref and ref_flux.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>np.ndarray | float</p>
