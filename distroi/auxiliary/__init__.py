@@ -1,4 +1,6 @@
 """
-Package containing auxiliary modules for reading in OIFITS data. Contains adapted modules originally written by
+Subpackage containing auxiliary modules for reading in OIFITS data. Some modules are originally written by
 A. Corporaal and J. Kluska.
 """
+
+# TODO: add imports to expose the functionalities of the underl

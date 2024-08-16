@@ -12,7 +12,7 @@ Submodules
 .. toctree::
    :maxdepth: 2
 
-   distroi.auxiliary.ReadOIFITS
-   distroi.auxiliary.SelectData
    distroi.auxiliary.beam
-   distroi.auxiliary.oifits_time_base
+   distroi.auxiliary.read_oifits
+   distroi.auxiliary.select_data_oifits
+   distroi.auxiliary.time_base_oifits

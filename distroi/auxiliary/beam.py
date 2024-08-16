@@ -5,7 +5,7 @@ get a fit to the dirty beam's inner few resolution elements (a 'Gaussian beam') 
 """
 
 from distroi import constants
-from distroi import oi_observables
+from distroi import oi_container
 
 import os
 
@@ -29,9 +29,9 @@ class Beam:
     :ivar float sig_maj: Standard deviation of the Gaussian along the major axis.
     :ivar float pa: Position angle of the Gaussian's major axis, anticlockwise from North to East.
     :ivar float fwhm_min: Full-width-half-maximum (FWHM) of the Gaussian along the minor axis. This defines the
-        resolution corresponding to the uv-coverage along this axis.
+        resolution corresponding to the uv coverage along this axis.
     :ivar float fwhm_maj: FWHM of the Gaussian along the major axis. This defines the resolution
-        corresponding to the uv-coverage along this axis.
+        corresponding to the uv coverage along this axis.
     """
 
     def __init__(self, dictionary):
@@ -54,7 +54,7 @@ class Beam:
         return
 
 
-def gaussian_2d(
+def gaussian_2d_ellipse(
     points: tuple[np.ndarray, np.ndarray],
     amp: float = 1,
     x0: float = 0,
@@ -100,7 +100,7 @@ def gaussian_2d(
 
 
 def calc_gaussian_beam(
-    container: oi_observables.OIContainer,
+    container: oi_container.OIContainer,
     vistype: str = "vis2",
     make_plots: bool = False,
     fig_dir: str = None,
@@ -171,7 +171,7 @@ def calc_gaussian_beam(
         [0, -np.inf, -np.inf, 0, 0, -90.01, -np.inf],
         [np.inf, np.inf, np.inf, np.inf, np.inf, 90.01, np.inf],
     )  # defined so sig_maj >= sig_min
-    popt_and_cov = curve_fit(gaussian_2d, (x, y), np.ravel(img_dirty), p0=init_guess, bounds=bounds)
+    popt_and_cov = curve_fit(gaussian_2d_ellipse, (x, y), np.ravel(img_dirty), p0=init_guess, bounds=bounds)
     popt = popt_and_cov[0]  # extract optimized parameter.
 
     # make beam object
@@ -247,7 +247,7 @@ def calc_gaussian_beam(
         ax[0][0].axvline(x=0, lw=0.5, color="white", alpha=0.5, zorder=0)
 
         # plot Gaussian fit to the beam, note the output of gaussian_2d is 1D so needs to be reshaped
-        img_fitted = np.reshape(gaussian_2d((x, y), *popt), np.shape(img_dirty))
+        img_fitted = np.reshape(gaussian_2d_ellipse((x, y), *popt), np.shape(img_dirty))
         img_fit_plot = ax[0][1].imshow(
             img_fitted,
             aspect="auto",

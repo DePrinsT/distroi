@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>distroi.auxiliary.time_base_oifits module &mdash; DISTROI  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="_static/fonts.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="distroi.fitting package" href="distroi.fitting.html" />
+    <link rel="prev" title="distroi.auxiliary.select_data_oifits module" href="distroi.auxiliary.select_data_oifits.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html">
+            <img src="_static/distroi_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="distroi.html">distroi package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="distroi.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="distroi.auxiliary.html">distroi.auxiliary package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="distroi.auxiliary.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.fitting.html">distroi.fitting package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.rt_models.html">distroi.rt_models package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="distroi.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">DISTROI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="distroi.html">distroi package</a></li>
+          <li class="breadcrumb-item"><a href="distroi.auxiliary.html">distroi.auxiliary package</a></li>
+      <li class="breadcrumb-item active">distroi.auxiliary.time_base_oifits module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/distroi.auxiliary.time_base_oifits.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="module-distroi.auxiliary.time_base_oifits">
+<span id="distroi-auxiliary-time-base-oifits-module"></span><h1>distroi.auxiliary.time_base_oifits module<a class="headerlink" href="#module-distroi.auxiliary.time_base_oifits" title="Permalink to this headline"></a></h1>
+<p>Provides function to interactively plot multiple OIFITS files as a time-series, allowing the user to specify and adapt
+a certain time window. In other words, it allows the user to investigate the timebase of the observations.
+Functionalities are provided to plot the uv coverage of data within the time window, and retrieve
+the paths of OIFITS files with observations within the time window (and optionally copy them to a specified directory).</p>
+<p>NOTE: Because of the spawning of interactive plots, this functionalities in this module cannot be properly used
+in jupyter notebooks, instead use them within a python script.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.auxiliary.time_base_oifits.time_window_plot">
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.time_base_oifits.</span></span><span class="sig-name descname"><span class="pre">time_window_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_window_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.auxiliary.time_base_oifits.time_window_plot" title="Permalink to this definition"></a></dt>
+<dd><p>Produces an interactive matplotlib plot showing the specified OIFITS file as a time-series.
+The specified time window is shown as a red-shaded area. Sliders are provided to change the position and width
+of this time window. The ‘uv coverage’ button can then be clicked in order to plot the uv coverage of the data
+included within the time window. If the copy_dir argument is passed along, the ‘Copy files’ button can be
+pressed to copy over the OIFITS file which contain observations within the interactively set time window.
+After all plots are closed, returns a list with the filepaths of these OIFITS files.</p>
+<p>NOTE: Because the uv coverage button spawns another plot,
+this function cannot be properly used in jupyter notebooks, instead use this method within a python script.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_dir</strong> (<em>str</em>) – Path to the directory where the OIFITS files are stored.</p></li>
+<li><p><strong>data_file</strong> (<em>str</em>) – Data filename. Use wildcards to read in multiple files at once.</p></li>
+<li><p><strong>init_window_width</strong> (<em>float</em>) – Initial width of the time window in days. Needs to be larger or equal to 1 day or
+function will not plot and return None instead.</p></li>
+<li><p><strong>copy_dir</strong> (<em>str</em>) – If specified, the OIFITS files that have observations within the interactively set time window
+will be copied to this directory upon using the ‘Copy files’ button.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return files_within_window</dt>
+<dd class="field-even"><p>List of filepaths corresponding to the OIFITS files that have observations within the
+interactively set time window.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.auxiliary.time_base_oifits.timestamp_to_plt_float">
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.time_base_oifits.</span></span><span class="sig-name descname"><span class="pre">timestamp_to_plt_float</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas._libs.tslibs.timestamps.Timestamp</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#distroi.auxiliary.time_base_oifits.timestamp_to_plt_float" title="Permalink to this definition"></a></dt>
+<dd><p>Pass along a pandas Timestamp object and convert it to the amount of days passed since
+midnight 1970-01-01 UTC as a float. This is also how numpy converts Timestamp instances
+to floats for plotting purposes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>date_time</strong> (<em>pd.Timestamp</em>) – Pandas Timestamp instance.</p>
+</dd>
+<dt class="field-even">Return date_plt_float</dt>
+<dd class="field-even"><p>The Timestamp converted to a float value to be used in matplotlib when specifying e.g.
+position along the axes.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="distroi.auxiliary.select_data_oifits.html" class="btn btn-neutral float-left" title="distroi.auxiliary.select_data_oifits module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="distroi.fitting.html" class="btn btn-neutral float-right" title="distroi.fitting package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Toon De Prins.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

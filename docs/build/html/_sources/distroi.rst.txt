@@ -14,6 +14,7 @@ Subpackages
 
    distroi.auxiliary
    distroi.fitting
+   distroi.rt_models
 
 Submodules
 ----------
@@ -22,7 +23,7 @@ Submodules
    :maxdepth: 2
 
    distroi.constants
-   distroi.geom_comps
+   distroi.geom_comp
    distroi.image_fft
-   distroi.oi_observables
+   distroi.oi_container
    distroi.sed

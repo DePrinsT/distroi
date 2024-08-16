@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>distroi.oi_container module &mdash; DISTROI  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="_static/fonts.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="distroi.sed module" href="distroi.sed.html" />
+    <link rel="prev" title="distroi.image_fft module" href="distroi.image_fft.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html">
+            <img src="_static/distroi_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="distroi.html">distroi package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="distroi.html#subpackages">Subpackages</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="distroi.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="distroi.constants.html">distroi.constants module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.geom_comp.html">distroi.geom_comp module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.image_fft.html">distroi.image_fft module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">distroi.oi_container module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.sed.html">distroi.sed module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">DISTROI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="distroi.html">distroi package</a></li>
+      <li class="breadcrumb-item active">distroi.oi_container module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/distroi.oi_container.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="module-distroi.oi_container">
+<span id="distroi-oi-container-module"></span><h1>distroi.oi_container module<a class="headerlink" href="#module-distroi.oi_container" title="Permalink to this headline"></a></h1>
+<p>Contains a class to store optical inteferometric (OI) observables and additional functions to take radiative
+transfer (RT) model images and convert them to interferometric observables at the spatial frequencies of data
+stored in the OIFITS format. Currently supports the following combinations of obsevrables: Squared visibilities -
+Closure phases ; Visibilities - Closure phases ; Correlated fluxes (formaly stored as visibilities) - Closure phases.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="distroi.oi_container.OIContainer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.oi_container.</span></span><span class="sig-name descname"><span class="pre">OIContainer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fcorr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.oi_container.OIContainer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to contain optical interferometry observables, where each observable is stored in the form of raveled 1D
+numpy arrays. Based on the Data class in ReadOIFITS.py, where the observables are stored per OIFITS table,
+but the raveled form makes calculations easier and less prone to error. Currenlty supports visibilities (both in
+normalized and correlated flux form), squared visibilities and closure phases. In this format this class and the
+methods below can be expanded to accomodate for different kinds of observables (i.e. addition of differential
+visibilities). Can contain observables either related to astronomical observations or model RT images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dictionary</strong> (<em>dict</em>) – Dictionary containing keys and values representing all instance variables described below
+(excluding fcorr).</p></li>
+<li><p><strong>fcorr</strong> (<em>bool</em>) – Set to True if the visibilities are to be stored as correlated fluxes in Jy.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Variables</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>vis_in_fcorr</strong> (<em>bool</em>) – Whether visibilities are stored in correlated flux or not.</p></li>
+<li><p><strong>vuf</strong> (<em>np.ndarray</em>) – u-axis spatial freqs in 1/rad for visibility data.</p></li>
+<li><p><strong>vvf</strong> (<em>np.ndarray</em>) – v-axis spatial freqs in 1/rad for visibility data.</p></li>
+<li><p><strong>vwave</strong> (<em>np.ndarray</em>) – Wavelengths in meter for visibility data.</p></li>
+<li><p><strong>v</strong> (<em>np.ndarray</em>) – Visibilities, either normalized visibilities or correlated flux in Janksy.</p></li>
+<li><p><strong>verr</strong> (<em>np.ndarray</em>) – Error on visibilities.</p></li>
+<li><p><strong>vbase</strong> (<em>np.ndarray</em>) – Baseline length in MegaLambda for visibility data.</p></li>
+<li><p><strong>v2uf</strong> (<em>np.ndarray</em>) – u-axis spatial freqs in 1/rad for squared visibility data.</p></li>
+<li><p><strong>v2vf</strong> (<em>np.ndarray</em>) – v-axis spatial freqs in 1/rad for squared visibility data.</p></li>
+<li><p><strong>v2wave</strong> (<em>np.ndarray</em>) – Wavelengths in meter for squared visibility data.</p></li>
+<li><p><strong>v2</strong> (<em>np.ndarray</em>) – Squared visibilities.</p></li>
+<li><p><strong>v2err</strong> (<em>np.ndarray</em>) – Error on squared visibilities.</p></li>
+<li><p><strong>v2base</strong> (<em>np.ndarray</em>) – Baseline length in MegaLambda for squared visibility data.</p></li>
+<li><p><strong>t3uf1</strong> (<em>np.ndarray</em>) – u-axis spatial freqs in 1/rad for the 1st projected baseline along the closure triangle.</p></li>
+<li><p><strong>t3vf1</strong> (<em>np.ndarray</em>) – v-axis spatial freqs in 1/rad for the 1st projected baseline along the closure triangle.</p></li>
+<li><p><strong>t3uf2</strong> (<em>np.ndarray</em>) – u-axis spatial freqs in 1/rad for the 2nd projected baseline along the closure triangle.</p></li>
+<li><p><strong>t3vf2</strong> (<em>np.ndarray</em>) – v-axis spatial freqs in 1/rad for the 2nd projected baseline along the closure triangle.</p></li>
+<li><p><strong>t3uf3</strong> (<em>np.ndarray</em>) – u-axis spatial freqs in 1/rad for the 3d projected baseline along the closure triangle.</p></li>
+<li><p><strong>t3vf3</strong> (<em>np.ndarray</em>) – v-axis spatial freqs in 1/rad for the 3d projected baseline along the closure triangle.</p></li>
+<li><p><strong>t3wave</strong> (<em>np.ndarray</em>) – Wavelengths in meter for closure phase data.</p></li>
+<li><p><strong>t3phi</strong> (<em>np.ndarray</em>) – Closure phases in degrees.</p></li>
+<li><p><strong>t3phierr</strong> (<em>np.ndarray</em>) – Error on closure phases.</p></li>
+<li><p><strong>t3bmax</strong> (<em>np.ndarray</em>) – Maximum baseline length along the closure triangle in units of MegaLambda.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="distroi.oi_container.OIContainer.plot_data">
+<span class="sig-name descname"><span class="pre">plot_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_plotv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_vistype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'vis2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_plots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.oi_container.OIContainer.plot_data" title="Permalink to this definition"></a></dt>
+<dd><p>Plots the data included in the OIContainer instance. Currently, plots uv coverage, a (squared) visibility curve
+and closure phases.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fig_dir</strong> (<em>str</em>) – Directory to store plots in.</p></li>
+<li><p><strong>log_plotv</strong> (<em>bool</em>) – Set to True for a logarithmic y-scale in the (squared) visibility plot.</p></li>
+<li><p><strong>plot_vistype</strong> (<em>str</em>) – Sets the type of visibility to be plotted. ‘vis2’ for squared visibilities or ‘vis’
+for visibilities (either normalized or correlated flux in Jy, as implied by the OIContainer objects).</p></li>
+<li><p><strong>show_plots</strong> (<em>bool</em>) – Set to False if you do not want the plots to be shown during your python instance.
+Note that if True, this freazes further code execution until the plot windows are closed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.oi_container.calc_mod_observables">
+<span class="sig-prename descclassname"><span class="pre">distroi.oi_container.</span></span><span class="sig-name descname"><span class="pre">calc_mod_observables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#distroi.oi_container.OIContainer" title="distroi.oi_container.OIContainer"><span class="pre">distroi.oi_container.OIContainer</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_fft_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="distroi.image_fft.html#distroi.image_fft.ImageFFT" title="distroi.image_fft.ImageFFT"><span class="pre">distroi.image_fft.ImageFFT</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#distroi.oi_container.OIContainer" title="distroi.oi_container.OIContainer"><span class="pre">distroi.oi_container.OIContainer</span></a></span></span><a class="headerlink" href="#distroi.oi_container.calc_mod_observables" title="Permalink to this definition"></a></dt>
+<dd><p>Loads in OI observables from an OIContainer, typically containing observational data, and calculates model image
+observables at the same uv coverage. The model images are passed along as a list of ImageFFT objects. If the
+length of this list is 1, no interpolation in the wavelength dimension is performed, i.e. the emission model is
+‘monochromatic’. If the list contains multiple ImageFFT objects, interpolation in wavelength is performed. In
+this case the wavelength coverage of the ImageFFT objects needs to exceed that of the OIContainer! Expects that
+every ImageFFT object in the list has the same pixelscale and amount of pixels (in both x- and y-direction).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>container_data</strong> (<a class="reference internal" href="#distroi.oi_container.OIContainer" title="distroi.oi_container.OIContainer"><em>OIContainer</em></a>) – OIContainer at whose spatial frequencies we calculate model observables.</p></li>
+<li><p><strong>img_fft_list</strong> – List of ImageFFT objects representing the RT model images. If of length one, no interpolation
+in the wavelength dimension will be performed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return container_mod</dt>
+<dd class="field-even"><p>OIContainer for model image observables.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#distroi.oi_container.OIContainer" title="distroi.oi_container.OIContainer">OIContainer</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.oi_container.mod_comp_vis_interpolator">
+<span class="sig-prename descclassname"><span class="pre">distroi.oi_container.</span></span><span class="sig-name descname"><span class="pre">mod_comp_vis_interpolator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_fft_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="distroi.image_fft.html#distroi.image_fft.ImageFFT" title="distroi.image_fft.ImageFFT"><span class="pre">distroi.image_fft.ImageFFT</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fcorr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">scipy.interpolate._rgi.RegularGridInterpolator</span></span></span><a class="headerlink" href="#distroi.oi_container.mod_comp_vis_interpolator" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a scipy RegularGridInterpolator from model ImageFFT objects, which can be used to interpolate the complex
+visibility to different spatial frequencies than those returned by the FFT algorithm and, optionally,
+different wavelengths than those of the RT model images themselves. Note: The interpolator will throw errors if
+arguments outside their bounds are supplied! Note: Expects, in case of multiple model images, that every image
+included has the same pixelscale and amount of pixels (in both x- and y-direction).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img_fft_list</strong> (<em>list</em>) – List of ImageFFT objects to create an interpolator from. If the list has length one,
+i.e. a monochromatic model for the emission, the returned interpolator can only take the 2 spatial frequencies
+as arguments. If the list contains multiple objects, i.e. a chromatic model for the emission, the interpolator
+will also be able to take wavelength as an argument and will be able to interpolate along the wavelength
+dimension.</p></li>
+<li><p><strong>fcorr</strong> (<em>bool</em>) – Set to True if you want the returned interpolator to produce absolute, non-normalized
+complex visibilities, i.e. complex correlated fluxes (units Jy). By default, i.e. fcorr=False,
+the visibilities produced by the interpolator are normalized (e.g. for calculating squared visibilities).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return interpolator</dt>
+<dd class="field-even"><p>Interpolator for the model image FFTs. If len(img_fft_list) == 1, only takes the uv spatial
+frequencies (units 1/rad) as arguments as follows: interpolator(v, u).  If len(img_fft_list) &gt; 1, then it also
+can interpolate between wavelengths (units meter) as follows: interpolator(wavelength, v, u).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>scipy.interpolate.RegularGridInterpolator</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.oi_container.plot_data_vs_model">
+<span class="sig-prename descclassname"><span class="pre">distroi.oi_container.</span></span><span class="sig-name descname"><span class="pre">plot_data_vs_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#distroi.oi_container.OIContainer" title="distroi.oi_container.OIContainer"><span class="pre">distroi.oi_container.OIContainer</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">container_mod</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#distroi.oi_container.OIContainer" title="distroi.oi_container.OIContainer"><span class="pre">distroi.oi_container.OIContainer</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_plotv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_vistype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'vis2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_plots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.oi_container.plot_data_vs_model" title="Permalink to this definition"></a></dt>
+<dd><p>Plots the data against the model OI observables. Currently, plots uv coverage, a (squared) visibility curve and
+closure phases. Note that this function shares a name with a similar function in the sed module. Take care with
+your namespace if you use both functions in the same script.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>container_data</strong> (<a class="reference internal" href="#distroi.oi_container.OIContainer" title="distroi.oi_container.OIContainer"><em>OIContainer</em></a>) – Container with data observables.</p></li>
+<li><p><strong>container_mod</strong> (<a class="reference internal" href="#distroi.oi_container.OIContainer" title="distroi.oi_container.OIContainer"><em>OIContainer</em></a>) – Container with model observables.</p></li>
+<li><p><strong>fig_dir</strong> (<em>str</em>) – Directory to store plots in.</p></li>
+<li><p><strong>log_plotv</strong> (<em>bool</em>) – Set to True for a logarithmic y-scale in the (squared) visibility plot.</p></li>
+<li><p><strong>plot_vistype</strong> (<em>str</em>) – Sets the type of visibility to be plotted. ‘vis2’ for squared visibilities or ‘vis’
+for visibilities (either normalized or correlated flux in Jy, as implied by the OIContainer objects).</p></li>
+<li><p><strong>show_plots</strong> (<em>bool</em>) – Set to False if you do not want the plots to be shown during your python instance.
+Note that if True, this freazes further code execution until the plot windows are closed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.oi_container.read_oicontainer_oifits">
+<span class="sig-prename descclassname"><span class="pre">distroi.oi_container.</span></span><span class="sig-name descname"><span class="pre">read_oicontainer_oifits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wave_lims</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v2lim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fcorr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#distroi.oi_container.OIContainer" title="distroi.oi_container.OIContainer"><span class="pre">distroi.oi_container.OIContainer</span></a></span></span><a class="headerlink" href="#distroi.oi_container.read_oicontainer_oifits" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieve data from (multiple) OIFITS files and return in an OIConatiner class instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_dir</strong> (<em>str</em>) – Path to the directory where the files are stored.</p></li>
+<li><p><strong>data_file</strong> (<em>str</em>) – Data filename, including wildcards if needed to read in multiple files at once.</p></li>
+<li><p><strong>wave_lims</strong> (<em>tuple</em><em>(</em><em>float</em><em>)</em>) – The lower and upper wavelength limits in micron used when reading in data.</p></li>
+<li><p><strong>v2lim</strong> (<em>float</em>) – Upper limit on the squared visibility used when reading in data.</p></li>
+<li><p><strong>fcorr</strong> (<em>bool</em>) – Set to True if visibility data is to be interpreted as correlated fluxes in Jy units.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return container</dt>
+<dd class="field-even"><p>OIContainer with the observables from the OIFITS file.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#distroi.oi_container.OIContainer" title="distroi.oi_container.OIContainer">OIContainer</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="distroi.image_fft.html" class="btn btn-neutral float-left" title="distroi.image_fft module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="distroi.sed.html" class="btn btn-neutral float-right" title="distroi.sed module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Toon De Prins.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

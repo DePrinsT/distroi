@@ -1,3 +1,3 @@
 """
-This subpackage provides the implementation details of the different fitting routines.
+Subpackage providing the implementation details of supported fitting routines.
 """

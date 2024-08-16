@@ -16,6 +16,9 @@ import matplotlib.pyplot as plt
 
 constants.set_matplotlib_params()  # set project matplotlib parameters
 
+# TODO: remove the padding option via uvf_pad because it is super unrealistically expensive in terms of memory
+# Use instead padding up to a specified number of pixels
+
 
 class ImageFFT:
     """
@@ -99,12 +102,12 @@ class ImageFFT:
             # perform the fft to set the other instance variables
             self.perform_fft(uvf_pad=uvf_pad)
 
-        if self.num_pix_x % 2 != 0 or self.num_pix_y % 2 != 0:
-            print(
-                "DISTROI currently only supports images with an even amount of pixels in each dimension. "
-                "Program will be terminated!"
-            )
-            exit(1)
+            if self.num_pix_x % 2 != 0 or self.num_pix_y % 2 != 0:
+                print(
+                    "DISTROI currently only supports images with an even amount of pixels in each dimension. "
+                    "Program will be terminated!"
+                )
+                exit(1)
         return
 
     def perform_fft(self, uvf_pad: tuple[np.ndarray, np.ndarray] | None = None):
@@ -801,7 +804,7 @@ def read_image_fft_mcfost(
     return image
 
 
-def get_image_fft_list(
+def read_image_fft_list(
     mod_dir: str,
     img_dir: str,
     read_method: str = "mcfost",
@@ -854,7 +857,7 @@ def get_image_fft_list(
 
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
-    from distroi import oi_observables
+    from distroi import oi_container
 
     # # FFT test + output info on frequencies
     # mod_dir = "/home/toond/Documents/phd/python/distroi/examples/models/IRAS08544-4431_test_model/"
@@ -870,7 +873,7 @@ if __name__ == "__main__":
         f"/home/toond/Documents/phd/data/{object_id}/inspiring/PIONIER/img_ep_jan2021-mar2021/",
         "*.fits",
     )
-    container_data = oi_observables.read_oicontainer_oifits(data_dir, data_file)
+    container_data = oi_container.read_oicontainer_oifits(data_dir, data_file)
     uf, vf = container_data.v2uf, container_data.v2vf
 
     # np.random.seed(0)
