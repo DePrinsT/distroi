@@ -722,7 +722,7 @@ def oi_container_plot_data_vs_model(
 
 
 if __name__ == "__main__":
-    from distroi.auxiliary.beam import oifits_calc_gaussian_beam
+    from distroi.auxiliary.beam import oi_container_calc_gaussian_beam
 
     object_id_list = [
         "AI_Sco",
@@ -763,7 +763,7 @@ if __name__ == "__main__":
     pix_res = (0.5 / max_uv_dist) * constants.RAD2MAS  # smallest resolution element (at Nyquist sampling)
     print(f"resolution element is: {pix_res:.4E}")
 
-    beam = oifits_calc_gaussian_beam(
+    beam = oi_container_calc_gaussian_beam(
         container_data,
         vistype="vis2",
         make_plots=True,

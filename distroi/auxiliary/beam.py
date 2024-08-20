@@ -56,7 +56,7 @@ class Beam:
         return
 
 
-def oifits_calc_gaussian_beam(
+def oi_container_calc_gaussian_beam(
     container: oi_container.OIContainer,
     vistype: Literal["vis2", "vis", "fcorr"] = "vis2",
     make_plots: bool = False,

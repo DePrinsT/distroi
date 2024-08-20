@@ -42,7 +42,9 @@ def timestamp_to_plt_float(date_time: pd.Timestamp) -> float:
     return date_plt_float
 
 
-def time_window_plot(data_dir: str, data_file: str, init_window_width: float, copy_dir: str = None) -> list[str] | None:
+def oifits_time_window_plot(
+    data_dir: str, data_file: str, init_window_width: float, copy_dir: str = None
+) -> list[str] | None:
     """
     Produces an interactive matplotlib plot showing the specified OIFITS file as a time-series.
     The specified time window is shown as a red-shaded area. Sliders are provided to change the position and width
@@ -65,10 +67,13 @@ def time_window_plot(data_dir: str, data_file: str, init_window_width: float, co
     :rtype: list[str]
     """
 
+    # create copy directory if it doesn't exist yet
+    if copy_dir is not None:
+        if not os.path.exists(copy_dir):
+            os.makedirs(copy_dir)
+
     if init_window_width < 1:
-        print(
-            "Initial window width must be larger than or equal to 1 day! Function will not execute and will return None"
-        )
+        print("Initial window width must be larger than or equal to 1 day! Function will return None!")
         return
 
     obs_mjd = []  # list to hold MJD dates extracted from OIFITS files
@@ -401,44 +406,3 @@ def time_window_plot(data_dir: str, data_file: str, init_window_width: float, co
     plt.show()
 
     return files_within_window
-
-
-if __name__ == "__main__":
-    target_ids = [
-        "AI_Sco",
-        "EN_TrA",
-        "HD93662",
-        "HD95767",
-        "HD108015",
-        "HR4049",
-        "IRAS08544-4431",
-        "IRAS15469-5311",
-        "IW_Car",
-        "PS_Gem",
-        "U_Mon",
-    ]
-    orbital_periods = [
-        977.0,
-        1448.0,
-        572.0,
-        1989.0,
-        903.6,
-        430.6,
-        501.1,
-        390.0,
-        1449.0,
-        1288.6,
-        2550.0,
-    ]
-    porb_dict = dict(zip(target_ids, orbital_periods))  # dictionary of targets and orbital periods
-
-    # set properties for run
-    target_id = "IRAS15469-5311"
-    data_dir = f"/home/toond/Documents/phd/data/{target_id}/inspiring/PIONIER/all_data/"
-    data_file = "*.fits"
-    init_time_window = 0.15 * porb_dict[target_id]
-
-    # alternative call where I copy the resulting OIFITS files withim the plot's time window to a folder in my downloads
-    filenames = time_window_plot(
-        data_dir, data_file, init_time_window, copy_dir="/home/toond/Documents/phd/img_rec/IRAS15469-5311_test_data"
-    )
