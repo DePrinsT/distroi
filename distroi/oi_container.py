@@ -425,6 +425,7 @@ def oi_container_calc_image_fft_observables(
     :return container_mod: OIContainer for model image observables.
     :rtype: OIContainer
     """
+    # TODO: add functionality for including geometric components
 
     if len(img_fft_list) == 1:  # monochromatic case for a single image
         # create interpolator for the normalized complex FFT

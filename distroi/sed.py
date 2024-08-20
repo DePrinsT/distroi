@@ -151,7 +151,7 @@ def read_sed_mcfost(sed_path: str, star_only: bool = False) -> SED:
     return sed
 
 
-# TODO: implement reader function for basic
+# TODO: implement reader function for basic ViZier output
 
 
 def read_sed_repo_phot(sed_path: str, wave_lims: tuple[float, float] = None) -> SED:

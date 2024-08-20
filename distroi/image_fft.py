@@ -18,9 +18,6 @@ import matplotlib.pyplot as plt
 
 constants.set_matplotlib_params()  # set project matplotlib parameters
 
-# TODO: remove the padding option via uvf_pad because it is super unrealistically expensive in terms of memory
-# Use instead padding up to a specified number of pixels
-
 
 class ImageFFT:
     """
@@ -927,7 +924,7 @@ if __name__ == "__main__":
     import matplotlib.pyplot as plt
     # from distroi import oi_container
     # from scipy.spatial import distance
-# 
+    #
     # # FFT test + output info on frequencies
     # mod_dir = "/home/toond/Documents/phd/python/distroi/examples/models/IRAS08544-4431_test_model/"
     # img_dir = "PIONIER/data_1.65/"
@@ -971,6 +968,7 @@ if __name__ == "__main__":
 
     # FFT test + output info on frequencies
     import distroi.constants
+
     distroi.constants.IMG_OUTPUT_TYPE = "pdf"
 
     mod_dir = "/home/toond/Documents/phd/python/distroi/examples/models/IRAS08544-4431_test_model/"
