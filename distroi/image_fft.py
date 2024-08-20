@@ -11,6 +11,9 @@ import glob
 import numpy as np
 from astropy.io import fits
 from scipy.spatial import distance
+from scipy.interpolate import RegularGridInterpolator
+
+from typing_extensions import Literal
 
 import matplotlib.pyplot as plt
 
@@ -413,7 +416,7 @@ class ImageFFT:
     def diagnostic_plot(
         self,
         fig_dir: str = None,
-        plot_vistype: str = "vis2",
+        plot_vistype: Literal["vis2", "vis", "fcorr"] = "vis2",
         log_plotv: bool = False,
         log_ploti: bool = False,
         show_plots: bool = True,
@@ -430,6 +433,14 @@ class ImageFFT:
             Note that if True, this freazes further code execution until the plot windows are closed.
         :rtype: None
         """
+        valid_vistypes = ["vis2", "vis", "fcorr"]
+        if plot_vistype not in valid_vistypes:
+            print(
+                f"Warning: Invalid plot_vistype '{plot_vistype}'. Valid options are: {valid_vistypes}. "
+                f"Will return None!"
+            )
+            return None
+
         baseu = self.uf / 1e6  # Baseline length u in MegaLambda
         basev = self.vf / 1e6  # Baseline length v in MegaLambda
 
@@ -807,7 +818,7 @@ def read_image_fft_mcfost(
 def read_image_fft_list(
     mod_dir: str,
     img_dir: str,
-    read_method: str = "mcfost",
+    read_method: Literal["mcfost"] = "mcfost",
     ebminv: float = 0.0,
     reddening_law: str = f"{constants.PROJECT_ROOT}" f"/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat",
 ) -> list[ImageFFT] | None:
@@ -830,6 +841,13 @@ def read_image_fft_list(
         Sorted by wavelength
     :rtype: list(ImageFFT)
     """
+    valid_read_methods = ["mcfost"]
+    if read_method not in valid_read_methods:
+        print(
+            f"Warning: Invalid read_method '{read_method}'. Valid options are: {valid_read_methods}. "
+            f"Will return None!"
+        )
+        return None
 
     img_fft_list = []  # list of ImageFFT objects to be held (1 element long in the case of monochr=True)
     wavelengths = []  # list of their wavelengths
@@ -855,6 +873,76 @@ def read_image_fft_list(
     return img_fft_list
 
 
+def image_fft_comp_vis_interpolator(
+    img_fft_list: list[ImageFFT],
+    normalised: bool = False,
+    interp_method: Literal["linear", "nearest", "slinear", "cubic", "quintic", "pchip"] = "linear",
+) -> RegularGridInterpolator:
+    """
+    Creates a scipy RegularGridInterpolator from model ImageFFT objects, which can be used to interpolate the complex
+    visibility to different spatial frequencies than those returned by the FFT algorithm and, optionally,
+    different wavelengths than those of the RT model images themselves. Note: The interpolator will throw errors if
+    arguments outside their bounds are supplied! Note: Expects, in case of multiple model images, that every image
+    included has the same pixelscale and amount of pixels (in both x- and y-direction).
+
+    :param list img_fft_list: List of ImageFFT objects to create an interpolator from. If the list has length one,
+        i.e. a monochromatic model for the emission, the returned interpolator can only take the 2 spatial frequencies
+        as arguments. If the list contains multiple objects, i.e. a chromatic model for the emission, the interpolator
+        will also be able to take wavelength as an argument and will be able to interpolate along the wavelength
+        dimension.
+    :param bool normalised: Set to True if you want the returned interpolator to produce normalised, non-absolute
+        complex visibilities (for calculating e.g. squared visibilities). By default normalised = False, meaning
+        the interpolator returns absolute complex visibilities, i.e. complex correlated fluxes (in units Jy).
+    :param Literal[str] interp_method: Interpolation method used by scipy. Can support 'linear', 'nearest', 'slinear',
+        'cubic', 'quintic' or 'pchip'.
+    :return interpolator: Interpolator for the model image FFTs. If len(img_fft_list) == 1, only takes the uv spatial
+        frequencies (units 1/rad) as arguments as follows: interpolator(v, u).  If len(img_fft_list) > 1, then it also
+        can interpolate between wavelengths (units meter) as follows: interpolator(wavelength, v, u).
+    :rtype: scipy.interpolate.RegularGridInterpolator
+    """
+
+    if len(img_fft_list) == 1:  # single image -> monochromatic emission model
+        img = img_fft_list[0]
+        wavelength, ftot, fft, uf, vf = (
+            img.wavelength,
+            img.ftot,
+            img.fft,
+            img.uf,
+            img.vf,
+        )
+        if not normalised:  # create interpolator and normalize FFT to normalised complex visibilities if needed
+            interpolator = RegularGridInterpolator((vf, uf), fft, method=interp_method)  # make interpol absolute FFT
+        else:
+            interpolator = RegularGridInterpolator((vf, uf), fft / ftot, method=interp_method)  # same normalized
+
+    else:  # multiple images -> chromatic emission model
+        mod_wavelengths = []  # list of model image wavelengths in meter
+        fft_chromatic = []  # 3d 'array' list to store the different model image FFTs accros wavelength
+
+        for img in img_fft_list:
+            wavelength, ftot, fft, uf, vf = (
+                img.wavelength,
+                img.ftot,
+                img.fft,
+                img.uf,
+                img.vf,
+            )
+            if not normalised:  # attach FFTs to chromatic list and normalize FFTs to complex visibilities if needed
+                fft_chromatic.append(fft)  # store image's FFT in chromatic list
+            else:
+                fft_chromatic.append(fft / ftot)
+            mod_wavelengths.append(wavelength * constants.MICRON2M)  # store image wavelength in meter
+
+        # sort lists according to ascending wavelength just to be sure (required for making the interpolator)
+        mod_wavelengths, fft_chromatic = list(zip(*sorted(zip(mod_wavelengths, fft_chromatic))))
+
+        # make interpolator from multiple FFTs, note this assumes all images have the same pixelscale
+        # and amount of pixels (in both x and y directions)
+        fft_chromatic = np.array(fft_chromatic)
+        interpolator = RegularGridInterpolator((mod_wavelengths, vf, uf), fft_chromatic)
+    return interpolator
+
+
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
     from distroi import oi_container
@@ -873,7 +961,7 @@ if __name__ == "__main__":
         f"/home/toond/Documents/phd/data/{object_id}/inspiring/PIONIER/img_ep_jan2021-mar2021/",
         "*.fits",
     )
-    container_data = oi_container.read_oicontainer_oifits(data_dir, data_file)
+    container_data = oi_container.read_oi_container_from_oifits(data_dir, data_file)
     uf, vf = container_data.v2uf, container_data.v2vf
 
     # np.random.seed(0)

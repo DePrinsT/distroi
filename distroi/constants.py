@@ -198,6 +198,51 @@ def flam_cgs_per_mum_to_fnu_jansky(flam: np.ndarray | float, wavelength: np.ndar
     return fnu
 
 
+def gaussian_2d_elliptical(
+    points: tuple[np.ndarray, np.ndarray],
+    amp: float = 1,
+    x0: float = 0,
+    y0: float = 0,
+    sig_min: float = 1,
+    sig_maj_min_sig_min: float = 0,
+    pa: float = 0,
+    offset: float = 0,
+) -> np.ndarray:
+    """
+    Definition for calculating the value of a 2D Elliptical Gaussian at a given point. Defined by an amplitude,
+     xy center, standard deviations along major/minor axis, a major axis position angle and an offset.
+
+    :param tuple(float | np) points: 2D tuples describing the (x, y) points to be inserted. Note that positive x is
+        defined as leftward and positive y as upward (i.e. the East and North repesctively in the OI convention).
+    :param float amp: Amplitude of the Gaussian.
+    :param float x0: x-coordinate center of the Guassian.
+    :param float y0: y-coordinate center of the Gaussian.
+    :param float sig_min: Standard deviation in the minor axis direction.
+    :param sig_maj_min_sig_min: How much the standard deviation in major ellipse axis direction is greater than that of
+        minor axis direction. Defined so it can always be greater than or equal to sig_min when used in
+        scipy.optimize.curve_fit.
+    :param float pa: Position angle of the Gaussian (i.e. the major axis direction) anti-clockwise, starting North
+        (positive y).
+    :param float offset: Base level offset from 0.
+    :return values: A raveled 1D array containg the values of the Gaussian calculated at the points.
+    :rtype: np.ndarray
+    """
+    x, y = points  # unpack tuple point coordinates in OI definition
+    theta = pa * DEG2RAD
+
+    sig_maj = sig_min + sig_maj_min_sig_min  # calculate std in y direction
+
+    # set multiplication factors for representing the rotation matrix
+    # note the matrix assumes positive x is to the right, so we also add a minus to the
+    a = (np.cos(theta) ** 2) / (2 * sig_min**2) + (np.sin(theta) ** 2) / (2 * sig_maj**2)
+    b = -(np.sin(2 * theta)) / (4 * sig_min**2) + (np.sin(2 * theta)) / (4 * sig_maj**2)
+    c = (np.sin(theta) ** 2) / (2 * sig_min**2) + (np.cos(theta) ** 2) / (2 * sig_maj**2)
+    values = offset + amp * np.exp(-(a * ((x - x0) ** 2) + 2 * b * (x - x0) * (y - y0) + c * ((y - y0) ** 2)))
+    values = np.array(values).ravel()  # ravel to a 1D array, so it can be used in scipy curve fitting
+
+    return values
+
+
 if __name__ == "__main__":
     print(
         (WATT_PER_M2_HZ_2JY * MICRON2M**2 * ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M / SPEED_OF_LIGHT) * 6.743e-10 * 0.36**2

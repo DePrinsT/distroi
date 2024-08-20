@@ -13,14 +13,14 @@ from distroi.auxiliary import beam
 
 # Read in the data to an OIContainer object
 data_dir, data_file = "./data/IRAS08544-4431/PIONIER/", "*.fits"
-container_data = oi_container.read_oicontainer_oifits(data_dir, data_file)
+container_data = oi_container.read_oi_container_from_oifits(data_dir, data_file)
 
 # Make plots of the data, including the uv coverage
 fig_dir = "./figures/gaussian_beam_calculation/"
 container_data.plot_data(fig_dir=fig_dir)
 
 # Calculate the resolution ellipse from a Gaussian fit to the interferometric point-spread function.
-beam = beam.calc_gaussian_beam(
+beam = beam.oifits_calc_gaussian_beam(
     container_data,
     vistype="vis2",
     make_plots=True,

@@ -12,6 +12,8 @@ import os
 import numpy as np
 from scipy.optimize import curve_fit
 
+from typing import Literal
+
 import matplotlib.pyplot as plt
 from matplotlib.patches import Ellipse
 
@@ -54,54 +56,9 @@ class Beam:
         return
 
 
-def gaussian_2d_ellipse(
-    points: tuple[np.ndarray, np.ndarray],
-    amp: float = 1,
-    x0: float = 0,
-    y0: float = 0,
-    sig_min: float = 1,
-    sig_maj_min_sig_min: float = 0,
-    pa: float = 0,
-    offset: float = 0,
-) -> np.ndarray:
-    """
-    Definition for calculating the value of a 2D Elliptical Gaussian at a given point. Defined by an amplitude,
-     xy center, standard deviations along major/minor axis, a major axis position angle and an offset.
-
-    :param tuple(float | np) points: 2D tuples describing the (x, y) points to be inserted. Note that positive x is
-        defined as leftward and positive y as upward (i.e. the East and North repesctively in the OI convention).
-    :param float amp: Amplitude of the Gaussian.
-    :param float x0: x-coordinate center of the Guassian.
-    :param float y0: y-coordinate center of the Gaussian.
-    :param float sig_min: Standard deviation in the minor axis direction.
-    :param sig_maj_min_sig_min: How much the standard deviation in major ellipse axis direction is greater than that of
-        minor axis direction. Defined so it can always be greater than or equal to sig_min when used in
-        scipy.optimize.curve_fit.
-    :param float pa: Position angle of the Gaussian (i.e. the major axis direction) anti-clockwise, starting North
-        (positive y).
-    :param float offset: Base level offset from 0.
-    :return values: A raveled 1D array containg the values of the Gaussian calculated at the points.
-    :rtype: np.ndarray
-    """
-    x, y = points  # unpack tuple point coordinates in OI definition
-    theta = pa * constants.DEG2RAD
-
-    sig_maj = sig_min + sig_maj_min_sig_min  # calculate std in y direction
-
-    # set multiplication factors for representing the rotation matrix
-    # note the matrix assumes positive x is to the right, so we also add a minus to the
-    a = (np.cos(theta) ** 2) / (2 * sig_min**2) + (np.sin(theta) ** 2) / (2 * sig_maj**2)
-    b = -(np.sin(2 * theta)) / (4 * sig_min**2) + (np.sin(2 * theta)) / (4 * sig_maj**2)
-    c = (np.sin(theta) ** 2) / (2 * sig_min**2) + (np.cos(theta) ** 2) / (2 * sig_maj**2)
-    values = offset + amp * np.exp(-(a * ((x - x0) ** 2) + 2 * b * (x - x0) * (y - y0) + c * ((y - y0) ** 2)))
-    values = np.array(values).ravel()  # ravel to a 1D array, so it can be used in scipy curve fitting
-
-    return values
-
-
-def calc_gaussian_beam(
+def oifits_calc_gaussian_beam(
     container: oi_container.OIContainer,
-    vistype: str = "vis2",
+    vistype: Literal["vis2", "vis", "fcorr"] = "vis2",
     make_plots: bool = False,
     fig_dir: str = None,
     show_plots: bool = False,
@@ -133,6 +90,11 @@ def calc_gaussian_beam(
     :rtype: Beam
 
     """
+    valid_vistypes = ["vis2", "vis", "fcorr"]
+    if vistype not in valid_vistypes:
+        print(f"Warning: Invalid vistype '{vistype}'. Valid options are: {valid_vistypes}. " f"Will return None!")
+        return None
+
     if pix_per_res % 2 != 0:
         print("calc_gaussian_beam() currently only supports even values for 'pix_per_res'. Function will return None!")
         return None
@@ -171,7 +133,9 @@ def calc_gaussian_beam(
         [0, -np.inf, -np.inf, 0, 0, -90.01, -np.inf],
         [np.inf, np.inf, np.inf, np.inf, np.inf, 90.01, np.inf],
     )  # defined so sig_maj >= sig_min
-    popt_and_cov = curve_fit(gaussian_2d_ellipse, (x, y), np.ravel(img_dirty), p0=init_guess, bounds=bounds)
+    popt_and_cov = curve_fit(
+        constants.gaussian_2d_elliptical, (x, y), np.ravel(img_dirty), p0=init_guess, bounds=bounds
+    )
     popt = popt_and_cov[0]  # extract optimized parameter.
 
     # make beam object
@@ -247,7 +211,7 @@ def calc_gaussian_beam(
         ax[0][0].axvline(x=0, lw=0.5, color="white", alpha=0.5, zorder=0)
 
         # plot Gaussian fit to the beam, note the output of gaussian_2d is 1D so needs to be reshaped
-        img_fitted = np.reshape(gaussian_2d_ellipse((x, y), *popt), np.shape(img_dirty))
+        img_fitted = np.reshape(constants.gaussian_2d_elliptical((x, y), *popt), np.shape(img_dirty))
         img_fit_plot = ax[0][1].imshow(
             img_fitted,
             aspect="auto",

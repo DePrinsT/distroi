@@ -12,7 +12,8 @@ from distroi.auxiliary import select_data_oifits
 import os
 
 import numpy as np
-from scipy.interpolate import RegularGridInterpolator
+
+from typing_extensions import Literal
 
 import matplotlib.pyplot as plt
 
@@ -121,7 +122,7 @@ class OIContainer:
         self,
         fig_dir: str = None,
         log_plotv: bool = False,
-        plot_vistype: str = "vis2",
+        plot_vistype: Literal["vis2", "vis", "fcorr"] = "vis2",
         show_plots: bool = True,
     ) -> None:
         """
@@ -136,6 +137,15 @@ class OIContainer:
             Note that if True, this freazes further code execution until the plot windows are closed.
         :rtype: None
         """
+        # check if valid plot_vistype passed along
+        valid_vistypes = ["vis2", "vis", "fcorr"]
+        if plot_vistype not in valid_vistypes:
+            print(
+                f"Warning: Invalid plot_vistype '{plot_vistype}'. Valid options are: {valid_vistypes}. "
+                f"Will return None!"
+            )
+            return None
+
         # create plotting directory if it doesn't exist yet
         if fig_dir is not None:
             if not os.path.exists(fig_dir):
@@ -255,7 +265,7 @@ class OIContainer:
         return None
 
 
-def read_oicontainer_oifits(
+def read_oi_container_from_oifits(
     data_dir: str,
     data_file: str,
     wave_lims: tuple[float, float] | None = None,
@@ -398,7 +408,9 @@ def read_oicontainer_oifits(
     return container
 
 
-def calc_mod_observables(container_data: OIContainer, img_fft_list: list[image_fft.ImageFFT]) -> OIContainer:
+def oi_container_calc_image_fft_observables(
+    container_data: OIContainer, img_fft_list: list[image_fft.ImageFFT]
+) -> OIContainer:
     """
     Loads in OI observables from an OIContainer, typically containing observational data, and calculates model image
     observables at the same uv coverage. The model images are passed along as a list of ImageFFT objects. If the
@@ -416,11 +428,11 @@ def calc_mod_observables(container_data: OIContainer, img_fft_list: list[image_f
 
     if len(img_fft_list) == 1:  # monochromatic case for a single image
         # create interpolator for the normalized complex FFT
-        interp_norm = mod_comp_vis_interpolator(img_fft_list)
+        interp_norm = image_fft.image_fft_comp_vis_interpolator(img_fft_list, normalised=True)
 
         # Calculate visibilities (requires separate interpolator for correlated fluxes if needed).
         if container_data.vis_in_fcorr:
-            interp_fcorr = mod_comp_vis_interpolator(img_fft_list, fcorr=True)
+            interp_fcorr = image_fft.image_fft_comp_vis_interpolator(img_fft_list, normalised=False)
             vmod = abs(interp_fcorr((container_data.vvf, container_data.vuf)))
         else:
             vmod = abs(interp_norm((container_data.vvf, container_data.vuf)))
@@ -439,11 +451,11 @@ def calc_mod_observables(container_data: OIContainer, img_fft_list: list[image_f
 
     else:  # case for multiple images simultaneously
         # create interpolator for the normalized complex FFT
-        interp_norm = mod_comp_vis_interpolator(img_fft_list)
+        interp_norm = image_fft.image_fft_comp_vis_interpolator(img_fft_list, normalised=True)
 
         # Calculate visibilities (requires separate interpolator for correlated fluxes if needed).
         if container_data.vis_in_fcorr:
-            interp_fcorr = mod_comp_vis_interpolator(img_fft_list, fcorr=True)
+            interp_fcorr = image_fft.image_fft_comp_vis_interpolator(img_fft_list, normalised=False)
             vmod = abs(interp_fcorr((container_data.vwave, container_data.vvf, container_data.vuf)))
         else:
             vmod = abs(interp_norm((container_data.vwave, container_data.vvf, container_data.vuf)))
@@ -492,76 +504,12 @@ def calc_mod_observables(container_data: OIContainer, img_fft_list: list[image_f
     return container_mod
 
 
-def mod_comp_vis_interpolator(img_fft_list: list[image_fft.ImageFFT], fcorr: bool = False) -> RegularGridInterpolator:
-    """
-    Creates a scipy RegularGridInterpolator from model ImageFFT objects, which can be used to interpolate the complex
-    visibility to different spatial frequencies than those returned by the FFT algorithm and, optionally,
-    different wavelengths than those of the RT model images themselves. Note: The interpolator will throw errors if
-    arguments outside their bounds are supplied! Note: Expects, in case of multiple model images, that every image
-    included has the same pixelscale and amount of pixels (in both x- and y-direction).
-
-    :param list img_fft_list: List of ImageFFT objects to create an interpolator from. If the list has length one,
-        i.e. a monochromatic model for the emission, the returned interpolator can only take the 2 spatial frequencies
-        as arguments. If the list contains multiple objects, i.e. a chromatic model for the emission, the interpolator
-        will also be able to take wavelength as an argument and will be able to interpolate along the wavelength
-        dimension.
-    :param bool fcorr: Set to True if you want the returned interpolator to produce absolute, non-normalized
-        complex visibilities, i.e. complex correlated fluxes (units Jy). By default, i.e. fcorr=False,
-        the visibilities produced by the interpolator are normalized (e.g. for calculating squared visibilities).
-    :return interpolator: Interpolator for the model image FFTs. If len(img_fft_list) == 1, only takes the uv spatial
-        frequencies (units 1/rad) as arguments as follows: interpolator(v, u).  If len(img_fft_list) > 1, then it also
-        can interpolate between wavelengths (units meter) as follows: interpolator(wavelength, v, u).
-    :rtype: scipy.interpolate.RegularGridInterpolator
-    """
-
-    if len(img_fft_list) == 1:  # single image -> monochromatic emission model
-        img = img_fft_list[0]
-        wavelength, ftot, fft, uf, vf = (
-            img.wavelength,
-            img.ftot,
-            img.fft,
-            img.uf,
-            img.vf,
-        )
-        if fcorr:  # create interpolator and normalize FFT to complex visibilities if needed
-            interpolator = RegularGridInterpolator((vf, uf), fft, method="linear")  # make interpol absolute FFT
-        else:
-            interpolator = RegularGridInterpolator((vf, uf), fft / ftot, method="linear")  # same normalized
-
-    else:  # multiple images -> chromatic emission model
-        mod_wavelengths = []  # list of model image wavelengths in meter
-        fft_chromatic = []  # 3d 'array' list to store the different model image FFTs accros wavelength
-
-        for img in img_fft_list:
-            wavelength, ftot, fft, uf, vf = (
-                img.wavelength,
-                img.ftot,
-                img.fft,
-                img.uf,
-                img.vf,
-            )
-            if fcorr:  # attach FFTs to chromatic list and normalize FFTs to complex visibilities if needed
-                fft_chromatic.append(fft)  # store image's FFT in chromatic list
-            else:
-                fft_chromatic.append(fft / ftot)
-            mod_wavelengths.append(wavelength * constants.MICRON2M)  # store image wavelength in meter
-
-        # sort lists according to ascending wavelength just to be sure (required for making the interpolator)
-        mod_wavelengths, fft_chromatic = list(zip(*sorted(zip(mod_wavelengths, fft_chromatic))))
-
-        # make interpolator from multiple FFTs, note this assumes all images have the same pixelscale
-        # and amount of pixels (in both x and y directions)
-        fft_chromatic = np.array(fft_chromatic)
-        interpolator = RegularGridInterpolator((mod_wavelengths, vf, uf), fft_chromatic)
-    return interpolator
-
-
-def plot_data_vs_model(
+def oi_container_plot_data_vs_model(
     container_data: OIContainer,
     container_mod: OIContainer,
     fig_dir: str = None,
     log_plotv: bool = False,
-    plot_vistype: str = "vis2",
+    plot_vistype: Literal["vis2", "vis", "fcorr"] = "vis2",
     show_plots: bool = True,
 ) -> None:
     """
@@ -573,12 +521,20 @@ def plot_data_vs_model(
     :param OIContainer container_mod: Container with model observables.
     :param str fig_dir: Directory to store plots in.
     :param bool log_plotv: Set to True for a logarithmic y-scale in the (squared) visibility plot.
-    :param str plot_vistype: Sets the type of visibility to be plotted. 'vis2' for squared visibilities or 'vis'
-        for visibilities (either normalized or correlated flux in Jy, as implied by the OIContainer objects).
+    :param str plot_vistype: Sets the type of visibility to be plotted. 'vis2' for squared visibilities, 'vis'
+        for visibilities or 'fcorr' for correlated flux in Jy.
     :param bool show_plots: Set to False if you do not want the plots to be shown during your python instance.
         Note that if True, this freazes further code execution until the plot windows are closed.
     :rtype: None
     """
+    valid_vistypes = ["vis2", "vis", "fcorr"]
+    if plot_vistype not in valid_vistypes:
+        print(
+            f"Warning: Invalid plot_vistype '{plot_vistype}'. Valid options are: {valid_vistypes}. "
+            f"Will return None!"
+        )
+        return None
+
     # create plotting directory if it doesn't exist yet
     if fig_dir is not None:
         if not os.path.exists(fig_dir):
@@ -766,7 +722,7 @@ def plot_data_vs_model(
 
 
 if __name__ == "__main__":
-    from distroi.auxiliary.beam import calc_gaussian_beam
+    from distroi.auxiliary.beam import oifits_calc_gaussian_beam
 
     object_id_list = [
         "AI_Sco",
@@ -783,7 +739,7 @@ if __name__ == "__main__":
     ]
     # for object_id in object_id_list:
     #     data_dir, data_file = (f"/home/toond/Documents/phd/data/{object_id}/inspiring/PIONIER/all_data/", "*.fits")
-    #     container_data = read_oicontainer_oifits(data_dir, data_file)
+    #     container_data = read_oi_container_from_oifits(data_dir, data_file)
     #     fig_dir = f"{data_dir}/figures/"
     #     container_data.plot_data(fig_dir=fig_dir)
     #     beam = calc_gaussian_beam(
@@ -797,7 +753,7 @@ if __name__ == "__main__":
         f"/home/toond/Documents/phd/data/{object_id}/inspiring/PIONIER/{epoch_id}/",
         "*.fits",
     )
-    container_data = read_oicontainer_oifits(data_dir, data_file)
+    container_data = read_oi_container_from_oifits(data_dir, data_file)
     fig_dir = f"{data_dir}/figures/"
     container_data.plot_data(fig_dir=fig_dir)
 
@@ -807,7 +763,7 @@ if __name__ == "__main__":
     pix_res = (0.5 / max_uv_dist) * constants.RAD2MAS  # smallest resolution element (at Nyquist sampling)
     print(f"resolution element is: {pix_res:.4E}")
 
-    beam = calc_gaussian_beam(
+    beam = oifits_calc_gaussian_beam(
         container_data,
         vistype="vis2",
         make_plots=True,
@@ -816,5 +772,3 @@ if __name__ == "__main__":
         num_res=2,
         pix_per_res=64,
     )
-
-    print("shabooble")
