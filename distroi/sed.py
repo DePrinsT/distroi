@@ -151,7 +151,7 @@ def read_sed_mcfost(sed_path: str, star_only: bool = False) -> SED:
     return sed
 
 
-# TODO: implement reader function for basic ViZier output
+# TODO: implement reader function for basic
 
 
 def read_sed_repo_phot(sed_path: str, wave_lims: tuple[float, float] = None) -> SED:
@@ -364,7 +364,7 @@ def sed_plot_data_vs_model(
     if fig_dir is not None:
         if not os.path.exists(fig_dir):
             os.makedirs(fig_dir)
-        plt.savefig(f"{fig_dir}/sed_comparison.{constants.IMG_OUTPUT_TYPE}", dpi=300, bbox_inches="tight")
+        plt.savefig(f"{fig_dir}/sed_comparison.png", dpi=300, bbox_inches="tight")
     if show_plots:
         plt.show()
 

@@ -10,6 +10,7 @@ import glob
 
 import numpy as np
 from astropy.io import fits
+from scipy.spatial import distance
 from scipy.interpolate import RegularGridInterpolator
 
 from typing_extensions import Literal
@@ -17,6 +18,9 @@ from typing_extensions import Literal
 import matplotlib.pyplot as plt
 
 constants.set_matplotlib_params()  # set project matplotlib parameters
+
+# TODO: remove the padding option via uvf_pad because it is super unrealistically expensive in terms of memory
+# Use instead padding up to a specified number of pixels
 
 
 class ImageFFT:
@@ -30,10 +34,11 @@ class ImageFFT:
     :param dict dictionary: Dictionary containing keys and values representing several instance variables described
         below. Should include 'wavelength', 'pixelscale_x'/'y', 'num_pix_x'/'y', 'img', and 'ftot'. The other required
         instance variables (related to the FFT) are set automatically through perform_fft().
-    :param tuple[int, int] padding: Number of (x, y)-pixles to which an image should be 0-padded before performing
-        the FFT. I.e. padding=(680, 540) will 0-pad an image to 680 and 540 pixels in the x and y dimensions,
-        respectively. If smaller than the number of pixels already in the 'img' array, no padding will be added in
-        the respective dimension. These should both be even numbers!
+    :param tuple[np.ndarray, np.ndarray] uvf_pad: Tuple of 2 np.ndarrays holding a uv-frequency points in units
+        of 1/rad. If added, the read-in image will be be padded on the outside by pixels with 0 flux to increase the
+        field of view (FOV). The frequency separation between values in the resulting FFT will then be as small as the
+        smallest separation between uv frequency points in uvf_pad. This mitigates interpolation errors of the FFT in
+        frequency space which occur when the original image FOV is too small.
     :ivar float wavelength: ImageFFT wavelength in micron.
     :ivar float pixelscale_x: Pixelscale in radian in x (East-West) direction.
     :ivar float pixelscale_y: Pixelscale in radian in y (North-South) direction.
@@ -43,11 +48,10 @@ class ImageFFT:
         2nd index = image x-axis.
     :ivar float ftot: Total image flux in Jy
     :ivar np.ndarray fft: Complex 2D numpy FFT of img in Jy, i.e. in correlated flux formulation.
-    :ivar int num_pix_fft_x: Amount of image FFT pixels in the x direction. This can be different
-        from num_pix_x due to padding.
-    :ivar int num_pix_fft_y: Amount of image FFT pixels in the y direction. This can be different
-        from num_pix_y due to padding.
-    :ivar np.ndarray w_x: 1D array with numpy FFT x-axis frequencies in units of 1/pixelscale_x.
+    :ivar int num_pix_fft_x: Amount of image FFT pixels in the x direction.
+    :ivar int num_pix_fft_y: Amount of image FFT pixels in the y direction.
+    :ivar np.ndarray w_x: 1D array with numpy FFT x-axis frequencies in units of 1/pixelscale_x. This can be different
+        from num_pix_x due to padding if 'uvf_pad' is provided at initialization.
     :ivar np.ndarray w_y: 1D array with numpy FFT y-axis frequencies in units of 1/pixelscale_y.
     :ivar np.ndarray uf: 1D array with FFT spatial x-axis frequencies in 1/radian, i.e. uf = w_x/pixelscale_x.
     :ivar np.ndarray vf: 1D array with FFT spatial y-axis frequencies in 1/radian, i.e. vf = w_y/pixelscale_y.
@@ -56,7 +60,7 @@ class ImageFFT:
     def __init__(
         self,
         dictionary: dict[str, np.ndarray | float | int],
-        padding: tuple[int, int] | None = None,
+        uvf_pad: tuple[np.ndarray, np.ndarray] | None = None,
     ):
         """
         Constructor method. See class docstring for information on instance properties.
@@ -99,7 +103,7 @@ class ImageFFT:
             self.img = dictionary["img"]
             self.ftot = dictionary["ftot"]
             # perform the fft to set the other instance variables
-            self.perform_fft(padding=padding)
+            self.perform_fft(uvf_pad=uvf_pad)
 
             if self.num_pix_x % 2 != 0 or self.num_pix_y % 2 != 0:
                 print(
@@ -109,63 +113,94 @@ class ImageFFT:
                 exit(1)
         return
 
-    def perform_fft(self, padding: tuple[int, int] | None = None):
+    def perform_fft(self, uvf_pad: tuple[np.ndarray, np.ndarray] | None = None):
         """
         Perform the numpy FFT and set the required properties related to the image's FFT.
 
-        :param tuple[int, int] padding: Number of (x, y)-pixles to which an image should be 0-padded before performing
-            the FFT. I.e. padding=(680, 540) will 0-pad an image to 680 and 540 pixels in the x and y dimensions,
-            respectively. If smaller than the number of pixels already in the 'img' array, no padding will be added in
-            the respective dimension. These should both be even numbers!
+        :param tuple[np.ndarray, np.ndarray] uvf_pad: Tuple of 2 np.ndarrays holding a uv-frequency points in units of
+            1/rad. If added, the read-in image will be be padded on the outside by pixels with 0 flux to increase the
+            field of view (FOV). The frequency separation between values in the resulting FFT will then be as small
+            as the smallest separation between uv frequency points in uvf_pad. This mitigates interpolation errors of
+            the FFT in frequency space which occur when the original image FOV is too small.
         :rtype: None
         """
 
-        if padding is None:  # case if no padding is required
-            image = self.img  # set image to perform FFT on to the one passed along in the constructor dictionary
+        if uvf_pad is None:  # case if no padding is required
+            print("UVF PAD IS NONE -> JUST PERFORMING REGULAR FFT")
+            self.fft = np.fft.fftshift(np.fft.fft2(np.fft.fftshift(self.img)))  # complex fft in Jansky
+
+            # extract info on the frequencies, note this is in units of 1/pixel
+            # !!! NOTE: the first axis in a numpy array is the y-axis of the img, the second axis is the x-axis
+            # !!! NOTE: we add a minus because the positive x- and y-axis convention in numpy
+            # is the reverse of the interferometric one !!!
+
             self.num_pix_fft_x = self.num_pix_x  # no padding is required -> the number of pixels of the FFT is the same
             self.num_pix_fft_y = self.num_pix_y  # as that of the image
+
+            self.w_x = -np.fft.fftshift(np.fft.fftfreq(self.fft.shape[1]))  # also use fftshift so the 0 frequency
+            self.w_y = -np.fft.fftshift(np.fft.fftfreq(self.fft.shape[0]))  # lies in the middle of the returned array
+
+            self.uf = self.w_x / self.pixelscale_x  # spatial frequencies in units of 1/radian
+            self.vf = self.w_y / self.pixelscale_y
         else:
-            if padding[0] % 2 != 0 or padding[1] % 2 != 0:  # check for even amount of pixels in padding.
-                print(
-                    "DISTROI currently only supports padding image FFTs to an even amount of pixels in each dimension. "
-                    "Program will be terminated!"
-                )
-                exit(1)
+            # calculate minimum frequency distance in uv plane for padding
+            # 2d array with the different points along the rows and the 2 columns being the coordinates
+            uv_coord_array = np.array((uvf_pad[0], uvf_pad[0])).T
+            # feed to scipy's cdist to calculate the distances between the points
+            uv_dists = distance.cdist(uv_coord_array, uv_coord_array)
+            # find the lowest nonzero frequency distance between the uv points
+            min_uv_dist = np.min(uv_dists[np.nonzero(uv_dists)])
 
-            # check if padding number of pixels is larger than passed along image
-            # otherwise just use the number of pixels already in the image
-            if padding[0] > self.num_pix_x:
-                self.num_pix_fft_x = padding[0]
-            else:
-                self.num_pix_fft_x = self.num_pix_x
-            if padding[1] > self.num_pix_y:
-                self.num_pix_fft_y = padding[0]
-            else:
-                self.num_pix_fft_y = self.num_pix_y
+            fov_req = 1 / min_uv_dist  # required fov in radian
 
-            pad_num_x = int((self.num_pix_fft_x - self.num_pix_x) / 2)  # amount by which to pad on each side
-            pad_num_y = int((self.num_pix_fft_y - self.num_pix_y) / 2)
+            # check if the FOV of the image already exceeds the requirements. In this case no 0-padding is needed
+            if (self.num_pix_x * self.pixelscale_x) >= fov_req and (self.num_pix_y * self.pixelscale_y >= fov_req):
+                print("FOV IS ALREADY SUFFICIENT")
+                # do the same as in the no padding case
+                self.fft = np.fft.fftshift(np.fft.fft2(np.fft.fftshift(self.img)))  # complex fft in Jansky
 
-            # perform padding
-            image = np.pad(
-                self.img,
-                pad_width=((pad_num_y, pad_num_y), (pad_num_x, pad_num_x)),
-                mode="constant",
-                constant_values=(0, 0),
-            )
+                self.num_pix_fft_x = self.num_pix_x  # no padding is required -> number of pixels of the FFT is the same
+                self.num_pix_fft_y = self.num_pix_y  # as that of the image
 
-        self.fft = np.fft.fftshift(np.fft.fft2(np.fft.fftshift(image)))  # perform complex fft in Jansky
+                self.w_x = -np.fft.fftshift(np.fft.fftfreq(self.fft.shape[1]))  # also use fftshift so the 0 frequency
+                self.w_y = -np.fft.fftshift(
+                    np.fft.fftfreq(self.fft.shape[0])
+                )  # lies in the middle of the returned array
 
-        # extract info on the frequencies, note this is in units of 1/pixel
-        # !!! NOTE: the first axis in a numpy array is the y-axis of the img, the second axis is the x-axis
-        # !!! NOTE: we add a minus because the positive x- and y-axis convention in numpy
-        # is the reverse of the interferometric one !!!
+                self.uf = self.w_x / self.pixelscale_x  # spatial frequencies in units of 1/radian
+                self.vf = self.w_y / self.pixelscale_y
 
-        self.w_x = -np.fft.fftshift(np.fft.fftfreq(self.fft.shape[1]))  # also use fftshift so the 0 frequency
-        self.w_y = -np.fft.fftshift(np.fft.fftfreq(self.fft.shape[0]))  # lies in the middle of the returned array
+            else:  # case if we do need padding
+                print("!!! DOING PADDING !!!")
+                # calculate total amount of pixels needed for padding
+                min_pix_fft_x = int((fov_req // self.pixelscale_x) + 1)  # minimum amount of pixels
+                if min_pix_fft_x % 2 == 1:
+                    min_pix_fft_x += 1
 
-        self.uf = self.w_x / self.pixelscale_x  # spatial frequencies in units of 1/radian
-        self.vf = self.w_y / self.pixelscale_y
+                min_pix_fft_y = int((fov_req // self.pixelscale_y) + 1)  # minimum amount of pixels
+                if min_pix_fft_y % 2 == 1:
+                    min_pix_fft_y += 1
+
+                self.num_pix_fft_x = min_pix_fft_x  # set the needed amount of pixels
+                self.num_pix_fft_y = min_pix_fft_y
+
+                self.num_pix_fft_x = 1200
+                self.num_pix_fft_y = 1200
+
+                self.fft = np.fft.fftshift(
+                    np.fft.fft2(
+                        np.fft.fftshift(self.img),
+                        s=(self.num_pix_fft_x, self.num_pix_fft_y),
+                    )
+                )  # complex fft in Jansky
+
+                self.w_x = -np.fft.fftshift(np.fft.fftfreq(self.fft.shape[1]))  # also use fftshift so the 0 frequency
+                self.w_y = -np.fft.fftshift(
+                    np.fft.fftfreq(self.fft.shape[0])
+                )  # lies in the middle of the returned array
+
+                self.uf = self.w_x / self.pixelscale_x  # spatial frequencies in units of 1/radian
+                self.vf = self.w_y / self.pixelscale_y
         return
 
     def redden(
@@ -209,11 +244,6 @@ class ImageFFT:
         image_size_y = self.pixelscale_y * self.num_pix_y
 
         info_str = (
-            f"================= \n"
-            f"AMOUNT OF PIXELS: \n"
-            f"================= \n"
-            f"Amount of pixels considered in East-to-West direction (E-W): {self.num_pix_x} \n"
-            f"Amount of pixels considered in South-to-North direction (S-N): {self.num_pix_y} \n\n"
             f"===================================== \n"
             f"FREQUENCY INFORMATION IN PIXEL UNITS: \n"
             f"===================================== \n"
@@ -500,10 +530,10 @@ class ImageFFT:
             cmap=color_map,
             norm=normv,
             extent=(
-                self.num_pix_fft_x / 2 + 0.5,
-                -self.num_pix_fft_x / 2 + 0.5,
-                -self.num_pix_fft_y / 2 + 0.5,
-                self.num_pix_fft_y / 2 + 0.5,
+                self.num_pix_x / 2 + 0.5,
+                -self.num_pix_x / 2 + 0.5,
+                -self.num_pix_y / 2 + 0.5,
+                self.num_pix_y / 2 + 0.5,
             ),
         )
         fig.colorbar(v2plot, ax=ax[0][1], label=vislabel, fraction=0.046, pad=0.04)
@@ -520,10 +550,10 @@ class ImageFFT:
             cphi,
             cmap=color_map,
             extent=(
-                self.num_pix_fft_x / 2 + 0.5,
-                -self.num_pix_fft_x / 2 + 0.5,
-                -self.num_pix_fft_y / 2 + 0.5,
-                self.num_pix_fft_y / 2 + 0.5,
+                self.num_pix_x / 2 + 0.5,
+                -self.num_pix_x / 2 + 0.5,
+                -self.num_pix_y / 2 + 0.5,
+                self.num_pix_y / 2 + 0.5,
             ),
         )
         fig.colorbar(phi_plot, ax=ax[0][2], label=r"$\phi$ ($^\circ$)", fraction=0.046, pad=0.04)
@@ -591,10 +621,10 @@ class ImageFFT:
             cmap=color_map,
             norm=normv,
             extent=(
-                (self.num_pix_fft_x / 2 + 0.5) * step_baseu,
-                (-self.num_pix_fft_x / 2 + 0.5) * step_baseu,
-                (-self.num_pix_fft_y / 2 + 0.5) * step_basev,
-                (self.num_pix_fft_y / 2 + 0.5) * step_basev,
+                (self.num_pix_x / 2 + 0.5) * step_baseu,
+                (-self.num_pix_x / 2 + 0.5) * step_baseu,
+                (-self.num_pix_y / 2 + 0.5) * step_basev,
+                (self.num_pix_y / 2 + 0.5) * step_basev,
             ),
         )
         fig.colorbar(v2plot, ax=ax[1][1], label=vislabel, fraction=0.046, pad=0.04)
@@ -610,10 +640,10 @@ class ImageFFT:
             cphi,
             cmap=color_map,
             extent=(
-                (self.num_pix_fft_x / 2 + 0.5) * step_baseu,
-                (-self.num_pix_fft_x / 2 + 0.5) * step_baseu,
-                (-self.num_pix_fft_y / 2 + 0.5) * step_basev,
-                (self.num_pix_fft_y / 2 + 0.5) * step_basev,
+                (self.num_pix_x / 2 + 0.5) * step_baseu,
+                (-self.num_pix_x / 2 + 0.5) * step_baseu,
+                (-self.num_pix_y / 2 + 0.5) * step_basev,
+                (self.num_pix_y / 2 + 0.5) * step_basev,
             ),
         )
         fig.colorbar(phi_plot, ax=ax[1][2], label=r"$\phi$ ($^\circ$)", fraction=0.046, pad=0.04)
@@ -625,29 +655,29 @@ class ImageFFT:
 
         # draw lines/cuts along which we will plot some curves
         ax[1][1].plot(
-            np.zeros_like(basev[1 : int(self.num_pix_fft_y / 2) + 1]),
-            basev[1 : int(self.num_pix_fft_y / 2) + 1],
+            np.zeros_like(basev[1 : int(self.num_pix_y / 2) + 1]),
+            basev[1 : int(self.num_pix_y / 2) + 1],
             c="g",
             lw=2,
             ls="--",
         )
         ax[1][1].plot(
-            baseu[1 : int(self.num_pix_fft_x / 2) + 1],
-            np.zeros_like(baseu[1 : int(self.num_pix_fft_x / 2) + 1]),
+            baseu[1 : int(self.num_pix_x / 2) + 1],
+            np.zeros_like(baseu[1 : int(self.num_pix_x / 2) + 1]),
             c="b",
             lw=2,
         )
 
         ax[1][2].plot(
-            np.zeros_like(basev[1 : int(self.num_pix_fft_y / 2) + 1]),
-            basev[1 : int(self.num_pix_fft_y / 2) + 1],
+            np.zeros_like(basev[1 : int(self.num_pix_y / 2) + 1]),
+            basev[1 : int(self.num_pix_y / 2) + 1],
             c="g",
             lw=2,
             ls="--",
         )
         ax[1][2].plot(
-            baseu[1 : int(self.num_pix_fft_y / 2) + 1],
-            np.zeros_like(baseu[1 : int(self.num_pix_fft_y / 2) + 1]),
+            baseu[1 : int(self.num_pix_x / 2) + 1],
+            np.zeros_like(baseu[1 : int(self.num_pix_x / 2) + 1]),
             c="b",
             lw=2,
         )
@@ -655,7 +685,7 @@ class ImageFFT:
 
         if fig_dir is not None:
             plt.savefig(
-                f"{fig_dir}/fft2d_maps_{self.wavelength}mum.{constants.IMG_OUTPUT_TYPE}",
+                f"{fig_dir}/fft2d_maps_{self.wavelength}mum.png",
                 dpi=300,
                 bbox_inches="tight",
             )
@@ -667,17 +697,17 @@ class ImageFFT:
         # note we cut away the point furthest along positive u-axis since it contains a strong artefact due to
         # the FFT algorithm, otherwise we move down to spatial frequency 0
         vhor = vis[
-            int(self.num_pix_fft_y / 2), 1 : int(self.num_pix_fft_x / 2) + 1
+            int(self.num_pix_y / 2), 1 : int(self.num_pix_x / 2) + 1
         ]  # extract (squared) visibility along u-axis
-        phi_hor = cphi[int(self.num_pix_fft_y / 2), 1:]  # extract complex phase
+        phi_hor = cphi[int(self.num_pix_y / 2), 1:]  # extract complex phase
 
         vver = vis[
-            1 : int(self.num_pix_fft_y / 2) + 1, int(self.num_pix_fft_x / 2)
+            1 : int(self.num_pix_y / 2) + 1, int(self.num_pix_x / 2)
         ]  # extract (squared) visibility along u-axis
-        phi_ver = cphi[1:, int(self.num_pix_fft_x / 2)]  # extract complex phase
+        phi_ver = cphi[1:, int(self.num_pix_x / 2)]  # extract complex phase
 
         ax2[0].plot(
-            baseu[1 : int(self.num_pix_fft_x / 2) + 1],
+            baseu[1 : int(self.num_pix_x / 2) + 1],
             vhor,
             c="b",
             label="along u-axis",
@@ -687,7 +717,7 @@ class ImageFFT:
         ax2[1].plot(baseu[1:], phi_hor, c="b", lw=0.7, zorder=1000)
 
         ax2[0].plot(
-            basev[1 : int(self.num_pix_fft_y / 2) + 1],
+            basev[1 : int(self.num_pix_y / 2) + 1],
             vver,
             c="g",
             label="along v-axis",
@@ -725,7 +755,7 @@ class ImageFFT:
 
         if fig_dir is not None:
             plt.savefig(
-                f"{fig_dir}/fft1d_cuts_{self.wavelength}mum.{constants.IMG_OUTPUT_TYPE}",
+                f"{fig_dir}/fft1d_cuts_{self.wavelength}mum.png",
                 dpi=300,
                 bbox_inches="tight",
             )
@@ -734,15 +764,13 @@ class ImageFFT:
         return
 
 
-def read_image_fft_mcfost(img_path: str, padding: tuple[int, int] | None = None, disk_only: bool = False) -> ImageFFT:
+def read_image_fft_mcfost(
+    img_path: str, uvf_pad: tuple[np.ndarray, np.ndarray] | None = None, disk_only: bool = False
+) -> ImageFFT:
     """
     Retrieve image data from an MCFOST model image and return it as an ImageFFT class instance.
 
     :param str img_path: Path to an MCFOST output RT.fits.gz model image file.
-    :param tuple[int, int] padding: Number of (x, y)-pixles to which an image should be 0-padded before performing
-        the FFT. I.e. padding=(680, 540) will 0-pad an image to 680 and 540 pixels in the x and y dimensions,
-        respectively. If smaller than the number of pixels already in the 'img' array, no padding will be added in
-        the respective dimension. These should both be even numbers!
     :param bool disk_only: Set to True if you only want to read in the flux from the disk.
     :return image: ImageFFT instance containing the information on the MCFOST RT image.
     :rtype: ImageFFT
@@ -783,7 +811,7 @@ def read_image_fft_mcfost(img_path: str, padding: tuple[int, int] | None = None,
     dictionary["ftot"] = np.sum(dictionary["img"])  # total flux in Jansky
 
     # return an ImageFFT object
-    image = ImageFFT(dictionary=dictionary, padding=padding)
+    image = ImageFFT(dictionary=dictionary, uvf_pad=uvf_pad)
     return image
 
 
@@ -791,7 +819,6 @@ def read_image_fft_list(
     mod_dir: str,
     img_dir: str,
     read_method: Literal["mcfost"] = "mcfost",
-    padding: tuple[int, int] | None = None,
     ebminv: float = 0.0,
     reddening_law: str = f"{constants.PROJECT_ROOT}" f"/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat",
 ) -> list[ImageFFT] | None:
@@ -805,10 +832,6 @@ def read_image_fft_list(
          of 'mod_dir+img_dir' are read.
     :param str read_method: Type of method used to read in RT model images when creating ImageFFT class instances.
         Currently only supports 'mcfost', in which case all files ending on the sufix 'RT.fits.gz' are read in.
-    :param tuple[int, int] padding: Number of (x, y)-pixles to which an image should be 0-padded before performing
-        the FFT. I.e. padding=(680, 540) will 0-pad an image to 680 and 540 pixels in the x and y dimensions,
-        respectively. If smaller than the number of pixels already in the 'img' array, no padding will be added in
-        the respective dimension. These should both be even numbers!
     :param float ebminv: E(B-V) of additional reddening to be applied to the model images. Only useful if
         the visibilities need to be expressed in correlated flux at some point.
     :param str reddening_law: Path to the reddening law to be used. Defaults to the ISM reddening law by
@@ -837,7 +860,7 @@ def read_image_fft_list(
 
     for img_path in img_file_paths:
         if read_method == "mcfost":  # choose reader function
-            img_fft = read_image_fft_mcfost(img_path, padding=padding)
+            img_fft = read_image_fft_mcfost(img_path)
         else:
             print(f"read_method '{read_method}' not recognized. Will return None!")
             return
@@ -922,9 +945,8 @@ def image_fft_comp_vis_interpolator(
 
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
-    # from distroi import oi_container
-    # from scipy.spatial import distance
-    #
+    from distroi import oi_container
+
     # # FFT test + output info on frequencies
     # mod_dir = "/home/toond/Documents/phd/python/distroi/examples/models/IRAS08544-4431_test_model/"
     # img_dir = "PIONIER/data_1.65/"
@@ -934,45 +956,41 @@ if __name__ == "__main__":
     # print(img.freq_info())
     # img.diagnostic_plot(fig_dir=None, log_plotv=True, show_plots=True)
 
-    # object_id = "IRAS15469-5311"
-    # data_dir, data_file = (
-    #     f"/home/toond/Documents/phd/data/{object_id}/inspiring/PIONIER/img_ep_jan2021-mar2021/",
-    #     "*.fits",
-    # )
-    # container_data = oi_container.read_oi_container_from_oifits(data_dir, data_file)
-    # uf, vf = container_data.v2uf, container_data.v2vf
+    object_id = "IRAS15469-5311"
+    data_dir, data_file = (
+        f"/home/toond/Documents/phd/data/{object_id}/inspiring/PIONIER/img_ep_jan2021-mar2021/",
+        "*.fits",
+    )
+    container_data = oi_container.read_oi_container_from_oifits(data_dir, data_file)
+    uf, vf = container_data.v2uf, container_data.v2vf
 
-    # # np.random.seed(0)
-    # # uf = np.random.rand(3) * 100e6
-    # # vf = np.random.rand(3) * 100e6
+    # np.random.seed(0)
+    # uf = np.random.rand(3) * 100e6
+    # vf = np.random.rand(3) * 100e6
 
-    # plt.scatter(uf, vf)
-    # plt.show()
+    plt.scatter(uf, vf)
+    plt.show()
 
-    # pixelscale = 0.6 * constants.MAS2RAD  # pixelscale in radian
+    pixelscale = 0.6 * constants.MAS2RAD  # pixelscale in radian
 
-    # # 2d array with the different points along the rows and the 2 columns being the coordinates
-    # uv_coord_array = np.array((uf, vf)).T
-    # # feed to scipy's cdist to calculate the distances between the points
-    # uv_dists = distance.cdist(uv_coord_array, uv_coord_array)
-    # # find the lowest nonzero frequency distance between the uv points
-    # min_uv_dist = np.min(uv_dists[np.nonzero(uv_dists)])
-    # print(f"minimum distace {min_uv_dist}")
+    # 2d array with the different points along the rows and the 2 columns being the coordinates
+    uv_coord_array = np.array((uf, vf)).T
+    # feed to scipy's cdist to calculate the distances between the points
+    uv_dists = distance.cdist(uv_coord_array, uv_coord_array)
+    # find the lowest nonzero frequency distance between the uv points
+    min_uv_dist = np.min(uv_dists[np.nonzero(uv_dists)])
+    print(f"minimum distace {min_uv_dist}")
 
-    # fov_req = 1 / min_uv_dist  # required fov in radian
-    # min_pix = int((fov_req // pixelscale) + 1)
-    # if min_pix % 2 == 1:
-    #     min_pix += 1
-    # print(f"required fov: {fov_req * constants.RAD2MAS}")
-    # print(f"minimum required amount of pixels {min_pix}")
+    fov_req = 1 / min_uv_dist  # required fov in radian
+    min_pix = int((fov_req // pixelscale) + 1)
+    if min_pix % 2 == 1:
+        min_pix += 1
+    print(f"required fov: {fov_req * constants.RAD2MAS}")
+    print(f"minimum required amount of pixels {min_pix}")
 
     # FFT test + output info on frequencies
-    import distroi.constants
-
-    distroi.constants.IMG_OUTPUT_TYPE = "pdf"
-
     mod_dir = "/home/toond/Documents/phd/python/distroi/examples/models/IRAS08544-4431_test_model/"
     img_dir = "PIONIER/data_1.65/"
-    img = read_image_fft_mcfost(img_path=f"{mod_dir}{img_dir}/RT.fits.gz", disk_only=True, padding=None)
-    print(img.freq_info())
-    img.diagnostic_plot(fig_dir="/home/toond/Downloads/", log_plotv=True, show_plots=True)
+    img = read_image_fft_mcfost(img_path=f"{mod_dir}{img_dir}/RT.fits.gz", uvf_pad=(uf, vf), disk_only=True)
+    # print(img.freq_info())
+    img.diagnostic_plot(fig_dir=None, log_plotv=True, show_plots=True)

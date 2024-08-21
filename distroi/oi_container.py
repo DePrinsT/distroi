@@ -189,7 +189,7 @@ class OIContainer:
         ax.set_xlabel(r"$\leftarrow B_u$ ($\mathrm{M \lambda}$)")
         ax.set_ylabel(r"$B_v \rightarrow$ ($\mathrm{M \lambda}$)")
         if fig_dir is not None:
-            plt.savefig(f"{fig_dir}/uv_plane.{constants.IMG_OUTPUT_TYPE}", dpi=300, bbox_inches="tight")
+            plt.savefig(f"{fig_dir}/uv_plane.png", dpi=300, bbox_inches="tight")
 
         # plot (squared) visibilities
         fig, ax = plt.subplots(1, 1, figsize=(10, 6))
@@ -223,7 +223,7 @@ class OIContainer:
         ax.set_xlabel(r"$B$ ($\mathrm{M \lambda}$)")
         ax.set_ylabel(vislabel)
         if fig_dir is not None:
-            plt.savefig(f"{fig_dir}/visibilities.{constants.IMG_OUTPUT_TYPE}", dpi=300, bbox_inches="tight")
+            plt.savefig(f"{fig_dir}/visibilities.png", dpi=300, bbox_inches="tight")
 
         # plot phi_closure
         fig, ax = plt.subplots(1, 1, figsize=(10, 6))
@@ -258,7 +258,7 @@ class OIContainer:
         ax.set_xlabel(r"$B_{max}$ ($\mathrm{M \lambda}$)")
         ax.set_ylabel(r"error $(\sigma_{\phi_{CP}})$")
         if fig_dir is not None:
-            plt.savefig(f"{fig_dir}/closure_phases.{constants.IMG_OUTPUT_TYPE}", dpi=300, bbox_inches="tight")
+            plt.savefig(f"{fig_dir}/closure_phases.png", dpi=300, bbox_inches="tight")
         if show_plots:
             plt.show()
 
@@ -425,7 +425,6 @@ def oi_container_calc_image_fft_observables(
     :return container_mod: OIContainer for model image observables.
     :rtype: OIContainer
     """
-    # TODO: add functionality for including geometric components
 
     if len(img_fft_list) == 1:  # monochromatic case for a single image
         # create interpolator for the normalized complex FFT
@@ -597,7 +596,7 @@ def oi_container_plot_data_vs_model(
     ax.set_xlabel(r"$\leftarrow B_u$ ($\mathrm{M \lambda}$)")
     ax.set_ylabel(r"$B_v \rightarrow$ ($\mathrm{M \lambda}$)")
     if fig_dir is not None:
-        plt.savefig(f"{fig_dir}/uv_plane.{constants.IMG_OUTPUT_TYPE}", dpi=300, bbox_inches="tight")
+        plt.savefig(f"{fig_dir}/uv_plane.png", dpi=300, bbox_inches="tight")
 
     # plot (squared) visibilities
     fig = plt.figure(figsize=(10, 8))
@@ -654,7 +653,7 @@ def oi_container_plot_data_vs_model(
     ax[1].set_xlabel(r"$B$ ($\mathrm{M \lambda}$)")
     ax[1].set_ylabel(r"error $(\sigma)$")
     if fig_dir is not None:
-        plt.savefig(f"{fig_dir}/visibilities.{constants.IMG_OUTPUT_TYPE}", dpi=300, bbox_inches="tight")
+        plt.savefig(f"{fig_dir}/visibilities.png", dpi=300, bbox_inches="tight")
 
     # plot phi_closure
     fig = plt.figure(figsize=(10, 8))
@@ -715,7 +714,7 @@ def oi_container_plot_data_vs_model(
     ax[1].set_xlabel(r"$B_{max}$ ($\mathrm{M \lambda}$)")
     ax[1].set_ylabel(r"error $(\sigma_{\phi_{CP}})$")
     if fig_dir is not None:
-        plt.savefig(f"{fig_dir}/closure_phases.{constants.IMG_OUTPUT_TYPE}", dpi=300, bbox_inches="tight")
+        plt.savefig(f"{fig_dir}/closure_phases.png", dpi=300, bbox_inches="tight")
     if show_plots:
         plt.show()
 
