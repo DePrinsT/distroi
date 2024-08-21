@@ -971,15 +971,15 @@ if __name__ == "__main__":
     plt.scatter(uf, vf)
     plt.show()
 
-    pixelscale = 0.6 * constants.MAS2RAD  # pixelscale in radian
-
-    # 2d array with the different points along the rows and the 2 columns being the coordinates
-    uv_coord_array = np.array((uf, vf)).T
-    # feed to scipy's cdist to calculate the distances between the points
-    uv_dists = distance.cdist(uv_coord_array, uv_coord_array)
-    # find the lowest nonzero frequency distance between the uv points
-    min_uv_dist = np.min(uv_dists[np.nonzero(uv_dists)])
-    print(f"minimum distace {min_uv_dist}")
+    # pixelscale = 0.6 * constants.MAS2RAD  # pixelscale in radian
+    # dummy
+    # # 2d array with the different points along the rows and the 2 columns being the coordinates
+    # uv_coord_array = np.array((uf, vf)).T
+    # # feed to scipy's cdist to calculate the distances between the points
+    # uv_dists = distance.cdist(uv_coord_array, uv_coord_array)
+    # # find the lowest nonzero frequency distance between the uv points
+    # min_uv_dist = np.min(uv_dists[np.nonzero(uv_dists)])
+    # print(f"minimum distace {min_uv_dist}")
 
     fov_req = 1 / min_uv_dist  # required fov in radian
     min_pix = int((fov_req // pixelscale) + 1)
