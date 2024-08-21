@@ -950,7 +950,7 @@ if __name__ == "__main__":
     # plt.show()
 
     # pixelscale = 0.6 * constants.MAS2RAD  # pixelscale in radian
-
+    # dummy
     # # 2d array with the different points along the rows and the 2 columns being the coordinates
     # uv_coord_array = np.array((uf, vf)).T
     # # feed to scipy's cdist to calculate the distances between the points
