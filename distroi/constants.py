@@ -1,5 +1,5 @@
 """
-Contains constants, unit conversions, miscellaneoud universal functions and plotting settings to be uniformly used
+Contains constants, unit conversions, miscellaneous universal functions and plotting settings to be uniformly used
 throughout the project.
 
 :var str PROJECT_ROOT: Path to the root of the distroi project on the user's system.
@@ -25,6 +25,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 from scipy.interpolate import interp1d
+
+# settings
+IMG_OUTPUT_TYPE: str = "png"
 
 # constants
 PROJECT_ROOT: str = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # root of the package

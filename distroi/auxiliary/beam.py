@@ -305,7 +305,8 @@ def oi_container_calc_gaussian_beam(
         if fig_dir is not None:
             if not os.path.exists(fig_dir):
                 os.makedirs(fig_dir)
-            plt.savefig(f"{fig_dir}/dirty_beam_fit.png", dpi=300, bbox_inches="tight")  # save if fig_dir not None
+            # save if fig_dir not None
+            plt.savefig(f"{fig_dir}/dirty_beam_fit.{constants.IMG_OUTPUT_TYPE}", dpi=300, bbox_inches="tight")  
         if show_plots:
             plt.show()  # show plot if asked
 

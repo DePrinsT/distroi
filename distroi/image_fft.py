@@ -973,6 +973,6 @@ if __name__ == "__main__":
 
     mod_dir = "/home/toond/Documents/phd/python/distroi/examples/models/IRAS08544-4431_test_model/"
     img_dir = "PIONIER/data_1.65/"
-    img = read_image_fft_mcfost(img_path=f"{mod_dir}{img_dir}/RT.fits.gz", disk_only=True, padding=(1024, 1024))
+    img = read_image_fft_mcfost(img_path=f"{mod_dir}{img_dir}/RT.fits.gz", disk_only=True, padding=None)
     print(img.freq_info())
     img.diagnostic_plot(fig_dir="/home/toond/Downloads/", log_plotv=True, show_plots=True)
