@@ -84,6 +84,7 @@ def set_matplotlib_params() -> None:
 
 
 # function to redden flux
+# TODO: addd support for different interpolation methods
 def redden_flux(
     wavelength: np.ndarray | float,
     flux: np.ndarray | float,
@@ -125,7 +126,8 @@ def redden_flux(
 # blackbody radiance functions
 def bb_flam_at_wavelength(wavelength: np.ndarray | float, temp: float) -> np.ndarray | float:
     """
-    Given a temperature and wavelength, returns the spectral radiance of a blackbody curve in B_lam format and SI units.
+    Given a temperature (in Kelvin) and wavelength (in micron), returns the spectral radiance of a blackbody curve in
+    B_lam format and SI units.
 
     :param float temp: Temperature of the blackbody in Kelvin.
     :param Union[np.ndarray, float] wavelength: Wavelength in micron.
@@ -141,7 +143,8 @@ def bb_flam_at_wavelength(wavelength: np.ndarray | float, temp: float) -> np.nda
 
 def bb_flam_at_frequency(frequency: np.ndarray | float, temp: float) -> np.ndarray | float:
     """
-    Given a temperature and frequency, returns the spectral radiance of a blackbody curve in B_lam format and SI units.
+    Given a temperature (in Kelvin) and frequency (in Hz), returns, returns the spectral radiance of a blackbody curve
+    in B_lam format and SI units.
 
     :param float temp: Temperature of the blackbody in Kelvin.
     :param Union[np.ndarray, float] frequency: Frequency in Hertz.
@@ -155,7 +158,8 @@ def bb_flam_at_frequency(frequency: np.ndarray | float, temp: float) -> np.ndarr
 
 def bb_fnu_at_frequency(frequency: np.ndarray | float, temp: float) -> np.ndarray | float:
     """
-    Given a temperature and wavelength, returns the spectral radiance of a blackbody curve in B_nu format and SI units.
+    Given a temperature (in Kelvin) and frequency (in Hz), returns the spectral radiance of a blackbody curve in
+    B_nu format and SI units.
 
     :param float temp: Temperature of the blackbody in Kelvin.
     :param Union[np.ndarray, float] frequency: Frequency in Hertz.
@@ -170,7 +174,8 @@ def bb_fnu_at_frequency(frequency: np.ndarray | float, temp: float) -> np.ndarra
 
 def bb_fnu_at_wavelength(wavelength: np.ndarray | float, temp: float) -> np.ndarray | float:
     """
-    Given a temperature and wavelength, returns the spectral radiance of a blackbody curve in B_nu format and SI units.
+    Given a temperature (in Kelvin) and wavelength (in micron), returns the spectral radiance of a blackbody curve in
+    B_nu format and SI units.
 
     :param float temp: Temperature of the blackbody in Kelvin.
     :param Union[np.ndarray, float] wavelength: Wavelength in micron.
@@ -247,12 +252,15 @@ def gaussian_2d_elliptical(
 
 
 if __name__ == "__main__":
-    print(
-        (WATT_PER_M2_HZ_2JY * MICRON2M**2 * ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M / SPEED_OF_LIGHT) * 6.743e-10 * 0.36**2
-    )
+    import matplotlib.pyplot as plt
     # fig, ax = plt.subplots(1, 1)
     # temp = 2000
     # wave = np.linspace(1.0, 3.0, 100)
     # ax.plot(wave, bb_flam_at_wavelength(wave, temp))
     # ax.axvline(x=2898 / temp)
     # plt.show()
+    wave = np.linspace(0.1, 0.8, 100)
+    flux = 0.0 + wave*0.2
+    plt.plot(wave,redden_flux(wave, flux, ebminv=1.4))
+    plt.show()
+

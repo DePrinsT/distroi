@@ -4,6 +4,7 @@ transform (FFT).
 """
 
 from distroi import constants
+from distroi import geom_comp
 
 import os
 import glob
@@ -11,6 +12,7 @@ import glob
 import numpy as np
 from astropy.io import fits
 from scipy.interpolate import RegularGridInterpolator
+from scipy.interpolate import interp1d
 
 from typing_extensions import Literal
 
@@ -30,6 +32,11 @@ class ImageFFT:
     :param dict dictionary: Dictionary containing keys and values representing several instance variables described
         below. Should include 'wavelength', 'pixelscale_x'/'y', 'num_pix_x'/'y', 'img', and 'ftot'. The other required
         instance variables (related to the FFT) are set automatically through perform_fft().
+    :param SpecDep spec_dep: Optional spectral dependence of the image. This will only be used if this ImageFFT
+        is used on its own in methods calculating interferometric observables. If instead multiple ImageFFT object or
+        an SED are passed along as well, this property of the image will be ignored. By default, the spectral
+        dependency will be assumed to be flat in correlated flux accross wavelengths (note that flatness in correlated
+        flux means a spectral dependency ~ wavelength ^ -2 for F_lam).
     :param tuple[int, int] padding: Number of (x, y)-pixles to which an image should be 0-padded before performing
         the FFT. I.e. padding=(680, 540) will 0-pad an image to 680 and 540 pixels in the x and y dimensions,
         respectively. If smaller than the number of pixels already in the 'img' array, no padding will be added in
@@ -42,6 +49,8 @@ class ImageFFT:
     :ivar np.ndarray img: 2D numpy array containing the image flux in Jy. 1st index = image y-axis,
         2nd index = image x-axis.
     :ivar float ftot: Total image flux in Jy
+    :ivar SpecDep spec_dep: Optional spectral dependence of the image. Assumed flat in correlated flux (F_nu) by
+        default.
     :ivar np.ndarray fft: Complex 2D numpy FFT of img in Jy, i.e. in correlated flux formulation.
     :ivar int num_pix_fft_x: Amount of image FFT pixels in the x direction. This can be different
         from num_pix_x due to padding.
@@ -56,6 +65,7 @@ class ImageFFT:
     def __init__(
         self,
         dictionary: dict[str, np.ndarray | float | int],
+        spec_dep: geom_comp.SpecDep | None = None,
         padding: tuple[int, int] | None = None,
     ):
         """
@@ -107,6 +117,13 @@ class ImageFFT:
                     "Program will be terminated!"
                 )
                 exit(1)
+
+        # set spectral dependency
+        if spec_dep is not None:
+            self.spec_dep = spec_dep  # set spectral dependence if given
+        else:
+            self.spec_dep = geom_comp.FlatSpecDep(flux_form="fnu")  # otherwise, assume flat spectrum in correlated flux
+
         return
 
     def perform_fft(self, padding: tuple[int, int] | None = None):
@@ -385,7 +402,7 @@ class ImageFFT:
 
     def diagnostic_plot(
         self,
-        fig_dir: str = None,
+        fig_dir: str | None = None,
         plot_vistype: Literal["vis2", "vis", "fcorr"] = "vis2",
         log_plotv: bool = False,
         log_ploti: bool = False,
@@ -814,7 +831,7 @@ def read_image_fft_list(
     :param str reddening_law: Path to the reddening law to be used. Defaults to the ISM reddening law by
         Cardelli (1989) in DISTROI's 'utils/ISM_reddening folder'. See this file for the expected formatting
         of your own reddening laws.
-    :return: img_fft_list: List of ImageFFT objects representing all model image files found under 'mod_dir+img_dir'.
+    :return: img_ffts: List of ImageFFT objects representing all model image files found under 'mod_dir+img_dir'.
         Sorted by wavelength
     :rtype: list(ImageFFT)
     """
@@ -826,7 +843,7 @@ def read_image_fft_list(
         )
         return None
 
-    img_fft_list = []  # list of ImageFFT objects to be held (1 element long in the case of monochr=True)
+    img_ffts = []  # list of ImageFFT objects to be held (1 element long in the case of monochr=True)
     wavelengths = []  # list of their wavelengths
 
     if read_method == "mcfost":  # different ways to read in model image file paths
@@ -842,18 +859,18 @@ def read_image_fft_list(
             print(f"read_method '{read_method}' not recognized. Will return None!")
             return
         img_fft.redden(ebminv=ebminv, reddening_law=reddening_law)  # redden the ImageFFT object
-        img_fft_list.append(img_fft)  # append to the list of ImageFFT objects
+        img_ffts.append(img_fft)  # append to the list of ImageFFT objects
         wavelengths.append(img_fft.wavelength)  # append wavelength
 
-    wavelengths, img_fft_list = list(zip(*sorted(zip(wavelengths, img_fft_list))))  # sort the objects in wavelength
+    wavelengths, img_ffts = list(zip(*sorted(zip(wavelengths, img_ffts))))  # sort the objects in wavelength
 
-    return img_fft_list
+    return img_ffts
 
 
 def image_fft_comp_vis_interpolator(
-    img_fft_list: list[ImageFFT],
+    img_ffts: list[ImageFFT],
     normalised: bool = False,
-    interp_method: Literal["linear", "nearest", "slinear", "cubic", "quintic", "pchip"] = "linear",
+    interp_method: str = "linear",
 ) -> RegularGridInterpolator:
     """
     Creates a scipy RegularGridInterpolator from model ImageFFT objects, which can be used to interpolate the complex
@@ -862,24 +879,24 @@ def image_fft_comp_vis_interpolator(
     arguments outside their bounds are supplied! Note: Expects, in case of multiple model images, that every image
     included has the same pixelscale and amount of pixels (in both x- and y-direction).
 
-    :param list img_fft_list: List of ImageFFT objects to create an interpolator from. If the list has length one,
+    :param list img_ffts: List of ImageFFT objects to create an interpolator from. If the list has length one,
         i.e. a monochromatic model for the emission, the returned interpolator can only take the 2 spatial frequencies
-        as arguments. If the list contains multiple objects, i.e. a chromatic model for the emission, the interpolator
-        will also be able to take wavelength as an argument and will be able to interpolate along the wavelength
-        dimension.
+        (units 1/Hz) as arguments. If the list contains multiple objects, i.e. a chromatic model for the emission,
+        the interpolator will also be able to take wavelength (in micron) as an argument and will be able to interpolate
+        along the wavelength dimension.
     :param bool normalised: Set to True if you want the returned interpolator to produce normalised, non-absolute
         complex visibilities (for calculating e.g. squared visibilities). By default normalised = False, meaning
         the interpolator returns absolute complex visibilities, i.e. complex correlated fluxes (in units Jy).
-    :param Literal[str] interp_method: Interpolation method used by scipy. Can support 'linear', 'nearest', 'slinear',
-        'cubic', 'quintic' or 'pchip'.
-    :return interpolator: Interpolator for the model image FFTs. If len(img_fft_list) == 1, only takes the uv spatial
-        frequencies (units 1/rad) as arguments as follows: interpolator(v, u).  If len(img_fft_list) > 1, then it also
-        can interpolate between wavelengths (units meter) as follows: interpolator(wavelength, v, u).
+    :param str interp_method: Interpolation method used by the returned scipy RegularGridInterpolator.
+        Can support 'linear', 'nearest', 'slinear', 'cubic', 'quintic' or 'pchip'.
+    :return interpolator: Interpolator for the model image FFTs. If len(img_ffts) == 1, only takes the uv spatial
+        frequencies (units 1/rad) as arguments as follows: interpolator(v, u).  If len(img_ffts) > 1, then it also
+        can interpolate between wavelengths (units micron) as follows: interpolator(wavelength, v, u).
     :rtype: scipy.interpolate.RegularGridInterpolator
     """
 
-    if len(img_fft_list) == 1:  # single image -> monochromatic emission model
-        img = img_fft_list[0]
+    if len(img_ffts) == 1:  # single image -> monochromatic emission model
+        img = img_ffts[0]
         wavelength, ftot, fft, uf, vf = (
             img.wavelength,
             img.ftot,
@@ -893,10 +910,10 @@ def image_fft_comp_vis_interpolator(
             interpolator = RegularGridInterpolator((vf, uf), fft / ftot, method=interp_method)  # same normalized
 
     else:  # multiple images -> chromatic emission model
-        mod_wavelengths = []  # list of model image wavelengths in meter
+        img_wavelengths = []  # list of model image wavelengths in micron
         fft_chromatic = []  # 3d 'array' list to store the different model image FFTs accros wavelength
 
-        for img in img_fft_list:
+        for img in img_ffts:
             wavelength, ftot, fft, uf, vf = (
                 img.wavelength,
                 img.ftot,
@@ -908,15 +925,54 @@ def image_fft_comp_vis_interpolator(
                 fft_chromatic.append(fft)  # store image's FFT in chromatic list
             else:
                 fft_chromatic.append(fft / ftot)
-            mod_wavelengths.append(wavelength * constants.MICRON2M)  # store image wavelength in meter
+            img_wavelengths.append(wavelength)  # store image wavelength in micron
 
         # sort lists according to ascending wavelength just to be sure (required for making the interpolator)
-        mod_wavelengths, fft_chromatic = list(zip(*sorted(zip(mod_wavelengths, fft_chromatic))))
+        img_wavelengths, fft_chromatic = list(zip(*sorted(zip(img_wavelengths, fft_chromatic))))
 
         # make interpolator from multiple FFTs, note this assumes all images have the same pixelscale
         # and amount of pixels (in both x and y directions)
         fft_chromatic = np.array(fft_chromatic)
-        interpolator = RegularGridInterpolator((mod_wavelengths, vf, uf), fft_chromatic)
+        interpolator = RegularGridInterpolator((img_wavelengths, vf, uf), fft_chromatic, method=interp_method)
+    return interpolator
+
+
+def image_fft_ftot_interpolator(
+    img_ffts: list[ImageFFT],
+    interp_method: str = "linear",
+) -> interp1d:
+    """
+    Creates a scipy interp1d object from a list of model ImageFFT objects, allowing to interpolate the total
+    flux (F_nu format in unit Jansky) along the wavelength dimension.
+
+    :param list img_ffts: List of ImageFFT objects to create an interpolator from. Must have length longer than one.
+    :param str interp_method: Interpolation method used by scipy's interp1d method. Defualt is 'linear'.
+        Can support 'linear', 'nearest', 'nearest-up', 'zero', 'slinear', 'quadratic', 'cubic', 'previous', or
+        'next'.
+    :return interpolator: Interpolator for the total flux in F_nu format and units Jy. Takes the wavelength in micron
+        as its only argument.
+    :rtype: scipy.interpolate.interp1d
+    """
+
+    if len(img_ffts) < 2:
+        print("img_ffts needs to contain at least 2 objects. Will return None!")
+        return
+
+    img_wavelengths = []  # list of model image wavelengths in micron
+    img_ftots = []  # list to store total F_nu fluxes in Jy
+
+    for img in img_ffts:  # read in data from objects
+        img_ftots.append(img.ftot)
+        img_wavelengths.append(img.wavelength)
+
+    img_wavelengths = np.array(img_wavelengths)
+    img_ftots = np.array(img_ftots)
+
+    # sort lists according to ascending wavelength just to be sure (required for making the interpolator)
+    img_wavelengths, img_ftots = list(zip(*sorted(zip(img_wavelengths, img_ftots))))
+
+    interpolator = interp1d(img_wavelengths, img_ftots, kind=interp_method, bounds_error=True)
+
     return interpolator
 
 
@@ -973,6 +1029,6 @@ if __name__ == "__main__":
 
     mod_dir = "/home/toond/Documents/phd/python/distroi/examples/models/IRAS08544-4431_test_model/"
     img_dir = "PIONIER/data_1.65/"
-    img = read_image_fft_mcfost(img_path=f"{mod_dir}{img_dir}/RT.fits.gz", disk_only=True, padding=(2000, 2000))
+    img = read_image_fft_mcfost(img_path=f"{mod_dir}{img_dir}/RT.fits.gz", disk_only=True, padding=None)
     print(img.freq_info())
     img.diagnostic_plot(fig_dir="/home/toond/Downloads/", log_plotv=True, show_plots=True)

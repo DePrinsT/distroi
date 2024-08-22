@@ -157,10 +157,6 @@
 </li>
       </ul></li>
   </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="distroi.sed.html#distroi.sed.chi2reddened">chi2reddened() (in module distroi.sed)</a>
-</li>
-  </ul></td>
 </tr></table>
 
 <h2 id="D">D</h2>
@@ -340,9 +336,11 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="distroi.geom_comp.html#distroi.geom_comp.Gaussian">Gaussian (class in distroi.geom_comp)</a>
 </li>
-      <li><a href="distroi.auxiliary.beam.html#distroi.auxiliary.beam.gaussian_2d_ellipse">gaussian_2d_ellipse() (in module distroi.auxiliary.beam)</a>
+      <li><a href="distroi.constants.html#distroi.constants.gaussian_2d_elliptical">gaussian_2d_elliptical() (in module distroi.constants)</a>
 </li>
       <li><a href="distroi.geom_comp.html#distroi.geom_comp.GeomComp">GeomComp (class in distroi.geom_comp)</a>
+</li>
+      <li><a href="distroi.sed.html#distroi.sed.SED.get_flux">get_flux() (distroi.sed.SED method)</a>
 </li>
       <li><a href="distroi.auxiliary.read_oifits.html#distroi.auxiliary.read_oifits.data.givedataJK">givedataJK() (distroi.auxiliary.read_oifits.data method)</a>
 </li>
@@ -384,10 +382,12 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="distroi.image_fft.html#distroi.image_fft.image_fft_comp_vis_interpolator">image_fft_comp_vis_interpolator() (in module distroi.image_fft)</a>
 </li>
-      <li><a href="distroi.image_fft.html#distroi.image_fft.ImageFFT">ImageFFT (class in distroi.image_fft)</a>
+      <li><a href="distroi.image_fft.html#distroi.image_fft.image_fft_ftot_interpolator">image_fft_ftot_interpolator() (in module distroi.image_fft)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="distroi.image_fft.html#distroi.image_fft.ImageFFT">ImageFFT (class in distroi.image_fft)</a>
+</li>
       <li><a href="distroi.auxiliary.read_oifits.html#distroi.auxiliary.read_oifits.inform">inform() (in module distroi.auxiliary.read_oifits)</a>
 </li>
       <li><a href="distroi.auxiliary.read_oifits.html#distroi.auxiliary.read_oifits.inform2">inform2() (in module distroi.auxiliary.read_oifits)</a>
@@ -457,6 +457,8 @@
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="distroi.auxiliary.beam.html#distroi.auxiliary.beam.oi_container_calc_gaussian_beam">oi_container_calc_gaussian_beam() (in module distroi.auxiliary.beam)</a>
+</li>
       <li><a href="distroi.oi_container.html#distroi.oi_container.oi_container_calc_image_fft_observables">oi_container_calc_image_fft_observables() (in module distroi.oi_container)</a>
 </li>
       <li><a href="distroi.oi_container.html#distroi.oi_container.oi_container_plot_data_vs_model">oi_container_plot_data_vs_model() (in module distroi.oi_container)</a>
@@ -465,14 +467,14 @@
 </li>
       <li><a href="distroi.oi_container.html#distroi.oi_container.OIContainer">OIContainer (class in distroi.oi_container)</a>
 </li>
-      <li><a href="distroi.auxiliary.beam.html#distroi.auxiliary.beam.oifits_calc_gaussian_beam">oifits_calc_gaussian_beam() (in module distroi.auxiliary.beam)</a>
+      <li><a href="distroi.auxiliary.time_base_oifits.html#distroi.auxiliary.time_base_oifits.oifits_time_window_plot">oifits_time_window_plot() (in module distroi.auxiliary.time_base_oifits)</a>
 </li>
       <li><a href="distroi.auxiliary.read_oifits.html#distroi.auxiliary.read_oifits.OIFLUX">OIFLUX (class in distroi.auxiliary.read_oifits)</a>
 </li>
-      <li><a href="distroi.auxiliary.read_oifits.html#distroi.auxiliary.read_oifits.OIT3">OIT3 (class in distroi.auxiliary.read_oifits)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="distroi.auxiliary.read_oifits.html#distroi.auxiliary.read_oifits.OIT3">OIT3 (class in distroi.auxiliary.read_oifits)</a>
+</li>
       <li><a href="distroi.auxiliary.read_oifits.html#distroi.auxiliary.read_oifits.OITARGET">OITARGET (class in distroi.auxiliary.read_oifits)</a>
 </li>
       <li><a href="distroi.auxiliary.read_oifits.html#distroi.auxiliary.read_oifits.OIVIS">OIVIS (class in distroi.auxiliary.read_oifits)</a>
@@ -505,8 +507,6 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="distroi.sed.html#distroi.sed.plot_data_vs_model">plot_data_vs_model() (in module distroi.sed)</a>
-</li>
       <li><a href="distroi.auxiliary.read_oifits.html#distroi.auxiliary.read_oifits.data.plotV2CP">plotV2CP() (distroi.auxiliary.read_oifits.data method)</a>
 </li>
       <li><a href="distroi.geom_comp.html#distroi.geom_comp.PointSource">PointSource (class in distroi.geom_comp)</a>
@@ -563,8 +563,6 @@
       </ul></li>
       <li><a href="distroi.constants.html#distroi.constants.redden_flux">redden_flux() (in module distroi.constants)</a>
 </li>
-      <li><a href="distroi.sed.html#distroi.sed.reddening_fit">reddening_fit() (in module distroi.sed)</a>
-</li>
   </ul></td>
 </tr></table>
 
@@ -573,16 +571,22 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="distroi.sed.html#distroi.sed.SED">SED (class in distroi.sed)</a>
 </li>
+      <li><a href="distroi.sed.html#distroi.sed.sed_chi2reddened">sed_chi2reddened() (in module distroi.sed)</a>
+</li>
+      <li><a href="distroi.sed.html#distroi.sed.sed_plot_data_vs_model">sed_plot_data_vs_model() (in module distroi.sed)</a>
+</li>
+      <li><a href="distroi.sed.html#distroi.sed.sed_reddening_fit">sed_reddening_fit() (in module distroi.sed)</a>
+</li>
       <li><a href="distroi.auxiliary.select_data_oifits.html#distroi.auxiliary.select_data_oifits.Select_T3err">Select_T3err() (in module distroi.auxiliary.select_data_oifits)</a>
 </li>
       <li><a href="distroi.auxiliary.select_data_oifits.html#distroi.auxiliary.select_data_oifits.Select_vis2_lim">Select_vis2_lim() (in module distroi.auxiliary.select_data_oifits)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="distroi.auxiliary.select_data_oifits.html#distroi.auxiliary.select_data_oifits.Select_vis_t3_base">Select_vis_t3_base() (in module distroi.auxiliary.select_data_oifits)</a>
 </li>
       <li><a href="distroi.auxiliary.select_data_oifits.html#distroi.auxiliary.select_data_oifits.Select_vis_t3_wavelength">Select_vis_t3_wavelength() (in module distroi.auxiliary.select_data_oifits)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="distroi.auxiliary.select_data_oifits.html#distroi.auxiliary.select_data_oifits.Select_viserr">Select_viserr() (in module distroi.auxiliary.select_data_oifits)</a>
 </li>
       <li><a href="distroi.auxiliary.select_data_oifits.html#distroi.auxiliary.select_data_oifits.SelectData">SelectData() (in module distroi.auxiliary.select_data_oifits)</a>
@@ -603,8 +607,6 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="distroi.auxiliary.time_base_oifits.html#distroi.auxiliary.time_base_oifits.time_window_plot">time_window_plot() (in module distroi.auxiliary.time_base_oifits)</a>
-</li>
       <li><a href="distroi.auxiliary.time_base_oifits.html#distroi.auxiliary.time_base_oifits.timestamp_to_plt_float">timestamp_to_plt_float() (in module distroi.auxiliary.time_base_oifits)</a>
 </li>
   </ul></td>

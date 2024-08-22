@@ -86,6 +86,47 @@ class SED:
 
         return
 
+    # TODO: add support for
+    def get_flux(
+        self, x: np.ndarray | float, flux_form: str = "flam", interp_method: str = "linear"
+    ) -> np.ndarray | float:
+        """
+        Retrieve the flux at certain wavelengths/frequencies by interpolating the contained SED data. Note that this
+        method throws an error if you try to retrieve fluxes outside the wavelength/frequency bounds.
+
+        :param np.ndarray | float x: Wavelengths/frequencies (in micron/Hz) at which to calculate the flux.
+        :param str flux_form: The format of the flux to be calculated. Options are 'flam' (default) and 'lam_flam',
+            as well as their frequency analogues 'fnu' and 'nu_fnu'. In case flux_form = 'flam' or 'lam_flam', x is
+            assumed to be wavelengths, while in case of 'fnu' and 'nu_fnu', x is assumed to be frequencies.
+        :param str interp_method: Interpolation method used by scipy's interp1d method. Defualt is 'linear'.
+            Can support 'linear', 'nearest', 'nearest-up', 'zero', 'slinear', 'quadratic', 'cubic', 'previous', or
+            'next'.
+        :return flux: The flux calculated at x using the reference wavelength/frequency and reference flux value.
+            In case of flux_form='flam', output will be in units erg s^-1 cm^-2 micron^-1. In case of
+            flux_form='fnu', output will be in units Jansky. In case of flux_form='lam_flam', units
+            will be in erg s^-1 cm^-2. In case of flux_form='nu_fnu', units will be Jy Hz
+        :rtype: np.ndarray | float
+        """
+
+        # set what flux to interpolate (e.g. 'flam') and what quantity to interpolate in (wavelengths/frequencies)
+        if flux_form == "flam":
+            x_sed = self.wavelengths
+            flux_sed = self.flam
+        elif flux_form == "lam_flam":
+            x_sed = self.wavelengths
+            flux_sed = x_sed * self.flam
+        elif flux_form == "fnu":
+            x_sed = self.frequencies
+            flux_sed = self.fnu
+        elif flux_form == "nu_fnu":
+            x_sed = self.frequencies
+            flux_sed = x_sed * self.fnu
+
+        interpolator = interp1d(x_sed, flux_sed, kind=interp_method, bounds_error=True)  # create interpolator
+        flux = interpolator(x)  # calculate interpolated flux
+
+        return flux
+
     def plot(
         self,
         fig_dir: str = None,
@@ -232,6 +273,7 @@ def read_sed_repo_phot(sed_path: str, wave_lims: tuple[float, float] = None) -> 
 
 
 # TODO: add support for fitting reddening on Fnu, lam_Flam or nu_Fnu instead
+# TODO: add support for different interpolation methods
 def sed_chi2reddened(
     sed_obs: SED,
     sed_mod: SED,
@@ -270,6 +312,7 @@ def sed_chi2reddened(
 
 
 # TODO: add support for fitting reddening on Fnu, lam_Flam or nu_Fnu instead
+# TODO: add support for different interpolation methods
 def sed_reddening_fit(
     sed_obs: SED,
     sed_mod: SED,
@@ -371,7 +414,10 @@ def sed_plot_data_vs_model(
     return
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
+#     import numpy
+#     import matplotlib.pyplot as plt
+
     # object_id = "HD93662"
     # iras_id = "IRAS10456-5712"
     # plotting = True
@@ -396,11 +442,34 @@ if __name__ == "__main__":
     #     ax.set_yscale("log")
     #     plt.show()
 
-    sed_data = read_sed_repo_phot("../examples/data/IRAS08544-4431/SED/IRAS08544-4431.phot")
-    sed_model = read_sed_mcfost("../examples/models/IRAS08544-4431_test_model/data_th/sed_rt.fits.gz")
-    sed_star = read_sed_mcfost("../examples/models/IRAS08544-4431_test_model/data_th/sed_rt.fits.gz", star_only=True)
+    # sed_data = read_sed_repo_phot("../examples/data/IRAS08544-4431/SED/IRAS08544-4431.phot")
+    # sed_model = read_sed_mcfost("../examples/models/IRAS08544-4431_test_model/data_th/sed_rt.fits.gz")
+    # sed_star = read_sed_mcfost("../examples/models/IRAS08544-4431_test_model/data_th/sed_rt.fits.gz", star_only=True)
 
-    ebminv_fitted, chi2_value = sed_reddening_fit(sed_data, sed_model, ebminv_guess=1.4, redden_mod=True)
-    print(ebminv_fitted)
-    sed_plot_data_vs_model(sed_data, sed_model, flux_form="lam_flam")
-    plt.show()
+    # waves = np.linspace(0.2, 10, 10000)
+    # flux_interpol = sed_model.get_flux(x=waves, flux_form="flam", interp_method="cubic")
+    # plt.plot(waves, flux_interpol)
+    # plt.plot(sed_model.wavelengths, sed_model.flam, ls="--")
+    # plt.show()
+
+    # flux_interpol = sed_model.get_flux(x=waves, flux_form="lam_flam", interp_method="cubic")
+    # plt.plot(waves, flux_interpol)
+    # plt.plot(sed_model.wavelengths, sed_model.wavelengths * sed_model.flam, ls="--")
+    # plt.show()
+
+    # frequencies = constants.SPEED_OF_LIGHT / (waves * constants.MICRON2M)
+    # flux_interpol = sed_model.get_flux(x=frequencies, flux_form="fnu")
+    # plt.plot(frequencies, flux_interpol)
+    # plt.plot(sed_model.frequencies, sed_model.fnu, ls="--")
+    # plt.show()
+
+    # frequencies = constants.SPEED_OF_LIGHT / (waves * constants.MICRON2M)
+    # flux_interpol = sed_model.get_flux(x=frequencies, flux_form="nu_fnu")
+    # plt.plot(frequencies, flux_interpol)
+    # plt.plot(sed_model.frequencies, sed_model.frequencies * sed_model.fnu, ls="--")
+    # plt.show()
+
+    # ebminv_fitted, chi2_value = sed_reddening_fit(sed_data, sed_model, ebminv_guess=1.4, redden_mod=True)
+    # print(ebminv_fitted)
+    # sed_plot_data_vs_model(sed_data, sed_model, flux_form="lam_flam")
+    # plt.show()

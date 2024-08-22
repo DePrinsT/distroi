@@ -32,12 +32,12 @@ class SpecDep(ABC):
 
         :param np.ndarray | float x: Wavelengths/frequencies (in micron/Hz) at which to calculate the flux.
         :param np.ndarray | float x_ref: Reference wavelength/frequency (in micron/Hz) at which to calculate the flux.
-            In case of 'flam' and 'lam_flam', x_ref is assumed to be a wavelength, while in case of 'fnu' and 'nu_fnu',
-            x_ref is assumed to be a frequency.
+            In case flux_form = 'flam' or 'lam_flam', x_ref is assumed to be a wavelength, while in case of 'fnu' and
+            'nu_fnu', x_ref is assumed to be a frequency.
         :param float ref_flux: Reference flux from which to calculate the flux, in the specified 'flux_form' format.
         :param str flux_form: The format of the flux to be calculated. Options are 'flam' (default) and 'lam_flam',
-            as well as their frequency analogues 'fnu' and 'nu_fnu'. In case of 'flam' and 'lam_flam', x is assumed to
-            be wavelengths, while in case of 'fnu' and 'nu_fnu', x is assumed to be frequencies.
+            as well as their frequency analogues 'fnu' and 'nu_fnu'. In case flux_form = 'flam' or 'lam_flam', x is 
+            assumed to be wavelengths, while in case of 'fnu' and 'nu_fnu', x is assumed to be frequencies.
         :return flux: The flux calculated at x using the reference wavelength/frequency and reference flux value.
             Note that the units of both input and output will correspond to those of x_ref and ref_flux.
         :rtype: np.ndarray | float
@@ -57,19 +57,19 @@ class GeomComp(ABC):
     @abstractmethod
     def calc_vis(
         self,
-        u: np.ndarray | float,
-        v: np.ndarray | float,
-        wavelength: np.ndarray | float = None,
-        ref_wavelength: float = None,
-        ref_corr_flux: float = None,
+        uf: np.ndarray | float,
+        vf: np.ndarray | float,
+        wavelength: np.ndarray | float | None = None,
+        ref_wavelength: float | None = None,
+        ref_corr_flux: float | None = None,
     ) -> np.ndarray | float:
         """
         Calculate the visibility of the geometric component at given spatial frequencies. Wavelengths corresponding to
         these spatial frequencies and a reference total flux (at reference wavelength) can also be passed along, in
         which case the returned visibilities will be in correlated flux (Jy) instead of normalized.
 
-        :param np.ndarray | float u: 1D array with spatial x-axis frequencies in 1/radian. Must be the same size as u.
-        :param np.ndarray | float v: 1D array with spatial y-axis frequencies in 1/radian. Must be the same size as v
+        :param np.ndarray | float uf: 1D array with spatial x-axis frequencies in 1/radian. Must be the same size as uf.
+        :param np.ndarray | float vf: 1D array with spatial y-axis frequencies in 1/radian. Must be the same size as vf.
         :param np.ndarray | float wavelength: 1D array with wavelength values in micron.
         :param float | None ref_wavelength: Reference wavelength in micron.
         :param float | None ref_corr_flux: Reference correlated flux in Jy corresponding to ref_wavelength. If provided
@@ -100,8 +100,8 @@ class UniformDisk(GeomComp):
     def __init__(
         self,
         diameter: float,
-        coords: tuple[float, float] = None,
-        spec_dep: SpecDep = None,
+        coords: tuple[float, float] | None = None,
+        spec_dep: SpecDep | None = None,
     ):
         """
         Initializes a UniformDisk object.
@@ -111,23 +111,26 @@ class UniformDisk(GeomComp):
             self.coords = (0, 0)
         else:
             self.coords = coords
-        self.spec_dep = spec_dep
+        if self.spec_dep is not None:
+            self.spec_dep = spec_dep  # set spectral dependence if given
+        else:
+            self.spec_dep = FlatSpecDep(flux_form="fnu")  # otherwise, assume a flat spectrum in correlated flux
 
     def calc_vis(
         self,
-        u: np.ndarray | float,
-        v: np.ndarray | float,
-        wavelength: np.ndarray | float = None,
-        ref_wavelength: float = None,
-        ref_corr_flux: float = None,
+        uf: np.ndarray | float,
+        vf: np.ndarray | float,
+        wavelength: np.ndarray | float | None = None,
+        ref_wavelength: float | None = None,
+        ref_corr_flux: float | None = None,
     ) -> np.ndarray | float:
         """
         Calculate the visibility at given spatial frequencies. Wavelengths corresponding to these spatial frequencies a
         and a reference flux value (at reference wavelength) can also be passed along, in which case the returned
         visibilities will be in correlated flux (Jy) instead of normalized.
 
-        :param np.ndarray u: 1D array with spatial x-axis frequencies in 1/radian. Must be the same size as u.
-        :param np.ndarray v: 1D array with spatial y-axis frequencies in 1/radian. Must be the same size as v
+        :param np.ndarray uf: 1D array with spatial x-axis frequencies in 1/radian. Must be the same size as uf.
+        :param np.ndarray vf: 1D array with spatial y-axis frequencies in 1/radian. Must be the same size as vf.
         :param np.ndarray wavelength: 1D array with wavelength values in micron.
         :param float ref_wavelength: Reference wavelength in micron.
         :param float ref_corr_flux: Reference correlated flux in Jy corresponding to ref_wavelength. If provided
@@ -139,12 +142,12 @@ class UniformDisk(GeomComp):
 
         norm_comp_vis = (
             2
-            * bessel_j1(np.pi * self.diameter * constants.MAS2RAD * np.sqrt(u**2 + v**2))
-            / (np.pi * self.diameter * constants.MAS2RAD * np.sqrt(u**2 + v**2))
+            * bessel_j1(np.pi * self.diameter * constants.MAS2RAD * np.sqrt(uf**2 + vf**2))
+            / (np.pi * self.diameter * constants.MAS2RAD * np.sqrt(uf**2 + vf**2))
         )
         # add position phase term
         norm_comp_vis_phase = norm_comp_vis * np.exp(
-            -2j * np.pi * (u * self.coords[0] * constants.MAS2RAD + v * self.coords[1] * constants.MAS2RAD)
+            -2j * np.pi * (uf * self.coords[0] * constants.MAS2RAD + vf * self.coords[1] * constants.MAS2RAD)
         )
         if wavelength is None or ref_wavelength is None or ref_corr_flux is None:
             vis = norm_comp_vis_phase
@@ -178,7 +181,7 @@ class Gaussian(GeomComp):
     :ivar SpecDep spec_dep: See parameter description.
     """
 
-    def __init__(self, fwhm: float, coords: tuple[float, float] = None, spec_dep: SpecDep = None):
+    def __init__(self, fwhm: float, coords: tuple[float, float] | None = None, spec_dep: SpecDep | None = None):
         """
         Initializes a Gaussian object.
         """
@@ -187,23 +190,26 @@ class Gaussian(GeomComp):
             self.coords = (0, 0)
         else:
             self.coords = coords
-        self.spec_dep = spec_dep
+        if self.spec_dep is not None:
+            self.spec_dep = spec_dep  # set spectral dependence if given
+        else:
+            self.spec_dep = FlatSpecDep(flux_form="fnu")  # otherwise, assume a flat spectrum in correlated flux
 
     def calc_vis(
         self,
-        u: np.ndarray | float,
-        v: np.ndarray | float,
-        wavelength: np.ndarray | float = None,
-        ref_wavelength: float = None,
-        ref_corr_flux: float = None,
+        uf: np.ndarray | float,
+        vf: np.ndarray | float,
+        wavelength: np.ndarray | float | None = None,
+        ref_wavelength: float | None = None,
+        ref_corr_flux: float | None = None,
     ) -> np.ndarray | float:
         """
         Calculate the visibility at given spatial frequencies. Wavelengths corresponding to these spatial frequencies a
         and a reference flux value (at reference wavelength) can also be passed along, in which case the returned
         visibilities will be in correlated flux (Jy) instead of normalized.
 
-        :param np.ndarray u: 1D array with spatial x-axis frequencies in 1/radian. Must be the same size as u.
-        :param np.ndarray v: 1D array with spatial y-axis frequencies in 1/radian. Must be the same size as v
+        :param np.ndarray uf: 1D array with spatial x-axis frequencies in 1/radian. Must be the same size as uf.
+        :param np.ndarray vf: 1D array with spatial y-axis frequencies in 1/radian. Must be the same size as vf.
         :param np.ndarray wavelength: 1D array with wavelength values in micron.
         :param float ref_wavelength: Reference wavelength in micron.
         :param float ref_corr_flux: Reference correlated flux in Jy corresponding to ref_wavelength. If provided
@@ -213,10 +219,10 @@ class Gaussian(GeomComp):
         :rtype: np.ndarray
         """
         # TODO: check if correct, lots of sources online disagree
-        norm_comp_vis = np.exp(-1 * np.pi**2 * (self.fwhm * constants.MAS2RAD) ** 2 * (u**2 + v**2) / (4 * np.log(2)))
+        norm_comp_vis = np.exp(-1 * np.pi**2 * (self.fwhm * constants.MAS2RAD) ** 2 * (uf**2 + vf**2) / (4 * np.log(2)))
         # add position phase term
         norm_comp_vis_phase = norm_comp_vis * np.exp(
-            -2j * np.pi * (u * self.coords[0] * constants.MAS2RAD + v * self.coords[1] * constants.MAS2RAD)
+            -2j * np.pi * (uf * self.coords[0] * constants.MAS2RAD + vf * self.coords[1] * constants.MAS2RAD)
         )
         if wavelength is None or ref_wavelength is None or ref_corr_flux is None:
             vis = norm_comp_vis_phase
@@ -248,7 +254,7 @@ class PointSource(GeomComp):
     :ivar SpecDep spec_dep: See parameter description.
     """
 
-    def __init__(self, coords: tuple[float, float] = None, spec_dep: SpecDep = None):
+    def __init__(self, coords: tuple[float, float] | None = None, spec_dep: SpecDep | None = None):
         """
         Initializes a PointSource object.
         """
@@ -256,23 +262,26 @@ class PointSource(GeomComp):
             self.coords = (0, 0)
         else:
             self.coords = coords
-        self.spec_dep = spec_dep
+        if self.spec_dep is not None:
+            self.spec_dep = spec_dep  # set spectral dependence if given
+        else:
+            self.spec_dep = FlatSpecDep(flux_form="fnu")  # otherwise, assume a flat spectrum in correlated flux
 
     def calc_vis(
         self,
-        u: np.ndarray | float,
-        v: np.ndarray | float,
-        wavelength: np.ndarray | float = None,
-        ref_wavelength: float = None,
-        ref_corr_flux: float = None,
+        uf: np.ndarray | float,
+        vf: np.ndarray | float,
+        wavelength: np.ndarray | float | None = None,
+        ref_wavelength: float | None = None,
+        ref_corr_flux: float | None = None,
     ) -> np.ndarray | float:
         """
         Calculate the visibility at given spatial frequencies. Wavelengths corresponding to these spatial frequencies a
         and a reference flux value (at reference wavelength) can also be passed along, in which case the returned
         visibilities will be in correlated flux (Jy) instead of normalized.
 
-        :param np.ndarray u: 1D array with spatial x-axis frequencies in 1/radian. Must be the same size as u.
-        :param np.ndarray v: 1D array with spatial y-axis frequencies in 1/radian. Must be the same size as v
+        :param np.ndarray uf: 1D array with spatial x-axis frequencies in 1/radian. Must be the same size as uf.
+        :param np.ndarray vf: 1D array with spatial y-axis frequencies in 1/radian. Must be the same size as vf.
         :param np.ndarray wavelength: 1D array with wavelength values in micron.
         :param float ref_wavelength: Reference wavelength in micron.
         :param float ref_corr_flux: Reference correlated flux in Jy corresponding to ref_wavelength. If provided
@@ -283,7 +292,7 @@ class PointSource(GeomComp):
         """
 
         norm_comp_vis = np.exp(
-            -2j * np.pi * (u * self.coords[0] * constants.MAS2RAD + v * self.coords[1] * constants.MAS2RAD)
+            -2j * np.pi * (uf * self.coords[0] * constants.MAS2RAD + vf * self.coords[1] * constants.MAS2RAD)
         )
         print("stuff going on")
         if wavelength is None or ref_wavelength is None or ref_corr_flux is None:
@@ -316,21 +325,24 @@ class Overresolved(GeomComp):
         """
         Initializes an Overresolved object.
         """
-        self.spec_dep = spec_dep
+        if self.spec_dep is not None:
+            self.spec_dep = spec_dep  # set spectral dependence if given
+        else:
+            self.spec_dep = FlatSpecDep(flux_form="fnu")  # otherwise, assume a flat spectrum in correlated flux
 
     def calc_vis(
         self,
-        u: np.ndarray | float,
-        v: np.ndarray | float,
-        wavelength: np.ndarray | float = None,
-        ref_wavelength: float = None,
-        ref_corr_flux: float = None,
+        uf: np.ndarray | float,
+        vf: np.ndarray | float,
+        wavelength: np.ndarray | float | None = None,
+        ref_wavelength: float | None = None,
+        ref_corr_flux: float | None = None,
     ) -> np.ndarray | float:
         """
         Calculate the visibility at given spatial frequencies. Automatically returns an
 
-        :param np.ndarray u: 1D array with spatial x-axis frequencies in 1/radian. Must be the same size as u.
-        :param np.ndarray v: 1D array with spatial y-axis frequencies in 1/radian. Must be the same size as v
+        :param np.ndarray uf: 1D array with spatial x-axis frequencies in 1/radian. Must be the same size as uf.
+        :param np.ndarray vf: 1D array with spatial y-axis frequencies in 1/radian. Must be the same size as vf.
         :param np.ndarray wavelength: 1D array with wavelength values in micron.
         :param float ref_wavelength: Reference wavelength in micron.
         :param float ref_corr_flux: Reference correlated flux in Jy corresponding to ref_wavelength. If provided
@@ -340,13 +352,13 @@ class Overresolved(GeomComp):
         :rtype: np.ndarray
         """
 
-        if isinstance(u, float):
+        if isinstance(uf, float):
             vis = 0
         else:
-            vis = np.zeros_like(u)
+            vis = np.zeros_like(uf)
         return vis
 
-
+# TODO: make this spectral dependence work when attached to an ImageFFT. This seems not to work at the moment.
 class BlackBodySpecDep(SpecDep):
     """
     Blackbody spectral flux dependency.
@@ -373,12 +385,12 @@ class BlackBodySpecDep(SpecDep):
 
         :param np.ndarray | float x: Wavelengths/frequencies (in micron/Hz) at which to calculate the flux.
         :param np.ndarray | float x_ref: Reference wavelength/frequency (in micron/Hz) at which to calculate the flux.
-            In case of 'flam' and 'lam_flam', x_ref is assumed to be a wavelength, while in case of 'fnu' and 'nu_fnu',
-            x_ref is assumed to be a frequency.
+            In case flux_form = 'flam' or 'lam_flam', x_ref is assumed to be a wavelength, while in case of 'fnu' and
+            'nu_fnu', x_ref is assumed to be a frequency.
         :param float ref_flux: Reference flux from which to calculate the flux, in the specified 'flux_form' format.
         :param str flux_form: The format of the flux to be calculated. Options are 'flam' (default) and 'lam_flam',
-            as well as their frequency analogues 'fnu' and 'nu_fnu'. In case of 'flam' and 'lam_flam', x is assumed to
-            be wavelengths, while in case of 'fnu' and 'nu_fnu', x is assumed to be frequencies.
+            as well as their frequency analogues 'fnu' and 'nu_fnu'. In case flux_form = 'flam' or 'lam_flam', x is
+            assumed to be wavelengths, while in case of 'fnu' and 'nu_fnu', x is assumed to be frequencies.
         :return flux: The flux calculated at x using the reference wavelength/frequency and reference flux value. Note
             that the units of both input and output will correspond to those of x_ref and ref_flux.
         :rtype: np.ndarray | float
@@ -456,12 +468,12 @@ class PowerLawSpecDep(SpecDep):
 
         :param np.ndarray | float x: Wavelengths/frequencies (in micron/Hz) at which to calculate the flux.
         :param np.ndarray | float x_ref: Reference wavelength/frequency (in micron/Hz) at which to calculate the flux.
-            In case of 'flam' and 'lam_flam', x_ref is assumed to be a wavelength, while in case of 'fnu' and 'nu_fnu',
-            x_ref is assumed to be a frequency.
+            In case flux_form = 'flam' or 'lam_flam', x_ref is assumed to be a wavelength, while in case of 'fnu' and
+            'nu_fnu', x_ref is assumed to be a frequency.
         :param float ref_flux: Reference flux from which to calculate the flux, in the specified 'flux_form' format.
         :param str flux_form: The format of the flux to be calculated. Options are 'flam' (default) and 'lam_flam',
-            as well as their frequency analogues 'fnu' and 'nu_fnu'. In case of 'flam' and 'lam_flam', x is assumed to
-            be wavelengths, while in case of 'fnu' and 'nu_fnu', x is assumed to be frequencies.
+            as well as their frequency analogues 'fnu' and 'nu_fnu'. In case flux_form = 'flam' or 'lam_flam', x is
+            assumed to be wavelengths, while in case of 'fnu' and 'nu_fnu', x is assumed to be frequencies.
         :return flux: The flux calculated at x using the reference wavelength/frequency and reference flux value. Note
             that the units of both input and output will correspond to those of x_ref and ref_flux.
         :rtype: np.ndarray | float
@@ -542,12 +554,12 @@ class FlatSpecDep(SpecDep):
 
         :param np.ndarray | float x: Wavelengths/frequencies (in micron/Hz) at which to calculate the flux.
         :param np.ndarray | float x_ref: Reference wavelength/frequency (in micron/Hz) at which to calculate the flux.
-            In case of 'flam' and 'lam_flam', x_ref is assumed to be a wavelength, while in case of 'fnu' and 'nu_fnu',
-            x_ref is assumed to be a frequency.
+            In case flux_form = 'flam' or 'lam_flam', x_ref is assumed to be a wavelength, while in case of 'fnu' and
+            'nu_fnu', x_ref is assumed to be a frequency.
         :param float ref_flux: Reference flux from which to calculate the flux, in the specified 'flux_form' format.
         :param str flux_form: The format of the flux to be calculated. Options are 'flam' (default) and 'lam_flam',
-            as well as their frequency analogues 'fnu' and 'nu_fnu'. In case of 'flam' and 'lam_flam', x is assumed to
-            be wavelengths, while in case of 'fnu' and 'nu_fnu', x is assumed to be frequencies.
+            as well as their frequency analogues 'fnu' and 'nu_fnu'. In case flux_form = 'flam' or 'lam_flam', x is
+            assumed to be wavelengths, while in case of 'fnu' and 'nu_fnu', x is assumed to be frequencies.
         :return flux: The flux calculated at x using the reference wavelength/frequency and reference flux value. Note
             that the units of both input and output will correspond to those of x_ref and ref_flux.
         :rtype: np.ndarray | float
@@ -636,12 +648,12 @@ class ThinAccDiskSpecDep(SpecDep):
 
         :param np.ndarray | float x: Wavelengths/frequencies (in micron/Hz) at which to calculate the flux.
         :param np.ndarray | float x_ref: Reference wavelength/frequency (in micron/Hz) at which to calculate the flux.
-            In case of 'flam' and 'lam_flam', x_ref is assumed to be a wavelength, while in case of 'fnu' and 'nu_fnu',
-            x_ref is assumed to be a frequency.
+            In case flux_form = 'flam' or 'lam_flam', x_ref is assumed to be a wavelength, while in case of 'fnu' and
+            'nu_fnu', x_ref is assumed to be a frequency.
         :param float ref_flux: Reference flux from which to calculate the flux, in the specified 'flux_form' format.
         :param str flux_form: The format of the flux to be calculated. Options are 'flam' (default) and 'lam_flam',
-            as well as their frequency analogues 'fnu' and 'nu_fnu'. In case of 'flam' and 'lam_flam', x is assumed to
-            be wavelengths, while in case of 'fnu' and 'nu_fnu', x is assumed to be frequencies.
+            as well as their frequency analogues 'fnu' and 'nu_fnu'. In case flux_form = 'flam' or 'lam_flam', x is
+            assumed to be wavelengths, while in case of 'fnu' and 'nu_fnu', x is assumed to be frequencies.
         :return flux: The flux calculated at x using the reference wavelength/frequency and reference flux value. Note
             that the units of both input and output will correspond to those of x_ref and ref_flux.
         :rtype: np.ndarray | float
@@ -662,20 +674,20 @@ class ThinAccDiskSpecDep(SpecDep):
 #     disk = Gaussian(fwhm=(0.4 / (100 * 1e6) * constants.RAD2MAS), coords=(0, 0), spec_dep=spec_dep)
 #     n_points = 100
 #     n_wave = 6
-#     u = np.array(list(np.linspace(1e6, 100 * 1e6, n_points)) * n_wave)
-#     v = np.array(list(np.linspace(1e6, 100 * 1e6, n_points)) * n_wave)
+#     uf = np.array(list(np.linspace(1e6, 100 * 1e6, n_points)) * n_wave)
+#     vf = np.array(list(np.linspace(1e6, 100 * 1e6, n_points)) * n_wave)
 #     wave = np.repeat(np.linspace(0.5, 1.5, n_wave), n_points)
-#     vis = disk.calc_vis(u, v, wavelength=wave, ref_wavelength=1, ref_corr_flux=1)
+#     vis = disk.calc_vis(uf, vf, wavelength=wave, ref_wavelength=1, ref_corr_flux=1)
 #
 #     fig, ax = plt.subplots()
-#     scat = ax.scatter(np.sqrt(u ** 2 + v ** 2), abs(vis) / np.max(abs(vis)), s=5, c=wave, cmap='inferno')
+#     scat = ax.scatter(np.sqrt(uf ** 2 + vf ** 2), abs(vis) / np.max(abs(vis)), s=5, c=wave, cmap='inferno')
 #     ax.set_xlabel(r'Baseline ($\lambda$)')
 #     ax.set_ylabel(r'$F_{corr} (Jy)$')
 #     plt.colorbar(scat)
-#     print(np.min(1 / u) * constants.RAD2MAS)
+#     print(np.min(1 / uf) * constants.RAD2MAS)
 #
 #     fig, ax = plt.subplots()
-#     scat = ax.scatter(np.sqrt(u ** 2 + v ** 2), np.angle(vis, deg=True), s=5, c=wave, cmap='inferno')
+#     scat = ax.scatter(np.sqrt(uf ** 2 + vf ** 2), np.angle(vis, deg=True), s=5, c=wave, cmap='inferno')
 #     ax.set_xlabel(r'Baseline ($\lambda$)')
 #     ax.set_ylabel(r'$\phi_{CP}$ ($^\circ$)')
 #     plt.colorbar(scat)

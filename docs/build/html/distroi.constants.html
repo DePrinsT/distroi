@@ -82,56 +82,60 @@
              
   <div class="section" id="module-distroi.constants">
 <span id="distroi-constants-module"></span><h1>distroi.constants module<a class="headerlink" href="#module-distroi.constants" title="Permalink to this headline"></a></h1>
-<p>Contains constants, unit conversions, miscellaneoud universal functions and plotting settings to be uniformly used
+<p>Contains constants, unit conversions, miscellaneous universal functions and plotting settings to be uniformly used
 throughout the project.</p>
 <dl class="field-list simple">
-<dt class="field-odd">var str PROJECT_ROOT</dt>
-<dd class="field-odd"><p>Path to the root of the distroi project on the user’s system.</p>
+<dt class="field-odd">meta private</dt>
+<dd class="field-odd"><p>Ignore this module when building documentation with sphinx-apidoc.</p>
 </dd>
-<dt class="field-even">var float SPEED_OF_LIGHT</dt>
-<dd class="field-even"><p>In SI units.</p>
+<dt class="field-even">var str PROJECT_ROOT</dt>
+<dd class="field-even"><p>Path to the root of the distroi project on the user’s system.</p>
 </dd>
-<dt class="field-odd">var float DEG2RAD</dt>
-<dd class="field-odd"><p>Conversion of degree to radian.</p>
+<dt class="field-odd">var float SPEED_OF_LIGHT</dt>
+<dd class="field-odd"><p>In SI units.</p>
 </dd>
-<dt class="field-even">var float RAD2DEG</dt>
-<dd class="field-even"><p>Conversion of radian to degree.</p>
+<dt class="field-even">var float DEG2RAD</dt>
+<dd class="field-even"><p>Conversion of degree to radian.</p>
 </dd>
-<dt class="field-odd">var float MAS2RAD</dt>
-<dd class="field-odd"><p>Conversion of milli-arcsecond to radian.</p>
+<dt class="field-odd">var float RAD2DEG</dt>
+<dd class="field-odd"><p>Conversion of radian to degree.</p>
 </dd>
-<dt class="field-even">var float RAD2MAS</dt>
-<dd class="field-even"><p>Conversion of radian to milli-arcsecond.</p>
+<dt class="field-even">var float MAS2RAD</dt>
+<dd class="field-even"><p>Conversion of milli-arcsecond to radian.</p>
 </dd>
-<dt class="field-odd">var float MICRON2M</dt>
-<dd class="field-odd"><p>Conversion of meter to micrometer/micron.</p>
+<dt class="field-odd">var float RAD2MAS</dt>
+<dd class="field-odd"><p>Conversion of radian to milli-arcsecond.</p>
 </dd>
-<dt class="field-even">var float M2MICRON</dt>
-<dd class="field-even"><p>Conversion of micrometer/micron to meter.</p>
+<dt class="field-even">var float MICRON2M</dt>
+<dd class="field-even"><p>Conversion of meter to micrometer/micron.</p>
 </dd>
-<dt class="field-odd">var float MICRON2AA</dt>
-<dd class="field-odd"><p>Conversion of micrometer/micron to Angstrom.</p>
+<dt class="field-odd">var float M2MICRON</dt>
+<dd class="field-odd"><p>Conversion of micrometer/micron to meter.</p>
 </dd>
-<dt class="field-even">var float AA2MICRON</dt>
-<dd class="field-even"><p>Conversion of Angstrom to micrometer/micron.</p>
+<dt class="field-even">var float MICRON2AA</dt>
+<dd class="field-even"><p>Conversion of micrometer/micron to Angstrom.</p>
 </dd>
-<dt class="field-odd">var float WATT_PER_METER2_HZ_2JY</dt>
-<dd class="field-odd"><p>Flux density conversion of W m^-2 Hz^-1 to Jansky (Jy).</p>
+<dt class="field-odd">var float AA2MICRON</dt>
+<dd class="field-odd"><p>Conversion of Angstrom to micrometer/micron.</p>
 </dd>
-<dt class="field-even">var float JY_2WATT_PER_METER2_HZ</dt>
-<dd class="field-even"><p>Flux density conversion of Jansky (Jy) to W m^-2 Hz^-1.</p>
+<dt class="field-even">var float WATT_PER_METER2_HZ_2JY</dt>
+<dd class="field-even"><p>Flux density conversion of W m^-2 Hz^-1 to Jansky (Jy).</p>
 </dd>
-<dt class="field-odd">var float ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M</dt>
-<dd class="field-odd"><p>Flux density conversion of erg s^-1 cm^-2 micron^-1 to W m^-2 m^-1.</p>
+<dt class="field-odd">var float JY_2WATT_PER_METER2_HZ</dt>
+<dd class="field-odd"><p>Flux density conversion of Jansky (Jy) to W m^-2 Hz^-1.</p>
 </dd>
-<dt class="field-even">var float WATT_PER_M2_M_2ERG_PER_S_CM2_MICRON</dt>
-<dd class="field-even"><p>Flux density conversion of W m^-2 m^-1 to erg s^-1 cm^-2 micron^-1.</p>
+<dt class="field-even">var float ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M</dt>
+<dd class="field-even"><p>Flux density conversion of erg s^-1 cm^-2 micron^-1 to W m^-2 m^-1.</p>
+</dd>
+<dt class="field-odd">var float WATT_PER_M2_M_2ERG_PER_S_CM2_MICRON</dt>
+<dd class="field-odd"><p>Flux density conversion of W m^-2 m^-1 to erg s^-1 cm^-2 micron^-1.</p>
 </dd>
 </dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.constants.bb_flam_at_frequency">
 <span class="sig-prename descclassname"><span class="pre">distroi.constants.</span></span><span class="sig-name descname"><span class="pre">bb_flam_at_frequency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frequency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></span><a class="headerlink" href="#distroi.constants.bb_flam_at_frequency" title="Permalink to this definition"></a></dt>
-<dd><p>Given a temperature and frequency, returns the spectral radiance of a blackbody curve in B_lam format and SI units.</p>
+<dd><p>Given a temperature (in Kelvin) and frequency (in Hz), returns, returns the spectral radiance of a blackbody curve
+in B_lam format and SI units.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -151,7 +155,8 @@ throughout the project.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.constants.bb_flam_at_wavelength">
 <span class="sig-prename descclassname"><span class="pre">distroi.constants.</span></span><span class="sig-name descname"><span class="pre">bb_flam_at_wavelength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wavelength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></span><a class="headerlink" href="#distroi.constants.bb_flam_at_wavelength" title="Permalink to this definition"></a></dt>
-<dd><p>Given a temperature and wavelength, returns the spectral radiance of a blackbody curve in B_lam format and SI units.</p>
+<dd><p>Given a temperature (in Kelvin) and wavelength (in micron), returns the spectral radiance of a blackbody curve in
+B_lam format and SI units.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -171,7 +176,8 @@ throughout the project.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.constants.bb_fnu_at_frequency">
 <span class="sig-prename descclassname"><span class="pre">distroi.constants.</span></span><span class="sig-name descname"><span class="pre">bb_fnu_at_frequency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frequency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></span><a class="headerlink" href="#distroi.constants.bb_fnu_at_frequency" title="Permalink to this definition"></a></dt>
-<dd><p>Given a temperature and wavelength, returns the spectral radiance of a blackbody curve in B_nu format and SI units.</p>
+<dd><p>Given a temperature (in Kelvin) and frequency (in Hz), returns the spectral radiance of a blackbody curve in
+B_nu format and SI units.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -191,7 +197,8 @@ throughout the project.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.constants.bb_fnu_at_wavelength">
 <span class="sig-prename descclassname"><span class="pre">distroi.constants.</span></span><span class="sig-name descname"><span class="pre">bb_fnu_at_wavelength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wavelength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></span><a class="headerlink" href="#distroi.constants.bb_fnu_at_wavelength" title="Permalink to this definition"></a></dt>
-<dd><p>Given a temperature and wavelength, returns the spectral radiance of a blackbody curve in B_nu format and SI units.</p>
+<dd><p>Given a temperature (in Kelvin) and wavelength (in micron), returns the spectral radiance of a blackbody curve in
+B_nu format and SI units.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -222,6 +229,39 @@ Jansky (Jy). Wavelengths are in micron.</p>
 </dd>
 <dt class="field-even">Return fnu</dt>
 <dd class="field-even"><p>Spectral flux density in F_nu format and Jy units</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.constants.gaussian_2d_elliptical">
+<span class="sig-prename descclassname"><span class="pre">distroi.constants.</span></span><span class="sig-name descname"><span class="pre">gaussian_2d_elliptical</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sig_min</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sig_maj_min_sig_min</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pa</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="headerlink" href="#distroi.constants.gaussian_2d_elliptical" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Definition for calculating the value of a 2D Elliptical Gaussian at a given point. Defined by an amplitude,</dt><dd><p>xy center, standard deviations along major/minor axis, a major axis position angle and an offset.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>points</strong> (<em>tuple</em><em>(</em><em>float</em><em> | </em><em>np</em><em>)</em>) – 2D tuples describing the (x, y) points to be inserted. Note that positive x is
+defined as leftward and positive y as upward (i.e. the East and North repesctively in the OI convention).</p></li>
+<li><p><strong>amp</strong> (<em>float</em>) – Amplitude of the Gaussian.</p></li>
+<li><p><strong>x0</strong> (<em>float</em>) – x-coordinate center of the Guassian.</p></li>
+<li><p><strong>y0</strong> (<em>float</em>) – y-coordinate center of the Gaussian.</p></li>
+<li><p><strong>sig_min</strong> (<em>float</em>) – Standard deviation in the minor axis direction.</p></li>
+<li><p><strong>sig_maj_min_sig_min</strong> – How much the standard deviation in major ellipse axis direction is greater than that of
+minor axis direction. Defined so it can always be greater than or equal to sig_min when used in
+scipy.optimize.curve_fit.</p></li>
+<li><p><strong>pa</strong> (<em>float</em>) – Position angle of the Gaussian (i.e. the major axis direction) anti-clockwise, starting North
+(positive y).</p></li>
+<li><p><strong>offset</strong> (<em>float</em>) – Base level offset from 0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return values</dt>
+<dd class="field-even"><p>A raveled 1D array containg the values of the Gaussian calculated at the points.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
