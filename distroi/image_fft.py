@@ -4,7 +4,7 @@ transform (FFT).
 """
 
 from distroi import constants
-from distroi import geom_comp
+from distroi import spec_dep
 
 import os
 import glob
@@ -14,7 +14,7 @@ from astropy.io import fits
 from scipy.interpolate import RegularGridInterpolator
 from scipy.interpolate import interp1d
 
-from typing_extensions import Literal
+from typing import Literal
 
 import matplotlib.pyplot as plt
 
@@ -23,16 +23,17 @@ constants.set_matplotlib_params()  # set project matplotlib parameters
 
 class ImageFFT:
     """
-    Class containing information on a model image and its FFT. Contains all properties in order to fully describe
-    both the image and its FFT. Note that all these properties are expected if all class methods are to work. While
-    default options are tuned to MCFOST model disk images, it can easily be generalized to different RT codes by
-    defining a corresponding image reader function analogous to 'read_image_fft_mcfost'. Can handle any dimensions of
-    image, as long as the amount of pixels in each dimension is even.
+    Class containing information on a model image and its FFT.
+
+    Contains all properties in order to fully describe both the image and its FFT. Note that all these properties are
+    expected if all class methods are to work. It can easily be generalized to different RT codes by defining a
+    corresponding image reader function analogous to 'read_image_fft_mcfost'. Can handle any amount of pixels
+    in an image, as long as the amount of pixels in each dimension is even.
 
     :param dict dictionary: Dictionary containing keys and values representing several instance variables described
         below. Should include 'wavelength', 'pixelscale_x'/'y', 'num_pix_x'/'y', 'img', and 'ftot'. The other required
         instance variables (related to the FFT) are set automatically through perform_fft().
-    :param SpecDep spec_dep: Optional spectral dependence of the image. This will only be used if this ImageFFT
+    :param SpecDep spc_dep: Optional spectral dependence of the image. This will only be used if this ImageFFT
         is used on its own in methods calculating interferometric observables. If instead multiple ImageFFT object or
         an SED are passed along as well, this property of the image will be ignored. By default, the spectral
         dependency will be assumed to be flat in correlated flux accross wavelengths (note that flatness in correlated
@@ -49,7 +50,7 @@ class ImageFFT:
     :ivar np.ndarray img: 2D numpy array containing the image flux in Jy. 1st index = image y-axis,
         2nd index = image x-axis.
     :ivar float ftot: Total image flux in Jy
-    :ivar SpecDep spec_dep: Optional spectral dependence of the image. Assumed flat in correlated flux (F_nu) by
+    :ivar SpecDep spc_dep: Optional spectral dependence of the image. Assumed flat in correlated flux (F_nu) by
         default.
     :ivar np.ndarray fft: Complex 2D numpy FFT of img in Jy, i.e. in correlated flux formulation.
     :ivar int num_pix_fft_x: Amount of image FFT pixels in the x direction. This can be different
@@ -65,7 +66,7 @@ class ImageFFT:
     def __init__(
         self,
         dictionary: dict[str, np.ndarray | float | int],
-        spec_dep: geom_comp.SpecDep | None = None,
+        spc_dep: spec_dep.SpecDep | None = None,
         padding: tuple[int, int] | None = None,
     ):
         """
@@ -119,10 +120,10 @@ class ImageFFT:
                 exit(1)
 
         # set spectral dependency
-        if spec_dep is not None:
-            self.spec_dep = spec_dep  # set spectral dependence if given
+        if spc_dep is not None:
+            self.spc_dep = spc_dep  # set spectral dependence if given
         else:
-            self.spec_dep = geom_comp.FlatSpecDep(flux_form="fnu")  # otherwise, assume flat spectrum in correlated flux
+            self.spc_dep = spec_dep.FlatSpecDep(flux_form="fnu")  # otherwise, assume flat spectrum in correlated flux
 
         return
 

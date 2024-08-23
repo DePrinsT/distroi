@@ -86,7 +86,6 @@ class SED:
 
         return
 
-    # TODO: add support for
     def get_flux(
         self, x: np.ndarray | float, flux_form: str = "flam", interp_method: str = "linear"
     ) -> np.ndarray | float:
@@ -418,58 +417,58 @@ def sed_plot_data_vs_model(
 #     import numpy
 #     import matplotlib.pyplot as plt
 
-    # object_id = "HD93662"
-    # iras_id = "IRAS10456-5712"
-    # plotting = True
-    # low_wave_lims = [3, 4.2, 8]
-    # high_wave_lims = [4, 5, 13]
+# object_id = "HD93662"
+# iras_id = "IRAS10456-5712"
+# plotting = True
+# low_wave_lims = [3, 4.2, 8]
+# high_wave_lims = [4, 5, 13]
 
-    # sed_data = read_sed_repo_phot(f"/home/toond/Documents/phd/data/{object_id}/SED/{iras_id}.phot")
-    # for i in range(len(low_wave_lims)):
-    #     low_wave_lim = low_wave_lims[i]
-    #     high_wave_lim = high_wave_lims[i]
-    #     for i, wave in enumerate(sed_data.wavelengths):
-    #         if low_wave_lim <= wave <= high_wave_lim:
-    #             print(
-    #                 f"wavelength: \t {wave} \t flux: \t {sed_data.fnu[i]} \t eflux: \t {sed_data.fnu_err[i]}"
-    #                 f"\t photband: \t {sed_data.bands[i]} \t source: \t {sed_data.sources[i]} \t "
-    #             )
-    #     print("")
-    # if plotting:
-    #     fig, ax = plt.subplots()
-    #     ax.errorbar(sed_data.wavelengths, sed_data.fnu, sed_data.fnu_err, fmt="o", markersize=4)
-    #     ax.set_xscale("log")
-    #     ax.set_yscale("log")
-    #     plt.show()
+# sed_data = read_sed_repo_phot(f"/home/toond/Documents/phd/data/{object_id}/SED/{iras_id}.phot")
+# for i in range(len(low_wave_lims)):
+#     low_wave_lim = low_wave_lims[i]
+#     high_wave_lim = high_wave_lims[i]
+#     for i, wave in enumerate(sed_data.wavelengths):
+#         if low_wave_lim <= wave <= high_wave_lim:
+#             print(
+#                 f"wavelength: \t {wave} \t flux: \t {sed_data.fnu[i]} \t eflux: \t {sed_data.fnu_err[i]}"
+#                 f"\t photband: \t {sed_data.bands[i]} \t source: \t {sed_data.sources[i]} \t "
+#             )
+#     print("")
+# if plotting:
+#     fig, ax = plt.subplots()
+#     ax.errorbar(sed_data.wavelengths, sed_data.fnu, sed_data.fnu_err, fmt="o", markersize=4)
+#     ax.set_xscale("log")
+#     ax.set_yscale("log")
+#     plt.show()
 
-    # sed_data = read_sed_repo_phot("../examples/data/IRAS08544-4431/SED/IRAS08544-4431.phot")
-    # sed_model = read_sed_mcfost("../examples/models/IRAS08544-4431_test_model/data_th/sed_rt.fits.gz")
-    # sed_star = read_sed_mcfost("../examples/models/IRAS08544-4431_test_model/data_th/sed_rt.fits.gz", star_only=True)
+# sed_data = read_sed_repo_phot("../examples/data/IRAS08544-4431/SED/IRAS08544-4431.phot")
+# sed_model = read_sed_mcfost("../examples/models/IRAS08544-4431_test_model/data_th/sed_rt.fits.gz")
+# sed_star = read_sed_mcfost("../examples/models/IRAS08544-4431_test_model/data_th/sed_rt.fits.gz", star_only=True)
 
-    # waves = np.linspace(0.2, 10, 10000)
-    # flux_interpol = sed_model.get_flux(x=waves, flux_form="flam", interp_method="cubic")
-    # plt.plot(waves, flux_interpol)
-    # plt.plot(sed_model.wavelengths, sed_model.flam, ls="--")
-    # plt.show()
+# waves = np.linspace(0.2, 10, 10000)
+# flux_interpol = sed_model.get_flux(x=waves, flux_form="flam", interp_method="cubic")
+# plt.plot(waves, flux_interpol)
+# plt.plot(sed_model.wavelengths, sed_model.flam, ls="--")
+# plt.show()
 
-    # flux_interpol = sed_model.get_flux(x=waves, flux_form="lam_flam", interp_method="cubic")
-    # plt.plot(waves, flux_interpol)
-    # plt.plot(sed_model.wavelengths, sed_model.wavelengths * sed_model.flam, ls="--")
-    # plt.show()
+# flux_interpol = sed_model.get_flux(x=waves, flux_form="lam_flam", interp_method="cubic")
+# plt.plot(waves, flux_interpol)
+# plt.plot(sed_model.wavelengths, sed_model.wavelengths * sed_model.flam, ls="--")
+# plt.show()
 
-    # frequencies = constants.SPEED_OF_LIGHT / (waves * constants.MICRON2M)
-    # flux_interpol = sed_model.get_flux(x=frequencies, flux_form="fnu")
-    # plt.plot(frequencies, flux_interpol)
-    # plt.plot(sed_model.frequencies, sed_model.fnu, ls="--")
-    # plt.show()
+# frequencies = constants.SPEED_OF_LIGHT / (waves * constants.MICRON2M)
+# flux_interpol = sed_model.get_flux(x=frequencies, flux_form="fnu")
+# plt.plot(frequencies, flux_interpol)
+# plt.plot(sed_model.frequencies, sed_model.fnu, ls="--")
+# plt.show()
 
-    # frequencies = constants.SPEED_OF_LIGHT / (waves * constants.MICRON2M)
-    # flux_interpol = sed_model.get_flux(x=frequencies, flux_form="nu_fnu")
-    # plt.plot(frequencies, flux_interpol)
-    # plt.plot(sed_model.frequencies, sed_model.frequencies * sed_model.fnu, ls="--")
-    # plt.show()
+# frequencies = constants.SPEED_OF_LIGHT / (waves * constants.MICRON2M)
+# flux_interpol = sed_model.get_flux(x=frequencies, flux_form="nu_fnu")
+# plt.plot(frequencies, flux_interpol)
+# plt.plot(sed_model.frequencies, sed_model.frequencies * sed_model.fnu, ls="--")
+# plt.show()
 
-    # ebminv_fitted, chi2_value = sed_reddening_fit(sed_data, sed_model, ebminv_guess=1.4, redden_mod=True)
-    # print(ebminv_fitted)
-    # sed_plot_data_vs_model(sed_data, sed_model, flux_form="lam_flam")
-    # plt.show()
+# ebminv_fitted, chi2_value = sed_reddening_fit(sed_data, sed_model, ebminv_guess=1.4, redden_mod=True)
+# print(ebminv_fitted)
+# sed_plot_data_vs_model(sed_data, sed_model, flux_form="lam_flam")
+# plt.show()

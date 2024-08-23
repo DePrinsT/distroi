@@ -11,6 +11,8 @@ This package allows for the calculation of optical interferometry (OI) observabl
 # IMPORT SUBPACKAGES (these need to be imported first if you have dependency on distroi main package modules
 # in some of the subpackage modules, otherwise you will get circular import issues)
 import distroi.auxiliary
+import distroi.rt_models
+import distroi.fitting
 
 # IMPORTS FROM DISTROI MAIN PACKAGE
 
@@ -34,14 +36,15 @@ from distroi.sed import sed_chi2reddened
 from distroi.sed import sed_reddening_fit
 from distroi.sed import sed_plot_data_vs_model
 
-# imports from geom_comp module
+# imports from spec_dep module
+from distroi.spec_dep import SpecDep
+from distroi.spec_dep import FlatSpecDep
+from distroi.spec_dep import BlackBodySpecDep
+from distroi.spec_dep import PowerLawSpecDep
+
+# imports from spec_dep module
 from distroi.geom_comp import GeomComp
 from distroi.geom_comp import UniformDisk
 from distroi.geom_comp import Gaussian
 from distroi.geom_comp import PointSource
 from distroi.geom_comp import Overresolved
-
-from distroi.geom_comp import SpecDep
-from distroi.geom_comp import FlatSpecDep
-from distroi.geom_comp import BlackBodySpecDep
-from distroi.geom_comp import PowerLawSpecDep

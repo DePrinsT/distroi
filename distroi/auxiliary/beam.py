@@ -100,11 +100,11 @@ def oi_container_calc_gaussian_beam(
         return None
 
     if vistype == "vis2":
-        u = container.v2uf
-        v = container.v2vf
+        u = container.v2_uf
+        v = container.v2_vf
     elif vistype == "vis" or vistype == "fcorr":
-        u = container.vuf
-        v = container.vvf
+        u = container.v_uf
+        v = container.v_vf
 
     max_uv_dist = np.max(np.sqrt(u**2 + v**2))  # max distance in 1/rad from origin, sets pixelscale for image space
     pix_res = (0.5 / max_uv_dist) * constants.RAD2MAS  # smallest resolution element (at Nyquist sampling)
@@ -306,7 +306,7 @@ def oi_container_calc_gaussian_beam(
             if not os.path.exists(fig_dir):
                 os.makedirs(fig_dir)
             # save if fig_dir not None
-            plt.savefig(f"{fig_dir}/dirty_beam_fit.{constants.IMG_OUTPUT_TYPE}", dpi=300, bbox_inches="tight")  
+            plt.savefig(f"{fig_dir}/dirty_beam_fit.{constants.IMG_OUTPUT_TYPE}", dpi=300, bbox_inches="tight")
         if show_plots:
             plt.show()  # show plot if asked
 

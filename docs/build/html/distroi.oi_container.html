@@ -49,6 +49,7 @@
 <li class="toctree-l3"><a class="reference internal" href="distroi.image_fft.html">distroi.image_fft module</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">distroi.oi_container module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="distroi.sed.html">distroi.sed module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.spec_dep.html">distroi.spec_dep module</a></li>
 </ul>
 </li>
 </ul>
@@ -107,28 +108,28 @@ visibilities). Can contain observables either related to astronomical observatio
 <dt class="field-even">Variables</dt>
 <dd class="field-even"><ul class="simple">
 <li><p><strong>vis_in_fcorr</strong> (<em>bool</em>) – Whether visibilities are stored in correlated flux or not.</p></li>
-<li><p><strong>vuf</strong> (<em>np.ndarray</em>) – u-axis spatial freqs in 1/rad for visibility data.</p></li>
-<li><p><strong>vvf</strong> (<em>np.ndarray</em>) – v-axis spatial freqs in 1/rad for visibility data.</p></li>
-<li><p><strong>vwave</strong> (<em>np.ndarray</em>) – Wavelengths in micron for visibility data.</p></li>
+<li><p><strong>v_uf</strong> (<em>np.ndarray</em>) – u-axis spatial freqs in 1/rad for visibility data.</p></li>
+<li><p><strong>v_vf</strong> (<em>np.ndarray</em>) – v-axis spatial freqs in 1/rad for visibility data.</p></li>
+<li><p><strong>v_wave</strong> (<em>np.ndarray</em>) – Wavelengths in micron for visibility data.</p></li>
 <li><p><strong>v</strong> (<em>np.ndarray</em>) – Visibilities, either normalized visibilities or correlated flux in Janksy.</p></li>
-<li><p><strong>verr</strong> (<em>np.ndarray</em>) – Error on visibilities.</p></li>
-<li><p><strong>vbase</strong> (<em>np.ndarray</em>) – Baseline length in MegaLambda for visibility data.</p></li>
-<li><p><strong>v2uf</strong> (<em>np.ndarray</em>) – u-axis spatial freqs in 1/rad for squared visibility data.</p></li>
-<li><p><strong>v2vf</strong> (<em>np.ndarray</em>) – v-axis spatial freqs in 1/rad for squared visibility data.</p></li>
-<li><p><strong>v2wave</strong> (<em>np.ndarray</em>) – Wavelengths in micron for squared visibility data.</p></li>
+<li><p><strong>v_err</strong> (<em>np.ndarray</em>) – Error on visibilities.</p></li>
+<li><p><strong>v_base</strong> (<em>np.ndarray</em>) – Baseline length in MegaLambda for visibility data.</p></li>
+<li><p><strong>v2_uf</strong> (<em>np.ndarray</em>) – u-axis spatial freqs in 1/rad for squared visibility data.</p></li>
+<li><p><strong>v2_vf</strong> (<em>np.ndarray</em>) – v-axis spatial freqs in 1/rad for squared visibility data.</p></li>
+<li><p><strong>v2_wave</strong> (<em>np.ndarray</em>) – Wavelengths in micron for squared visibility data.</p></li>
 <li><p><strong>v2</strong> (<em>np.ndarray</em>) – Squared visibilities.</p></li>
-<li><p><strong>v2err</strong> (<em>np.ndarray</em>) – Error on squared visibilities.</p></li>
-<li><p><strong>v2base</strong> (<em>np.ndarray</em>) – Baseline length in MegaLambda for squared visibility data.</p></li>
-<li><p><strong>t3uf1</strong> (<em>np.ndarray</em>) – u-axis spatial freqs in 1/rad for the 1st projected baseline along the closure triangle.</p></li>
-<li><p><strong>t3vf1</strong> (<em>np.ndarray</em>) – v-axis spatial freqs in 1/rad for the 1st projected baseline along the closure triangle.</p></li>
-<li><p><strong>t3uf2</strong> (<em>np.ndarray</em>) – u-axis spatial freqs in 1/rad for the 2nd projected baseline along the closure triangle.</p></li>
-<li><p><strong>t3vf2</strong> (<em>np.ndarray</em>) – v-axis spatial freqs in 1/rad for the 2nd projected baseline along the closure triangle.</p></li>
-<li><p><strong>t3uf3</strong> (<em>np.ndarray</em>) – u-axis spatial freqs in 1/rad for the 3d projected baseline along the closure triangle.</p></li>
-<li><p><strong>t3vf3</strong> (<em>np.ndarray</em>) – v-axis spatial freqs in 1/rad for the 3d projected baseline along the closure triangle.</p></li>
-<li><p><strong>t3wave</strong> (<em>np.ndarray</em>) – Wavelengths in micron for closure phase data.</p></li>
+<li><p><strong>v2_err</strong> (<em>np.ndarray</em>) – Error on squared visibilities.</p></li>
+<li><p><strong>v2_base</strong> (<em>np.ndarray</em>) – Baseline length in MegaLambda for squared visibility data.</p></li>
+<li><p><strong>t3_uf1</strong> (<em>np.ndarray</em>) – u-axis spatial freqs in 1/rad for the 1st projected baseline along the closure triangle.</p></li>
+<li><p><strong>t3_vf1</strong> (<em>np.ndarray</em>) – v-axis spatial freqs in 1/rad for the 1st projected baseline along the closure triangle.</p></li>
+<li><p><strong>t3_uf2</strong> (<em>np.ndarray</em>) – u-axis spatial freqs in 1/rad for the 2nd projected baseline along the closure triangle.</p></li>
+<li><p><strong>t3_vf2</strong> (<em>np.ndarray</em>) – v-axis spatial freqs in 1/rad for the 2nd projected baseline along the closure triangle.</p></li>
+<li><p><strong>t3_uf3</strong> (<em>np.ndarray</em>) – u-axis spatial freqs in 1/rad for the 3d projected baseline along the closure triangle.</p></li>
+<li><p><strong>t3_vf3</strong> (<em>np.ndarray</em>) – v-axis spatial freqs in 1/rad for the 3d projected baseline along the closure triangle.</p></li>
+<li><p><strong>t3_wave</strong> (<em>np.ndarray</em>) – Wavelengths in micron for closure phase data.</p></li>
 <li><p><strong>t3phi</strong> (<em>np.ndarray</em>) – Closure phases in degrees.</p></li>
-<li><p><strong>t3phierr</strong> (<em>np.ndarray</em>) – Error on closure phases.</p></li>
-<li><p><strong>t3bmax</strong> (<em>np.ndarray</em>) – Maximum baseline length along the closure triangle in units of MegaLambda.</p></li>
+<li><p><strong>t3phi_err</strong> (<em>np.ndarray</em>) – Error on closure phases.</p></li>
+<li><p><strong>t3_bmax</strong> (<em>np.ndarray</em>) – Maximum baseline length along the closure triangle in units of MegaLambda.</p></li>
 </ul>
 </dd>
 </dl>
@@ -159,11 +160,12 @@ Note that if True, this freazes further code execution until the plot windows ar
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.oi_container.oi_container_calc_image_fft_observables">
 <span class="sig-prename descclassname"><span class="pre">distroi.oi_container.</span></span><span class="sig-name descname"><span class="pre">oi_container_calc_image_fft_observables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#distroi.oi_container.OIContainer" title="distroi.oi_container.OIContainer"><span class="pre">distroi.oi_container.OIContainer</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_ffts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="distroi.image_fft.html#distroi.image_fft.ImageFFT" title="distroi.image_fft.ImageFFT"><span class="pre">distroi.image_fft.ImageFFT</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_sed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="distroi.sed.html#distroi.sed.SED" title="distroi.sed.SED"><span class="pre">distroi.sed.SED</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geom_comps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="distroi.geom_comp.html#distroi.geom_comp.GeomComp" title="distroi.geom_comp.GeomComp"><span class="pre">distroi.geom_comp.GeomComp</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geom_comp_flux_fracs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_wavelength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interp_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'linear'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#distroi.oi_container.OIContainer" title="distroi.oi_container.OIContainer"><span class="pre">distroi.oi_container.OIContainer</span></a></span></span><a class="headerlink" href="#distroi.oi_container.oi_container_calc_image_fft_observables" title="Permalink to this definition"></a></dt>
-<dd><p>Loads in OI observables from an OIContainer, and calculates corresponding model image observables.
-The model images are passed along as a list of ImageFFT objects. If this list contains one object, the normalized
-visibilities will not be interpolated in the wavelength dimension, i.e. the emission morphology ‘monochromatic’.
-If the list contains multiple ImageFFT objects, interpolation in wavelength is performed. In this case the
-wavelength coverage of the ImageFFT objects needs to exceed that of the OIContainer!</p>
+<dd><p>Loads in OI observables from an OIContainer, and calculates corresponding model image observables. The model images
+are passed along as a list of ImageFFT objects.</p>
+<p>If this list contains one object, the normalized visibilities will not be interpolated in the wavelength dimension,
+i.e. the emission morphology is ‘monochromatic’. If the list contains multiple ImageFFT objects, interpolation in
+wavelength is performed. In this case the wavelength coverage of the ImageFFT objects needs to exceed that of the
+OIContainer!</p>
 <p>NOTE: This method expects that every ImageFFT object in the list has the same pixelscale and amount of pixels
 (in both x- and y-direction).</p>
 <dl class="field-list simple">
@@ -176,13 +178,15 @@ only one object, no interpolation of the normalized visibilities in the waveleng
 ImageFFT(s). By default, this is None, and the total flux wavelength dependence will be taken from either
 the SpecDep property of the ImageFFT, in case img_ffts contains a single ImageFFT object, or from
 a linear interpolation between the total fluxes in case img_ffts contains multiple ImageFFT objects.</p></li>
-<li><p><strong>geom_comps</strong> (<em>list</em><em>[</em><a class="reference internal" href="distroi.geom_comp.html#distroi.geom_comp.GeomComp" title="distroi.geom_comp.GeomComp"><em>GeomComp</em></a><em>]</em>) – List of GeomComp objects, representing geometric components to be added to the
-complex visibility calculation.</p></li>
+<li><p><strong>geom_comps</strong> (<em>list</em><em>[</em><a class="reference internal" href="distroi.geom_comp.html#distroi.geom_comp.GeomComp" title="distroi.geom_comp.GeomComp"><em>GeomComp</em></a><em>]</em>) – Optional list of GeomComp objects, representing geometric components to be added
+to the complex visibility calculation.</p></li>
 <li><p><strong>geom_comp_flux_fracs</strong> (<em>list</em><em>[</em><em>float</em><em>]</em>) – Flux fractions of the geometric components. Should add up to less than one.
-The remainder from the difference with one will be the flux fraction attributed</p></li>
-<li><p><strong>ref_wavelength</strong> (<em>float</em>) – Reference wavelength for the flux fractions in micron.</p></li>
-<li><p><strong>interp_method</strong> (<em>str</em>) – Interpolation method used by scipy to perform interpolation on total fluxes and
-visibilities from the ImageFFT objects. Can support ‘linear’, ‘nearest’, ‘slinear’, or ‘cubic’.</p></li>
+The remainder from the difference with one will be the flux fraction attributed to the model image(s).</p></li>
+<li><p><strong>ref_wavelength</strong> (<em>float</em>) – Reference wavelength for the geometric component flux fractions in micron. In case
+image_ffts contains more than one model image. This wavelength must lie within the wavelength range spanned by
+the SED (if passed along), or by the model images.</p></li>
+<li><p><strong>interp_method</strong> (<em>str</em>) – Interpolation method used by scipy to perform interpolations. Can support ‘linear’,
+‘nearest’, ‘slinear’, or ‘cubic’.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return container_mod</dt>

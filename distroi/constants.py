@@ -249,18 +249,3 @@ def gaussian_2d_elliptical(
     values = np.array(values).ravel()  # ravel to a 1D array, so it can be used in scipy curve fitting
 
     return values
-
-
-if __name__ == "__main__":
-    import matplotlib.pyplot as plt
-    # fig, ax = plt.subplots(1, 1)
-    # temp = 2000
-    # wave = np.linspace(1.0, 3.0, 100)
-    # ax.plot(wave, bb_flam_at_wavelength(wave, temp))
-    # ax.axvline(x=2898 / temp)
-    # plt.show()
-    wave = np.linspace(0.1, 0.8, 100)
-    flux = 0.0 + wave*0.2
-    plt.plot(wave,redden_flux(wave, flux, ebminv=1.4))
-    plt.show()
-

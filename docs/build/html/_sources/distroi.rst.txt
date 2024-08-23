@@ -27,3 +27,4 @@ Submodules
    distroi.image_fft
    distroi.oi_container
    distroi.sed
+   distroi.spec_dep

@@ -49,6 +49,7 @@
 <li class="toctree-l3"><a class="reference internal" href="distroi.image_fft.html">distroi.image_fft module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="distroi.oi_container.html">distroi.oi_container module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="distroi.sed.html">distroi.sed module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.spec_dep.html">distroi.spec_dep module</a></li>
 </ul>
 </li>
 </ul>
@@ -85,50 +86,47 @@
 <p>Contains constants, unit conversions, miscellaneous universal functions and plotting settings to be uniformly used
 throughout the project.</p>
 <dl class="field-list simple">
-<dt class="field-odd">meta private</dt>
-<dd class="field-odd"><p>Ignore this module when building documentation with sphinx-apidoc.</p>
+<dt class="field-odd">var str PROJECT_ROOT</dt>
+<dd class="field-odd"><p>Path to the root of the distroi project on the user’s system.</p>
 </dd>
-<dt class="field-even">var str PROJECT_ROOT</dt>
-<dd class="field-even"><p>Path to the root of the distroi project on the user’s system.</p>
+<dt class="field-even">var float SPEED_OF_LIGHT</dt>
+<dd class="field-even"><p>In SI units.</p>
 </dd>
-<dt class="field-odd">var float SPEED_OF_LIGHT</dt>
-<dd class="field-odd"><p>In SI units.</p>
+<dt class="field-odd">var float DEG2RAD</dt>
+<dd class="field-odd"><p>Conversion of degree to radian.</p>
 </dd>
-<dt class="field-even">var float DEG2RAD</dt>
-<dd class="field-even"><p>Conversion of degree to radian.</p>
+<dt class="field-even">var float RAD2DEG</dt>
+<dd class="field-even"><p>Conversion of radian to degree.</p>
 </dd>
-<dt class="field-odd">var float RAD2DEG</dt>
-<dd class="field-odd"><p>Conversion of radian to degree.</p>
+<dt class="field-odd">var float MAS2RAD</dt>
+<dd class="field-odd"><p>Conversion of milli-arcsecond to radian.</p>
 </dd>
-<dt class="field-even">var float MAS2RAD</dt>
-<dd class="field-even"><p>Conversion of milli-arcsecond to radian.</p>
+<dt class="field-even">var float RAD2MAS</dt>
+<dd class="field-even"><p>Conversion of radian to milli-arcsecond.</p>
 </dd>
-<dt class="field-odd">var float RAD2MAS</dt>
-<dd class="field-odd"><p>Conversion of radian to milli-arcsecond.</p>
+<dt class="field-odd">var float MICRON2M</dt>
+<dd class="field-odd"><p>Conversion of meter to micrometer/micron.</p>
 </dd>
-<dt class="field-even">var float MICRON2M</dt>
-<dd class="field-even"><p>Conversion of meter to micrometer/micron.</p>
+<dt class="field-even">var float M2MICRON</dt>
+<dd class="field-even"><p>Conversion of micrometer/micron to meter.</p>
 </dd>
-<dt class="field-odd">var float M2MICRON</dt>
-<dd class="field-odd"><p>Conversion of micrometer/micron to meter.</p>
+<dt class="field-odd">var float MICRON2AA</dt>
+<dd class="field-odd"><p>Conversion of micrometer/micron to Angstrom.</p>
 </dd>
-<dt class="field-even">var float MICRON2AA</dt>
-<dd class="field-even"><p>Conversion of micrometer/micron to Angstrom.</p>
+<dt class="field-even">var float AA2MICRON</dt>
+<dd class="field-even"><p>Conversion of Angstrom to micrometer/micron.</p>
 </dd>
-<dt class="field-odd">var float AA2MICRON</dt>
-<dd class="field-odd"><p>Conversion of Angstrom to micrometer/micron.</p>
+<dt class="field-odd">var float WATT_PER_METER2_HZ_2JY</dt>
+<dd class="field-odd"><p>Flux density conversion of W m^-2 Hz^-1 to Jansky (Jy).</p>
 </dd>
-<dt class="field-even">var float WATT_PER_METER2_HZ_2JY</dt>
-<dd class="field-even"><p>Flux density conversion of W m^-2 Hz^-1 to Jansky (Jy).</p>
+<dt class="field-even">var float JY_2WATT_PER_METER2_HZ</dt>
+<dd class="field-even"><p>Flux density conversion of Jansky (Jy) to W m^-2 Hz^-1.</p>
 </dd>
-<dt class="field-odd">var float JY_2WATT_PER_METER2_HZ</dt>
-<dd class="field-odd"><p>Flux density conversion of Jansky (Jy) to W m^-2 Hz^-1.</p>
+<dt class="field-odd">var float ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M</dt>
+<dd class="field-odd"><p>Flux density conversion of erg s^-1 cm^-2 micron^-1 to W m^-2 m^-1.</p>
 </dd>
-<dt class="field-even">var float ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M</dt>
-<dd class="field-even"><p>Flux density conversion of erg s^-1 cm^-2 micron^-1 to W m^-2 m^-1.</p>
-</dd>
-<dt class="field-odd">var float WATT_PER_M2_M_2ERG_PER_S_CM2_MICRON</dt>
-<dd class="field-odd"><p>Flux density conversion of W m^-2 m^-1 to erg s^-1 cm^-2 micron^-1.</p>
+<dt class="field-even">var float WATT_PER_M2_M_2ERG_PER_S_CM2_MICRON</dt>
+<dd class="field-even"><p>Flux density conversion of W m^-2 m^-1 to erg s^-1 cm^-2 micron^-1.</p>
 </dd>
 </dl>
 <dl class="py function">

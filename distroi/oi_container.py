@@ -15,13 +15,14 @@ import os
 
 import numpy as np
 
-from typing_extensions import Literal
+from typing import Literal
 
 import matplotlib.pyplot as plt
 
 constants.set_matplotlib_params()  # set project matplotlib parameters
 
 
+# TODO: add support for bispectrum amplitude
 class OIContainer:
     """
     Class to contain optical interferometry observables, where each observable is stored in the form of raveled 1D
@@ -35,28 +36,28 @@ class OIContainer:
         (excluding fcorr).
     :param bool fcorr: Set to True if the visibilities are to be stored as correlated fluxes in Jy.
     :ivar bool vis_in_fcorr: Whether visibilities are stored in correlated flux or not.
-    :ivar np.ndarray vuf: u-axis spatial freqs in 1/rad for visibility data.
-    :ivar np.ndarray vvf: v-axis spatial freqs in 1/rad for visibility data.
-    :ivar np.ndarray vwave: Wavelengths in micron for visibility data.
+    :ivar np.ndarray v_uf: u-axis spatial freqs in 1/rad for visibility data.
+    :ivar np.ndarray v_vf: v-axis spatial freqs in 1/rad for visibility data.
+    :ivar np.ndarray v_wave: Wavelengths in micron for visibility data.
     :ivar np.ndarray v: Visibilities, either normalized visibilities or correlated flux in Janksy.
-    :ivar np.ndarray verr: Error on visibilities.
-    :ivar np.ndarray vbase: Baseline length in MegaLambda for visibility data.
-    :ivar np.ndarray v2uf: u-axis spatial freqs in 1/rad for squared visibility data.
-    :ivar np.ndarray v2vf: v-axis spatial freqs in 1/rad for squared visibility data.
-    :ivar np.ndarray v2wave: Wavelengths in micron for squared visibility data.
+    :ivar np.ndarray v_err: Error on visibilities.
+    :ivar np.ndarray v_base: Baseline length in MegaLambda for visibility data.
+    :ivar np.ndarray v2_uf: u-axis spatial freqs in 1/rad for squared visibility data.
+    :ivar np.ndarray v2_vf: v-axis spatial freqs in 1/rad for squared visibility data.
+    :ivar np.ndarray v2_wave: Wavelengths in micron for squared visibility data.
     :ivar np.ndarray v2: Squared visibilities.
-    :ivar np.ndarray v2err: Error on squared visibilities.
-    :ivar np.ndarray v2base: Baseline length in MegaLambda for squared visibility data.
-    :ivar np.ndarray t3uf1: u-axis spatial freqs in 1/rad for the 1st projected baseline along the closure triangle.
-    :ivar np.ndarray t3vf1: v-axis spatial freqs in 1/rad for the 1st projected baseline along the closure triangle.
-    :ivar np.ndarray t3uf2: u-axis spatial freqs in 1/rad for the 2nd projected baseline along the closure triangle.
-    :ivar np.ndarray t3vf2: v-axis spatial freqs in 1/rad for the 2nd projected baseline along the closure triangle.
-    :ivar np.ndarray t3uf3: u-axis spatial freqs in 1/rad for the 3d projected baseline along the closure triangle.
-    :ivar np.ndarray t3vf3: v-axis spatial freqs in 1/rad for the 3d projected baseline along the closure triangle.
-    :ivar np.ndarray t3wave: Wavelengths in micron for closure phase data.
+    :ivar np.ndarray v2_err: Error on squared visibilities.
+    :ivar np.ndarray v2_base: Baseline length in MegaLambda for squared visibility data.
+    :ivar np.ndarray t3_uf1: u-axis spatial freqs in 1/rad for the 1st projected baseline along the closure triangle.
+    :ivar np.ndarray t3_vf1: v-axis spatial freqs in 1/rad for the 1st projected baseline along the closure triangle.
+    :ivar np.ndarray t3_uf2: u-axis spatial freqs in 1/rad for the 2nd projected baseline along the closure triangle.
+    :ivar np.ndarray t3_vf2: v-axis spatial freqs in 1/rad for the 2nd projected baseline along the closure triangle.
+    :ivar np.ndarray t3_uf3: u-axis spatial freqs in 1/rad for the 3d projected baseline along the closure triangle.
+    :ivar np.ndarray t3_vf3: v-axis spatial freqs in 1/rad for the 3d projected baseline along the closure triangle.
+    :ivar np.ndarray t3_wave: Wavelengths in micron for closure phase data.
     :ivar np.ndarray t3phi: Closure phases in degrees.
-    :ivar np.ndarray t3phierr: Error on closure phases.
-    :ivar np.ndarray t3bmax: Maximum baseline length along the closure triangle in units of MegaLambda.
+    :ivar np.ndarray t3phi_err: Error on closure phases.
+    :ivar np.ndarray t3_bmax: Maximum baseline length along the closure triangle in units of MegaLambda.
     """
 
     def __init__(self, dictionary: dict[str, np.ndarray], fcorr: bool = False):
@@ -65,60 +66,60 @@ class OIContainer:
         """
         self.vis_in_fcorr = fcorr  # set if visibilities are in correlated flux
 
-        # Properties for visibility (v) data
-        self.vuf = None  # u-axis spatial freqs in 1/rad
-        self.vvf = None  # v-axis spatial freqs in 1/rad
-        self.vwave = None  # wavelengths in micron
+        # Properties for visibility (V) data
+        self.v_uf = None  # u-axis spatial freqs in 1/rad
+        self.v_vf = None  # v-axis spatial freqs in 1/rad
+        self.v_wave = None  # wavelengths in micron
         self.v = None  # visibilities (either normalized visibilities or correlated flux in Janksy)
-        self.verr = None  # error on visibilities
-        self.vbase = None  # baseline length in MegaLambda (i.e. 1e6*vwave)
+        self.v_err = None  # error on visibilities
+        self.v_base = None  # baseline length in MegaLambda (i.e. 1e6*v_wave)
 
-        # Properties for squared visibility (v2) data
-        self.v2uf = None  # u-axis spatial freqs in 1/rad
-        self.v2vf = None  # v-axis spatial freqs in 1/rad
-        self.v2wave = None  # wavelengths in micron
+        # Properties for squared visibility (V2) data
+        self.v2_uf = None  # u-axis spatial freqs in 1/rad
+        self.v2_vf = None  # v-axis spatial freqs in 1/rad
+        self.v2_wave = None  # wavelengths in micron
         self.v2 = None  # squared visibilities
-        self.v2err = None  # errors on squared visibilities
-        self.v2base = None  # baseline length in MegaLambda (i.e. 1e6*vwave)
+        self.v2_err = None  # errors on squared visibilities
+        self.v2_base = None  # baseline length in MegaLambda (i.e. 1e6*v_wave)
 
-        # Properties for closure phase (t3) data
-        self.t3uf1 = None  # u-axis spatial freqs in 1/rad for the 3 projected baselines
-        self.t3vf1 = None  # v-axis spatial freqs in 1/rad for the 3 projected baselines
-        self.t3uf2 = None
-        self.t3vf2 = None
-        self.t3uf3 = None
-        self.t3vf3 = None
-        self.t3wave = None  # wavelenghts in micron
-        self.t3phi = None  # closure phases in degrees
-        self.t3phierr = None  # errors on closure phases
-        self.t3bmax = None  # maximum baseline lengths along the closure triangles in units of MegaLambda
+        # Properties for closure phase (T3_PHI) data
+        self.t3_uf1 = None  # u-axis spatial freqs in 1/rad for the 3 projected baselines
+        self.t3_vf1 = None  # v-axis spatial freqs in 1/rad for the 3 projected baselines
+        self.t3_uf2 = None
+        self.t3_vf2 = None
+        self.t3_uf3 = None
+        self.t3_vf3 = None
+        self.t3_wave = None  # wavelenghts in micron
+        self.t3_phi = None  # closure phases in degrees
+        self.t3_phierr = None  # errors on closure phases
+        self.t3_bmax = None  # maximum baseline lengths along the closure triangles in units of MegaLambda
 
         # Read in from the dictionary
         if dictionary is not None:
-            self.vuf = dictionary["vuf"]
-            self.vvf = dictionary["vvf"]
-            self.vwave = dictionary["vwave"]
+            self.v_uf = dictionary["v_uf"]
+            self.v_vf = dictionary["v_vf"]
+            self.v_wave = dictionary["v_wave"]
             self.v = dictionary["v"]
-            self.verr = dictionary["verr"]
-            self.vbase = dictionary["vbase"]
+            self.v_err = dictionary["v_err"]
+            self.v_base = dictionary["v_base"]
 
-            self.v2uf = dictionary["v2uf"]
-            self.v2vf = dictionary["v2vf"]
-            self.v2wave = dictionary["v2wave"]
+            self.v2_uf = dictionary["v2_uf"]
+            self.v2_vf = dictionary["v2_vf"]
+            self.v2_wave = dictionary["v2_wave"]
             self.v2 = dictionary["v2"]
-            self.v2err = dictionary["v2err"]
-            self.v2base = dictionary["v2base"]
+            self.v2_err = dictionary["v2_err"]
+            self.v2_base = dictionary["v2_base"]
 
-            self.t3uf1 = dictionary["t3uf1"]
-            self.t3vf1 = dictionary["t3vf1"]
-            self.t3uf2 = dictionary["t3uf2"]
-            self.t3vf2 = dictionary["t3vf2"]
-            self.t3uf3 = dictionary["t3uf3"]
-            self.t3vf3 = dictionary["t3vf3"]
-            self.t3wave = dictionary["t3wave"]
-            self.t3phi = dictionary["t3phi"]
-            self.t3phierr = dictionary["t3phierr"]
-            self.t3bmax = dictionary["t3bmax"]
+            self.t3_uf1 = dictionary["t3_uf1"]
+            self.t3_vf1 = dictionary["t3_vf1"]
+            self.t3_uf2 = dictionary["t3_uf2"]
+            self.t3_vf2 = dictionary["t3_vf2"]
+            self.t3_uf3 = dictionary["t3_uf3"]
+            self.t3_vf3 = dictionary["t3_vf3"]
+            self.t3_wave = dictionary["t3_wave"]
+            self.t3_phi = dictionary["t3phi"]
+            self.t3_phierr = dictionary["t3phi_err"]
+            self.t3_bmax = dictionary["t3_bmax"]
 
     def plot_data(
         self,
@@ -155,13 +156,13 @@ class OIContainer:
 
         # set spatial frequencies, visibilities and plotting label based on specified option
         if plot_vistype == "vis2":
-            uf, vf = self.v2uf, self.v2vf
-            vis, viserr = self.v2, self.v2err
-            wave, base, vislabel = self.v2wave, self.v2base, "$V^2$"
+            uf, vf = self.v2_uf, self.v2_vf
+            vis, viserr = self.v2, self.v2_err
+            wave, base, vislabel = self.v2_wave, self.v2_base, "$V^2$"
         elif plot_vistype == "vis" or "fcorr":
-            uf, vf = self.vuf, self.vvf
-            vis, viserr = self.v, self.verr
-            wave, base = self.vwave, self.vbase
+            uf, vf = self.v_uf, self.v_vf
+            vis, viserr = self.v, self.v_err
+            wave, base = self.v_wave, self.v_base
             if not self.vis_in_fcorr:
                 vislabel = "$V$"
             else:
@@ -227,16 +228,16 @@ class OIContainer:
         # plot phi_closure
         fig, ax = plt.subplots(1, 1, figsize=(10, 6))
         sc = ax.scatter(
-            self.t3bmax,
-            self.t3phi,
-            c=self.t3wave,
+            self.t3_bmax,
+            self.t3_phi,
+            c=self.t3_wave,
             s=2,
             cmap="gist_rainbow_r",
         )
         ax.errorbar(
-            self.t3bmax,
-            self.t3phi,
-            self.t3phierr,
+            self.t3_bmax,
+            self.t3_phi,
+            self.t3_phierr,
             ecolor="grey",
             marker="",
             capsize=0,
@@ -251,8 +252,8 @@ class OIContainer:
 
         ax.set_ylabel(r"$\phi_{CP}$ ($^\circ$)")
         ax.set_title("Closure Phases")
-        ax.set_ylim(np.min(self.t3phi - self.t3phierr), np.max(self.t3phi + self.t3phierr))
-        ax.set_xlim(0, np.max(self.t3bmax) * 1.05)
+        ax.set_ylim(np.min(self.t3_phi - self.t3_phierr), np.max(self.t3_phi + self.t3_phierr))
+        ax.set_xlim(0, np.max(self.t3_bmax) * 1.05)
         ax.axhline(y=0, c="k", ls="--", lw=1, zorder=0)
         ax.set_xlabel(r"$B_{max}$ ($\mathrm{M \lambda}$)")
         if fig_dir is not None:
@@ -348,14 +349,14 @@ def read_oi_container_from_oifits(
     vwavedat = np.array(vwavedat)
     vdat = np.array(vdat)
     verr = np.array(verr)
-    vbase = np.sqrt(vufdat**2 + vvfdat**2) / 1e6  # uv baseline length in MegaLambda
+    v_base = np.sqrt(vufdat**2 + vvfdat**2) / 1e6  # uv baseline length in MegaLambda
 
     v2ufdat = np.array(v2ufdat)  # transfer into numpy arrays
     v2vfdat = np.array(v2vfdat)
     v2wavedat = np.array(v2wavedat)
     v2dat = np.array(v2dat)
     v2err = np.array(v2err)
-    v2base = np.sqrt(v2ufdat**2 + v2vfdat**2) / 1e6  # uv baseline length in MegaLambda
+    v2_base = np.sqrt(v2ufdat**2 + v2vfdat**2) / 1e6  # uv baseline length in MegaLambda
 
     uf1dat = np.array(uf1dat)
     vf1dat = np.array(vf1dat)
@@ -367,7 +368,7 @@ def read_oi_container_from_oifits(
 
     uf3dat = uf1dat + uf2dat  # 3d baseline (frequency) and max baseline of closure triangle (in MegaLambda)
     vf3dat = vf1dat + vf2dat
-    t3bmax = (
+    t3_bmax = (
         np.maximum(
             np.sqrt(uf3dat**2 + vf3dat**2),
             np.maximum(np.sqrt(uf1dat**2 + vf1dat**2), np.sqrt(uf2dat**2 + vf2dat**2)),
@@ -379,36 +380,37 @@ def read_oi_container_from_oifits(
     # so do not forget to convert wavelengths to unit micron before initializing the OIContainer
 
     # fill in data observables dictionary
-    dictionary["vuf"] = vufdat  # spatial freqs in 1/rad
-    dictionary["vvf"] = vvfdat
-    dictionary["vwave"] = vwavedat * constants.M2MICRON  # wavelengths in micron
+    dictionary["v_uf"] = vufdat  # spatial freqs in 1/rad
+    dictionary["v_vf"] = vvfdat
+    dictionary["v_wave"] = vwavedat * constants.M2MICRON  # wavelengths in micron
     dictionary["v"] = vdat
-    dictionary["verr"] = verr  # baseline length in MegaLambda
-    dictionary["vbase"] = vbase
+    dictionary["v_err"] = verr  # baseline length in MegaLambda
+    dictionary["v_base"] = v_base
 
-    dictionary["v2uf"] = v2ufdat  # spatial freqs in 1/rad
-    dictionary["v2vf"] = v2vfdat
-    dictionary["v2wave"] = v2wavedat * constants.M2MICRON  # wavelengths in micron
+    dictionary["v2_uf"] = v2ufdat  # spatial freqs in 1/rad
+    dictionary["v2_vf"] = v2vfdat
+    dictionary["v2_wave"] = v2wavedat * constants.M2MICRON  # wavelengths in micron
     dictionary["v2"] = v2dat
-    dictionary["v2err"] = v2err  # baseline length in MegaLambda
-    dictionary["v2base"] = v2base
+    dictionary["v2_err"] = v2err  # baseline length in MegaLambda
+    dictionary["v2_base"] = v2_base
 
-    dictionary["t3uf1"] = uf1dat  # spatial freqs in 1/rad
-    dictionary["t3vf1"] = vf1dat
-    dictionary["t3uf2"] = uf2dat
-    dictionary["t3vf2"] = vf2dat
-    dictionary["t3uf3"] = uf3dat
-    dictionary["t3vf3"] = vf3dat
-    dictionary["t3wave"] = t3wavedat * constants.M2MICRON  # wavelengths in micron
+    dictionary["t3_uf1"] = uf1dat  # spatial freqs in 1/rad
+    dictionary["t3_vf1"] = vf1dat
+    dictionary["t3_uf2"] = uf2dat
+    dictionary["t3_vf2"] = vf2dat
+    dictionary["t3_uf3"] = uf3dat
+    dictionary["t3_vf3"] = vf3dat
+    dictionary["t3_wave"] = t3wavedat * constants.M2MICRON  # wavelengths in micron
     dictionary["t3phi"] = t3phidat  # closure phases in degrees
-    dictionary["t3phierr"] = t3phierr
-    dictionary["t3bmax"] = t3bmax  # max baseline lengths in MegaLambda
+    dictionary["t3phi_err"] = t3phierr
+    dictionary["t3_bmax"] = t3_bmax  # max baseline lengths in MegaLambda
 
     # Return an OIContainer object
     container = OIContainer(dictionary=dictionary, fcorr=fcorr)
     return container
 
 
+# TODO: add option to add geometric component flux to the SED (say only in the wavelength range of the OI container?)
 def oi_container_calc_image_fft_observables(
     container_data: OIContainer,
     img_ffts: list[image_fft.ImageFFT],
@@ -419,11 +421,13 @@ def oi_container_calc_image_fft_observables(
     interp_method: str = "linear",
 ) -> OIContainer:
     """
-    Loads in OI observables from an OIContainer, and calculates corresponding model image observables.
-    The model images are passed along as a list of ImageFFT objects. If this list contains one object, the normalized
-    visibilities will not be interpolated in the wavelength dimension, i.e. the emission morphology 'monochromatic'.
-    If the list contains multiple ImageFFT objects, interpolation in wavelength is performed. In this case the
-    wavelength coverage of the ImageFFT objects needs to exceed that of the OIContainer!
+    Loads in OI observables from an OIContainer, and calculates corresponding model image observables. The model images
+    are passed along as a list of ImageFFT objects.
+
+    If this list contains one object, the normalized visibilities will not be interpolated in the wavelength dimension,
+    i.e. the emission morphology is 'monochromatic'. If the list contains multiple ImageFFT objects, interpolation in
+    wavelength is performed. In this case the wavelength coverage of the ImageFFT objects needs to exceed that of the
+    OIContainer!
 
     NOTE: This method expects that every ImageFFT object in the list has the same pixelscale and amount of pixels
     (in both x- and y-direction).
@@ -435,13 +439,15 @@ def oi_container_calc_image_fft_observables(
         ImageFFT(s). By default, this is None, and the total flux wavelength dependence will be taken from either
         the SpecDep property of the ImageFFT, in case img_ffts contains a single ImageFFT object, or from
         a linear interpolation between the total fluxes in case img_ffts contains multiple ImageFFT objects.
-    :param list[GeomComp] geom_comps: List of GeomComp objects, representing geometric components to be added to the
-        complex visibility calculation.
+    :param list[GeomComp] geom_comps: Optional list of GeomComp objects, representing geometric components to be added
+        to the complex visibility calculation.
     :param list[float] geom_comp_flux_fracs: Flux fractions of the geometric components. Should add up to less than one.
-        The remainder from the difference with one will be the flux fraction attributed
-    :param float ref_wavelength: Reference wavelength for the flux fractions in micron.
-    :param str interp_method: Interpolation method used by scipy to perform interpolation on total fluxes and
-        visibilities from the ImageFFT objects. Can support 'linear', 'nearest', 'slinear', or 'cubic'.
+        The remainder from the difference with one will be the flux fraction attributed to the model image(s).
+    :param float ref_wavelength: Reference wavelength for the geometric component flux fractions in micron. In case
+        image_ffts contains more than one model image. This wavelength must lie within the wavelength range spanned by
+        the SED (if passed along), or by the model images.
+    :param str interp_method: Interpolation method used by scipy to perform interpolations. Can support 'linear',
+        'nearest', 'slinear', or 'cubic'.
     :return container_mod: OIContainer for model image observables.
     :rtype: OIContainer
     """
@@ -453,20 +459,15 @@ def oi_container_calc_image_fft_observables(
         return
 
     # retrieve interpolator for normalized complex visibilities from model image(s)
-    if len(img_ffts) == 1:
-        vcomp_norm_img_interpolator = image_fft.image_fft_comp_vis_interpolator(
-            img_ffts, normalised=True, interp_method=interp_method
-        )
-    else:
-        # create interpolator for normalized complex visibilities from model images
-        vcomp_norm_img_interpolator = image_fft.image_fft_comp_vis_interpolator(
-            img_ffts, normalised=True, interp_method=interp_method
-        )
+    vcomp_norm_img_interpolator = image_fft.image_fft_comp_vis_interpolator(
+        img_ffts, normalised=True, interp_method=interp_method
+    )
 
     # wrapper function to calculate absolute complex visibilities and total fluxes (in Jansky)
-    # for given uv frequencies and wavelengths from the model image(s)
-    def get_vcomp_abs_and_ftot(uf, vf, wavelengths):
-        print(f"KABOOBLE {interp_method}")
+    # for given uv frequencies and wavelengths from the model image(s) with the interpolators
+    def image_fft_get_vcomp_abs_and_ftot(
+        uf: np.ndarray, vf: np.ndarray, wavelengths: np.ndarray
+    ) -> tuple[np.ndarray, np.ndarray]:
         if len(img_ffts) == 1:
             img_fft = img_ffts[0]  # extract the single ImageFFT object
             vcomp_norm_img = vcomp_norm_img_interpolator((vf, uf))  # image normalized complex visibility
@@ -477,7 +478,7 @@ def oi_container_calc_image_fft_observables(
 
                 # calculate model image's total F_nu flux in Jansky
                 freq_img = constants.SPEED_OF_LIGHT / (img_fft.wavelength * constants.MICRON2M)  # image freq
-                ftot_img = img_fft.spec_dep.flux_from_ref(
+                ftot_img = img_fft.spc_dep.flux_from_ref(
                     x=frequencies,
                     x_ref=freq_img,
                     ref_flux=img_fft.ftot,
@@ -506,115 +507,144 @@ def oi_container_calc_image_fft_observables(
 
         return (vcomp_abs_img, ftot_img)
 
-    # add the effect of geometric components
+    # wrapper function to add the effect of geometric components on absolute complex visibilities on top of that
+    # of the model image(s)
+    def vcomp_abs_add_geom_comps(
+        uf: np.ndarray, vf: np.ndarray, wavelengths: np.ndarray, vcomp_abs: np.ndarray, ftot: np.ndarray
+    ) -> None:
+        frequencies = constants.SPEED_OF_LIGHT / (wavelengths * constants.MICRON2M)  # frequencies to calculate at
+        ref_frequency = constants.SPEED_OF_LIGHT / (ref_wavelength * constants.MICRON2M)  # ref frequency in Hz
+
+        # calculate total flux of model image at reference wavelength/frequency
+        if img_sed is not None:
+            # case where an SED is passed
+            ftot_img_ref = img_sed.get_flux(x=ref_frequency, flux_form="fnu")  # total model image(s) flux at ref freq
+        elif len(img_ffts) == 1:
+            # case for a single model image
+            freq_img = constants.SPEED_OF_LIGHT / (img_ffts[0].wavelength * constants.MICRON2M)  # image freq
+            ftot_img_ref = img_ffts[0].spc_dep.flux_from_ref(
+                x=ref_frequency,
+                x_ref=freq_img,
+                ref_flux=img_ffts[0].ftot,
+                flux_form="fnu",
+            )
+        else:
+            # case for multiple model images
+            ftot_img_interpolator = image_fft.image_fft_ftot_interpolator(
+                img_ffts=img_ffts, interp_method=interp_method
+            )
+            ftot_img_ref = ftot_img_interpolator(ref_wavelength)
+
+        # loop over geometric components to add their effects to the total model complex visibility and flux
+        for index, component in enumerate(geom_comps):
+            # total flux of component at reference wavelength/frequency
+            component_ftot_ref = (geom_comp_flux_fracs[index] * ftot_img_ref) / (1 - sum(geom_comp_flux_fracs))
+            # component total flux at argument wavelengths
+            component_ftot = component.spc_dep.flux_from_ref(
+                x=frequencies,
+                x_ref=ref_frequency,
+                ref_flux=component_ftot_ref,
+                flux_form="fnu",
+            )
+            # component absolute complex visibility at argument wavelengths
+            component_vcomp_abs = component.calc_vis(
+                uf, vf, wavelength=wavelengths, ref_wavelength=ref_wavelength, ref_corr_flux=component_ftot_ref
+            )
+
+            # add contribution to the total flux
+            ftot += component_ftot
+            vcomp_abs += component_vcomp_abs
+
+        return
 
     # calculate normalized visibilities
     # =================================
-    vcomp_abs_img, ftot_img = get_vcomp_abs_and_ftot(container_data.vuf, container_data.vvf, container_data.vwave)
+
+    # get model image(s) complex visibility and total flux
+    vcomp_abs, ftot = image_fft_get_vcomp_abs_and_ftot(container_data.v_uf, container_data.v_vf, container_data.v_wave)
+
+    # add effect of geometric components
+    if geom_comps is not None and len(geom_comps) > 0:
+        vcomp_abs_add_geom_comps(container_data.v_uf, container_data.v_vf, container_data.v_wave, vcomp_abs, ftot)
+
+    # final calculation
     if not container_data.vis_in_fcorr:
-        vmod = abs(vcomp_abs_img / ftot_img)  # normalized
+        vmod = abs(vcomp_abs / ftot)  # normalized
     else:
-        vmod = abs(vcomp_abs_img)  # in correlated flux
+        vmod = abs(vcomp_abs)  # in correlated flux
 
     # calculate squared visibilities
     # ==============================
-    vcomp_abs_img, ftot_img = get_vcomp_abs_and_ftot(container_data.v2uf, container_data.v2vf, container_data.v2wave)
-    v2mod = abs(vcomp_abs_img / ftot_img) ** 2
+
+    # get model image(s) complex visibility and total flux
+    vcomp_abs, ftot = image_fft_get_vcomp_abs_and_ftot(
+        container_data.v2_uf, container_data.v2_vf, container_data.v2_wave
+    )
+
+    # add effect of geometric components
+    if geom_comps is not None and len(geom_comps) > 0:
+        vcomp_abs_add_geom_comps(container_data.v2_uf, container_data.v2_vf, container_data.v2_wave, vcomp_abs, ftot)
+
+    # final calculation
+    v2mod = abs(vcomp_abs / ftot) ** 2
 
     # calculate closure phases
     # ========================
-    vcomp1_abs_img = get_vcomp_abs_and_ftot(container_data.t3uf1, container_data.t3vf1, container_data.t3wave)[0]
-    vcomp2_abs_img = get_vcomp_abs_and_ftot(container_data.t3uf2, container_data.t3vf2, container_data.t3wave)[0]
-    vcomp3_abs_img = get_vcomp_abs_and_ftot(container_data.t3uf3, container_data.t3vf3, container_data.t3wave)[0]
+
+    # get model image(s) complex visibility and total flux
+    vcomp1_abs, ftot1 = image_fft_get_vcomp_abs_and_ftot(
+        container_data.t3_uf1, container_data.t3_vf1, container_data.t3_wave
+    )
+    vcomp2_abs, ftot2 = image_fft_get_vcomp_abs_and_ftot(
+        container_data.t3_uf2, container_data.t3_vf2, container_data.t3_wave
+    )
+    vcomp3_abs, ftot3 = image_fft_get_vcomp_abs_and_ftot(
+        container_data.t3_uf3, container_data.t3_vf3, container_data.t3_wave
+    )
+
+    # add effect of geometric components
+    if geom_comps is not None and len(geom_comps) > 0:
+        vcomp_abs_add_geom_comps(
+            container_data.t3_uf1, container_data.t3_vf1, container_data.t3_wave, vcomp1_abs, ftot1
+        )
+        vcomp_abs_add_geom_comps(
+            container_data.t3_uf2, container_data.t3_vf2, container_data.t3_wave, vcomp2_abs, ftot2
+        )
+        vcomp_abs_add_geom_comps(
+            container_data.t3_uf3, container_data.t3_vf3, container_data.t3_wave, vcomp2_abs, ftot3
+        )
+
+    # final calculation
+
     # We use the convention such that triangle ABC -> (u1,v1) = AB; (u2,v2) = BC; (u3,v3) = AC, not CA.
     # This causes a minus sign shift for 3rd baseline when calculating closure phase (for real images)
     # so we take the complex conjugate there.
-    t3phimod = np.angle(vcomp1_abs_img * vcomp2_abs_img * np.conjugate(vcomp3_abs_img), deg=True)
-
-    # # absolute complex visibilities in Jansky for the entire model, including geometric components
-    # vcomp_abs_full = vcomp_abs_img
-    # # total flux in Janskies for the entire model, including geometric components
-    # ftot_full = ftot_img
-
-    # if len(img_ffts) == 1:  # monochromatic case for a single image
-    #     # create interpolator for the normalized complex FFT
-    #     interp_norm = image_fft.image_fft_comp_vis_interpolator(
-    #         img_ffts, normalised=True, interp_method=interp_method
-    #     )
-
-    #     # Calculate visibilities (requires separate interpolator for correlated fluxes if needed).
-    #     if container_data.vis_in_fcorr:
-    #         interp_fcorr = image_fft.image_fft_comp_vis_interpolator(
-    #             img_ffts, normalised=False, interp_method=interp_method
-    #         )
-    #         vmod = abs(interp_fcorr((container_data.vvf, container_data.vuf)))
-    #     else:
-    #         vmod = abs(interp_norm((container_data.vvf, container_data.vuf)))
-
-    #     # Calculate squared visibilities.
-    #     v2mod = abs(interp_norm((container_data.v2vf, container_data.v2uf))) ** 2
-    #     # Calculate closure phases. We use the convention such that triangle ABC -> (u1,v1) = AB; (u2,v2) = BC; (u3,
-    #     # v3) = AC, not CA This causes a minus sign shift for 3rd baseline when calculating closure phase (for real
-    #     # images), so we take the complex conjugate there.
-    #     t3phimod = np.angle(
-    #         interp_norm((container_data.t3vf1, container_data.t3uf1))
-    #         * interp_norm((container_data.t3vf2, container_data.t3uf2))
-    #         * np.conjugate(interp_norm((container_data.t3vf3, container_data.t3uf3))),
-    #         deg=True,
-    #     )
-
-    # else:  # case for multiple images simultaneously
-    #     # create interpolator for the normalized complex FFT
-    #     interp_norm = image_fft.image_fft_comp_vis_interpolator(
-    #         img_ffts, normalised=True, interp_method=interp_method
-    #     )
-
-    #     # Calculate visibilities (requires separate interpolator for correlated fluxes if needed).
-    #     if container_data.vis_in_fcorr:
-    #         interp_fcorr = image_fft.image_fft_comp_vis_interpolator(
-    #             img_ffts, normalised=False, interp_method=interp_method
-    #         )
-    #         vmod = abs(interp_fcorr((container_data.vwave, container_data.vvf, container_data.vuf)))
-    #     else:
-    #         vmod = abs(interp_norm((container_data.vwave, container_data.vvf, container_data.vuf)))
-
-    #     # Calculate squared visibilities.
-    #     v2mod = abs(interp_norm((container_data.v2wave, container_data.v2vf, container_data.v2uf))) ** 2
-
-    #     # Calculate closure phases. We use the convention such that triangle ABC -> (u1,v1) = AB; (u2,v2) = BC; (u3,
-    #     # v3) = AC, not CA This causes a minus sign shift for 3rd baseline when calculating closure phase (for real
-    #     # images), so we take the complex conjugate there.
-    #     t3phimod = np.angle(
-    #         interp_norm((container_data.t3wave, container_data.t3vf1, container_data.t3uf1))
-    #         * interp_norm((container_data.t3wave, container_data.t3vf2, container_data.t3uf2))
-    #         * np.conjugate(interp_norm((container_data.t3wave, container_data.t3vf3, container_data.t3uf3))),
-    #         deg=True,
-    #     )
+    t3phimod = np.angle(vcomp1_abs * vcomp2_abs * np.conjugate(vcomp3_abs), deg=True)
 
     # initialize dictionary to construct OIContainer for model observables
     observables_mod = {
-        "vuf": container_data.vuf,
-        "vvf": container_data.vvf,
-        "vwave": container_data.vwave,
+        "v_uf": container_data.v_uf,
+        "v_vf": container_data.v_vf,
+        "v_wave": container_data.v_wave,
         "v": vmod,
-        "verr": np.zeros_like(container_data.verr),
-        "vbase": container_data.vbase,
-        "v2uf": container_data.v2uf,
-        "v2vf": container_data.v2vf,
-        "v2wave": container_data.v2wave,
+        "v_err": np.zeros_like(container_data.v_err),
+        "v_base": container_data.v_base,
+        "v2_uf": container_data.v2_uf,
+        "v2_vf": container_data.v2_vf,
+        "v2_wave": container_data.v2_wave,
         "v2": v2mod,
-        "v2err": np.zeros_like(container_data.v2err),
-        "v2base": container_data.v2base,
-        "t3uf1": container_data.t3uf1,
-        "t3vf1": container_data.t3vf1,
-        "t3uf2": container_data.t3uf2,
-        "t3vf2": container_data.t3vf2,
-        "t3uf3": container_data.t3uf3,
-        "t3vf3": container_data.t3vf3,
-        "t3wave": container_data.t3wave,
+        "v2_err": np.zeros_like(container_data.v2_err),
+        "v2_base": container_data.v2_base,
+        "t3_uf1": container_data.t3_uf1,
+        "t3_vf1": container_data.t3_vf1,
+        "t3_uf2": container_data.t3_uf2,
+        "t3_vf2": container_data.t3_vf2,
+        "t3_uf3": container_data.t3_uf3,
+        "t3_vf3": container_data.t3_vf3,
+        "t3_wave": container_data.t3_wave,
         "t3phi": t3phimod,
-        "t3phierr": np.zeros_like(container_data.t3phierr),
-        "t3bmax": container_data.t3bmax,
+        "t3phi_err": np.zeros_like(container_data.t3_phierr),
+        "t3_bmax": container_data.t3_bmax,
     }
 
     # return an OIContainer object
@@ -660,22 +690,22 @@ def oi_container_plot_data_vs_model(
 
     # set spatial frequencies, visibilities and plotting label based on specified option
     if plot_vistype == "vis2":
-        ufdata = container_data.v2uf
-        vfdata = container_data.v2vf
+        ufdata = container_data.v2_uf
+        vfdata = container_data.v2_vf
         vismod = container_mod.v2
         visdata = container_data.v2
-        viserrdata = container_data.v2err
-        wavedata = container_data.v2wave
-        basedata = container_data.v2base
+        viserrdata = container_data.v2_err
+        wavedata = container_data.v2_wave
+        basedata = container_data.v2_base
         vislabel = "$V^2$"
     elif plot_vistype == "vis":
-        ufdata = container_data.vuf
-        vfdata = container_data.vvf
+        ufdata = container_data.v_uf
+        vfdata = container_data.v_vf
         vismod = container_mod.v
-        wavedata = container_data.vwave
+        wavedata = container_data.v_wave
         visdata = container_data.v
-        viserrdata = container_data.verr
-        basedata = container_data.vbase
+        viserrdata = container_data.v_err
+        basedata = container_data.v_base
         if (not container_data.vis_in_fcorr) and (not container_mod.vis_in_fcorr):
             vislabel = "$V$"
         elif container_data.vis_in_fcorr and container_mod.vis_in_fcorr:
@@ -779,9 +809,9 @@ def oi_container_plot_data_vs_model(
     ax = gs.subplots(sharex=True)
 
     ax[0].errorbar(
-        container_data.t3bmax,
-        container_data.t3phi,
-        container_data.t3phierr,
+        container_data.t3_bmax,
+        container_data.t3_phi,
+        container_data.t3_phierr,
         label="data",
         mec="royalblue",
         marker="o",
@@ -793,8 +823,8 @@ def oi_container_plot_data_vs_model(
         elinewidth=0.5,
     )
     ax[0].scatter(
-        container_data.t3bmax,
-        container_mod.t3phi,
+        container_data.t3_bmax,
+        container_mod.t3_phi,
         label="model",
         marker="o",
         facecolor="white",
@@ -803,8 +833,8 @@ def oi_container_plot_data_vs_model(
         alpha=0.6,
     )
     ax[1].scatter(
-        container_data.t3bmax,
-        (container_mod.t3phi - container_data.t3phi) / container_data.t3phierr,
+        container_data.t3_bmax,
+        (container_mod.t3_phi - container_data.t3_phi) / container_data.t3_phierr,
         marker="o",
         facecolor="white",
         edgecolor="r",
@@ -818,16 +848,16 @@ def oi_container_plot_data_vs_model(
     ax[0].tick_params(axis="x", direction="in", pad=-15)
     ax[0].set_ylim(
         min(
-            np.min(container_data.t3phi - container_data.t3phierr),
-            np.min(container_mod.t3phi),
+            np.min(container_data.t3_phi - container_data.t3_phierr),
+            np.min(container_mod.t3_phi),
         ),
         max(
-            np.max(container_data.t3phi + container_data.t3phierr),
-            np.max(container_mod.t3phi),
+            np.max(container_data.t3_phi + container_data.t3_phierr),
+            np.max(container_mod.t3_phi),
         ),
     )
 
-    ax[1].set_xlim(0, np.max(container_data.t3bmax) * 1.05)
+    ax[1].set_xlim(0, np.max(container_data.t3_bmax) * 1.05)
     ax[1].axhline(y=0, c="k", ls="--", lw=1, zorder=0)
     ax[1].set_xlabel(r"$B_{max}$ ($\mathrm{M \lambda}$)")
     ax[1].set_ylabel(r"error $(\sigma_{\phi_{CP}})$")
@@ -875,8 +905,8 @@ if __name__ == "__main__":
     fig_dir = f"{data_dir}/figures/"
     container_data.plot_data(fig_dir=fig_dir)
 
-    u = container_data.v2uf
-    v = container_data.v2vf
+    u = container_data.v2_uf
+    v = container_data.v2_vf
     max_uv_dist = np.max(np.sqrt(u**2 + v**2))  # max distance in 1/rad from origin, sets pixelscale for image space
     pix_res = (0.5 / max_uv_dist) * constants.RAD2MAS  # smallest resolution element (at Nyquist sampling)
     print(f"resolution element is: {pix_res:.4E}")
