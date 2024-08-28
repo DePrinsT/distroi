@@ -10,6 +10,7 @@ import distroi
 # Read in the data to an OIContainer object
 data_dir, data_file = "./data/IRAS08544-4431/PIONIER/", "*.fits"
 container_data = distroi.read_oi_container_from_oifits(data_dir, data_file)
+container_data.plot_data()
 
 # set path to mcfost model (including where to find model images) and output plotted figures
 mod_dir = "./models/IRAS08544-4431_test_model/"
@@ -25,7 +26,7 @@ distroi.oi_container_plot_data_vs_model(container_data, container_model, fig_dir
 background = distroi.Overresolved(spc_dep=distroi.FlatSpecDep(flux_form="flam"))
 
 container_model = distroi.oi_container_calc_image_fft_observables(
-    container_data, img_ffts, geom_comps=[background], geom_comp_flux_fracs=[0.10], ref_wavelength=1.65
+    container_data, img_ffts, geom_comps=[background], geom_comp_flux_fracs=[0.70], ref_wavelength=1.65
 )
 distroi.oi_container_plot_data_vs_model(container_data, container_model, fig_dir=f"{fig_dir}", show_plots=True)
 
