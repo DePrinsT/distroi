@@ -858,7 +858,7 @@ class data:
                 self.readfile(entry)
 
     def readfile(self, file):
-        hdul = fits.open(self.dir + file)
+        hdul = fits.open(self.dir + "/" + file)
         err = False
         i = 0
         while err == False:

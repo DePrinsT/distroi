@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button
 import astropy.io.fits as fits
 
-from distroi import constants
+from distroi.auxiliary import constants
 
 constants.set_matplotlib_params()  # set project matplotlib parameters
 
@@ -83,7 +83,7 @@ def oifits_time_window_plot(
     v_coordinates = []  # list to assign v-direction baseline lengths in meter
 
     # retrieve date and uv coverage information from the OIFITS files
-    filepaths = sorted(glob.glob(f"{data_dir}{data_file}", recursive=True))  # get filenames
+    filepaths = sorted(glob.glob(f"{data_dir}/{data_file}", recursive=True))  # get filenames
     for filepath in filepaths:
         hdul = fits.open(filepath)  # open oifits file
         insname_to_eff_wave_dict = {}  # dictionary to associate the OIFITS INSNAME keywoard to wavelength values
@@ -364,7 +364,6 @@ def oifits_time_window_plot(
             s=1,
             cmap="gist_rainbow_r",
         )
-
         clb = fig.colorbar(sc, cax=uv_cov_cax)
         clb.set_label(r"$\lambda$ ($\mu$m)", labelpad=5)
 
@@ -406,3 +405,13 @@ def oifits_time_window_plot(
     plt.show()
 
     return files_within_window
+
+
+if __name__ == "__main__":
+    data_dir = "/home/toond/Documents/phd/data/IRAS15469-5311/inspiring/PIONIER/all_data"
+    data_file = "*.fits"
+    oifits_time_window_plot(data_dir=data_dir, data_file=data_file, init_window_width=10)
+
+    data_dir = "/home/toond/Documents/phd/writing/proposals/ESO_P115/jmmc_tools"
+    data_file = "*.fits"
+    oifits_time_window_plot(data_dir=data_dir, data_file=data_file, init_window_width=10)

@@ -9,7 +9,18 @@ distroi.fitting package
 Submodules
 ----------
 
-.. toctree::
-   :maxdepth: 2
+distroi.fitting.ga\_session module
+----------------------------------
 
-   distroi.fitting.ga_session
+.. automodule:: distroi.fitting.ga_session
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+distroi.fitting.grid module
+---------------------------
+
+.. automodule:: distroi.fitting.grid
+   :members:
+   :undoc-members:
+   :show-inheritance:

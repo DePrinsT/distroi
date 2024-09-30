@@ -1,5 +1,5 @@
 """
-Subpackage containing auxiliary modules, mostly used for reading and analising data.
+Subpackage containing auxiliary modules that do not fit in other parts of the code.
 Some modules are originally written by A. Corporaal and J. Kluska.
 """
 

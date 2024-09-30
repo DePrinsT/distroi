@@ -18,7 +18,7 @@ img_dir = "PIONIER/"
 fig_dir = "./figures/adding_geometric_components/PIONIER"
 
 # Chromatic model observables test without geometric component
-img_ffts = distroi.read_image_fft_list(mod_dir, img_dir)
+img_ffts = distroi.read_image_list(mod_dir, img_dir)
 container_model = distroi.oi_container_calc_image_fft_observables(container_data, img_ffts)
 distroi.oi_container_plot_data_vs_model(container_data, container_model, fig_dir=f"{fig_dir}", show_plots=True)
 

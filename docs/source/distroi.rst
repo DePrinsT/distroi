@@ -13,18 +13,6 @@ Subpackages
    :maxdepth: 2
 
    distroi.auxiliary
+   distroi.data
    distroi.fitting
-   distroi.rt_models
-
-Submodules
-----------
-
-.. toctree::
-   :maxdepth: 2
-
-   distroi.constants
-   distroi.geom_comp
-   distroi.image_fft
-   distroi.oi_container
-   distroi.sed
-   distroi.spec_dep
+   distroi.model

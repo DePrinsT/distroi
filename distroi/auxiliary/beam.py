@@ -4,8 +4,8 @@ is called the 'dirty beam'. Methods to calculate the dirty beam from the uv cove
 get a fit to the dirty beam's inner few resolution elements (a 'Gaussian beam') are included.
 """
 
-from distroi import constants
-from distroi import oi_container
+from distroi.auxiliary import constants
+from distroi.data import oi_container
 
 import os
 
@@ -62,7 +62,7 @@ def oi_container_calc_gaussian_beam(
     make_plots: bool = False,
     fig_dir: str = None,
     show_plots: bool = False,
-    num_res: int = 2,
+    num_res: int = 3,
     pix_per_res: int = 32,
 ) -> Beam | None:
     """
@@ -134,7 +134,7 @@ def oi_container_calc_gaussian_beam(
         [np.inf, np.inf, np.inf, np.inf, np.inf, 90.01, np.inf],
     )  # defined so sig_maj >= sig_min
     popt_and_cov = curve_fit(
-        constants.gaussian_2d_elliptical, (x, y), np.ravel(img_dirty), p0=init_guess, bounds=bounds
+        constants.gaussian_2d_elliptical_ravel, (x, y), np.ravel(img_dirty), p0=init_guess, bounds=bounds
     )
     popt = popt_and_cov[0]  # extract optimized parameter.
 
@@ -211,7 +211,7 @@ def oi_container_calc_gaussian_beam(
         ax[0][0].axvline(x=0, lw=0.5, color="white", alpha=0.5, zorder=0)
 
         # plot Gaussian fit to the beam, note the output of gaussian_2d is 1D so needs to be reshaped
-        img_fitted = np.reshape(constants.gaussian_2d_elliptical((x, y), *popt), np.shape(img_dirty))
+        img_fitted = np.reshape(constants.gaussian_2d_elliptical_ravel((x, y), *popt), np.shape(img_dirty))
         img_fit_plot = ax[0][1].imshow(
             img_fitted,
             aspect="auto",

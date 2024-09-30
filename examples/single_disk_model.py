@@ -17,14 +17,14 @@ fig_dir = "./figures/single_disk_model/PIONIER"
 
 # FFT test + output info on frequencies
 img_dir = "PIONIER/data_1.65/"
-img = distroi.read_image_fft_mcfost(img_path=f"{mod_dir}{img_dir}/RT.fits.gz", disk_only=True)
+img = distroi.read_image_mcfost(img_path=f"{mod_dir}{img_dir}/RT.fits.gz", disk_only=True)
 print("Printing frequency info: \n", img.freq_info())
 img.diagnostic_plot(f"{fig_dir}/fft", log_plotv=True, show_plots=True)
 
 # Monochromatic model observables test
 img_dir = "PIONIER/data_1.65/"
 container_data = distroi.read_oi_container_from_oifits(data_dir, data_file, wave_lims=(1.63, 1.65))
-img_ffts = distroi.read_image_fft_list(mod_dir, img_dir)
+img_ffts = distroi.read_image_list(mod_dir, img_dir)
 container_model = distroi.oi_container_calc_image_fft_observables(container_data, img_ffts)
 distroi.oi_container_plot_data_vs_model(
     container_data, container_model, fig_dir=f"{fig_dir}/monochromatic", show_plots=True
@@ -33,9 +33,8 @@ distroi.oi_container_plot_data_vs_model(
 # Chromatic model observables test
 img_dir = "PIONIER/"
 container_data = distroi.read_oi_container_from_oifits(data_dir, data_file)
-img_ffts = distroi.read_image_fft_list(mod_dir, img_dir)
+img_ffts = distroi.read_image_list(mod_dir, img_dir)
 container_model = distroi.oi_container_calc_image_fft_observables(container_data, img_ffts)
-container_model.plot_data(show_plots=True)
 distroi.oi_container_plot_data_vs_model(
     container_data, container_model, fig_dir=f"{fig_dir}/chromatic", show_plots=True
 )
@@ -49,13 +48,13 @@ fig_dir = "./figures/single_disk_model/GRAVITY"
 
 # FFT test
 img_dir = "GRAVITY/data_2.2/"
-img = distroi.read_image_fft_mcfost(img_path=f"{mod_dir}{img_dir}/RT.fits.gz", disk_only=True)  # load in img
+img = distroi.read_image_mcfost(img_path=f"{mod_dir}{img_dir}/RT.fits.gz", disk_only=True)  # load in img
 img.diagnostic_plot(f"{fig_dir}/fft", plot_vistype="vis", log_plotv=True, show_plots=True)
 print(img.freq_info())
 
 # Monochromatic model observables test
 container_data = distroi.read_oi_container_from_oifits(data_dir, data_file, wave_lims=(2.1, 2.3))
-img_ffts = distroi.read_image_fft_list(mod_dir, img_dir)
+img_ffts = distroi.read_image_list(mod_dir, img_dir)
 container_model = distroi.oi_container_calc_image_fft_observables(container_data, img_ffts)
 distroi.oi_container_plot_data_vs_model(
     container_data, container_model, fig_dir=f"{fig_dir}/monochromatic", show_plots=True
@@ -64,7 +63,7 @@ distroi.oi_container_plot_data_vs_model(
 # Chromatic model observables test
 img_dir = "GRAVITY/"
 container_data = distroi.read_oi_container_from_oifits(data_dir, data_file)
-img_ffts = distroi.read_image_fft_list(mod_dir, img_dir)
+img_ffts = distroi.read_image_list(mod_dir, img_dir)
 container_model = distroi.oi_container_calc_image_fft_observables(container_data, img_ffts)
 distroi.oi_container_plot_data_vs_model(
     container_data, container_model, fig_dir=f"{fig_dir}/chromatic", show_plots=True
@@ -79,13 +78,13 @@ fig_dir = "./figures/single_disk_model/MATISSE_L"
 
 # FFT test
 img_dir = "MATISSE_L/data_3.5/"
-img = distroi.read_image_fft_mcfost(img_path=f"{mod_dir}{img_dir}/RT.fits.gz")  # load in img
+img = distroi.read_image_mcfost(img_path=f"{mod_dir}{img_dir}/RT.fits.gz")  # load in img
 img.diagnostic_plot(f"{fig_dir}/fft", log_plotv=True, show_plots=True)
 print(img.freq_info())
 
 # Monochromatic model observables test
 container_data = distroi.read_oi_container_from_oifits(data_dir, data_file, wave_lims=(3.48, 3.55))
-img_ffts = distroi.read_image_fft_list(mod_dir, img_dir)
+img_ffts = distroi.read_image_list(mod_dir, img_dir)
 container_model = distroi.oi_container_calc_image_fft_observables(container_data, img_ffts)
 distroi.oi_container_plot_data_vs_model(
     container_data, container_model, fig_dir=f"{fig_dir}/monochromatic", log_plotv=True, show_plots=True
@@ -94,7 +93,7 @@ distroi.oi_container_plot_data_vs_model(
 # Chromatic model observables test
 img_dir = "MATISSE_L/"
 container_data = distroi.read_oi_container_from_oifits(data_dir, data_file, wave_lims=(2.95, 3.95), v2lim=1e-8)
-img_ffts = distroi.read_image_fft_list(mod_dir, img_dir)
+img_ffts = distroi.read_image_list(mod_dir, img_dir)
 container_model = distroi.oi_container_calc_image_fft_observables(container_data, img_ffts)
 distroi.oi_container_plot_data_vs_model(
     container_data, container_model, fig_dir=f"{fig_dir}/chromatic", log_plotv=True, show_plots=True
@@ -109,7 +108,7 @@ fig_dir = "./figures/single_disk_model/MATISSE_N"
 
 # FFT test
 img_dir = "MATISSE_N/data_10.0/"
-img = distroi.read_image_fft_mcfost(img_path=f"{mod_dir}{img_dir}/RT.fits.gz")  # load in img
+img = distroi.read_image_mcfost(img_path=f"{mod_dir}{img_dir}/RT.fits.gz")  # load in img
 img.redden(ebminv=1.4)
 img.diagnostic_plot(f"{fig_dir}/fft", plot_vistype="fcorr", log_plotv=True, show_plots=True)
 print(img.freq_info())
@@ -117,7 +116,7 @@ print(img.freq_info())
 # Monochromatic model observables test
 img_dir = "MATISSE_N/data_10.0/"
 container_data = distroi.read_oi_container_from_oifits(data_dir, data_file, wave_lims=(9.75, 10.20), fcorr=True)
-img_ffts = distroi.read_image_fft_list(mod_dir, img_dir, ebminv=1.4)
+img_ffts = distroi.read_image_list(mod_dir, img_dir, ebminv=1.4)
 container_model = distroi.oi_container_calc_image_fft_observables(container_data, img_ffts)
 distroi.oi_container_plot_data_vs_model(
     container_data,
@@ -131,7 +130,7 @@ distroi.oi_container_plot_data_vs_model(
 # Chromatic model observables test
 img_dir = "MATISSE_N/"
 container_data = distroi.read_oi_container_from_oifits(data_dir, data_file, wave_lims=(8.5, 12.0), fcorr=True)
-img_ffts = distroi.read_image_fft_list(mod_dir, img_dir, ebminv=1.4)
+img_ffts = distroi.read_image_list(mod_dir, img_dir, ebminv=1.4)
 container_model = distroi.oi_container_calc_image_fft_observables(container_data, img_ffts)
 distroi.oi_container_plot_data_vs_model(
     container_data, container_model, fig_dir=f"{fig_dir}/chromatic", log_plotv=True, show_plots=True, plot_vistype="vis"

@@ -44,17 +44,9 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">distroi package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="distroi.auxiliary.html">distroi.auxiliary package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.data.html">distroi.data package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="distroi.fitting.html">distroi.fitting package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="distroi.rt_models.html">distroi.rt_models package</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="distroi.constants.html">distroi.constants module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="distroi.geom_comp.html">distroi.geom_comp module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="distroi.image_fft.html">distroi.image_fft module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="distroi.oi_container.html">distroi.oi_container module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="distroi.sed.html">distroi.sed module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="distroi.spec_dep.html">distroi.spec_dep module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.model.html">distroi.model package</a></li>
 </ul>
 </li>
 </ul>
@@ -87,36 +79,40 @@
              
   <div class="section" id="module-distroi">
 <span id="distroi-package"></span><h1>distroi package<a class="headerlink" href="#module-distroi" title="Permalink to this headline"></a></h1>
-<p>This package allows for the calculation of optical interferometry (OI) observables from radiative transfer images.</p>
+<p>A package allowing for the calculation of optical interferometry (OI) and other observables from 
+models including a radiative transfer component.</p>
 <div class="section" id="subpackages">
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="distroi.auxiliary.html">distroi.auxiliary package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="distroi.auxiliary.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distroi.auxiliary.html#module-distroi.auxiliary.beam">distroi.auxiliary.beam module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distroi.auxiliary.html#module-distroi.auxiliary.constants">distroi.auxiliary.constants module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distroi.auxiliary.html#module-distroi.auxiliary.read_oifits">distroi.auxiliary.read_oifits module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distroi.auxiliary.html#module-distroi.auxiliary.select_data_oifits">distroi.auxiliary.select_data_oifits module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distroi.auxiliary.html#module-distroi.auxiliary.time_base_oifits">distroi.auxiliary.time_base_oifits module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="distroi.data.html">distroi.data package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="distroi.data.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distroi.data.html#module-distroi.data.image">distroi.data.image module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distroi.data.html#module-distroi.data.oi_container">distroi.data.oi_container module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distroi.data.html#module-distroi.data.sed">distroi.data.sed module</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="distroi.fitting.html">distroi.fitting package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="distroi.fitting.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distroi.fitting.html#module-distroi.fitting.ga_session">distroi.fitting.ga_session module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distroi.fitting.html#module-distroi.fitting.grid">distroi.fitting.grid module</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="distroi.rt_models.html">distroi.rt_models package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="distroi.rt_models.html#submodules">Submodules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distroi.model.html">distroi.model package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="distroi.model.html#subpackages">Subpackages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distroi.model.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distroi.model.html#module-distroi.model.model">distroi.model.model module</a></li>
 </ul>
 </li>
-</ul>
-</div>
-</div>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="distroi.constants.html">distroi.constants module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="distroi.geom_comp.html">distroi.geom_comp module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="distroi.image_fft.html">distroi.image_fft module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="distroi.oi_container.html">distroi.oi_container module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="distroi.sed.html">distroi.sed module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="distroi.spec_dep.html">distroi.spec_dep module</a></li>
 </ul>
 </div>
 </div>
