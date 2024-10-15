@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>distroi.model.rt_comp package &mdash; DISTROI  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -83,21 +84,21 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="module-distroi.model.rt_comp">
+  <section id="module-distroi.model.rt_comp">
 <span id="distroi-model-rt-comp-package"></span><h1>distroi.model.rt_comp package<a class="headerlink" href="#module-distroi.model.rt_comp" title="Permalink to this headline"></a></h1>
 <p>Subpackage providing the implementation of radiative transfer model components. This includes interfaces with
 different specific radiative transfer codes under the hood.</p>
-<div class="section" id="submodules">
+<section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="module-distroi.model.rt_comp.mcfost">
+</section>
+<section id="module-distroi.model.rt_comp.mcfost">
 <span id="distroi-model-rt-comp-mcfost-module"></span><h2>distroi.model.rt_comp.mcfost module<a class="headerlink" href="#module-distroi.model.rt_comp.mcfost" title="Permalink to this headline"></a></h2>
 <p>Defines classes for interfacing with different models produced with the MCFOST RT code (Pinte et al. 2009:
 <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2009A%26A...498..967P/abstract">https://ui.adsabs.harvard.edu/abs/2009A%26A…498..967P/abstract</a>). Requires the user to have installed MCFOST on the
 machine running DISTROI, and have it available in the command line interface (via e.g. ‘$ mcfost &lt;parameter_file&gt;’).</p>
 <p>All RT model class implementations here must inherit from the abstract class defined in the ‘rt_model’ module.</p>
-</div>
-<div class="section" id="module-distroi.model.rt_comp.rt_comp">
+</section>
+<section id="module-distroi.model.rt_comp.rt_comp">
 <span id="distroi-model-rt-comp-rt-comp-module"></span><h2>distroi.model.rt_comp.rt_comp module<a class="headerlink" href="#module-distroi.model.rt_comp.rt_comp" title="Permalink to this headline"></a></h2>
 <p>Defines an abstract interface class for interacting with an RT code. Includes methods for setting and retrieving
 necessary input variables (physical fitting parameters, resolution settings, etc.), the production of matching input
@@ -105,8 +106,8 @@ files, executing different runs (thermal strucutre run, SED run, image run, etc.
 the RT code and placing them in appropriate objects (e.g. a list of Image objects for multiple images) for
 comparison with observational data.</p>
 <p>All concrete implementations of RT model interface classes must inherit from the abstract class defined here.</p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>

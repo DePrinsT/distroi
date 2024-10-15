@@ -64,7 +64,7 @@ def oi_container_calc_gaussian_beam(
     show_plots: bool = False,
     num_res: int = 3,
     pix_per_res: int = 32,
-) -> Beam | None:
+) -> Beam:
     """
     Given an OIContainer and the uv frequencies to be used, calculates the clean beam Gaussian parameters by making a
     Gaussian fit to the dirty beam. The dirty beam acts as the interferometric point spread funtion (PSF)
@@ -91,13 +91,12 @@ def oi_container_calc_gaussian_beam(
 
     """
     valid_vistypes = ["vis2", "vis", "fcorr"]
+    # check for valid vistype
     if vistype not in valid_vistypes:
-        print(f"Warning: Invalid vistype '{vistype}'. Valid options are: {valid_vistypes}. " f"Will return None!")
-        return None
+        raise ValueError(f"Warning: Invalid vistype '{vistype}'. Valid options are: {valid_vistypes}.")
 
     if pix_per_res % 2 != 0:
-        print("calc_gaussian_beam() currently only supports even values for 'pix_per_res'. Function will return None!")
-        return None
+        raise ValueError("calc_gaussian_beam() currently only supports even values for 'pix_per_res'.")
 
     if vistype == "vis2":
         u = container.v2_uf
@@ -149,7 +148,7 @@ def oi_container_calc_gaussian_beam(
 
     if make_plots:
         fig, ax = plt.subplots(2, 2, figsize=(10, 10), sharey=True)
-        color_map = "inferno_r"
+        color_map = "inferno"
         # plot dirty beam
         ax[0][0].imshow(
             img_dirty,

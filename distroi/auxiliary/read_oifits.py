@@ -342,7 +342,7 @@ class data:
                 V2data[maskv2],
                 s=0.1,
                 c=waveV2[maskv2],
-                cmap="gist_rainbow_r",
+                cmap="rainbow",
             )
             clb = fig.colorbar(sc, cax=cax)
             clb.set_label(r"Wavelength ($\mu$m)", rotation=270, labelpad=15)
@@ -389,7 +389,7 @@ class data:
                 CPdata[maskcp],
                 s=0.1,
                 c=waveCP[maskcp],
-                cmap="gist_rainbow_r",
+                cmap="rainbow",
             )
             a2, b2, c2 = ax2.errorbar(
                 Bmax[maskcp],
@@ -429,7 +429,7 @@ class data:
         else:
             u *= 1e-6
             v *= 1e-6
-        sc = ax.scatter([u, -u], [v, -v], c=[waveV2, waveV2], s=0.1, cmap="gist_rainbow_r")
+        sc = ax.scatter([u, -u], [v, -v], c=[waveV2, waveV2], s=0.1, cmap="rainbow")
         clb = fig.colorbar(sc)
         clb.set_label(r"Wavelength ($\mu$m)", rotation=270, labelpad=15)
         ax.set_xlabel("u (M$\lambda$)", fontsize=8)

@@ -19,7 +19,6 @@ import distroi.model.geom_comp
 import distroi.model.dep
 import distroi.fitting
 
-
 ### imports from data subpackage
 # imports from image module
 from distroi.data.image import Image
@@ -54,3 +53,4 @@ from distroi.model.geom_comp.geom_comp import UniformDisk
 from distroi.model.geom_comp.geom_comp import Gaussian
 from distroi.model.geom_comp.geom_comp import PointSource
 from distroi.model.geom_comp.geom_comp import Overresolved
+###

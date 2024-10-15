@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>distroi.fitting package &mdash; DISTROI  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -47,8 +48,9 @@
 <li class="toctree-l3"><a class="reference internal" href="distroi.data.html">distroi.data package</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">distroi.fitting package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-distroi.fitting.ga_session">distroi.fitting.ga_session module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-distroi.fitting.bads">distroi.fitting.bads module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-distroi.fitting.grid">distroi.fitting.grid module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-distroi.fitting.vbmc">distroi.fitting.vbmc module</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="distroi.model.html">distroi.model package</a></li>
@@ -83,22 +85,28 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="module-distroi.fitting">
+  <section id="module-distroi.fitting">
 <span id="distroi-fitting-package"></span><h1>distroi.fitting package<a class="headerlink" href="#module-distroi.fitting" title="Permalink to this headline"></a></h1>
 <p>Subpackage providing the implementation of supported model fitting routines.</p>
-<div class="section" id="submodules">
+<section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
-</div>
-<div class="section" id="module-distroi.fitting.ga_session">
-<span id="distroi-fitting-ga-session-module"></span><h2>distroi.fitting.ga_session module<a class="headerlink" href="#module-distroi.fitting.ga_session" title="Permalink to this headline"></a></h2>
-<p>Defines the classes and methods needed for a genetic algorithm fitting session.</p>
-</div>
-<div class="section" id="module-distroi.fitting.grid">
+</section>
+<section id="module-distroi.fitting.bads">
+<span id="distroi-fitting-bads-module"></span><h2>distroi.fitting.bads module<a class="headerlink" href="#module-distroi.fitting.bads" title="Permalink to this headline"></a></h2>
+<p>Defines the classes and methods needed Implementation to run the Bayesian Adaptive Direct Search (BADS) algorithm
+using the pyBADS package (Singh et al. 2024, JOSS, 9(94), 5694).</p>
+</section>
+<section id="module-distroi.fitting.grid">
 <span id="distroi-fitting-grid-module"></span><h2>distroi.fitting.grid module<a class="headerlink" href="#module-distroi.fitting.grid" title="Permalink to this headline"></a></h2>
 <p>Defines the classes and methods needed to run a grid of models and store its results for later
 comparison.</p>
-</div>
-</div>
+</section>
+<section id="module-distroi.fitting.vbmc">
+<span id="distroi-fitting-vbmc-module"></span><h2>distroi.fitting.vbmc module<a class="headerlink" href="#module-distroi.fitting.vbmc" title="Permalink to this headline"></a></h2>
+<p>Defines the classes and methods needed Implementation to run the Variational Bayesian Monte Carlo (VBMC) algorithm
+using the pyVBMC package (Huggins et al. 2023, JOSS, 8(86), 5428).</p>
+</section>
+</section>
 
 
            </div>

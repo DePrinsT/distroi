@@ -62,7 +62,7 @@ class OIContainer:
 
     def __init__(self, dictionary: dict[str, np.ndarray], fcorr: bool = False):
         """
-        Constructor method. See class docstring for information on instance properties.
+        Constructor method. See class docstring for information on initialization parameters and instance properties.
         """
         self.vis_in_fcorr = fcorr  # set if visibilities are in correlated flux
 
@@ -143,11 +143,7 @@ class OIContainer:
         # check if valid plot_vistype passed along
         valid_vistypes = ["vis2", "vis", "fcorr"]
         if plot_vistype not in valid_vistypes:
-            print(
-                f"Warning: Invalid plot_vistype '{plot_vistype}'. Valid options are: {valid_vistypes}. "
-                f"Will return None!"
-            )
-            return None
+            raise ValueError(f"Warning: Invalid plot_vistype '{plot_vistype}'. Valid options are: {valid_vistypes}. ")
 
         # create plotting directory if it doesn't exist yet
         if fig_dir is not None:
@@ -173,13 +169,13 @@ class OIContainer:
         fig.subplots_adjust(right=0.8)
         cax = fig.add_axes([0.82, 0.15, 0.02, 0.7])
         ax.set_aspect("equal", adjustable="datalim")  # make plot axes have same scale
-        ax.scatter(uf / 1e6, vf / 1e6, c=wave, s=1, cmap="gist_rainbow_r")
+        ax.scatter(uf / 1e6, vf / 1e6, c=wave, s=1, cmap="rainbow")
         sc = ax.scatter(
             -uf / 1e6,
             -vf / 1e6,
             c=wave,
             s=1,
-            cmap="gist_rainbow_r",
+            cmap="rainbow",
         )
         clb = fig.colorbar(sc, cax=cax)
         clb.set_label(r"$\lambda$ ($\mu$m)", labelpad=5)
@@ -193,7 +189,7 @@ class OIContainer:
 
         # plot (squared) visibilities
         fig, ax = plt.subplots(1, 1, figsize=(10, 6))
-        sc = ax.scatter(base, vis, c=wave, s=2, cmap="gist_rainbow_r")
+        sc = ax.scatter(base, vis, c=wave, s=2, cmap="rainbow")
         ax.errorbar(
             base,
             vis,
@@ -232,7 +228,7 @@ class OIContainer:
             self.t3_phi,
             c=self.t3_wave,
             s=2,
-            cmap="gist_rainbow_r",
+            cmap="rainbow",
         )
         ax.errorbar(
             self.t3_bmax,
@@ -455,8 +451,7 @@ def oi_container_calc_image_fft_observables(
 
     # check if geometric component flux fractions do not exceed 1
     if geom_comps is not None and sum(geom_comp_flux_fracs) >= 1.0:
-        print("The sum of geometric component flux fractions cannot exceed 1. Will return None!")
-        return
+        raise ValueError("The sum of geometric component flux fractions cannot exceed 1.")
 
     # retrieve interpolator for normalized complex visibilities from model image(s)
     vcomp_norm_img_interpolator = image.image_fft_comp_vis_interpolator(
@@ -530,9 +525,7 @@ def oi_container_calc_image_fft_observables(
             )
         else:
             # case for multiple model images
-            ftot_img_interpolator = image.image_fft_ftot_interpolator(
-                img_ffts=img_ffts, interp_method=interp_method
-            )
+            ftot_img_interpolator = image.image_fft_ftot_interpolator(img_ffts=img_ffts, interp_method=interp_method)
             ftot_img_ref = ftot_img_interpolator(ref_wavelength)
 
         # loop over geometric components to add their effects to the total model complex visibility and flux
@@ -677,11 +670,7 @@ def oi_container_plot_data_vs_model(
     """
     valid_vistypes = ["vis2", "vis", "fcorr"]
     if plot_vistype not in valid_vistypes:
-        print(
-            f"Warning: Invalid plot_vistype '{plot_vistype}'. Valid options are: {valid_vistypes}. "
-            f"Will return None!"
-        )
-        return None
+        raise ValueError(f"Warning: Invalid plot_vistype '{plot_vistype}'. Valid options are: {valid_vistypes}.")
 
     # create plotting directory if it doesn't exist yet
     if fig_dir is not None:
@@ -711,10 +700,7 @@ def oi_container_plot_data_vs_model(
         elif container_data.vis_in_fcorr and container_mod.vis_in_fcorr:
             vislabel = r"$F_{corr}$ (Jy)"
         else:
-            print("container_data and container_mod do not have the same value for vis_in_fcorr, will return None!")
-            return
-    else:
-        print("parameter plot_vistype is not recognized, will return None!")
+            raise Exception("container_data and container_mod do not have the same value for vis_in_fcorr")
         return
 
     # plot uv coverage
@@ -727,14 +713,14 @@ def oi_container_plot_data_vs_model(
         vfdata / 1e6,
         c=wavedata,
         s=1,
-        cmap="gist_rainbow_r",
+        cmap="rainbow",
     )
     sc = ax.scatter(
         -ufdata / 1e6,
         -vfdata / 1e6,
         c=wavedata,
         s=1,
-        cmap="gist_rainbow_r",
+        cmap="rainbow",
     )
     clb = fig.colorbar(sc, cax=cax)
     clb.set_label(r"$\lambda$ ($\mu$m)", labelpad=5)
@@ -872,7 +858,7 @@ def oi_container_plot_data_vs_model(
 if __name__ == "__main__":
     from distroi.auxiliary.beam import oi_container_calc_gaussian_beam
 
-    object_id = "IRAS15469-5311"
+    object_id = "EN_TrA"
     epoch_id = "img_ep_jan2021-mar2021"
     data_dir, data_file = (
         f"/home/toond/Documents/phd/data/{object_id}/inspiring/PIONIER/{epoch_id}/",
@@ -904,6 +890,6 @@ if __name__ == "__main__":
         make_plots=True,
         show_plots=True,
         fig_dir=fig_dir,
-        num_res=25,
-        pix_per_res=16,
+        num_res=3,
+        pix_per_res=32,
     )

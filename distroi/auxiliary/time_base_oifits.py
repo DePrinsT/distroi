@@ -58,8 +58,7 @@ def oifits_time_window_plot(
 
     :param str data_dir: Path to the directory where the OIFITS files are stored.
     :param str data_file: Data filename. Use wildcards to read in multiple files at once.
-    :param float init_window_width: Initial width of the time window in days. Needs to be larger or equal to 1 day or
-        function will not plot and return None instead.
+    :param float init_window_width: Initial width of the time window in days. Needs to be larger than 0 days.
     :param str copy_dir: If specified, the OIFITS files that have observations within the interactively set time window
         will be copied to this directory upon using the 'Copy files' button.
     :return files_within_window: List of filepaths corresponding to the OIFITS files that have observations within the
@@ -72,9 +71,8 @@ def oifits_time_window_plot(
         if not os.path.exists(copy_dir):
             os.makedirs(copy_dir)
 
-    if init_window_width < 1:
-        print("Initial window width must be larger than or equal to 1 day! Function will return None!")
-        return
+    if init_window_width < 0:
+        raise ValueError("init_window_width must be larger than or equal to 0!")
 
     obs_mjd = []  # list to hold MJD dates extracted from OIFITS files
     file_names = []  # list to assign filenames to the observations
@@ -355,14 +353,14 @@ def oifits_time_window_plot(
             vf_selection / 1e6,
             c=wavelength_selection * constants.M2MICRON,
             s=1,
-            cmap="gist_rainbow_r",
+            cmap="rainbow",
         )
         sc = uv_cov_ax.scatter(
             -uf_selection / 1e6,
             -vf_selection / 1e6,
             c=wavelength_selection * constants.M2MICRON,
             s=1,
-            cmap="gist_rainbow_r",
+            cmap="rainbow",
         )
         clb = fig.colorbar(sc, cax=uv_cov_cax)
         clb.set_label(r"$\lambda$ ($\mu$m)", labelpad=5)

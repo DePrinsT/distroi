@@ -1,7 +1,9 @@
 """
-Defines a class and the corresponding methods to handle images and their fast fourier transform.
+Defines a class and the corresponding methods to handle images and their fast fourier transform (FFT).
 """
-#TODO: add support for polarimetric observations, e.g. different flux types.
+# TODO: add support for polarimetric observations, e.g. different flux types.
+# TODO: add support for convolution of two images (and their FFT) with the same dimensions.
+# this can then be used to convolve with e.g. the PSF of the UV coverage to reveal the resolvable features of a model.
 
 from distroi.auxiliary import constants
 from distroi.model.dep import spec_dep
@@ -70,7 +72,7 @@ class Image:
         padding: tuple[int, int] | None = None,
     ):
         """
-        Constructor method. See class docstring for information on instance properties.
+        Constructor method. See class docstring for information on initialzization parameters and instance properties.
         """
         self.wavelength: float | None = None  # image wavelength in micron
 
@@ -107,17 +109,18 @@ class Image:
                 dictionary["num_pix_x"],
                 dictionary["num_pix_y"],
             )
+
+            # check for
+            if self.num_pix_x % 2 != 0 or self.num_pix_y % 2 != 0:
+                raise ValueError(
+                    f"""Image dimensions are ({self.num_pix_x, self.num_pix_y}).
+                    DISTROI currently only supports images with an even amount of pixels in each dimension."""
+                )
+
             self.img = dictionary["img"]
             self.ftot = dictionary["ftot"]
             # perform the fft to set the other instance variables
             self.perform_fft(padding=padding)
-
-            if self.num_pix_x % 2 != 0 or self.num_pix_y % 2 != 0:
-                print(
-                    "DISTROI currently only supports images with an even amount of pixels in each dimension. "
-                    "Program will be terminated!"
-                )
-                exit(1)
 
         # set spectral dependency
         if spc_dep is not None:
@@ -144,11 +147,10 @@ class Image:
             self.num_pix_fft_y = self.num_pix_y  # as that of the image
         else:
             if padding[0] % 2 != 0 or padding[1] % 2 != 0:  # check for even amount of pixels in padding.
-                print(
-                    "DISTROI currently only supports padding image FFTs to an even amount of pixels in each dimension. "
-                    "Program will be terminated!"
+                raise ValueError(
+                    f"""DISTROI currently only supports padding image FFTs to an even amount of pixels in 
+                    each dimension. Requested padding is ({padding[0]}, {padding[1]})."""
                 )
-                exit(1)
 
             # check if padding number of pixels is larger than passed along image
             # otherwise just use the number of pixels already in the image
@@ -423,11 +425,7 @@ class Image:
         """
         valid_vistypes = ["vis2", "vis", "fcorr"]
         if plot_vistype not in valid_vistypes:
-            print(
-                f"Warning: Invalid plot_vistype '{plot_vistype}'. Valid options are: {valid_vistypes}. "
-                f"Will return None!"
-            )
-            return None
+            raise ValueError(f"Warning: Invalid plot_vistype '{plot_vistype}'. Valid options are: {valid_vistypes}.")
 
         baseu = self.uf / 1e6  # Baseline length u in MegaLambda
         basev = self.vf / 1e6  # Baseline length v in MegaLambda
@@ -505,10 +503,6 @@ class Image:
         elif plot_vistype == "fcorr":
             vislabel = r"$F_{corr}$ (Jy)"
             vis = abs(self.fft)
-        else:
-            print("vislabel not recognized, using vis2 as default")
-            vislabel = "$V^2$"
-            vis = abs(self.fft / self.ftot) ** 2
 
         # set the complex phase
         cphi = np.angle(self.fft, deg=True)
@@ -838,27 +832,18 @@ def read_image_list(
     """
     valid_read_methods = ["mcfost"]
     if read_method not in valid_read_methods:
-        print(
-            f"Warning: Invalid read_method '{read_method}'. Valid options are: {valid_read_methods}. "
-            f"Will return None!"
-        )
-        return None
+        raise ValueError(f"Warning: Invalid read_method '{read_method}'. Valid options are: {valid_read_methods}.")
 
     img_ffts = []  # list of Image objects to be held (1 element long in the case of monochr=True)
     wavelengths = []  # list of their wavelengths
 
     if read_method == "mcfost":  # different ways to read in model image file paths
         img_file_paths = sorted(glob.glob(f"{mod_dir}/{img_dir}/**/*RT.fits.gz", recursive=True))
-    else:
-        print(f"read_method '{read_method}' not recognized. Will return None!")
-        return
 
     for img_path in img_file_paths:
         if read_method == "mcfost":  # choose reader function
             img_fft = read_image_mcfost(img_path, padding=padding)
-        else:
-            print(f"read_method '{read_method}' not recognized. Will return None!")
-            return
+
         img_fft.redden(ebminv=ebminv, reddening_law=reddening_law)  # redden the Image object
         img_ffts.append(img_fft)  # append to the list of Image objects
         wavelengths.append(img_fft.wavelength)  # append wavelength
@@ -956,8 +941,7 @@ def image_fft_ftot_interpolator(
     """
 
     if len(img_ffts) < 2:
-        print("img_ffts needs to contain at least 2 objects. Will return None!")
-        return
+        raise Exception("Argumnent list img_ffts needs to contain at least 2 objects to build an interpolator.")
 
     img_wavelengths = []  # list of model image wavelengths in micron
     img_ftots = []  # list to store total F_nu fluxes in Jy

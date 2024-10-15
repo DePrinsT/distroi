@@ -39,7 +39,7 @@ class SED:
 
     def __init__(self, dictionary: dict[str, np.ndarray]):
         """
-        Constructor method. See class docstring for information on instance properties.
+        Constructor method. See class docstring for information on initialization parameters and instance properties.
         """
         self.wavelengths = None  # wavelengths in micron
         self.frequencies = None  # frequencies in Hz
@@ -139,8 +139,7 @@ class SED:
         :rtype: None
         """
         # TODO: implement this, including the printing of optional source/catalog and photband names
-        print("To be implemented. Will return None!")
-        return
+        pass
 
     def add_freq_vars(self) -> None:
         """

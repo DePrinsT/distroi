@@ -85,8 +85,7 @@ class BlackBodySpecDep(SpecDep):
         """
         # check requested flux format
         if flux_form not in ("flam", "lam_flam", "fnu", "nu_fnu"):
-            print("Flux format 'flux_form' not recognized, defaulting to 'flam' instead.")
-            flux_form = "flam"
+            raise ValueError("Flux format 'flux_form' not recognized.")
 
         # different cases for requested flux format and power law flux format
         if flux_form == "flam":
@@ -139,8 +138,7 @@ class PowerLawSpecDep(SpecDep):
         Initializes a PowerLawSpecDep object.
         """
         if flux_form not in ("flam", "lam_flam", "fnu", "nu_fnu"):
-            print("Flux format 'flux_form' not recognized, defaulting to 'flam' instead.")
-            self.flux_form = "flam"
+            raise ValueError("Flux format 'flux_form' not recognized.")
         self.power = power
         self.flux_form = flux_form
 
@@ -169,8 +167,7 @@ class PowerLawSpecDep(SpecDep):
 
         # check requested flux format
         if flux_form not in ("flam", "lam_flam", "fnu", "nu_fnu"):
-            print("Flux format 'flux_form' not recognized, defaulting to 'flam' instead.")
-            flux_form = "flam"
+            raise ValueError("Flux format 'flux_form' not recognized")
 
         # different cases for requested flux format and power law flux format
         if flux_form == "flam" and self.flux_form == "flam":
@@ -226,7 +223,7 @@ class FlatSpecDep(SpecDep):
         Initializes a FlatSpecDep object.
         """
         if flux_form not in ("flam", "lam_flam", "fnu", "nu_fnu"):
-            print("Flux format 'flux_form' not recognized, defaulting to 'flam' instead.")
+            raise ValueError("Flux format 'flux_form' not recognized.")
             self.flux_form = "flam"
         self.flux_form = flux_form
 
@@ -255,8 +252,7 @@ class FlatSpecDep(SpecDep):
 
         # check requested flux format
         if flux_form not in ("flam", "lam_flam", "fnu", "nu_fnu"):
-            print("Flux format 'flux_form' not recognized, defaulting to 'flam' instead.")
-            flux_form = "flam"
+            raise ValueError("Flux format 'flux_form' not recognized, defaulting to 'flam' instead.")
 
         # different cases for requested flux format and power law flux format
         if flux_form == "flam" and self.flux_form == "flam":
