@@ -890,6 +890,6 @@ if __name__ == "__main__":
         make_plots=True,
         show_plots=True,
         fig_dir=fig_dir,
-        num_res=3,
-        pix_per_res=32,
+        num_res=64,
+        pix_per_res=2,
     )
