@@ -667,8 +667,8 @@ class Image:
 
         if fig_dir is not None:
             plt.savefig(
-                f"{fig_dir}/fft2d_maps_{self.wavelength}mum.{constants.IMG_OUTPUT_TYPE}",
-                dpi=300,
+                f"{fig_dir}/fft2d_maps_{self.wavelength}mum.{constants.FIG_OUTPUT_TYPE}",
+                dpi=constants.FIG_DPI,
                 bbox_inches="tight",
             )
 
@@ -737,8 +737,8 @@ class Image:
 
         if fig_dir is not None:
             plt.savefig(
-                f"{fig_dir}/fft1d_cuts_{self.wavelength}mum.{constants.IMG_OUTPUT_TYPE}",
-                dpi=300,
+                f"{fig_dir}/fft1d_cuts_{self.wavelength}mum.{constants.FIG_OUTPUT_TYPE}",
+                dpi=constants.FIG_DPI,
                 bbox_inches="tight",
             )
         if show_plots:
@@ -1010,7 +1010,7 @@ if __name__ == "__main__":
     # FFT test + output info on frequencies
     import distroi.auxiliary.constants
 
-    distroi.auxiliary.constants.IMG_OUTPUT_TYPE = "pdf"
+    distroi.auxiliary.constants.FIG_OUTPUT_TYPE = "pdf"
 
     mod_dir = "/home/toond/Documents/phd/python/distroi/examples/models/IRAS08544-4431_test_model/"
     img_dir = "PIONIER/data_1.65/"

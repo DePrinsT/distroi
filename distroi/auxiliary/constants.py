@@ -3,6 +3,8 @@ Contains constants, unit conversions, miscellaneous universal functions and plot
 throughout the project.
 
 :var str PROJECT_ROOT: Path to the root of the distroi project on the user's system.
+:var str FIG_OUTPUT_TYPE: Output type of the figures (e.g. pdf or png).
+:var int FIG_DPI: DPI of the output figures.
 :var float SPEED_OF_LIGHT: In SI units.
 :var float DEG2RAD: Conversion of degree to radian.
 :var float RAD2DEG: Conversion of radian to degree.
@@ -27,10 +29,11 @@ import matplotlib.pyplot as plt
 from scipy.interpolate import interp1d
 
 # settings
-IMG_OUTPUT_TYPE: str = "png"
+PROJECT_ROOT: str = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # root of the package
+FIG_OUTPUT_TYPE: str = "png"
+FIG_DPI: int = 200
 
 # constants
-PROJECT_ROOT: str = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # root of the package
 SPEED_OF_LIGHT: float = 299792458.0  # speed of light in SI units (m s^-1)
 K_BOLTZMANN: float = 1.380649e-23  # Boltzmann's constant in SI unis (J K^-1)
 H_PLANCK: float = 6.62607015e-34  # Planck constant in SI units (J Hz^-1)
@@ -66,19 +69,20 @@ def set_matplotlib_params() -> None:
     """
     # setting some matplotlib parameters
     plt.rcParams["font.family"] = "serif"
-    plt.rcParams["mathtext.fontset"] = "dejavuserif"
-    plt.rcParams["legend.frameon"] = True
+    plt.rcParams['font.serif'] = "Times New Roman"
+    plt.rcParams["mathtext.fontset"] = "cm"
+    plt.rcParams["legend.frameon"] = False
     plt.rcParams["legend.edgecolor"] = "grey"
     plt.rcParams["legend.framealpha"] = 0.5
     plt.rcParams["lines.markersize"] = 6.0
     plt.rcParams["lines.linewidth"] = 2.0
     # plt.rcParams["image.interpolation"] = 'bicubic'  # set interpolation method for imshow
 
-    plt.rc("font", size=12)  # controls default text sizes
+    plt.rc("font", size=16)  # controls default text sizes
     plt.rc("axes", titlesize=14)  # fontsize of the axes title
-    plt.rc("xtick", labelsize=12)  # fontsize of the tick labels
-    plt.rc("ytick", labelsize=12)  # fontsize of the tick labels
-    plt.rc("legend", fontsize=12)  # legend fontsize
+    plt.rc("xtick", labelsize=14)  # fontsize of the tick labels
+    plt.rc("ytick", labelsize=14)  # fontsize of the tick labels
+    plt.rc("legend", fontsize=14)  # legend fontsize
     plt.rc("figure", titlesize=14)  # fontsize of the figure title
     return
 

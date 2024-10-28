@@ -284,7 +284,7 @@ def oi_container_calc_gaussian_beam(
         ax[0][1].add_patch(res_ellipse2)
         ax[1][0].add_patch(res_ellipse3)
         ax[0][0].plot([], [], label=r"$\mathrm{FWHM}/2$ ellipse", color="b")
-        ax[0][0].legend(loc="upper left", frameon=True, framealpha=0.5)
+        ax[0][0].legend(loc="upper left", frameon=True, framealpha=0.5, fontsize="small")
 
         plt.tight_layout()  # colorbar after tight layout, otherwise it messes up the plot
         fig.colorbar(
@@ -305,7 +305,8 @@ def oi_container_calc_gaussian_beam(
             if not os.path.exists(fig_dir):
                 os.makedirs(fig_dir)
             # save if fig_dir not None
-            plt.savefig(f"{fig_dir}/dirty_beam_fit.{constants.IMG_OUTPUT_TYPE}", dpi=300, bbox_inches="tight")
+            plt.savefig(f"{fig_dir}/dirty_beam_fit.{constants.FIG_OUTPUT_TYPE}", dpi=constants.FIG_DPI,
+                        bbox_inches="tight")
         if show_plots:
             plt.show()  # show plot if asked
 

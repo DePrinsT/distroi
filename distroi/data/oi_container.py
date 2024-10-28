@@ -185,10 +185,10 @@ class OIContainer:
         ax.set_xlabel(r"$\leftarrow B_u$ ($\mathrm{M \lambda}$)")
         ax.set_ylabel(r"$B_v \rightarrow$ ($\mathrm{M \lambda}$)")
         if fig_dir is not None:
-            plt.savefig(f"{fig_dir}/uv_plane.{constants.IMG_OUTPUT_TYPE}", dpi=300, bbox_inches="tight")
+            plt.savefig(f"{fig_dir}/uv_plane.{constants.FIG_OUTPUT_TYPE}", dpi=constants.FIG_DPI, bbox_inches="tight")
 
         # plot (squared) visibilities
-        fig, ax = plt.subplots(1, 1, figsize=(10, 6))
+        fig, ax = plt.subplots(1, 1, figsize=(10, 5))
         sc = ax.scatter(base, vis, c=wave, s=2, cmap="rainbow")
         ax.errorbar(
             base,
@@ -218,11 +218,14 @@ class OIContainer:
         ax.axhline(y=1, c="k", ls="--", lw=1, zorder=0)
         ax.set_xlabel(r"$B$ ($\mathrm{M \lambda}$)")
         ax.set_ylabel(vislabel)
+        plt.tight_layout()
         if fig_dir is not None:
-            plt.savefig(f"{fig_dir}/visibilities.{constants.IMG_OUTPUT_TYPE}", dpi=300, bbox_inches="tight")
+            plt.savefig(
+                f"{fig_dir}/visibilities.{constants.FIG_OUTPUT_TYPE}", dpi=constants.FIG_DPI, bbox_inches="tight"
+            )
 
         # plot phi_closure
-        fig, ax = plt.subplots(1, 1, figsize=(10, 6))
+        fig, ax = plt.subplots(1, 1, figsize=(10, 5))
         sc = ax.scatter(
             self.t3_bmax,
             self.t3_phi,
@@ -252,8 +255,11 @@ class OIContainer:
         ax.set_xlim(0, np.max(self.t3_bmax) * 1.05)
         ax.axhline(y=0, c="k", ls="--", lw=1, zorder=0)
         ax.set_xlabel(r"$B_{max}$ ($\mathrm{M \lambda}$)")
+        plt.tight_layout()
         if fig_dir is not None:
-            plt.savefig(f"{fig_dir}/closure_phases.{constants.IMG_OUTPUT_TYPE}", dpi=300, bbox_inches="tight")
+            plt.savefig(
+                f"{fig_dir}/closure_phases.{constants.FIG_OUTPUT_TYPE}", dpi=constants.FIG_DPI, bbox_inches="tight"
+            )
         if show_plots:
             plt.show()
 
@@ -730,7 +736,7 @@ def oi_container_plot_data_vs_model(
     ax.set_xlabel(r"$\leftarrow B_u$ ($\mathrm{M \lambda}$)")
     ax.set_ylabel(r"$B_v \rightarrow$ ($\mathrm{M \lambda}$)")
     if fig_dir is not None:
-        plt.savefig(f"{fig_dir}/uv_plane.{constants.IMG_OUTPUT_TYPE}", dpi=300, bbox_inches="tight")
+        plt.savefig(f"{fig_dir}/uv_plane.{constants.FIG_OUTPUT_TYPE}", dpi=constants.FIG_DPI, bbox_inches="tight")
 
     # plot (squared) visibilities
     fig = plt.figure(figsize=(10, 8))
@@ -787,7 +793,7 @@ def oi_container_plot_data_vs_model(
     ax[1].set_xlabel(r"$B$ ($\mathrm{M \lambda}$)")
     ax[1].set_ylabel(r"error $(\sigma)$")
     if fig_dir is not None:
-        plt.savefig(f"{fig_dir}/visibilities.{constants.IMG_OUTPUT_TYPE}", dpi=300, bbox_inches="tight")
+        plt.savefig(f"{fig_dir}/visibilities.{constants.FIG_OUTPUT_TYPE}", dpi=constants.FIG_DPI, bbox_inches="tight")
 
     # plot phi_closure
     fig = plt.figure(figsize=(10, 8))
@@ -848,7 +854,7 @@ def oi_container_plot_data_vs_model(
     ax[1].set_xlabel(r"$B_{max}$ ($\mathrm{M \lambda}$)")
     ax[1].set_ylabel(r"error $(\sigma_{\phi_{CP}})$")
     if fig_dir is not None:
-        plt.savefig(f"{fig_dir}/closure_phases.{constants.IMG_OUTPUT_TYPE}", dpi=300, bbox_inches="tight")
+        plt.savefig(f"{fig_dir}/closure_phases.{constants.FIG_OUTPUT_TYPE}", dpi=constants.FIG_DPI, bbox_inches="tight")
     if show_plots:
         plt.show()
 
@@ -858,22 +864,33 @@ def oi_container_plot_data_vs_model(
 if __name__ == "__main__":
     from distroi.auxiliary.beam import oi_container_calc_gaussian_beam
 
-    object_id = "EN_TrA"
-    epoch_id = "img_ep_jan2021-mar2021"
-    data_dir, data_file = (
-        f"/home/toond/Documents/phd/data/{object_id}/inspiring/PIONIER/{epoch_id}/",
-        "*.fits",
-    )
     # object_id = "IW_Car"
     # epoch_id = "img_ep_nov2019-mar2020"
     # data_dir, data_file = (
     #     f"/home/toond/Documents/phd/data/{object_id}/inspiring/PIONIER/{epoch_id}/",
     #     "*.fits",
     # )
+
+    # object_id = "EN_TrA"
+    # epoch_id = "img_ep_jan2021-mar2021"
     # data_dir, data_file = (
-    #     "/home/toond/Documents/phd/writing/proposals/ESO_P115/jmmc_tools/",
-    #     "Aspro2_IRAS_15469-5311_VLTI_PIONIER_simulation.fits",
+    #     f"/home/toond/Documents/phd/data/{object_id}/inspiring/PIONIER/{epoch_id}/",
+    #     "*.fits",
     # )
+
+    # object_id = "IRAS15469-5311"
+    # epoch_id = "img_ep_jan2021-mar2021"
+    # data_dir, data_file = (
+    #     f"/home/toond/Documents/phd/data/{object_id}/inspiring/PIONIER/{epoch_id}/",
+    #     "*.fits",
+    # )
+
+    object_id = "IRAS08544-4431"
+    data_dir, data_file = (
+        f"/home/toond/Documents/phd/data/IRAS08544-4431/imaging_campaign_hillen_et_al2016/PIONIER",
+        "*.fits",
+    )
+
     container_data = read_oi_container_from_oifits(data_dir, data_file)
     fig_dir = f"{data_dir}/figures/"
     container_data.plot_data(fig_dir=fig_dir)
@@ -890,6 +907,6 @@ if __name__ == "__main__":
         make_plots=True,
         show_plots=True,
         fig_dir=fig_dir,
-        num_res=64,
-        pix_per_res=2,
+        num_res=3,
+        pix_per_res=32,
     )

@@ -405,7 +405,8 @@ def sed_plot_data_vs_model(
     if fig_dir is not None:
         if not os.path.exists(fig_dir):
             os.makedirs(fig_dir)
-        plt.savefig(f"{fig_dir}/sed_comparison.{constants.IMG_OUTPUT_TYPE}", dpi=300, bbox_inches="tight")
+        plt.savefig(f"{fig_dir}/sed_comparison.{constants.FIG_OUTPUT_TYPE}",
+                    dpi=constants.FIG_DPI, bbox_inches="tight")
     if show_plots:
         plt.show()
 
