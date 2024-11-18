@@ -59,3 +59,9 @@ html_theme_options = {
     'logo_only': True,
 }
 
+# sphix autodoc default options, including showing private members
+autodoc_default_options = {
+    "members": True,
+    "undoc-members": False,
+    "private-members": True
+}

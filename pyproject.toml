@@ -8,14 +8,19 @@ version = "0.0.1"
 authors = [
   { name="Toon De Prins", email="toon.deprins@protonmail.com" },
 ]
-description = """A Python package intended to compute astronomical optical interferometry (OI) observables from
+maintainers = [
+  { name="Toon De Prins", email="toon.deprins@protonmail.com" },
+]
+description = """A package intended to compute astronomical optical interferometry (OI) observables from
 radiative transfer model images."""
 readme = "README.md"
+license = {file = "LICENSE"} 
 requires-python = ">=3.10"
 classifiers = [
+    "Development Status :: 3 - Alpha",
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: GNU General Public License",
-    "Operating System :: OS Independent",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
 ]
 
 dependencies = [
@@ -28,4 +33,7 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://github.com/DePrinsT/distroi"
+Repository = "https://github.com/DePrinsT/distroi"
+Documentation = "https://distroi.readthedocs.io/en/latest/"
 Issues = "https://github.com/DePrinsT/distroi/issues"
+

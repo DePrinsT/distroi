@@ -9,18 +9,8 @@ distroi.model.rt\_comp package
 Submodules
 ----------
 
-distroi.model.rt\_comp.mcfost module
-------------------------------------
+.. toctree::
+   :maxdepth: 2
 
-.. automodule:: distroi.model.rt_comp.mcfost
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-distroi.model.rt\_comp.rt\_comp module
---------------------------------------
-
-.. automodule:: distroi.model.rt_comp.rt_comp
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   distroi.model.rt_comp.mcfost
+   distroi.model.rt_comp.rt_comp

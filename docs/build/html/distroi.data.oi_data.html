@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>distroi.data.oi_data module &mdash; DISTROI  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="_static/fonts.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="distroi.data.sed module" href="distroi.data.sed.html" />
+    <link rel="prev" title="distroi.data.oi_container module" href="distroi.data.oi_container.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html">
+            <img src="_static/distroi_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="distroi.html">distroi package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="distroi.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="distroi.auxiliary.html">distroi.auxiliary package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="distroi.data.html">distroi.data package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="distroi.data.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.fitting.html">distroi.fitting package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.model.html">distroi.model package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">DISTROI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="distroi.html">distroi package</a></li>
+          <li class="breadcrumb-item"><a href="distroi.data.html">distroi.data package</a></li>
+      <li class="breadcrumb-item active">distroi.data.oi_data module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/distroi.data.oi_data.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-distroi.data.oi_data">
+<span id="distroi-data-oi-data-module"></span><h1>distroi.data.oi_data module<a class="headerlink" href="#module-distroi.data.oi_data" title="Permalink to this headline"></a></h1>
+<p>Contains a class to store optical inteferometric (OI) observables, taken using the same instrument setup, and additional
+functions to take radiative transfer (RT) model images and convert them to interferometric observables at the spatial
+frequencies of the observables.</p>
+<p>NOTE: With the aim of flexibility in including multiple files and computational ease, this class does not fully reflect
+all the infromation stored in the OIFITS file format. For example, the wavelengths and baselines/triplets at which
+observables were taken is stored in the relevant observable properties. E.g. the wavelengths and baselines associated
+to the OI_VIS2 measurements are stored as a np.ndarray inside the OIData.vis2 instance property itself, instead of in
+a separate property mirroring the OI_WAVELENGTH and OI_ARRAY tables inside the OIFITS files.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.data.oi_data.</span></span><span class="sig-name descname"><span class="pre">OIData</span></span><a class="headerlink" href="#distroi.data.oi_data.OIData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to describe optical interferometry data, allowing to represent simultaneously the data contained in multiple
+OIFits files observed using the same array and instrument setup. The constructor simply initiates all properties
+of the instance to None. Data is meant to be read in using the read_oifits method instead.</p>
+<p>Make sure the data in different files is consistent in terms of target and setup. E.g. if first file read in uses
+differential instead of absolute visibilities in the OI_VIS table, all other files should also contain differential
+visibilities. If you wish to model observations taken with different instrument setup simultaneously, different
+OIData objects should be created for each setup.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>header</strong> (<em>dict</em>) – Primary header dictionary. Taken from the first file that’s read in.</p></li>
+<li><p><strong>target</strong> (<a class="reference internal" href="#distroi.data.oi_data.OITarget" title="distroi.data.oi_data.OITarget"><em>OITarget</em></a>) – Object representing the OI_TARGET table of an OIFITS file. Taken from the first file
+that’s read in.</p></li>
+<li><p><strong>vis</strong> (<a class="reference internal" href="#distroi.data.oi_data.OIVis" title="distroi.data.oi_data.OIVis"><em>OIVis</em></a>) – Object representing data in the OI_VIS tables concatenated over the considered OIFITS files.</p></li>
+<li><p><strong>vis2</strong> (<a class="reference internal" href="#distroi.data.oi_data.OIVis2" title="distroi.data.oi_data.OIVis2"><em>OIVis2</em></a>) – Object representing data in the OI_VIS2 tables concatenated over the considered OIFITS files.</p></li>
+<li><p><strong>vis2</strong> – Object representing data in the OI_VIS2 tables concatenated over the considered OIFITS files.</p></li>
+<li><p><strong>t3</strong> (<a class="reference internal" href="#distroi.data.oi_data.OIT3" title="distroi.data.oi_data.OIT3"><em>OIT3</em></a>) – Object representing data in the OI_T3 tables concatenated over the considered OIFITS files.</p></li>
+<li><p><strong>flux</strong> (<a class="reference internal" href="#distroi.data.oi_data.OIFlux" title="distroi.data.oi_data.OIFlux"><em>OIFlux</em></a>) – Object representing data in the OI_FLUX tables concatenated over the considered OIFITS files.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIData.filter">
+<span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.data.oi_data.OIData.filter" title="Permalink to this definition"></a></dt>
+<dd><p>Filter data based on user input range on quantity of interest or on if data has been flagged.</p>
+<p>NOTE: This function applies to all relevant types of stored data. I.e. if the OIData object contains both
+squared visibilities and tiple products, and you filter based on ‘eff_wave’, filtering will be applied to
+both types of observables. If you want to filter differently for different data types, e.g. on wavelength of
+the triple product only, call the filter function of the OIT3 class directly instead.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>names</strong> (<em>str</em><em> | </em><em>list</em><em>[</em><em>str</em><em>]</em>) – Name(s) of the variables to be filtered (e.g. ‘visamp’). Can also pass ‘flag’ in
+order to filter out flagged data.</p></li>
+<li><p><strong>float</strong><strong>]</strong><strong>]</strong> (<em>tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>] </em><em>| </em><em>list</em><em>[</em><em>tuple</em><em>[</em><em>float</em><em>,</em>) – Range(s) of the variables which we want to cut.
+E.g. name=’visamp’ &amp; range=(0.01, 0.1) -&gt; will filter out all data with visibility between 0.01 and 0.1.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIData.read_oifits">
+<span class="sig-name descname"><span class="pre">read_oifits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ft_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.data.oi_data.OIData.read_oifits" title="Permalink to this definition"></a></dt>
+<dd><p>Reads in data from OIFits files. Includes the use of wildcards, e.g. <a href="#id1"><span class="problematic" id="id2">*</span></a>, to read in data from multiple files
+simultaneously.</p>
+<p>NOTE: The read-in metadata on the instrument setup, targer and array (i.e. the primary table header,
+OI_TARGET, OI_ARRAY) and choice of observables (absolute, differential, coherent flux, etc) are read in only
+from the first considered file. Make sure the data in simultaneously read-in files are thus consistent in terms
+of setup. This allows the consistent merging of OI_VIS, OI_VIS2, OI_T3 and OI_FLUX tables into single
+consistent Python objects. If you wish to model observations taken with different instrument setup
+simultaneously, different OIData objects should be created for each setup.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIFlux">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.data.oi_data.</span></span><span class="sig-name descname"><span class="pre">OIFlux</span></span><a class="headerlink" href="#distroi.data.oi_data.OIFlux" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to describe the concatenated data contained in OI_FLUX tables of multiple OIFITS files.</p>
+<p>NOTE: The correspondence to the OIFITS standard is not exact. For example, all visibility data is flattened
+into 1D arrays for ease of use, instead of keeping the OIFITS 2D array structures, where the different rows denote
+the telescopes. Instead, the baseline pair corresponding to a datapoint is encoded in the telescope_idx array and
+the telescope_dict dictionary, and, in addition, the wavelength information is stored in the 1D eff_wave array
+(replacing the usual link with the OI_ARRAY and OI_WAVELENGTH tables).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>header</strong> (<em>dict</em>) – Header dictionary.</p></li>
+<li><p><strong>time</strong> (<em>np.ndarray</em>) – Time of observations in seconds.</p></li>
+<li><p><strong>mjd</strong> (<em>np.ndarray</em>) – Modified Julian Date of observations.</p></li>
+<li><p><strong>int_time</strong> (<em>np.ndarray</em>) – Integration time in seconds.</p></li>
+<li><p><strong>fluxdata</strong> (<em>np.ndarray</em>) – Measured flux; units specified in header.</p></li>
+<li><p><strong>fluxerr</strong> (<em>np.ndarray</em>) – Data on measured flux.</p></li>
+<li><p><strong>flag</strong> (<em>np.ndarray</em>) – Array of booleans denoting whether data has been flagged by the reduction or not.</p></li>
+<li><p><strong>telescope_dict</strong> (<em>dict</em>) – Dictionary mapping index integers to the strings describing the telescope used for the
+measurement. Only used if ‘CALSTAT = U’, in which the uncalibrated flux spectrum is stored per telescope
+(see OIFITS 2 standard). If ‘CALSTAT = C’, will instead remain None.</p></li>
+<li><p><strong>telescope_idx</strong> (<em>np.ndarray</em>) – Telescope index of the data (to be used with telescope_dict). Only used if
+‘CALSTAT = U’, in which case the uncalibrated flux spectrum is stored per telescope (see OIFITS 2 standard).
+If ‘CALSTAT = C’, will instead remain None.</p></li>
+<li><p><strong>eff_wave</strong> (<em>np.ndarray</em>) – Effective wavelength of the data; units m.</p></li>
+<li><p><strong>eff_band</strong> (<em>np.ndarray</em>) – Effective wavelength bandwidth of data; units m.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIFlux.filter">
+<span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.data.oi_data.OIFlux.filter" title="Permalink to this definition"></a></dt>
+<dd><p>Filter data based on user input range on quantity of interest or on if data has been flagged.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>names</strong> (<em>str</em><em> | </em><em>list</em><em>[</em><em>str</em><em>]</em>) – Name(s) of the variables to be filtered (e.g. ‘visamp’). Can also pass ‘flag’ in
+order to filter out flagged data.</p></li>
+<li><p><strong>float</strong><strong>]</strong><strong>]</strong> (<em>tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>] </em><em>| </em><em>list</em><em>[</em><em>tuple</em><em>[</em><em>float</em><em>,</em>) – Range(s) of the variables which we want to cut.
+E.g. name=’visamp’ &amp; range=(0.01, 0.1) -&gt; will filter out all data with visibility between 0.01 and 0.1.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.data.oi_data.</span></span><span class="sig-name descname"><span class="pre">OIT3</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to describe the concatenated data contained in OI_T3 tables of multiple OIFITS files.</p>
+<p>NOTE: The correspondence to the OIFITS standard. For example, all triple product data is flattened into 1D arrays
+for ease of use, instead of keeping the OIFITS 2D array structures, where the different rows denote the baseline
+triangles. Instead, the baseline pair corresponding to a datapoint is encoded in the baseline_idx array and the
+baseline_dict dictionary. In addition, the wavelength information is stored in the 1D eff_wave array.</p>
+<p>NOTE: The third baseline is chosen following the convention that the triple product is calculated as V1 x V2 x V3*,
+with V3* being the conjugate of the third baseline’s visibility.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>header</strong> (<em>dict</em>) – Header dictionary.</p></li>
+<li><p><strong>time</strong> (<em>np.ndarray</em>) – Time of observations in seconds.</p></li>
+<li><p><strong>mjd</strong> (<em>np.ndarray</em>) – Modified Julian Date of observations.</p></li>
+<li><p><strong>int_time</strong> (<em>np.ndarray</em>) – Integration time in seconds.</p></li>
+<li><p><strong>t3amp</strong> (<em>np.ndarray</em>) – Triple product amplitude.</p></li>
+<li><p><strong>t3amperr</strong> (<em>np.ndarray</em>) – Error on tiple product amplitude.</p></li>
+<li><p><strong>t3phi</strong> (<em>np.ndarray</em>) – Triple product phase (closure phase) in degrees.</p></li>
+<li><p><strong>t3phierr</strong> (<em>np.ndarray</em>) – Error on tiple product phase (closure phase).</p></li>
+<li><p><strong>u1coord</strong> (<em>np.ndarray</em>) – u coordinate of the data’s first baseline in unit m.</p></li>
+<li><p><strong>v1coord</strong> (<em>np.ndarray</em>) – v coordinate of the data’s first baseline in unit m.</p></li>
+<li><p><strong>u2coord</strong> (<em>np.ndarray</em>) – u coordinate of the data’s second baseline in unit m.</p></li>
+<li><p><strong>v2coord</strong> (<em>np.ndarray</em>) – v coordinate of the data’s second baseline in unit m.</p></li>
+<li><p><strong>flag</strong> (<em>np.ndarray</em>) – Array of booleans denoting whether data has been flagged by the reduction or not.</p></li>
+<li><p><strong>baseline_dict</strong> (<em>dict</em>) – Dictionary mapping baseline index integers to the strings describing the baseline.</p></li>
+<li><p><strong>baseline_idx</strong> (<em>np.ndarray</em>) – Baseline index of the data (to be used with baseline_dict).</p></li>
+<li><p><strong>eff_wave</strong> (<em>np.ndarray</em>) – Effective wavelength of the data; units m.</p></li>
+<li><p><strong>eff_band</strong> (<em>np.ndarray</em>) – Effective wavelength bandwidth of data; units m.</p></li>
+<li><p><strong>u3coord</strong> (<em>np.ndarray</em>) – u coordinate of the data’s third baseline in unit m.</p></li>
+<li><p><strong>v3coord</strong> (<em>np.ndarray</em>) – v coordinate of the data’s third baseline in unit m.</p></li>
+<li><p><strong>u1fcoord</strong> (<em>np.ndarray</em>) – u coordinate spatial frequency of first baseline; units cycle rad^-1.</p></li>
+<li><p><strong>v1fcoord</strong> (<em>np.ndarray</em>) – v coordinate spatial frequency of first baseline; units cycle rad^-1.</p></li>
+<li><p><strong>u2fcoord</strong> (<em>np.ndarray</em>) – u coordinate spatial frequency of second baseline; units cycle rad^-1.</p></li>
+<li><p><strong>v2fcoord</strong> (<em>np.ndarray</em>) – v coordinate spatial frequency of second baseline; units cycle rad^-1.</p></li>
+<li><p><strong>u3fcoord</strong> (<em>np.ndarray</em>) – u coordinate spatial frequency of third baseline; units cycle rad^-1.</p></li>
+<li><p><strong>v3fcoord</strong> (<em>np.ndarray</em>) – v coordinate spatial frequency of third baseline; units cycle rad^-1.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.filter">
+<span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.filter" title="Permalink to this definition"></a></dt>
+<dd><p>Filter data based on user input range on quantity of interest or on if data has been flagged.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>names</strong> (<em>str</em><em> | </em><em>list</em><em>[</em><em>str</em><em>]</em>) – Name(s) of the variables to be filtered (e.g. ‘visamp’). Can also pass ‘flag’ in
+order to filter out flagged data.</p></li>
+<li><p><strong>float</strong><strong>]</strong><strong>]</strong> (<em>tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>] </em><em>| </em><em>list</em><em>[</em><em>tuple</em><em>[</em><em>float</em><em>,</em>) – Range(s) of the variables which we want to cut.
+E.g. name=’visamp’ &amp; range=(0.01, 0.1) -&gt; will filter out all data with visibility between 0.01 and 0.1.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OITarget">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.data.oi_data.</span></span><span class="sig-name descname"><span class="pre">OITarget</span></span><a class="headerlink" href="#distroi.data.oi_data.OITarget" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to describe the OI_TARGET table of an OIFITS file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>header</strong> (<em>dict</em>) – Header dictionary.</p></li>
+<li><p><strong>target_id</strong> (<em>int</em>) – Target ID number.</p></li>
+<li><p><strong>target</strong> (<em>str</em>) – Target name.</p></li>
+<li><p><strong>equinox</strong> (<em>float</em>) – Equinox in years.</p></li>
+<li><p><strong>raep0</strong> (<em>float</em>) – Target right ascension at equinox in deg.</p></li>
+<li><p><strong>decep0</strong> (<em>float</em>) – Target declination at equinox in deg.</p></li>
+<li><p><strong>ra_err</strong> (<em>float</em>) – Error on right ascension.</p></li>
+<li><p><strong>dec_err</strong> (<em>float</em>) – Error on declination.</p></li>
+<li><p><strong>sysvel</strong> (<em>float</em>) – Systemic radial velocity in m/s.</p></li>
+<li><p><strong>veltyp</strong> (<em>str</em>) – Reference for radial velocity (e.g. “LSR”).</p></li>
+<li><p><strong>veldef</strong> (<em>str</em>) – Definition for radial velocity (e.g. “OPTICAL”).</p></li>
+<li><p><strong>pmra</strong> (<em>float</em>) – Right ascension proper motion in deg/yr.</p></li>
+<li><p><strong>pmdec</strong> (<em>float</em>) – Declination proper motion in deg/yr.</p></li>
+<li><p><strong>pmra_err</strong> (<em>float</em>) – Error on right ascension proper motion.</p></li>
+<li><p><strong>pmdec_err</strong> (<em>float</em>) – Error on declination proper motion.</p></li>
+<li><p><strong>parallax</strong> (<em>float</em>) – Parallax in degrees.</p></li>
+<li><p><strong>para_err</strong> (<em>float</em>) – Error on parallax.</p></li>
+<li><p><strong>spectyp</strong> (<em>str</em>) – Target spectral type.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.data.oi_data.</span></span><span class="sig-name descname"><span class="pre">OIVis</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to describe the concatenated data contained in OI_VIS tables of multiple OIFITS files.</p>
+<p>NOTE: The correspondence to the OIFITS standard is not exact. For example, all visibility data is flattened
+into 1D arrays for ease of use, instead of keeping the OIFITS 2D array structures, where the different rows denote
+the baselines. Instead, the baseline pair corresponding to a datapoint is encoded in the baseline_idx array and the
+baseline_dict dictionary, and, in addition, the wavelength information is stored in the 1D eff_wave array
+(replacing the usual link with the OI_ARRAY and OI_WAVELENGTH tables).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>header</strong> (<em>dict</em>) – Header dictionary.</p></li>
+<li><p><strong>time</strong> (<em>np.ndarray</em>) – Time of observations in seconds.</p></li>
+<li><p><strong>mjd</strong> (<em>np.ndarray</em>) – Modified Julian Date of observations.</p></li>
+<li><p><strong>int_time</strong> (<em>np.ndarray</em>) – Integration time in seconds.</p></li>
+<li><p><strong>visamp</strong> (<em>np.ndarray</em>) – Visibility amplitude. Units depend on type of visibility (e.g. coherent flux vs.
+normalized visibility). In case ‘correlated flux’ and TUNIT keyword not specified in header -&gt; assumed to be
+in Jansky.</p></li>
+<li><p><strong>visamperr</strong> (<em>np.ndarray</em>) – Error on visibility amplitude.</p></li>
+<li><p><strong>visphi</strong> (<em>np.ndarray</em>) – Visibility phase in degrees.</p></li>
+<li><p><strong>visphierr</strong> (<em>np.ndarray</em>) – Error on visibility phase.</p></li>
+<li><p><strong>rvis</strong> (<em>np.ndarray</em>) – Real part of complex coherent flux; units defined in header</p></li>
+<li><p><strong>rviserr</strong> (<em>np.ndarray</em>) – Error on real part of complex coherent flux.</p></li>
+<li><p><strong>ivis</strong> (<em>np.ndarray</em>) – Imaginary part of complex coherent flux; units defined in header</p></li>
+<li><p><strong>iviserr</strong> (<em>np.ndarray</em>) – Error on imaginary part of complex coherent flux.</p></li>
+<li><p><strong>ucoord</strong> (<em>np.ndarray</em>) – u coordinate of the data in unit m.</p></li>
+<li><p><strong>vcoord</strong> (<em>np.ndarray</em>) – v coordinate of the data in unit m.</p></li>
+<li><p><strong>flag</strong> (<em>np.ndarray</em>) – Array of booleans denoting whether data has been flagged by the reduction or not.</p></li>
+<li><p><strong>baseline_dict</strong> (<em>dict</em>) – Dictionary mapping baseline index integers to the strings describing the baseline.</p></li>
+<li><p><strong>baseline_idx</strong> (<em>np.ndarray</em>) – Baseline index of the data (to be used with baseline_dict).</p></li>
+<li><p><strong>eff_wave</strong> (<em>np.ndarray</em>) – Effective wavelength of the data; units m.</p></li>
+<li><p><strong>eff_band</strong> (<em>np.ndarray</em>) – Effective wavelength bandwidth of data; units m.</p></li>
+<li><p><strong>ufcoord</strong> (<em>np.ndarray</em>) – u coordinate spatial frequency; units cycle rad^-1.</p></li>
+<li><p><strong>vfcoord</strong> (<em>np.ndarray</em>) – v coordinate spatial frequency; units cycle rad^-1.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis.filter">
+<span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis.filter" title="Permalink to this definition"></a></dt>
+<dd><p>Filter data based on user input range on quantity of interest or on if data has been flagged.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>names</strong> (<em>str</em><em> | </em><em>list</em><em>[</em><em>str</em><em>]</em>) – Name(s) of the variables to be filtered (e.g. ‘visamp’). Can also pass ‘flag’ in
+order to filter out flagged data.</p></li>
+<li><p><strong>float</strong><strong>]</strong><strong>]</strong> (<em>tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>] </em><em>| </em><em>list</em><em>[</em><em>tuple</em><em>[</em><em>float</em><em>,</em>) – Range(s) of the variables which we want to cut.
+E.g. name=’visamp’ &amp; range=(0.01, 0.1) -&gt; will filter out all data with visibility between 0.01 and 0.1.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis2">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.data.oi_data.</span></span><span class="sig-name descname"><span class="pre">OIVis2</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis2" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to describe the concatenated data contained in OI_VIS2 tables of multiple OIFITS files.</p>
+<p>NOTE: The correspondence to the OIFITS standard is not exact. For example, all visibility data is flattened
+into 1D arrays for ease of use, instead of keeping the OIFITS 2D array structures, where the different rows denote
+the baselines. Instead, the baseline pair corresponding to a datapoint is encoded in the baseline_idx array and the
+baseline_dict dictionary, and, in addition, the wavelength information is stored in the 1D eff_wave array
+(replacing the usual link with the OI_ARRAY and OI_WAVELENGTH tables).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>header</strong> (<em>dict</em>) – Header dictionary.</p></li>
+<li><p><strong>time</strong> (<em>np.ndarray</em>) – Time of observations in seconds.</p></li>
+<li><p><strong>mjd</strong> (<em>np.ndarray</em>) – Modified Julian Date of observations.</p></li>
+<li><p><strong>int_time</strong> (<em>np.ndarray</em>) – Integration time in seconds.</p></li>
+<li><p><strong>vis2data</strong> (<em>np.ndarray</em>) – Squared visibility amplitude. Always normalized.</p></li>
+<li><p><strong>vis2err</strong> (<em>np.ndarray</em>) – Error on squared visibility amplitude.</p></li>
+<li><p><strong>ucoord</strong> (<em>np.ndarray</em>) – u coordinate of the data in unit m.</p></li>
+<li><p><strong>vcoord</strong> (<em>np.ndarray</em>) – v coordinate of the data in unit m.</p></li>
+<li><p><strong>flag</strong> (<em>np.ndarray</em>) – Array of booleans denoting whether data has been flagged by the reduction or not.</p></li>
+<li><p><strong>baseline_dict</strong> (<em>dict</em>) – Dictionary mapping baseline index integers to the strings describing the baseline.</p></li>
+<li><p><strong>baseline_idx</strong> (<em>np.ndarray</em>) – Baseline index of the data (to be used with baseline_dict).</p></li>
+<li><p><strong>eff_wave</strong> (<em>np.ndarray</em>) – Effective wavelength of the data; units m.</p></li>
+<li><p><strong>eff_band</strong> (<em>np.ndarray</em>) – Effective wavelength bandwidth of data; units m.</p></li>
+<li><p><strong>ufcoord</strong> (<em>np.ndarray</em>) – u coordinate spatial frequency; units cycle rad^-1.</p></li>
+<li><p><strong>vfcoord</strong> (<em>np.ndarray</em>) – v coordinate spatial frequency; units cycle rad^-1.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis2.filter">
+<span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis2.filter" title="Permalink to this definition"></a></dt>
+<dd><p>Filter data based on user input range on quantity of interest or on if data has been flagged.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>names</strong> (<em>str</em><em> | </em><em>list</em><em>[</em><em>str</em><em>]</em>) – Name(s) of the variables to be filtered (e.g. ‘visamp’). Can also pass ‘flag’ in
+order to filter out flagged data.</p></li>
+<li><p><strong>float</strong><strong>]</strong><strong>]</strong> (<em>tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>] </em><em>| </em><em>list</em><em>[</em><em>tuple</em><em>[</em><em>float</em><em>,</em>) – Range(s) of the variables which we want to cut.
+E.g. name=’visamp’ &amp; range=(0.01, 0.1) -&gt; will filter out all data with visibility between 0.01 and 0.1.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="distroi.data.oi_container.html" class="btn btn-neutral float-left" title="distroi.data.oi_container module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="distroi.data.sed.html" class="btn btn-neutral float-right" title="distroi.data.sed module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Toon De Prins.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

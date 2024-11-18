@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>distroi.auxiliary.beam module &mdash; DISTROI  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="_static/fonts.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="distroi.auxiliary.constants module" href="distroi.auxiliary.constants.html" />
+    <link rel="prev" title="distroi.auxiliary package" href="distroi.auxiliary.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html">
+            <img src="_static/distroi_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="distroi.html">distroi package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="distroi.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="distroi.auxiliary.html">distroi.auxiliary package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="distroi.auxiliary.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.data.html">distroi.data package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.fitting.html">distroi.fitting package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.model.html">distroi.model package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">DISTROI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="distroi.html">distroi package</a></li>
+          <li class="breadcrumb-item"><a href="distroi.auxiliary.html">distroi.auxiliary package</a></li>
+      <li class="breadcrumb-item active">distroi.auxiliary.beam module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/distroi.auxiliary.beam.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-distroi.auxiliary.beam">
+<span id="distroi-auxiliary-beam-module"></span><h1>distroi.auxiliary.beam module<a class="headerlink" href="#module-distroi.auxiliary.beam" title="Permalink to this headline"></a></h1>
+<p>Contains a class to represent a model for the OI point spread function (PSF) (a Gaussian fit). The formal PSF
+is called the ‘dirty beam’. Methods to calculate the dirty beam from the uv coverage of an OIContainer object and
+get a fit to the dirty beam’s inner few resolution elements (a ‘Gaussian beam’) are included.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="distroi.auxiliary.beam.Beam">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.beam.</span></span><span class="sig-name descname"><span class="pre">Beam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.beam.Beam" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class containing information for a 2D Gaussian beam, typically acquired from a fit to the inner regions of a
+dirty beam (the formal PSF).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dictionary</strong> (<em>dict</em>) – Dictionary containing keys and values representing several instance variables described
+below. Should include ‘sig_min’, ‘sig_maj’ and ‘pa’.</p>
+</dd>
+<dt class="field-even">Variables</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>sig_min</strong> (<em>float</em>) – Standard deviation of the Gaussian along the minor axis.</p></li>
+<li><p><strong>sig_maj</strong> (<em>float</em>) – Standard deviation of the Gaussian along the major axis.</p></li>
+<li><p><strong>pa</strong> (<em>float</em>) – Position angle of the Gaussian’s major axis, anticlockwise from North to East.</p></li>
+<li><p><strong>fwhm_min</strong> (<em>float</em>) – Full-width-half-maximum (FWHM) of the Gaussian along the minor axis. This defines the
+resolution corresponding to the uv coverage along this axis.</p></li>
+<li><p><strong>fwhm_maj</strong> (<em>float</em>) – FWHM of the Gaussian along the major axis. This defines the resolution
+corresponding to the uv coverage along this axis.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="distroi.auxiliary.beam.Beam.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.auxiliary.beam.Beam.plot" title="Permalink to this definition"></a></dt>
+<dd><p>Makes a colour plot of the Beam, including contours representing the sigma/FWHM levels
+:return:</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.auxiliary.beam.oi_container_calc_gaussian_beam">
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.beam.</span></span><span class="sig-name descname"><span class="pre">oi_container_calc_gaussian_beam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="distroi.data.oi_container.html#distroi.data.oi_container.OIContainer" title="distroi.data.oi_container.OIContainer"><span class="pre">distroi.data.oi_container.OIContainer</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">vistype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'vis2'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'vis'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fcorr'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'vis2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">make_plots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_plots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_res</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pix_per_res</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">32</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#distroi.auxiliary.beam.Beam" title="distroi.auxiliary.beam.Beam"><span class="pre">distroi.auxiliary.beam.Beam</span></a></span></span><a class="headerlink" href="#distroi.auxiliary.beam.oi_container_calc_gaussian_beam" title="Permalink to this definition"></a></dt>
+<dd><p>Given an OIContainer and the uv frequencies to be used, calculates the clean beam Gaussian parameters by making a
+Gaussian fit to the dirty beam. The dirty beam acts as the interferometric point spread funtion (PSF)
+corresponding to the chosen uv coverage, by setting visibilities constant at the observed uv points and inverting
+the Fourier transform directly to the image plane.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>container</strong> (<a class="reference internal" href="distroi.data.oi_container.html#distroi.data.oi_container.OIContainer" title="distroi.data.oi_container.OIContainer"><em>OIContainer</em></a>) – Container with observables for which we want to calculate the resolution corresponding
+to its uv coverage.</p></li>
+<li><p><strong>vistype</strong> (<em>str</em><em>, </em><em>optional</em>) – Sets the uv coverage to be used for the Gaussian beam calculation. ‘vis2’ for the
+coverage corresponding to the squared visibility measurements or ‘vis’ for the uv coverage corresponding to the
+visibility/correlated flux measurements.</p></li>
+<li><p><strong>make_plots</strong> (<em>bool</em>) – Set to True to make plots of the dirty beam.</p></li>
+<li><p><strong>fig_dir</strong> (<em>str</em>) – Set to a directory in which you want the plots to be saved.</p></li>
+<li><p><strong>show_plots</strong> – Set to True if you want the generated plots to be shown in a window.</p></li>
+<li><p><strong>num_res</strong> (<em>int</em>) – The number of resolution elements to be included in the calculation. A resolution element is
+defined as 1 / (2 x ‘max_uv’), with max_uv the maximum norm of the probed uv frequency points.
+Set to 2 by default. Going above this can skew the Gaussian fit or cause it to fail, as the non-Gaussian
+behavior of the PSF becomes more apparent further away from the dirty beam center.
+It will also increase calculation time as O(n^2).</p></li>
+<li><p><strong>pix_per_res</strong> (<em>int</em>) – Amount of dirty beam pixels used per resolution element. This should be even.
+Set to 32 by default. Increasing this can significantly increase computation time (scales as O(n^2)).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return gauss_beam</dt>
+<dd class="field-even"><p>Beam object containing the information of the Gaussian fit.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#distroi.auxiliary.beam.Beam" title="distroi.auxiliary.beam.Beam">Beam</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="distroi.auxiliary.html" class="btn btn-neutral float-left" title="distroi.auxiliary package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="distroi.auxiliary.constants.html" class="btn btn-neutral float-right" title="distroi.auxiliary.constants module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Toon De Prins.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

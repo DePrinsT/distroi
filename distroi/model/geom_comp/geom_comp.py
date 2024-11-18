@@ -11,20 +11,31 @@ flat. Take this in mind when calculating or comparing to observations in correla
 
 from distroi.auxiliary import constants
 from distroi.model.dep import spec_dep
+from distroi.model import param
 
 import numpy as np
 from scipy.special import j1 as bessel_j1  # import Bessel function of the first kind
 from abc import ABC, abstractmethod
 
-
+# TODO: add parameters dictionary to retrieve parameters which can be iterated over
 class GeomComp(ABC):
     """
     Abstract class representing a geometric model component.
 
-    :ivar spec_dep.SpecDep | None spc_dep: Optional spectral dependence of the component. If None, the spectral
+    :ivar dict[str, Param] params: Dictionary containing the names of parameters within the `GeomComp` 
+        scope and the corresponding parameter objects.
+    :ivar spec_dep.SpecDep sp_dep: Optional spectral dependence of the component. If not specified at init, the spectral
         dependency will be assumed flat in F_lam flux accross wavelength (note that flatness in F_lam means a spectral
         dependency ~ wavelength^2 ~ frequency^-2 for F_nu, and thus for the correlated flux).
     """
+
+    @abstractmethod
+    def get_params(self) -> dict[str, param.Param]:
+        """
+        Retrieve a dictionary of parameters for this geometric component, linking the name of the component within the 
+        `GeomComp` scope to the corresponding `Param` objects.
+        """
+        pass
 
     @abstractmethod
     def calc_vis(
@@ -61,19 +72,19 @@ class UniformDisk(GeomComp):
     :param tuple(float) coords:  2D tuples with (x, y) coordinates of the disk center's coordinates (in mas).
         Note that positive x is defined as leftward and positive y as upward (i.e. the East and North repesctively
         in the OI convention). If not given, will default to (0, 0).
-    :param SpecDep spc_dep: Optional spectral dependence of the component. If None, the spectral dependency will be
+    :param SpecDep sp_dep: Optional spectral dependence of the component. If None, the spectral dependency will be
         assumed flat in F_lam flux accross wavelength (note that flatness in F_lam means a spectral
         dependency ~ wavelength^2 ~ frequency^-2 for F_nu, and thus for the correlated flux).
     :ivar float radius: See parameter description.
     :ivar tuple(float) coords: See parameter description.
-    :ivar SpecDep spc_dep: See parameter description.
+    :ivar SpecDep sp_dep: See parameter description.
     """
 
     def __init__(
         self,
         diameter: float,
         coords: tuple[float, float] | None = None,
-        spc_dep: spec_dep.SpecDep | None = None,
+        sp_dep: spec_dep.SpecDep | None = None,
     ):
         """
         Initializes a UniformDisk object.
@@ -83,10 +94,10 @@ class UniformDisk(GeomComp):
             self.coords = (0, 0)
         else:
             self.coords = coords
-        if spc_dep is not None:
-            self.spc_dep = spc_dep  # set spectral dependence if given
+        if sp_dep is not None:
+            self.sp_dep = sp_dep  # set spectral dependence if given
         else:
-            self.spc_dep = spec_dep.FlatSpecDep(flux_form="flam")  # otherwise, assume flat spectrum in F_lam
+            self.sp_dep = spec_dep.FlatSpecDep(flux_form="flam")  # otherwise, assume flat spectrum in F_lam
 
     def calc_vis(
         self,
@@ -127,7 +138,7 @@ class UniformDisk(GeomComp):
         else:
             frequency = constants.SPEED_OF_LIGHT / (wavelength * constants.MICRON2M)
             ref_frequency = constants.SPEED_OF_LIGHT / (ref_wavelength * constants.MICRON2M)
-            corr_flux = self.spc_dep.flux_from_ref(
+            corr_flux = self.sp_dep.flux_from_ref(
                 x=frequency,
                 x_ref=ref_frequency,
                 ref_flux=ref_corr_flux,
@@ -145,15 +156,15 @@ class Gaussian(GeomComp):
     :param tuple(float) coords:  2D tuples with (x, y) coordinates of the point's coordinates (in mas).
         Note that positive x is defined as leftward and positive y as upward (i.e. the East and North repesctively
         in the OI convention). If not given, will default to (0, 0).
-    :param SpecDep spc_dep: Optional spectral dependence of the component. If None, the spectral dependency will be
+    :param SpecDep sp_dep: Optional spectral dependence of the component. If None, the spectral dependency will be
         assumed flat in F_lam flux accross wavelength (note that flatness in F_lam means a spectral
         dependency ~ wavelength^2 ~ frequency^-2 for F_nu, and thus for the correlated flux).
     :ivar float fwhm: See parameter description.
     :ivar tuple(float) coords: See parameter description.
-    :ivar SpecDep spc_dep: See parameter description.
+    :ivar SpecDep sp_dep: See parameter description.
     """
 
-    def __init__(self, fwhm: float, coords: tuple[float, float] | None = None, spc_dep: spec_dep.SpecDep | None = None):
+    def __init__(self, fwhm: float, coords: tuple[float, float] | None = None, sp_dep: spec_dep.SpecDep | None = None):
         """
         Initializes a Gaussian object.
         """
@@ -162,10 +173,10 @@ class Gaussian(GeomComp):
             self.coords = (0, 0)
         else:
             self.coords = coords
-        if spc_dep is not None:
-            self.spc_dep = spc_dep  # set spectral dependence if given
+        if sp_dep is not None:
+            self.sp_dep = sp_dep  # set spectral dependence if given
         else:
-            self.spc_dep = spec_dep.FlatSpecDep(flux_form="flam")  # otherwise, assume a flat spectrum in F_lam
+            self.sp_dep = spec_dep.FlatSpecDep(flux_form="flam")  # otherwise, assume a flat spectrum in F_lam
 
     def calc_vis(
         self,
@@ -202,7 +213,7 @@ class Gaussian(GeomComp):
         else:
             frequency = constants.SPEED_OF_LIGHT / (wavelength * constants.MICRON2M)
             ref_frequency = constants.SPEED_OF_LIGHT / (ref_wavelength * constants.MICRON2M)
-            corr_flux = self.spc_dep.flux_from_ref(
+            corr_flux = self.sp_dep.flux_from_ref(
                 x=frequency,
                 x_ref=ref_frequency,
                 ref_flux=ref_corr_flux,
@@ -219,14 +230,14 @@ class PointSource(GeomComp):
     :param tuple(float) coords:  2D tuples with (x, y) coordinates of the point's coordinates (in mas).
         Note that positive x is defined as leftward and positive y as upward (i.e. the East and North repesctively
         in the OI convention). If not given, will default to (0, 0).
-    :param SpecDep spc_dep: Optional spectral dependence of the component. If None, the spectral dependency will be
+    :param SpecDep sp_dep: Optional spectral dependence of the component. If None, the spectral dependency will be
         assumed flat in F_lam flux accross wavelength (note that flatness in F_lam means a spectral
         dependency ~ wavelength^2 ~ frequency^-2 for F_nu, and thus for the correlated flux).
     :ivar tuple(float) coords: See parameter description.
-    :ivar SpecDep spc_dep: See parameter description.
+    :ivar SpecDep sp_dep: See parameter description.
     """
 
-    def __init__(self, coords: tuple[float, float] | None = None, spc_dep: spec_dep.SpecDep | None = None):
+    def __init__(self, coords: tuple[float, float] | None = None, sp_dep: spec_dep.SpecDep | None = None):
         """
         Initializes a PointSource object.
         """
@@ -234,10 +245,10 @@ class PointSource(GeomComp):
             self.coords = (0, 0)
         else:
             self.coords = coords
-        if spc_dep is not None:
-            self.spc_dep = spc_dep  # set spectral dependence if given
+        if sp_dep is not None:
+            self.sp_dep = sp_dep  # set spectral dependence if given
         else:
-            self.spc_dep = spec_dep.FlatSpecDep(flux_form="flam")  # otherwise, assume a flat spectrum in F_lam
+            self.sp_dep = spec_dep.FlatSpecDep(flux_form="flam")  # otherwise, assume a flat spectrum in F_lam
 
     def calc_vis(
         self,
@@ -272,7 +283,7 @@ class PointSource(GeomComp):
         else:
             frequency = constants.SPEED_OF_LIGHT / (wavelength * constants.MICRON2M)
             ref_frequency = constants.SPEED_OF_LIGHT / (ref_wavelength * constants.MICRON2M)
-            corr_flux = self.spc_dep.flux_from_ref(
+            corr_flux = self.sp_dep.flux_from_ref(
                 x=frequency,
                 x_ref=ref_frequency,
                 ref_flux=ref_corr_flux,
@@ -286,20 +297,20 @@ class Overresolved(GeomComp):
     """
     Class representing a fully resolved, a.k.a. overresolved, geometric component.
 
-    :param SpecDep spc_dep: Optional spectral dependence of the component. If None, the spectral dependency will be
+    :param SpecDep sp_dep: Optional spectral dependence of the component. If None, the spectral dependency will be
         assumed flat in F_lam flux accross wavelength (note that flatness in F_lam means a spectral
         dependency ~ wavelength^2 ~ frequency^-2 for F_nu, and thus for the correlated flux).
-    :ivar SpecDep spc_dep: See parameter description.
+    :ivar SpecDep sp_dep: See parameter description.
     """
 
-    def __init__(self, spc_dep=None):
+    def __init__(self, sp_dep=None):
         """
         Initializes an Overresolved object.
         """
-        if spc_dep is not None:
-            self.spc_dep = spc_dep  # set spectral dependence if given
+        if sp_dep is not None:
+            self.sp_dep = sp_dep  # set spectral dependence if given
         else:
-            self.spc_dep = spc_dep.FlatSpecDep(flux_form="flam")  # otherwise, assume a flat spectrum in F_lam
+            self.sp_dep = sp_dep.FlatSpecDep(flux_form="flam")  # otherwise, assume a flat spectrum in F_lam
 
     def calc_vis(
         self,

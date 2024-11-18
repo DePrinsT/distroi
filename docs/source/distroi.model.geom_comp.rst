@@ -9,10 +9,7 @@ distroi.model.geom\_comp package
 Submodules
 ----------
 
-distroi.model.geom\_comp.geom\_comp module
-------------------------------------------
+.. toctree::
+   :maxdepth: 2
 
-.. automodule:: distroi.model.geom_comp.geom_comp
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   distroi.model.geom_comp.geom_comp

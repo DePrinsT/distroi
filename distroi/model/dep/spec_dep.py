@@ -7,6 +7,7 @@ Support is provided for spectral dependencies in F_lam, lam x F_lam, F_nu and nu
 """
 
 from distroi.auxiliary import constants
+from distroi.model import param
 
 import numpy as np
 from abc import ABC, abstractmethod
@@ -18,7 +19,18 @@ class SpecDep(ABC):
     not represent full-fledged spectra. These are not absolute-flux calibrated, and only represent the dependence of
     flux on wavelength/frequency. A flux at a reference wavelength/frequency (derived from e.g. geometrical modelling)
     must be passed along in order to get absolute values.
+
+    :ivar dict[str, Param] params: Dictionary containing the names of parameters within the `SpecDep` 
+        scope and the corresponding parameter objects.
     """
+
+    @abstractmethod
+    def get_params(self) -> dict[str, param.Param]:
+        """
+        Retrieve a dictionary of parameters for this SpecDep, linking the name of the component within the 
+        SpecDep scope to the corresponding `Param` objects.
+        """
+        pass
 
     @abstractmethod
     def flux_from_ref(

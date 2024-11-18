@@ -19,10 +19,7 @@ Subpackages
 Submodules
 ----------
 
-distroi.model.model module
---------------------------
+.. toctree::
+   :maxdepth: 2
 
-.. automodule:: distroi.model.model
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   distroi.model.model

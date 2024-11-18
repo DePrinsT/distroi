@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>distroi.data.image module &mdash; DISTROI  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="_static/fonts.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="distroi.data.oi_container module" href="distroi.data.oi_container.html" />
+    <link rel="prev" title="distroi.data package" href="distroi.data.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html">
+            <img src="_static/distroi_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="distroi.html">distroi package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="distroi.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="distroi.auxiliary.html">distroi.auxiliary package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="distroi.data.html">distroi.data package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="distroi.data.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.fitting.html">distroi.fitting package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.model.html">distroi.model package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">DISTROI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="distroi.html">distroi package</a></li>
+          <li class="breadcrumb-item"><a href="distroi.data.html">distroi.data package</a></li>
+      <li class="breadcrumb-item active">distroi.data.image module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/distroi.data.image.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-distroi.data.image">
+<span id="distroi-data-image-module"></span><h1>distroi.data.image module<a class="headerlink" href="#module-distroi.data.image" title="Permalink to this headline"></a></h1>
+<p>Defines a class and the corresponding methods to handle images and their fast fourier transform (FFT).</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="distroi.data.image.Image">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.data.image.</span></span><span class="sig-name descname"><span class="pre">Image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sp_dep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="distroi.model.dep.spec_dep.html#distroi.model.dep.spec_dep.SpecDep" title="distroi.model.dep.spec_dep.SpecDep"><span class="pre">distroi.model.dep.spec_dep.SpecDep</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">padding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.data.image.Image" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class containing information on an image and (optionally) its Fast Fourier Transform (FFT).</p>
+<p>Contains all properties in order to fully describe both the image and its FFT. Note that all these properties are
+expected if all class methods are to work. It can easily be generalized to different RT codes by defining a
+corresponding image reader function analogous to ‘read_image_fft_mcfost’. Can handle any amount of pixels
+in an image, as long as the amount of pixels in each dimension is even.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dictionary</strong> (<em>dict</em>) – Dictionary containing keys and values representing several instance variables described
+below. Should include ‘wavelength’, ‘pixelscale_x’/’y’, ‘num_pix_x’/’y’, ‘img’, and ‘ftot’. The other required
+instance variables (related to the FFT) are set automatically through perform_fft().</p></li>
+<li><p><strong>sp_dep</strong> (<a class="reference internal" href="distroi.model.dep.spec_dep.html#distroi.model.dep.spec_dep.SpecDep" title="distroi.model.dep.spec_dep.SpecDep"><em>SpecDep</em></a>) – Optional spectral dependence of the image. This will only be used if this Image
+is used on its own in methods calculating interferometric observables. If instead multiple Image object or
+an SED are passed along as well, this property of the image will be ignored. By default, the spectral
+dependency will be assumed to be flat in correlated flux accross wavelengths (note that flatness in correlated
+flux means a spectral dependency ~ wavelength ^ -2 for F_lam).</p></li>
+<li><p><strong>padding</strong> (<em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em>) – Number of (x, y)-pixles to which an image should be 0-padded before performing
+the FFT. I.e. padding=(680, 540) will 0-pad an image to 680 and 540 pixels in the x and y dimensions,
+respectively. If smaller than the number of pixels already in the ‘img’ array, no padding will be added in
+the respective dimension. These should both be even numbers!</p></li>
+</ul>
+</dd>
+<dt class="field-even">Variables</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>wavelength</strong> (<em>float</em>) – Image wavelength in micron.</p></li>
+<li><p><strong>pixelscale_x</strong> (<em>float</em>) – Pixelscale in radian in x (East-West) direction.</p></li>
+<li><p><strong>pixelscale_y</strong> (<em>float</em>) – Pixelscale in radian in y (North-South) direction.</p></li>
+<li><p><strong>num_pix_x</strong> (<em>int</em>) – Amount of image pixels in the x direction.</p></li>
+<li><p><strong>num_pix_y</strong> (<em>int</em>) – Amount of image pixels in the y direction.</p></li>
+<li><p><strong>img</strong> (<em>np.ndarray</em>) – 2D numpy array containing the image flux in Jy. 1st index = image y-axis,
+2nd index = image x-axis.</p></li>
+<li><p><strong>ftot</strong> (<em>float</em>) – Total image flux in Jy</p></li>
+<li><p><strong>sp_dep</strong> (<a class="reference internal" href="distroi.model.dep.spec_dep.html#distroi.model.dep.spec_dep.SpecDep" title="distroi.model.dep.spec_dep.SpecDep"><em>SpecDep</em></a>) – Optional spectral dependence of the image. Assumed flat in correlated flux (F_nu) by
+default.</p></li>
+<li><p><strong>fft</strong> (<em>np.ndarray</em>) – Complex 2D numpy FFT of img in Jy, i.e. in correlated flux formulation.</p></li>
+<li><p><strong>num_pix_fft_x</strong> (<em>int</em>) – Amount of image FFT pixels in the x direction. This can be different
+from num_pix_x due to padding.</p></li>
+<li><p><strong>num_pix_fft_y</strong> (<em>int</em>) – Amount of image FFT pixels in the y direction. This can be different
+from num_pix_y due to padding.</p></li>
+<li><p><strong>w_x</strong> (<em>np.ndarray</em>) – 1D array with numpy FFT x-axis frequencies in units of 1/pixelscale_x.</p></li>
+<li><p><strong>w_y</strong> (<em>np.ndarray</em>) – 1D array with numpy FFT y-axis frequencies in units of 1/pixelscale_y.</p></li>
+<li><p><strong>uf</strong> (<em>np.ndarray</em>) – 1D array with FFT spatial x-axis frequencies in 1/radian, i.e. uf = w_x/pixelscale_x.</p></li>
+<li><p><strong>vf</strong> (<em>np.ndarray</em>) – 1D array with FFT spatial y-axis frequencies in 1/radian, i.e. vf = w_y/pixelscale_y.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="distroi.data.image.Image._perform_fft">
+<span class="sig-name descname"><span class="pre">_perform_fft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">padding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.data.image.Image._perform_fft" title="Permalink to this definition"></a></dt>
+<dd><p>Perform the numpy FFT and set the required properties related to the image’s FFT.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>padding</strong> (<em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em>) – Number of (x, y)-pixles to which an image should be 0-padded before performing
+the FFT. I.e. padding=(680, 540) will 0-pad an image to 680 and 540 pixels in the x and y dimensions,
+respectively. If smaller than the number of pixels already in the ‘img’ array, no padding will be added in
+the respective dimension. These should both be even numbers!</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="distroi.data.image.Image.diagnostic_plot">
+<span class="sig-name descname"><span class="pre">diagnostic_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_vistype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'vis2'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'vis'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'fcorr'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'vis2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_plotv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_ploti</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_plots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.data.image.Image.diagnostic_plot" title="Permalink to this definition"></a></dt>
+<dd><p>Makes diagnostic plots showing both the model image and the FFT (squared) visibilities and complex phases.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fig_dir</strong> (<em>str</em>) – Directory to store plots in.</p></li>
+<li><p><strong>plot_vistype</strong> (<em>str</em>) – Sets the type of visibility to be plotted. ‘vis2’ for squared visibilities, ‘vis’
+for visibilities or ‘fcorr’ for correlated flux in Jy.</p></li>
+<li><p><strong>log_plotv</strong> (<em>bool</em>) – Set to True for a logarithmic y-scale in the (squared) visibility plot.</p></li>
+<li><p><strong>log_ploti</strong> (<em>bool</em>) – Set to True for a logarithmic intensity scale in the model image plot.</p></li>
+<li><p><strong>show_plots</strong> (<em>bool</em>) – Set to False if you do not want the plots to be shown during your script run.
+Note that if True, this freazes further code execution until the plot windows are closed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="distroi.data.image.Image.freq_info">
+<span class="sig-name descname"><span class="pre">freq_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#distroi.data.image.Image.freq_info" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a string containing information on both the spatial frequency domain/sampling and the corresponding
+projected baselines.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return info_str</dt>
+<dd class="field-odd"><p>String containing frequency info which can be printed.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="distroi.data.image.Image.half_light_radius">
+<span class="sig-name descname"><span class="pre">half_light_radius</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#distroi.data.image.Image.half_light_radius" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the half light radius of the image by adding up the fluxes of pixels within increasing circular
+aperatures. If you want only the half light radius excluding the central source, e.g. the model disk in an
+MCFOST model, one should exclude the central source when reading in the image file (e.g. using disk_only=True
+with read_image_fft_mcfost()). Due to the implImageimentation, the returned value’s accuracy is inherently
+limited by the model image pixelscale. Note also that the radius is calculated in the image plane, and thus
+depends on e.g. inclination of the RT model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return hlr</dt>
+<dd class="field-odd"><p>The half light radius in milli-arcseconds.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="distroi.data.image.Image.redden">
+<span class="sig-name descname"><span class="pre">redden</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ebminv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reddening_law</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'/home/toond/Documents/phd/python/distroi/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.data.image.Image.redden" title="Permalink to this definition"></a></dt>
+<dd><p>Further reddens the model image according to the approriate E(B-V) and a corresponding reddening law.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ebminv</strong> (<em>float</em>) – E(B-V) reddening factor to be applied.</p></li>
+<li><p><strong>reddening_law</strong> (<em>str</em>) – Path to the reddening law to be used. Defaults to the ISM reddening law by
+Cardelli (1989) in DISTROI’s ‘utils/ISM_reddening folder’. See this file for the expected formatting
+of your own reddening laws.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.data.image._image_fft_comp_vis_interpolator">
+<span class="sig-prename descclassname"><span class="pre">distroi.data.image.</span></span><span class="sig-name descname"><span class="pre">_image_fft_comp_vis_interpolator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_ffts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#distroi.data.image.Image" title="distroi.data.image.Image"><span class="pre">distroi.data.image.Image</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalised</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interp_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'linear'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">scipy.interpolate._rgi.RegularGridInterpolator</span></span></span><a class="headerlink" href="#distroi.data.image._image_fft_comp_vis_interpolator" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a scipy RegularGridInterpolator from model Image objects, which can be used to interpolate the complex
+visibility to different spatial frequencies than those returned by the FFT algorithm and, optionally,
+different wavelengths than those of the RT model images themselves. Note: The interpolator will throw errors if
+arguments outside their bounds are supplied! Note: Expects, in case of multiple model images, that every image
+included has the same pixelscale and amount of pixels (in both x- and y-direction).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img_ffts</strong> (<em>list</em>) – List of Image objects to create an interpolator from. If the list has length one,
+i.e. a monochromatic model for the emission, the returned interpolator can only take the 2 spatial frequencies
+(units 1/Hz) as arguments. If the list contains multiple objects, i.e. a chromatic model for the emission,
+the interpolator will also be able to take wavelength (in micron) as an argument and will be able to interpolate
+along the wavelength dimension.</p></li>
+<li><p><strong>normalised</strong> (<em>bool</em>) – Set to True if you want the returned interpolator to produce normalised, non-absolute
+complex visibilities (for calculating e.g. squared visibilities). By default normalised = False, meaning
+the interpolator returns absolute complex visibilities, i.e. complex correlated fluxes (in units Jy).</p></li>
+<li><p><strong>interp_method</strong> (<em>str</em>) – Interpolation method used by the returned scipy RegularGridInterpolator.
+Can support ‘linear’, ‘nearest’, ‘slinear’, ‘cubic’, ‘quintic’ or ‘pchip’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return interpolator</dt>
+<dd class="field-even"><p>Interpolator for the model image FFTs. If len(img_ffts) == 1, only takes the uv spatial
+frequencies (units 1/rad) as arguments as follows: interpolator(v, u).  If len(img_ffts) &gt; 1, then it also
+can interpolate between wavelengths (units micron) as follows: interpolator(wavelength, v, u).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>scipy.interpolate.RegularGridInterpolator</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.data.image._image_fft_ftot_interpolator">
+<span class="sig-prename descclassname"><span class="pre">distroi.data.image.</span></span><span class="sig-name descname"><span class="pre">_image_fft_ftot_interpolator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_ffts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#distroi.data.image.Image" title="distroi.data.image.Image"><span class="pre">distroi.data.image.Image</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interp_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'linear'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">scipy.interpolate._interpolate.interp1d</span></span></span><a class="headerlink" href="#distroi.data.image._image_fft_ftot_interpolator" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a scipy interp1d object from a list of model Image objects, allowing to interpolate the total
+flux (F_nu format in unit Jansky) along the wavelength dimension.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img_ffts</strong> (<em>list</em>) – List of Image objects to create an interpolator from. Must have length longer than one.</p></li>
+<li><p><strong>interp_method</strong> (<em>str</em>) – Interpolation method used by scipy’s interp1d method. Defualt is ‘linear’.
+Can support ‘linear’, ‘nearest’, ‘nearest-up’, ‘zero’, ‘slinear’, ‘quadratic’, ‘cubic’, ‘previous’, or
+‘next’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return interpolator</dt>
+<dd class="field-even"><p>Interpolator for the total flux in F_nu format and units Jy. Takes the wavelength in micron
+as its only argument.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>scipy.interpolate.interp1d</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.data.image.read_image_list">
+<span class="sig-prename descclassname"><span class="pre">distroi.data.image.</span></span><span class="sig-name descname"><span class="pre">read_image_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mod_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'mcfost'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'mcfost'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">padding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ebminv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reddening_law</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'/home/toond/Documents/phd/python/distroi/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#distroi.data.image.Image" title="distroi.data.image.Image"><span class="pre">distroi.data.image.Image</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.data.image.read_image_list" title="Permalink to this definition"></a></dt>
+<dd><p>Function that takes the path to an RT model’s directory and a subdirectory containing image files, and returns a
+list of Image objects representing those model images. They should thus represent the same underlying physical
+model, but imaged at different wavelengths.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mod_dir</strong> (<em>str</em>) – Parent directory of the RT model of interest.</p></li>
+<li><p><strong>img_dir</strong> (<em>str</em>) – Subdirectory containing RT model images. All image files recursively found in the subdirectories
+of ‘mod_dir+img_dir’ are read.</p></li>
+<li><p><strong>read_method</strong> (<em>str</em>) – Type of method used to read in RT model images when creating Image class instances.
+Currently only supports ‘mcfost’, in which case all files ending on the sufix ‘RT.fits.gz’ are read in.</p></li>
+<li><p><strong>padding</strong> (<em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em>) – Number of (x, y)-pixles to which an image should be 0-padded before performing
+the FFT. I.e. padding=(680, 540) will 0-pad an image to 680 and 540 pixels in the x and y dimensions,
+respectively. If smaller than the number of pixels already in the ‘img’ array, no padding will be added in
+the respective dimension. These should both be even numbers!</p></li>
+<li><p><strong>ebminv</strong> (<em>float</em>) – E(B-V) of additional reddening to be applied to the model images. Only useful if
+the visibilities need to be expressed in correlated flux at some point.</p></li>
+<li><p><strong>reddening_law</strong> (<em>str</em>) – Path to the reddening law to be used. Defaults to the ISM reddening law by
+Cardelli (1989) in DISTROI’s ‘utils/ISM_reddening folder’. See this file for the expected formatting
+of your own reddening laws.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>img_ffts: List of Image objects representing all model image files found under ‘mod_dir+img_dir’.
+Sorted by wavelength</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list(<a class="reference internal" href="#distroi.data.image.Image" title="distroi.data.image.Image">Image</a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.data.image.read_image_mcfost">
+<span class="sig-prename descclassname"><span class="pre">distroi.data.image.</span></span><span class="sig-name descname"><span class="pre">read_image_mcfost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">padding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disk_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#distroi.data.image.Image" title="distroi.data.image.Image"><span class="pre">distroi.data.image.Image</span></a></span></span><a class="headerlink" href="#distroi.data.image.read_image_mcfost" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieve image data from an MCFOST model image and return it as an Image class instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img_path</strong> (<em>str</em>) – Path to an MCFOST output RT.fits.gz model image file.</p></li>
+<li><p><strong>padding</strong> (<em>tuple</em><em>[</em><em>int</em><em>, </em><em>int</em><em>]</em>) – Number of (x, y)-pixles to which an image should be 0-padded before performing
+the FFT. I.e. padding=(680, 540) will 0-pad an image to 680 and 540 pixels in the x and y dimensions,
+respectively. If smaller than the number of pixels already in the ‘img’ array, no padding will be added in
+the respective dimension. These should both be even numbers!</p></li>
+<li><p><strong>disk_only</strong> (<em>bool</em>) – Set to True if you only want to read in the flux from the disk.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return image</dt>
+<dd class="field-even"><p>Image instance containing the information on the MCFOST RT image.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#distroi.data.image.Image" title="distroi.data.image.Image">Image</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="distroi.data.html" class="btn btn-neutral float-left" title="distroi.data package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="distroi.data.oi_container.html" class="btn btn-neutral float-right" title="distroi.data.oi_container module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Toon De Prins.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

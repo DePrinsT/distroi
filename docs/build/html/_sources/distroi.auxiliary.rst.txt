@@ -9,42 +9,11 @@ distroi.auxiliary package
 Submodules
 ----------
 
-distroi.auxiliary.beam module
------------------------------
+.. toctree::
+   :maxdepth: 2
 
-.. automodule:: distroi.auxiliary.beam
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-distroi.auxiliary.constants module
-----------------------------------
-
-.. automodule:: distroi.auxiliary.constants
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-distroi.auxiliary.read\_oifits module
--------------------------------------
-
-.. automodule:: distroi.auxiliary.read_oifits
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-distroi.auxiliary.select\_data\_oifits module
----------------------------------------------
-
-.. automodule:: distroi.auxiliary.select_data_oifits
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-distroi.auxiliary.time\_base\_oifits module
--------------------------------------------
-
-.. automodule:: distroi.auxiliary.time_base_oifits
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   distroi.auxiliary.beam
+   distroi.auxiliary.constants
+   distroi.auxiliary.read_oifits
+   distroi.auxiliary.select_data_oifits
+   distroi.auxiliary.time_base_oifits

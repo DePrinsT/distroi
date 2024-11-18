@@ -30,8 +30,12 @@ from scipy.interpolate import interp1d
 
 # settings
 PROJECT_ROOT: str = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # root of the package
-FIG_OUTPUT_TYPE: str = "png"
-FIG_DPI: int = 200
+FIG_OUTPUT_TYPE: str = "png"  # type of image file to save figures to
+FIG_DPI: int = 200  # DPI of the saved figures
+
+IMG_CMAP = "inferno"  # matplotlib colour map used for images
+IMG_CMAP_DIVERGING = "bwr"  # colour map used for images needing a diverging colourmap
+PLOT_CMAP = "rainbow"  # colour map used for other plots
 
 # constants
 SPEED_OF_LIGHT: float = 299792458.0  # speed of light in SI units (m s^-1)

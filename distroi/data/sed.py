@@ -47,7 +47,7 @@ class SED:
         self.flam_err = None  # error on flam
         self.fnu = None  # frequency-based flux densities (F_nu) in Jansky
         self.fnu_err = None  # error on fnu
-
+        # TODO: add option for adding polarimetric state information of light, e.g. using self.stokes_type
         # optional
         self.bands = None  # photometric bands associated in case of an observed SED
         self.sources = None  # catalogues associated in case of an observed SED
@@ -403,10 +403,13 @@ def sed_plot_data_vs_model(
     plt.tight_layout()
 
     if fig_dir is not None:
-        if not os.path.exists(fig_dir):
+        if not os.path.isdir(fig_dir):
             os.makedirs(fig_dir)
-        plt.savefig(f"{fig_dir}/sed_comparison.{constants.FIG_OUTPUT_TYPE}",
-                    dpi=constants.FIG_DPI, bbox_inches="tight")
+        plt.savefig(
+            os.path.join(fig_dir, f"sed_comparison.{constants.FIG_OUTPUT_TYPE}"),
+            dpi=constants.FIG_DPI,
+            bbox_inches="tight",
+        )
     if show_plots:
         plt.show()
 

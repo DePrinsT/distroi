@@ -147,7 +147,7 @@ class OIContainer:
 
         # create plotting directory if it doesn't exist yet
         if fig_dir is not None:
-            if not os.path.exists(fig_dir):
+            if not os.path.isdir(fig_dir):
                 os.makedirs(fig_dir)
 
         # set spatial frequencies, visibilities and plotting label based on specified option
@@ -169,13 +169,13 @@ class OIContainer:
         fig.subplots_adjust(right=0.8)
         cax = fig.add_axes([0.82, 0.15, 0.02, 0.7])
         ax.set_aspect("equal", adjustable="datalim")  # make plot axes have same scale
-        ax.scatter(uf / 1e6, vf / 1e6, c=wave, s=1, cmap="rainbow")
+        ax.scatter(uf / 1e6, vf / 1e6, c=wave, s=1, cmap=constants.PLOT_CMAP)
         sc = ax.scatter(
             -uf / 1e6,
             -vf / 1e6,
             c=wave,
             s=1,
-            cmap="rainbow",
+            cmap=constants.PLOT_CMAP,
         )
         clb = fig.colorbar(sc, cax=cax)
         clb.set_label(r"$\lambda$ ($\mu$m)", labelpad=5)
@@ -185,11 +185,15 @@ class OIContainer:
         ax.set_xlabel(r"$\leftarrow B_u$ ($\mathrm{M \lambda}$)")
         ax.set_ylabel(r"$B_v \rightarrow$ ($\mathrm{M \lambda}$)")
         if fig_dir is not None:
-            plt.savefig(f"{fig_dir}/uv_plane.{constants.FIG_OUTPUT_TYPE}", dpi=constants.FIG_DPI, bbox_inches="tight")
+            plt.savefig(
+                os.path.join(fig_dir, f"uv_plane.{constants.FIG_OUTPUT_TYPE}"),
+                dpi=constants.FIG_DPI,
+                bbox_inches="tight",
+            )
 
         # plot (squared) visibilities
         fig, ax = plt.subplots(1, 1, figsize=(10, 5))
-        sc = ax.scatter(base, vis, c=wave, s=2, cmap="rainbow")
+        sc = ax.scatter(base, vis, c=wave, s=2, cmap=constants.PLOT_CMAP)
         ax.errorbar(
             base,
             vis,
@@ -221,7 +225,9 @@ class OIContainer:
         plt.tight_layout()
         if fig_dir is not None:
             plt.savefig(
-                f"{fig_dir}/visibilities.{constants.FIG_OUTPUT_TYPE}", dpi=constants.FIG_DPI, bbox_inches="tight"
+                os.path.join(fig_dir, f"visibilities.{constants.FIG_OUTPUT_TYPE}"),
+                dpi=constants.FIG_DPI,
+                bbox_inches="tight",
             )
 
         # plot phi_closure
@@ -231,7 +237,7 @@ class OIContainer:
             self.t3_phi,
             c=self.t3_wave,
             s=2,
-            cmap="rainbow",
+            cmap=constants.PLOT_CMAP,
         )
         ax.errorbar(
             self.t3_bmax,
@@ -258,7 +264,9 @@ class OIContainer:
         plt.tight_layout()
         if fig_dir is not None:
             plt.savefig(
-                f"{fig_dir}/closure_phases.{constants.FIG_OUTPUT_TYPE}", dpi=constants.FIG_DPI, bbox_inches="tight"
+                os.path.join(fig_dir, f"closure_phases.{constants.FIG_OUTPUT_TYPE}"),
+                dpi=constants.FIG_DPI,
+                bbox_inches="tight",
             )
         if show_plots:
             plt.show()
@@ -454,13 +462,14 @@ def oi_container_calc_image_fft_observables(
     :rtype: OIContainer
     """
     # TODO: add functionality for including geometric components
+    # TODO: check if closure phase calculations are correct, because they don't seem to be
 
     # check if geometric component flux fractions do not exceed 1
     if geom_comps is not None and sum(geom_comp_flux_fracs) >= 1.0:
         raise ValueError("The sum of geometric component flux fractions cannot exceed 1.")
 
     # retrieve interpolator for normalized complex visibilities from model image(s)
-    vcomp_norm_img_interpolator = image.image_fft_comp_vis_interpolator(
+    vcomp_norm_img_interpolator = image._image_fft_comp_vis_interpolator(
         img_ffts, normalised=True, interp_method=interp_method
     )
 
@@ -479,7 +488,7 @@ def oi_container_calc_image_fft_observables(
 
                 # calculate model image's total F_nu flux in Jansky
                 freq_img = constants.SPEED_OF_LIGHT / (img_fft.wavelength * constants.MICRON2M)  # image freq
-                ftot_img = img_fft.spc_dep.flux_from_ref(
+                ftot_img = img_fft.sp_dep.flux_from_ref(
                     x=frequencies,
                     x_ref=freq_img,
                     ref_flux=img_fft.ftot,
@@ -495,7 +504,7 @@ def oi_container_calc_image_fft_observables(
 
             # get total model flux
             if img_sed is None:
-                ftot_img_interpolator = image.image_fft_ftot_interpolator(
+                ftot_img_interpolator = image._image_fft_ftot_interpolator(
                     img_ffts=img_ffts, interp_method=interp_method
                 )
                 ftot_img = ftot_img_interpolator(wavelengths)
@@ -523,7 +532,7 @@ def oi_container_calc_image_fft_observables(
         elif len(img_ffts) == 1:
             # case for a single model image
             freq_img = constants.SPEED_OF_LIGHT / (img_ffts[0].wavelength * constants.MICRON2M)  # image freq
-            ftot_img_ref = img_ffts[0].spc_dep.flux_from_ref(
+            ftot_img_ref = img_ffts[0].sp_dep.flux_from_ref(
                 x=ref_frequency,
                 x_ref=freq_img,
                 ref_flux=img_ffts[0].ftot,
@@ -531,7 +540,7 @@ def oi_container_calc_image_fft_observables(
             )
         else:
             # case for multiple model images
-            ftot_img_interpolator = image.image_fft_ftot_interpolator(img_ffts=img_ffts, interp_method=interp_method)
+            ftot_img_interpolator = image._image_fft_ftot_interpolator(img_ffts=img_ffts, interp_method=interp_method)
             ftot_img_ref = ftot_img_interpolator(ref_wavelength)
 
         # loop over geometric components to add their effects to the total model complex visibility and flux
@@ -539,7 +548,7 @@ def oi_container_calc_image_fft_observables(
             # total flux of component at reference wavelength/frequency
             component_ftot_ref = (geom_comp_flux_fracs[index] * ftot_img_ref) / (1 - sum(geom_comp_flux_fracs))
             # component total flux at argument wavelengths
-            component_ftot = component.spc_dep.flux_from_ref(
+            component_ftot = component.sp_dep.flux_from_ref(
                 x=frequencies,
                 x_ref=ref_frequency,
                 ref_flux=component_ftot_ref,
@@ -680,7 +689,7 @@ def oi_container_plot_data_vs_model(
 
     # create plotting directory if it doesn't exist yet
     if fig_dir is not None:
-        if not os.path.exists(fig_dir):
+        if not os.path.isdir(fig_dir):
             os.makedirs(fig_dir)
 
     # set spatial frequencies, visibilities and plotting label based on specified option
@@ -719,14 +728,14 @@ def oi_container_plot_data_vs_model(
         vfdata / 1e6,
         c=wavedata,
         s=1,
-        cmap="rainbow",
+        cmap=constants.PLOT_CMAP,
     )
     sc = ax.scatter(
         -ufdata / 1e6,
         -vfdata / 1e6,
         c=wavedata,
         s=1,
-        cmap="rainbow",
+        cmap=constants.PLOT_CMAP,
     )
     clb = fig.colorbar(sc, cax=cax)
     clb.set_label(r"$\lambda$ ($\mu$m)", labelpad=5)
@@ -736,7 +745,11 @@ def oi_container_plot_data_vs_model(
     ax.set_xlabel(r"$\leftarrow B_u$ ($\mathrm{M \lambda}$)")
     ax.set_ylabel(r"$B_v \rightarrow$ ($\mathrm{M \lambda}$)")
     if fig_dir is not None:
-        plt.savefig(f"{fig_dir}/uv_plane.{constants.FIG_OUTPUT_TYPE}", dpi=constants.FIG_DPI, bbox_inches="tight")
+        plt.savefig(
+            os.path.join(fig_dir, f"uv_plane.{constants.FIG_OUTPUT_TYPE}"),
+            dpi=constants.FIG_DPI,
+            bbox_inches="tight",
+        )
 
     # plot (squared) visibilities
     fig = plt.figure(figsize=(10, 8))
@@ -793,7 +806,11 @@ def oi_container_plot_data_vs_model(
     ax[1].set_xlabel(r"$B$ ($\mathrm{M \lambda}$)")
     ax[1].set_ylabel(r"error $(\sigma)$")
     if fig_dir is not None:
-        plt.savefig(f"{fig_dir}/visibilities.{constants.FIG_OUTPUT_TYPE}", dpi=constants.FIG_DPI, bbox_inches="tight")
+        plt.savefig(
+            os.path.join(fig_dir, f"visibilities.{constants.FIG_OUTPUT_TYPE}"),
+            dpi=constants.FIG_DPI,
+            bbox_inches="tight",
+        )
 
     # plot phi_closure
     fig = plt.figure(figsize=(10, 8))
@@ -854,7 +871,11 @@ def oi_container_plot_data_vs_model(
     ax[1].set_xlabel(r"$B_{max}$ ($\mathrm{M \lambda}$)")
     ax[1].set_ylabel(r"error $(\sigma_{\phi_{CP}})$")
     if fig_dir is not None:
-        plt.savefig(f"{fig_dir}/closure_phases.{constants.FIG_OUTPUT_TYPE}", dpi=constants.FIG_DPI, bbox_inches="tight")
+        plt.savefig(
+            os.path.join(fig_dir, f"closure_phases.{constants.FIG_OUTPUT_TYPE}"),
+            dpi=constants.FIG_DPI,
+            bbox_inches="tight",
+        )
     if show_plots:
         plt.show()
 

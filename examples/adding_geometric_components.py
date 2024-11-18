@@ -23,7 +23,7 @@ container_model = distroi.oi_container_calc_image_fft_observables(container_data
 distroi.oi_container_plot_data_vs_model(container_data, container_model, fig_dir=f"{fig_dir}", show_plots=True)
 
 # Adding a grey background
-background = distroi.Overresolved(spc_dep=distroi.FlatSpecDep(flux_form="flam"))
+background = distroi.Overresolved(sp_dep=distroi.FlatSpecDep(flux_form="flam"))
 
 container_model = distroi.oi_container_calc_image_fft_observables(
     container_data, img_ffts, geom_comps=[background], geom_comp_flux_fracs=[0.70], ref_wavelength=1.65
@@ -31,7 +31,7 @@ container_model = distroi.oi_container_calc_image_fft_observables(
 distroi.oi_container_plot_data_vs_model(container_data, container_model, fig_dir=f"{fig_dir}", show_plots=True)
 
 # # Adding a secondary star
-# secondary = distroi.UniformDisk(diameter=0.1, coords=(0, 0), spc_dep=distroi.FlatSpecDep(flux_form="flam"))
+# secondary = distroi.UniformDisk(diameter=0.1, coords=(0, 0), sp_dep=distroi.FlatSpecDep(flux_form="flam"))
 
 # container_model = distroi.oi_container_calc_image_fft_observables(
 #     container_data, img_ffts, geom_comps=[background, secondary], geom_comp_flux_fracs=[0.01, 0.98],

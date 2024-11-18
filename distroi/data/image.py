@@ -35,7 +35,7 @@ class Image:
     :param dict dictionary: Dictionary containing keys and values representing several instance variables described
         below. Should include 'wavelength', 'pixelscale_x'/'y', 'num_pix_x'/'y', 'img', and 'ftot'. The other required
         instance variables (related to the FFT) are set automatically through perform_fft().
-    :param SpecDep spc_dep: Optional spectral dependence of the image. This will only be used if this Image
+    :param SpecDep sp_dep: Optional spectral dependence of the image. This will only be used if this Image
         is used on its own in methods calculating interferometric observables. If instead multiple Image object or
         an SED are passed along as well, this property of the image will be ignored. By default, the spectral
         dependency will be assumed to be flat in correlated flux accross wavelengths (note that flatness in correlated
@@ -52,7 +52,7 @@ class Image:
     :ivar np.ndarray img: 2D numpy array containing the image flux in Jy. 1st index = image y-axis,
         2nd index = image x-axis.
     :ivar float ftot: Total image flux in Jy
-    :ivar SpecDep spc_dep: Optional spectral dependence of the image. Assumed flat in correlated flux (F_nu) by
+    :ivar SpecDep sp_dep: Optional spectral dependence of the image. Assumed flat in correlated flux (F_nu) by
         default.
     :ivar np.ndarray fft: Complex 2D numpy FFT of img in Jy, i.e. in correlated flux formulation.
     :ivar int num_pix_fft_x: Amount of image FFT pixels in the x direction. This can be different
@@ -68,14 +68,16 @@ class Image:
     def __init__(
         self,
         dictionary: dict[str, np.ndarray | float | int],
-        spc_dep: spec_dep.SpecDep | None = None,
+        sp_dep: spec_dep.SpecDep | None = None,
         padding: tuple[int, int] | None = None,
     ):
         """
         Constructor method. See class docstring for information on initialzization parameters and instance properties.
         """
         self.wavelength: float | None = None  # image wavelength in micron
+        # TODO: add option for adding polarimetric state information of light, maybe using self.stokes_type
 
+        ## image information
         self.pixelscale_x: float | None = None  # pixelscale in radian in x direction
         self.pixelscale_y: float | None = None  # pixelscale in radian in y direction
         self.num_pix_x: int | None = None  # number of image pixels in x direction
@@ -84,7 +86,9 @@ class Image:
         self.img: np.ndarray | None = None  # 2d numpy array containing the flux
         # 1st index = image y-axis, 2nd index = image x-axis
         self.ftot: float | None = None  # total image flux in Jy
+        self.sp_dep: spec_dep.SpecDep | None = None  # spectral dependency
 
+        ## fft information
         self.fft: np.ndarray | None = None  # complex numpy FFT of self.img in absolute flux units (Jansky)
         self.num_pix_fft_x: int | None = (
             None  # number of image FFT pixels in x direction. This can be different from num_pix_x/y due to padding
@@ -120,17 +124,17 @@ class Image:
             self.img = dictionary["img"]
             self.ftot = dictionary["ftot"]
             # perform the fft to set the other instance variables
-            self.perform_fft(padding=padding)
+            self._perform_fft(padding=padding)
 
         # set spectral dependency
-        if spc_dep is not None:
-            self.spc_dep = spc_dep  # set spectral dependence if given
+        if sp_dep is not None:
+            self.sp_dep = sp_dep  # set spectral dependence if given
         else:
-            self.spc_dep = spec_dep.FlatSpecDep(flux_form="fnu")  # otherwise, assume flat spectrum in correlated flux
+            self.sp_dep = spec_dep.FlatSpecDep(flux_form="fnu")  # otherwise, assume flat spectrum in correlated flux
 
         return
 
-    def perform_fft(self, padding: tuple[int, int] | None = None):
+    def _perform_fft(self, padding: tuple[int, int] | None = None) -> None:
         """
         Perform the numpy FFT and set the required properties related to the image's FFT.
 
@@ -293,77 +297,79 @@ class Image:
         )
         return info_str
 
-    def add_point_source(self, flux: float, coords: tuple[float, float]) -> None:
-        """
-        Function that adds the effect of an additional point source to the Image instance. This affects the
-        following instance variables: 'img', 'ftot' and 'fft'. The flux of the point source is added to the pixel in
-        'img' closest to the specified source position as well as to the value of ftot. 'fft' is modified by the
-        analytical addition of the point-source's complex correlated flux. Note that, after this function is called,
-        there is thus a mismatch between 'fft' and 'img', since the effect of the source is added in an exact
-        analytic manner in the former while it is added aproximately in the latter. For example, nothing prevents the
-        addition of a point source far outside the image axes ranges. The addition to 'fft' will be analytically exact,
-        while the point source flux will be added to the nearest border pixel in 'img'. The addition to 'img' serves
-        more for visualization, e.g. the plots created by fft_diagonstic_plot(). As a result, be careful with future
-        invocations of perform_fft(), the effect may not be as desired!
+    # # TODO: add point source and add overresolved flux might be very much overkill and have unintended side_effects
+    # # Hence maybe not a bad idea to remove them.
+    # def add_point_source(self, flux: float, coords: tuple[float, float]) -> None:
+    #     """
+    #     Function that adds the effect of an additional point source to the Image instance. This affects the
+    #     following instance variables: 'img', 'ftot' and 'fft'. The flux of the point source is added to the pixel in
+    #     'img' closest to the specified source position as well as to the value of ftot. 'fft' is modified by the
+    #     analytical addition of the point-source's complex correlated flux. Note that, after this function is called,
+    #     there is thus a mismatch between 'fft' and 'img', since the effect of the source is added in an exact
+    #     analytic manner in the former while it is added aproximately in the latter. For example, nothing prevents the
+    #     addition of a point source far outside image axes ranges. The addition to 'fft' will be analytically exact,
+    #     while the point source flux will be added to the nearest border pixel in 'img'. The addition to 'img' serves
+    #     more for visualization, e.g. the plots created by fft_diagonstic_plot(). As a result, be careful with future
+    #     invocations of perform_fft(), the effect may not be as desired!
 
-        :param float flux: The flux value (F_nu, in Jy) of the point source at the wavelength of the Image instance.
-        :param tuple(float) coords: 2D tuple giving the x and y position of the point source (in milli-arcsecond).
-            The positive x direction is towards the East. The positive y direction is towards the North.
-        :rtype: None
-        """
-        x, y = coords[0], coords[1]  # point source position
+    #     :param float flux: The flux value (F_nu, in Jy) of the point source at the wavelength of the Image instance.
+    #     :param tuple(float) coords: 2D tuple giving the x and y position of the point source (in milli-arcsecond).
+    #         The positive x direction is towards the East. The positive y direction is towards the North.
+    #     :rtype: None
+    #     """
+    #     x, y = coords[0], coords[1]  # point source position
 
-        self.ftot += flux
+    #     self.ftot += flux
 
-        # define numpy arrays with coordinates for pixel centres in milli-arcsecond
-        coords_pix_x = (
-            np.linspace(self.num_pix_x / 2 - 0.5, -self.num_pix_x / 2 + 0.5, self.num_pix_x)
-            * self.pixelscale_x
-            * constants.RAD2MAS
-        )
-        coords_pix_y = (
-            np.linspace(self.num_pix_y / 2 - 0.5, -self.num_pix_y / 2 + 0.5, self.num_pix_y)
-            * self.pixelscale_y
-            * constants.RAD2MAS
-        )
-        coords_pix_mesh_x, coords_pix_mesh_y = np.meshgrid(coords_pix_x, coords_pix_y)  # create a meshgrid
-        distances = np.sqrt((coords_pix_mesh_x - x) ** 2 + (coords_pix_mesh_y - y) ** 2)  # calc dist pixels to point
+    #     # define numpy arrays with coordinates for pixel centres in milli-arcsecond
+    #     coords_pix_x = (
+    #         np.linspace(self.num_pix_x / 2 - 0.5, -self.num_pix_x / 2 + 0.5, self.num_pix_x)
+    #         * self.pixelscale_x
+    #         * constants.RAD2MAS
+    #     )
+    #     coords_pix_y = (
+    #         np.linspace(self.num_pix_y / 2 - 0.5, -self.num_pix_y / 2 + 0.5, self.num_pix_y)
+    #         * self.pixelscale_y
+    #         * constants.RAD2MAS
+    #     )
+    #     coords_pix_mesh_x, coords_pix_mesh_y = np.meshgrid(coords_pix_x, coords_pix_y)  # create a meshgrid
+    #     distances = np.sqrt((coords_pix_mesh_x - x) ** 2 + (coords_pix_mesh_y - y) ** 2)  # calc dist pixels to point
 
-        min_dist_indices = np.where(distances == np.min(distances))  # retrieve indices of where distance is minimum
-        min_ind_x, min_ind_y = min_dist_indices[1][0], min_dist_indices[0][0]
+    #     min_dist_indices = np.where(distances == np.min(distances))  # retrieve indices of where distance is minimum
+    #     min_ind_x, min_ind_y = min_dist_indices[1][0], min_dist_indices[0][0]
 
-        self.img[min_ind_y][min_ind_x] += flux  # add point source flux to the nearest pixel
+    #     self.img[min_ind_y][min_ind_x] += flux  # add point source flux to the nearest pixel
 
-        # define meshgrid for spatial frequencies in units of 1/milli-arcsecond
-        freq_mesh_u, freq_mesh_v = np.meshgrid(self.uf * constants.MAS2RAD, self.vf * constants.MAS2RAD)
-        # add the complex contribution of the secondary to the stored FFT
-        self.fft += flux * np.exp(-2j * np.pi * (freq_mesh_u * x + freq_mesh_v * y))
+    #     # define meshgrid for spatial frequencies in units of 1/milli-arcsecond
+    #     freq_mesh_u, freq_mesh_v = np.meshgrid(self.uf * constants.MAS2RAD, self.vf * constants.MAS2RAD)
+    #     # add the complex contribution of the secondary to the stored FFT
+    #     self.fft += flux * np.exp(-2j * np.pi * (freq_mesh_u * x + freq_mesh_v * y))
 
-        return
+    #     return
 
-    def add_overresolved_flux(self, flux: float) -> None:
-        """
-        Function that adds the effect of an overresolved flux component to the Image instance. This affects the
-        following instance variables: 'img', and 'ftot'. The flux of the overresolved component is added to 'img',
-        spread uniformly accross all its pixels. The flux is also added to 'ftot'. Note that the complex visibilities
-        in 'fft' remain unaffected. This is the exact, analytical formulation of infinitely extended flux,
-        where the correlated flux of such a component is a direct delta at frequency 0. In this regime ad using the
-        FFT, only 'ftot' is increased, while 'fft' remains unaffected. This only has an effect on (squared)
-        visibilities if they are normalized. If they are expressed in correlated flux, this addition will have no
-        effect. Note that this function causes a discrepancy between 'fft' and 'img', as the addition to the former
-        assumes an infinitely extended uniform flux, while addition to the latter is spread over the finite image
-        size. The addition to 'img' serves more for visualization, e.g. the plots created by fft_diagonstic_plot().
-        As a result, be careful with future invocations of perform_fft(), the effect may not be as desired!
+    # def add_overresolved_flux(self, flux: float) -> None:
+    #     """
+    #     Function that adds the effect of an overresolved flux component to the Image instance. This affects the
+    #     following instance variables: 'img', and 'ftot'. The flux of the overresolved component is added to 'img',
+    #     spread uniformly accross all its pixels. The flux is also added to 'ftot'. Note that the complex visibilities
+    #     in 'fft' remain unaffected. This is the exact, analytical formulation of infinitely extended flux,
+    #     where the correlated flux of such a component is a direct delta at frequency 0. In this regime ad using the
+    #     FFT, only 'ftot' is increased, while 'fft' remains unaffected. This only has an effect on (squared)
+    #     visibilities if they are normalized. If they are expressed in correlated flux, this addition will have no
+    #     effect. Note that this function causes a discrepancy between 'fft' and 'img', as the addition to the former
+    #     assumes an infinitely extended uniform flux, while addition to the latter is spread over the finite image
+    #     size. The addition to 'img' serves more for visualization, e.g. the plots created by fft_diagonstic_plot().
+    #     As a result, be careful with future invocations of perform_fft(), the effect may not be as desired!
 
-        :param float flux: The flux value (in Jy) of the overresolved component at the wavelength of the Image
-            instance.
-        :rtype: None
-        """
+    #     :param float flux: The flux value (in Jy) of the overresolved component at the wavelength of the Image
+    #         instance.
+    #     :rtype: None
+    #     """
 
-        self.ftot += flux
-        self.img += flux / (self.num_pix_x * self.num_pix_y)
+    #     self.ftot += flux
+    #     self.img += flux / (self.num_pix_x * self.num_pix_y)
 
-        return
+    #     return
 
     def half_light_radius(self) -> float:
         """
@@ -435,7 +441,7 @@ class Image:
 
         # create plotting directory if it doesn't exist yet
         if fig_dir is not None:
-            if not os.path.exists(fig_dir):
+            if not os.path.isdir(fig_dir):
                 os.makedirs(fig_dir)
 
         if log_plotv:
@@ -449,13 +455,12 @@ class Image:
 
         # do some plotting
         fig, ax = plt.subplots(2, 3, figsize=(15, 10))
-        color_map = "inferno"
 
         # intensity plotted in pixel scale
         # also set the extent of the image when you plot it, take care that the number of pixels is even
         img_plot = ax[0][0].imshow(
             self.img,
-            cmap=color_map,
+            cmap=constants.IMG_CMAP,
             norm=normi,
             extent=(
                 self.num_pix_x / 2 + 0.5,
@@ -509,7 +514,7 @@ class Image:
 
         v2plot = ax[0][1].imshow(
             vis,
-            cmap=color_map,
+            cmap=constants.IMG_CMAP,
             norm=normv,
             extent=(
                 self.num_pix_fft_x / 2 + 0.5,
@@ -530,13 +535,15 @@ class Image:
         # complex phase of the FFT in pixel scale
         phi_plot = ax[0][2].imshow(
             cphi,
-            cmap=color_map,
+            cmap=constants.IMG_CMAP_DIVERGING,
             extent=(
                 self.num_pix_fft_x / 2 + 0.5,
                 -self.num_pix_fft_x / 2 + 0.5,
                 -self.num_pix_fft_y / 2 + 0.5,
                 self.num_pix_fft_y / 2 + 0.5,
             ),
+            vmin=-max(abs(np.max(cphi)), abs(np.min(cphi))),
+            vmax=max(abs(np.max(cphi)), abs(np.min(cphi))),
         )
         fig.colorbar(phi_plot, ax=ax[0][2], label=r"$\phi$ ($^\circ$)", fraction=0.046, pad=0.04)
         ax[0][2].axhline(y=0, lw=0.2, color="black")
@@ -549,7 +556,7 @@ class Image:
         # intensity plotted in angle scale
         img_plot = ax[1][0].imshow(
             self.img,
-            cmap=color_map,
+            cmap=constants.IMG_CMAP,
             aspect="auto",
             norm=normi,
             extent=(
@@ -600,7 +607,7 @@ class Image:
         # (squared) visibility of the FFT in MegaLambda (baseline length) scale
         v2plot = ax[1][1].imshow(
             vis,
-            cmap=color_map,
+            cmap=constants.IMG_CMAP,
             norm=normv,
             extent=(
                 (self.num_pix_fft_x / 2 + 0.5) * step_baseu,
@@ -620,7 +627,7 @@ class Image:
         # complex phase of the FFT in MegaLambda (baseline length) scale
         phi_plot = ax[1][2].imshow(
             cphi,
-            cmap=color_map,
+            cmap=constants.IMG_CMAP_DIVERGING,
             extent=(
                 (self.num_pix_fft_x / 2 + 0.5) * step_baseu,
                 (-self.num_pix_fft_x / 2 + 0.5) * step_baseu,
@@ -667,7 +674,7 @@ class Image:
 
         if fig_dir is not None:
             plt.savefig(
-                f"{fig_dir}/fft2d_maps_{self.wavelength}mum.{constants.FIG_OUTPUT_TYPE}",
+                os.path.join(fig_dir, f"fft2d_maps_{self.wavelength}mum.{constants.FIG_OUTPUT_TYPE}"),
                 dpi=constants.FIG_DPI,
                 bbox_inches="tight",
             )
@@ -737,7 +744,7 @@ class Image:
 
         if fig_dir is not None:
             plt.savefig(
-                f"{fig_dir}/fft1d_cuts_{self.wavelength}mum.{constants.FIG_OUTPUT_TYPE}",
+                os.path.join(fig_dir, f"fft1d_cuts_{self.wavelength}mum.{constants.FIG_OUTPUT_TYPE}"),
                 dpi=constants.FIG_DPI,
                 bbox_inches="tight",
             )
@@ -834,7 +841,7 @@ def read_image_list(
     if read_method not in valid_read_methods:
         raise ValueError(f"Warning: Invalid read_method '{read_method}'. Valid options are: {valid_read_methods}.")
 
-    img_ffts = []  # list of Image objects to be held (1 element long in the case of monochr=True)
+    imgs = []  # list of Image objects to be held (1 element long in the case of monochr=True)
     wavelengths = []  # list of their wavelengths
 
     if read_method == "mcfost":  # different ways to read in model image file paths
@@ -842,18 +849,18 @@ def read_image_list(
 
     for img_path in img_file_paths:
         if read_method == "mcfost":  # choose reader function
-            img_fft = read_image_mcfost(img_path, padding=padding)
+            img = read_image_mcfost(img_path, padding=padding)
 
-        img_fft.redden(ebminv=ebminv, reddening_law=reddening_law)  # redden the Image object
-        img_ffts.append(img_fft)  # append to the list of Image objects
-        wavelengths.append(img_fft.wavelength)  # append wavelength
+        img.redden(ebminv=ebminv, reddening_law=reddening_law)  # redden the Image object
+        imgs.append(img)  # append to the list of Image objects
+        wavelengths.append(img.wavelength)  # append wavelength
 
-    wavelengths, img_ffts = list(zip(*sorted(zip(wavelengths, img_ffts))))  # sort the objects in wavelength
+    wavelengths, imgs = list(zip(*sorted(zip(wavelengths, imgs))))  # sort the objects in wavelength
 
-    return img_ffts
+    return imgs
 
 
-def image_fft_comp_vis_interpolator(
+def _image_fft_comp_vis_interpolator(
     img_ffts: list[Image],
     normalised: bool = False,
     interp_method: str = "linear",
@@ -923,7 +930,7 @@ def image_fft_comp_vis_interpolator(
     return interpolator
 
 
-def image_fft_ftot_interpolator(
+def _image_fft_ftot_interpolator(
     img_ffts: list[Image],
     interp_method: str = "linear",
 ) -> interp1d:

@@ -20,8 +20,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="distroi.model.rt_comp package" href="distroi.model.rt_comp.html" />
-    <link rel="prev" title="distroi.model.dep package" href="distroi.model.dep.html" /> 
+    <link rel="next" title="distroi.model.geom_comp.geom_comp module" href="distroi.model.geom_comp.geom_comp.html" />
+    <link rel="prev" title="distroi.model.dep.spec_dep module" href="distroi.model.dep.spec_dep.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -50,7 +50,6 @@
 <li class="toctree-l3 current"><a class="reference internal" href="distroi.model.html">distroi.model package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="distroi.model.html#subpackages">Subpackages</a></li>
 <li class="toctree-l4"><a class="reference internal" href="distroi.model.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="distroi.model.html#module-distroi.model.model">distroi.model.model module</a></li>
 </ul>
 </li>
 </ul>
@@ -90,258 +89,11 @@
 <p>Subpackage providing the implementation of geometrical (analytically solvable) model components.</p>
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
-</section>
-<section id="module-distroi.model.geom_comp.geom_comp">
-<span id="distroi-model-geom-comp-geom-comp-module"></span><h2>distroi.model.geom_comp.geom_comp module<a class="headerlink" href="#module-distroi.model.geom_comp.geom_comp" title="Permalink to this headline"></a></h2>
-<p>Defines the classes and methods for representing geometric components and calculating their complex visibilities.</p>
-<p>These geometric components can be used in conjunction to RT models in the calculation of interferometric observables.
-A geometric component also includes a spectral profile to describe its flux dependence accross wavelength.
-By default, the spectrum is assumed to be flat in F_lam.</p>
-<p>NOTE: A flat spectrum in F_lam implies a dependency of F_nu ~ nu^-2 ~ lambda^2. Hence, the correlated flux will not be
-flat. Take this in mind when calculating or comparing to observations in correlated flux.</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="distroi.model.geom_comp.geom_comp.Gaussian">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.model.geom_comp.geom_comp.</span></span><span class="sig-name descname"><span class="pre">Gaussian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fwhm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coords</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spc_dep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="distroi.model.dep.html#distroi.model.dep.spec_dep.SpecDep" title="distroi.model.dep.spec_dep.SpecDep"><span class="pre">distroi.model.dep.spec_dep.SpecDep</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.model.geom_comp.geom_comp.Gaussian" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#distroi.model.geom_comp.geom_comp.GeomComp" title="distroi.model.geom_comp.geom_comp.GeomComp"><code class="xref py py-class docutils literal notranslate"><span class="pre">distroi.model.geom_comp.geom_comp.GeomComp</span></code></a></p>
-<p>Class representing a Gaussian geomteric component:</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>fwhm</strong> (<em>float</em>) – Full-width-half-maximum of the Gaussian in the image plane (in mas units).</p></li>
-<li><p><strong>coords</strong> (<em>tuple</em><em>(</em><em>float</em><em>)</em>) – 2D tuples with (x, y) coordinates of the point’s coordinates (in mas).
-Note that positive x is defined as leftward and positive y as upward (i.e. the East and North repesctively
-in the OI convention). If not given, will default to (0, 0).</p></li>
-<li><p><strong>spc_dep</strong> (<a class="reference internal" href="distroi.model.dep.html#distroi.model.dep.spec_dep.SpecDep" title="distroi.model.dep.spec_dep.SpecDep"><em>SpecDep</em></a>) – Optional spectral dependence of the component. If None, the spectral dependency will be
-assumed flat in F_lam flux accross wavelength (note that flatness in F_lam means a spectral
-dependency ~ wavelength^2 ~ frequency^-2 for F_nu, and thus for the correlated flux).</p></li>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="distroi.model.geom_comp.geom_comp.html">distroi.model.geom_comp.geom_comp module</a></li>
 </ul>
-</dd>
-<dt class="field-even">Variables</dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>fwhm</strong> (<em>float</em>) – See parameter description.</p></li>
-<li><p><strong>coords</strong> (<em>tuple</em><em>(</em><em>float</em><em>)</em>) – See parameter description.</p></li>
-<li><p><strong>spc_dep</strong> (<a class="reference internal" href="distroi.model.dep.html#distroi.model.dep.spec_dep.SpecDep" title="distroi.model.dep.spec_dep.SpecDep"><em>SpecDep</em></a>) – See parameter description.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="distroi.model.geom_comp.geom_comp.Gaussian.calc_vis">
-<span class="sig-name descname"><span class="pre">calc_vis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wavelength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_wavelength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_corr_flux</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></span><a class="headerlink" href="#distroi.model.geom_comp.geom_comp.Gaussian.calc_vis" title="Permalink to this definition"></a></dt>
-<dd><p>Calculate the visibility at given spatial frequencies. Wavelengths corresponding to these spatial frequencies a
-and a reference flux value (at reference wavelength) can also be passed along, in which case the returned
-visibilities will be in correlated flux (Jy) instead of normalized.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>uf</strong> (<em>np.ndarray</em>) – 1D array with spatial x-axis frequencies in 1/radian. Must be the same size as uf.</p></li>
-<li><p><strong>vf</strong> (<em>np.ndarray</em>) – 1D array with spatial y-axis frequencies in 1/radian. Must be the same size as vf.</p></li>
-<li><p><strong>wavelength</strong> (<em>np.ndarray</em>) – 1D array with wavelength values in micron.</p></li>
-<li><p><strong>ref_wavelength</strong> (<em>float</em>) – Reference wavelength in micron.</p></li>
-<li><p><strong>ref_corr_flux</strong> (<em>float</em>) – Reference correlated flux in Jy corresponding to ref_wavelength. If provided
-together with ref_corr_flux, then the returned visibilities are in correlated flux.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return vis</dt>
-<dd class="field-even"><p>1D array with the calculated visibilities (normalized or in corrleated flux, depending on the
-optional arguments)</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="distroi.model.geom_comp.geom_comp.GeomComp">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.model.geom_comp.geom_comp.</span></span><span class="sig-name descname"><span class="pre">GeomComp</span></span><a class="headerlink" href="#distroi.model.geom_comp.geom_comp.GeomComp" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
-<p>Abstract class representing a geometric model component.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables</dt>
-<dd class="field-odd"><p><strong>spc_dep</strong> (<a class="reference internal" href="distroi.model.dep.html#distroi.model.dep.spec_dep.SpecDep" title="distroi.model.dep.spec_dep.SpecDep"><em>spec_dep.SpecDep</em></a><em> | </em><em>None</em>) – Optional spectral dependence of the component. If None, the spectral
-dependency will be assumed flat in F_lam flux accross wavelength (note that flatness in F_lam means a spectral
-dependency ~ wavelength^2 ~ frequency^-2 for F_nu, and thus for the correlated flux).</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="distroi.model.geom_comp.geom_comp.GeomComp.calc_vis">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calc_vis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wavelength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_wavelength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_corr_flux</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></span><a class="headerlink" href="#distroi.model.geom_comp.geom_comp.GeomComp.calc_vis" title="Permalink to this definition"></a></dt>
-<dd><p>Calculate the visibility of the geometric component at given spatial frequencies. Wavelengths corresponding to
-these spatial frequencies and a reference total flux (at reference wavelength) can also be passed along, in
-which case the returned visibilities will be in correlated flux (Jy) instead of normalized.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>uf</strong> (<em>np.ndarray</em><em> | </em><em>float</em>) – 1D array with spatial x-axis frequencies in 1/radian. Must be the same size as uf.</p></li>
-<li><p><strong>vf</strong> (<em>np.ndarray</em><em> | </em><em>float</em>) – 1D array with spatial y-axis frequencies in 1/radian. Must be the same size as vf.</p></li>
-<li><p><strong>wavelength</strong> (<em>np.ndarray</em><em> | </em><em>float</em>) – 1D array with wavelength values in micron.</p></li>
-<li><p><strong>ref_wavelength</strong> (<em>float</em><em> | </em><em>None</em>) – Reference wavelength in micron.</p></li>
-<li><p><strong>ref_corr_flux</strong> (<em>float</em><em> | </em><em>None</em>) – Reference correlated flux in Jy corresponding to ref_wavelength. If provided
-together with ref_corr_flux, then the returned visibilities are in correlated flux.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return vis</dt>
-<dd class="field-even"><p>1D array with the calculated visibilities (normalized or in corrleated flux, depending on the
-optional arguments)</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>np.ndarray | float</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="distroi.model.geom_comp.geom_comp.Overresolved">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.model.geom_comp.geom_comp.</span></span><span class="sig-name descname"><span class="pre">Overresolved</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spc_dep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.model.geom_comp.geom_comp.Overresolved" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#distroi.model.geom_comp.geom_comp.GeomComp" title="distroi.model.geom_comp.geom_comp.GeomComp"><code class="xref py py-class docutils literal notranslate"><span class="pre">distroi.model.geom_comp.geom_comp.GeomComp</span></code></a></p>
-<p>Class representing a fully resolved, a.k.a. overresolved, geometric component.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>spc_dep</strong> (<a class="reference internal" href="distroi.model.dep.html#distroi.model.dep.spec_dep.SpecDep" title="distroi.model.dep.spec_dep.SpecDep"><em>SpecDep</em></a>) – Optional spectral dependence of the component. If None, the spectral dependency will be
-assumed flat in F_lam flux accross wavelength (note that flatness in F_lam means a spectral
-dependency ~ wavelength^2 ~ frequency^-2 for F_nu, and thus for the correlated flux).</p>
-</dd>
-<dt class="field-even">Variables</dt>
-<dd class="field-even"><p><strong>spc_dep</strong> (<a class="reference internal" href="distroi.model.dep.html#distroi.model.dep.spec_dep.SpecDep" title="distroi.model.dep.spec_dep.SpecDep"><em>SpecDep</em></a>) – See parameter description.</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="distroi.model.geom_comp.geom_comp.Overresolved.calc_vis">
-<span class="sig-name descname"><span class="pre">calc_vis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wavelength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_wavelength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_corr_flux</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></span><a class="headerlink" href="#distroi.model.geom_comp.geom_comp.Overresolved.calc_vis" title="Permalink to this definition"></a></dt>
-<dd><p>Calculate the visibility at given spatial frequencies. Automatically returns an</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>uf</strong> (<em>np.ndarray</em>) – 1D array with spatial x-axis frequencies in 1/radian. Must be the same size as uf.</p></li>
-<li><p><strong>vf</strong> (<em>np.ndarray</em>) – 1D array with spatial y-axis frequencies in 1/radian. Must be the same size as vf.</p></li>
-<li><p><strong>wavelength</strong> (<em>np.ndarray</em>) – 1D array with wavelength values in micron.</p></li>
-<li><p><strong>ref_wavelength</strong> (<em>float</em>) – Reference wavelength in micron.</p></li>
-<li><p><strong>ref_corr_flux</strong> (<em>float</em>) – Reference correlated flux in Jy corresponding to ref_wavelength. If provided
-together with ref_corr_flux, then the returned visibilities are in correlated flux.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return vis</dt>
-<dd class="field-even"><p>1D array with the calculated visibilities (normalized or in corrleated flux, depending on the
-optional arguments)</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="distroi.model.geom_comp.geom_comp.PointSource">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.model.geom_comp.geom_comp.</span></span><span class="sig-name descname"><span class="pre">PointSource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coords</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spc_dep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="distroi.model.dep.html#distroi.model.dep.spec_dep.SpecDep" title="distroi.model.dep.spec_dep.SpecDep"><span class="pre">distroi.model.dep.spec_dep.SpecDep</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.model.geom_comp.geom_comp.PointSource" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#distroi.model.geom_comp.geom_comp.GeomComp" title="distroi.model.geom_comp.geom_comp.GeomComp"><code class="xref py py-class docutils literal notranslate"><span class="pre">distroi.model.geom_comp.geom_comp.GeomComp</span></code></a></p>
-<p>Class representing a point source geometric component.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>coords</strong> (<em>tuple</em><em>(</em><em>float</em><em>)</em>) – 2D tuples with (x, y) coordinates of the point’s coordinates (in mas).
-Note that positive x is defined as leftward and positive y as upward (i.e. the East and North repesctively
-in the OI convention). If not given, will default to (0, 0).</p></li>
-<li><p><strong>spc_dep</strong> (<a class="reference internal" href="distroi.model.dep.html#distroi.model.dep.spec_dep.SpecDep" title="distroi.model.dep.spec_dep.SpecDep"><em>SpecDep</em></a>) – Optional spectral dependence of the component. If None, the spectral dependency will be
-assumed flat in F_lam flux accross wavelength (note that flatness in F_lam means a spectral
-dependency ~ wavelength^2 ~ frequency^-2 for F_nu, and thus for the correlated flux).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Variables</dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>coords</strong> (<em>tuple</em><em>(</em><em>float</em><em>)</em>) – See parameter description.</p></li>
-<li><p><strong>spc_dep</strong> (<a class="reference internal" href="distroi.model.dep.html#distroi.model.dep.spec_dep.SpecDep" title="distroi.model.dep.spec_dep.SpecDep"><em>SpecDep</em></a>) – See parameter description.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="distroi.model.geom_comp.geom_comp.PointSource.calc_vis">
-<span class="sig-name descname"><span class="pre">calc_vis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wavelength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_wavelength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_corr_flux</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></span><a class="headerlink" href="#distroi.model.geom_comp.geom_comp.PointSource.calc_vis" title="Permalink to this definition"></a></dt>
-<dd><p>Calculate the visibility at given spatial frequencies. Wavelengths corresponding to these spatial frequencies a
-and a reference flux value (at reference wavelength) can also be passed along, in which case the returned
-visibilities will be in correlated flux (Jy) instead of normalized.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>uf</strong> (<em>np.ndarray</em>) – 1D array with spatial x-axis frequencies in 1/radian. Must be the same size as uf.</p></li>
-<li><p><strong>vf</strong> (<em>np.ndarray</em>) – 1D array with spatial y-axis frequencies in 1/radian. Must be the same size as vf.</p></li>
-<li><p><strong>wavelength</strong> (<em>np.ndarray</em>) – 1D array with wavelength values in micron.</p></li>
-<li><p><strong>ref_wavelength</strong> (<em>float</em>) – Reference wavelength in micron.</p></li>
-<li><p><strong>ref_corr_flux</strong> (<em>float</em>) – Reference correlated flux in Jy corresponding to ref_wavelength. If provided
-together with ref_corr_flux, then the returned visibilities are in correlated flux.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return vis</dt>
-<dd class="field-even"><p>1D array with the calculated visibilities (normalized or in corrleated flux, depending on the
-optional arguments)</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="distroi.model.geom_comp.geom_comp.UniformDisk">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.model.geom_comp.geom_comp.</span></span><span class="sig-name descname"><span class="pre">UniformDisk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diameter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coords</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spc_dep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="distroi.model.dep.html#distroi.model.dep.spec_dep.SpecDep" title="distroi.model.dep.spec_dep.SpecDep"><span class="pre">distroi.model.dep.spec_dep.SpecDep</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.model.geom_comp.geom_comp.UniformDisk" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#distroi.model.geom_comp.geom_comp.GeomComp" title="distroi.model.geom_comp.geom_comp.GeomComp"><code class="xref py py-class docutils literal notranslate"><span class="pre">distroi.model.geom_comp.geom_comp.GeomComp</span></code></a></p>
-<p>Class representing a uniform disk geometric component.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>diameter</strong> (<em>float</em>) – The radius of the disk in milli-arcsecond.</p></li>
-<li><p><strong>coords</strong> (<em>tuple</em><em>(</em><em>float</em><em>)</em>) – 2D tuples with (x, y) coordinates of the disk center’s coordinates (in mas).
-Note that positive x is defined as leftward and positive y as upward (i.e. the East and North repesctively
-in the OI convention). If not given, will default to (0, 0).</p></li>
-<li><p><strong>spc_dep</strong> (<a class="reference internal" href="distroi.model.dep.html#distroi.model.dep.spec_dep.SpecDep" title="distroi.model.dep.spec_dep.SpecDep"><em>SpecDep</em></a>) – Optional spectral dependence of the component. If None, the spectral dependency will be
-assumed flat in F_lam flux accross wavelength (note that flatness in F_lam means a spectral
-dependency ~ wavelength^2 ~ frequency^-2 for F_nu, and thus for the correlated flux).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Variables</dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>radius</strong> (<em>float</em>) – See parameter description.</p></li>
-<li><p><strong>coords</strong> (<em>tuple</em><em>(</em><em>float</em><em>)</em>) – See parameter description.</p></li>
-<li><p><strong>spc_dep</strong> (<a class="reference internal" href="distroi.model.dep.html#distroi.model.dep.spec_dep.SpecDep" title="distroi.model.dep.spec_dep.SpecDep"><em>SpecDep</em></a>) – See parameter description.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="distroi.model.geom_comp.geom_comp.UniformDisk.calc_vis">
-<span class="sig-name descname"><span class="pre">calc_vis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vf</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wavelength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_wavelength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_corr_flux</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></span><a class="headerlink" href="#distroi.model.geom_comp.geom_comp.UniformDisk.calc_vis" title="Permalink to this definition"></a></dt>
-<dd><p>Calculate the visibility at given spatial frequencies. Wavelengths corresponding to these spatial frequencies a
-and a reference flux value (at reference wavelength) can also be passed along, in which case the returned
-visibilities will be in correlated flux (Jy) instead of normalized.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>uf</strong> (<em>np.ndarray</em>) – 1D array with spatial x-axis frequencies in 1/radian. Must be the same size as uf.</p></li>
-<li><p><strong>vf</strong> (<em>np.ndarray</em>) – 1D array with spatial y-axis frequencies in 1/radian. Must be the same size as vf.</p></li>
-<li><p><strong>wavelength</strong> (<em>np.ndarray</em>) – 1D array with wavelength values in micron.</p></li>
-<li><p><strong>ref_wavelength</strong> (<em>float</em>) – Reference wavelength in micron.</p></li>
-<li><p><strong>ref_corr_flux</strong> (<em>float</em>) – Reference correlated flux in Jy corresponding to ref_wavelength. If provided
-together with ref_corr_flux, then the returned visibilities are in correlated flux.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return vis</dt>
-<dd class="field-even"><p>1D array with the calculated visibilities (normalized or in corrleated flux, depending on the
-optional arguments)</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
+</div>
 </section>
 </section>
 
@@ -349,8 +101,8 @@ optional arguments)</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="distroi.model.dep.html" class="btn btn-neutral float-left" title="distroi.model.dep package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="distroi.model.rt_comp.html" class="btn btn-neutral float-right" title="distroi.model.rt_comp package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="distroi.model.dep.spec_dep.html" class="btn btn-neutral float-left" title="distroi.model.dep.spec_dep module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="distroi.model.geom_comp.geom_comp.html" class="btn btn-neutral float-right" title="distroi.model.geom_comp.geom_comp module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

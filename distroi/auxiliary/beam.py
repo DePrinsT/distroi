@@ -148,12 +148,11 @@ def oi_container_calc_gaussian_beam(
 
     if make_plots:
         fig, ax = plt.subplots(2, 2, figsize=(10, 10), sharey=True)
-        color_map = "inferno"
         # plot dirty beam
         ax[0][0].imshow(
             img_dirty,
             aspect="auto",
-            cmap=color_map,
+            cmap=constants.IMG_CMAP,
             extent=(
                 (num_pix / 2) * pixelscale,
                 (-num_pix / 2) * pixelscale,
@@ -214,7 +213,7 @@ def oi_container_calc_gaussian_beam(
         img_fit_plot = ax[0][1].imshow(
             img_fitted,
             aspect="auto",
-            cmap=color_map,
+            cmap=constants.IMG_CMAP,
             extent=(
                 (num_pix / 2) * pixelscale,
                 (-num_pix / 2) * pixelscale,
@@ -302,11 +301,14 @@ def oi_container_calc_gaussian_beam(
         ax[1][1].remove()
 
         if fig_dir is not None:
-            if not os.path.exists(fig_dir):
+            if not os.path.isdir(fig_dir):
                 os.makedirs(fig_dir)
             # save if fig_dir not None
-            plt.savefig(f"{fig_dir}/dirty_beam_fit.{constants.FIG_OUTPUT_TYPE}", dpi=constants.FIG_DPI,
-                        bbox_inches="tight")
+            plt.savefig(
+                os.path.join(fig_dir, f"dirty_beam_fit.{constants.FIG_OUTPUT_TYPE}"),
+                dpi=constants.FIG_DPI,
+                bbox_inches="tight",
+            )
         if show_plots:
             plt.show()  # show plot if asked
 

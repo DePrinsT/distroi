@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>distroi.auxiliary.constants module &mdash; DISTROI  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="_static/fonts.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="distroi.auxiliary.read_oifits module" href="distroi.auxiliary.read_oifits.html" />
+    <link rel="prev" title="distroi.auxiliary.beam module" href="distroi.auxiliary.beam.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html">
+            <img src="_static/distroi_logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="distroi.html">distroi package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="distroi.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="distroi.auxiliary.html">distroi.auxiliary package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="distroi.auxiliary.html#submodules">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.data.html">distroi.data package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.fitting.html">distroi.fitting package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.model.html">distroi.model package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">DISTROI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="distroi.html">distroi package</a></li>
+          <li class="breadcrumb-item"><a href="distroi.auxiliary.html">distroi.auxiliary package</a></li>
+      <li class="breadcrumb-item active">distroi.auxiliary.constants module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/distroi.auxiliary.constants.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-distroi.auxiliary.constants">
+<span id="distroi-auxiliary-constants-module"></span><h1>distroi.auxiliary.constants module<a class="headerlink" href="#module-distroi.auxiliary.constants" title="Permalink to this headline"></a></h1>
+<p>Contains constants, unit conversions, miscellaneous universal functions and plotting settings to be uniformly used
+throughout the project.</p>
+<dl class="field-list simple">
+<dt class="field-odd">var str PROJECT_ROOT</dt>
+<dd class="field-odd"><p>Path to the root of the distroi project on the user’s system.</p>
+</dd>
+<dt class="field-even">var str FIG_OUTPUT_TYPE</dt>
+<dd class="field-even"><p>Output type of the figures (e.g. pdf or png).</p>
+</dd>
+<dt class="field-odd">var int FIG_DPI</dt>
+<dd class="field-odd"><p>DPI of the output figures.</p>
+</dd>
+<dt class="field-even">var float SPEED_OF_LIGHT</dt>
+<dd class="field-even"><p>In SI units.</p>
+</dd>
+<dt class="field-odd">var float DEG2RAD</dt>
+<dd class="field-odd"><p>Conversion of degree to radian.</p>
+</dd>
+<dt class="field-even">var float RAD2DEG</dt>
+<dd class="field-even"><p>Conversion of radian to degree.</p>
+</dd>
+<dt class="field-odd">var float MAS2RAD</dt>
+<dd class="field-odd"><p>Conversion of milli-arcsecond to radian.</p>
+</dd>
+<dt class="field-even">var float RAD2MAS</dt>
+<dd class="field-even"><p>Conversion of radian to milli-arcsecond.</p>
+</dd>
+<dt class="field-odd">var float MICRON2M</dt>
+<dd class="field-odd"><p>Conversion of meter to micrometer/micron.</p>
+</dd>
+<dt class="field-even">var float M2MICRON</dt>
+<dd class="field-even"><p>Conversion of micrometer/micron to meter.</p>
+</dd>
+<dt class="field-odd">var float MICRON2AA</dt>
+<dd class="field-odd"><p>Conversion of micrometer/micron to Angstrom.</p>
+</dd>
+<dt class="field-even">var float AA2MICRON</dt>
+<dd class="field-even"><p>Conversion of Angstrom to micrometer/micron.</p>
+</dd>
+<dt class="field-odd">var float WATT_PER_METER2_HZ_2JY</dt>
+<dd class="field-odd"><p>Flux density conversion of W m^-2 Hz^-1 to Jansky (Jy).</p>
+</dd>
+<dt class="field-even">var float JY_2WATT_PER_METER2_HZ</dt>
+<dd class="field-even"><p>Flux density conversion of Jansky (Jy) to W m^-2 Hz^-1.</p>
+</dd>
+<dt class="field-odd">var float ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M</dt>
+<dd class="field-odd"><p>Flux density conversion of erg s^-1 cm^-2 micron^-1 to W m^-2 m^-1.</p>
+</dd>
+<dt class="field-even">var float WATT_PER_M2_M_2ERG_PER_S_CM2_MICRON</dt>
+<dd class="field-even"><p>Flux density conversion of W m^-2 m^-1 to erg s^-1 cm^-2 micron^-1.</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.auxiliary.constants.bb_flam_at_frequency">
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.constants.</span></span><span class="sig-name descname"><span class="pre">bb_flam_at_frequency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frequency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></span><a class="headerlink" href="#distroi.auxiliary.constants.bb_flam_at_frequency" title="Permalink to this definition"></a></dt>
+<dd><p>Given a temperature (in Kelvin) and frequency (in Hz), returns, returns the spectral radiance of a blackbody curve
+in B_lam format and SI units.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>temp</strong> (<em>float</em>) – Temperature of the blackbody in Kelvin.</p></li>
+<li><p><strong>frequency</strong> (<em>Union</em><em>[</em><em>np.ndarray</em><em>, </em><em>float</em><em>]</em>) – Frequency in Hertz.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return radiance</dt>
+<dd class="field-even"><p>B_lam spectral radiance of the blackbody in SI units (W m^-2 m^-1 sterradian^-1).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.auxiliary.constants.bb_flam_at_wavelength">
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.constants.</span></span><span class="sig-name descname"><span class="pre">bb_flam_at_wavelength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wavelength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></span><a class="headerlink" href="#distroi.auxiliary.constants.bb_flam_at_wavelength" title="Permalink to this definition"></a></dt>
+<dd><p>Given a temperature (in Kelvin) and wavelength (in micron), returns the spectral radiance of a blackbody curve in
+B_lam format and SI units.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>temp</strong> (<em>float</em>) – Temperature of the blackbody in Kelvin.</p></li>
+<li><p><strong>wavelength</strong> (<em>Union</em><em>[</em><em>np.ndarray</em><em>, </em><em>float</em><em>]</em>) – Wavelength in micron.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return radiance</dt>
+<dd class="field-even"><p>B_lam spectral radiance of the blackbody in SI units (W m^-2 m^-1 sterradian^-1).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.auxiliary.constants.bb_fnu_at_frequency">
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.constants.</span></span><span class="sig-name descname"><span class="pre">bb_fnu_at_frequency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frequency</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></span><a class="headerlink" href="#distroi.auxiliary.constants.bb_fnu_at_frequency" title="Permalink to this definition"></a></dt>
+<dd><p>Given a temperature (in Kelvin) and frequency (in Hz), returns the spectral radiance of a blackbody curve in
+B_nu format and SI units.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>temp</strong> (<em>float</em>) – Temperature of the blackbody in Kelvin.</p></li>
+<li><p><strong>frequency</strong> (<em>Union</em><em>[</em><em>np.ndarray</em><em>, </em><em>float</em><em>]</em>) – Frequency in Hertz.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return radiance</dt>
+<dd class="field-even"><p>B_nu spectral radiance of the blackbody in SI units (W m^-2 Hz^-1 sterradian^-1).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.auxiliary.constants.bb_fnu_at_wavelength">
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.constants.</span></span><span class="sig-name descname"><span class="pre">bb_fnu_at_wavelength</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wavelength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></span><a class="headerlink" href="#distroi.auxiliary.constants.bb_fnu_at_wavelength" title="Permalink to this definition"></a></dt>
+<dd><p>Given a temperature (in Kelvin) and wavelength (in micron), returns the spectral radiance of a blackbody curve in
+B_nu format and SI units.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>temp</strong> (<em>float</em>) – Temperature of the blackbody in Kelvin.</p></li>
+<li><p><strong>wavelength</strong> (<em>Union</em><em>[</em><em>np.ndarray</em><em>, </em><em>float</em><em>]</em>) – Wavelength in micron.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return radiance</dt>
+<dd class="field-even"><p>B_nu spectral radiance of the blackbody in SI units (W m^-2 Hz^-1 sterradian^-1).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.auxiliary.constants.flam_cgs_per_mum_to_fnu_jansky">
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.constants.</span></span><span class="sig-name descname"><span class="pre">flam_cgs_per_mum_to_fnu_jansky</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flam</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wavelength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></span><a class="headerlink" href="#distroi.auxiliary.constants.flam_cgs_per_mum_to_fnu_jansky" title="Permalink to this definition"></a></dt>
+<dd><p>Function to convert spectral flux densities in F_lam format and units of erg s^-1 cm^-2 micron^-1 to F_nu format in
+Jansky (Jy). Wavelengths are in micron.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flam</strong> (<em>np.ndarray</em><em> | </em><em>float</em>) – Spectral flux density in F_lam format and units of erg s^-1 cm^-2 micron^-1.</p></li>
+<li><p><strong>wavelength</strong> (<em>np.ndarray</em><em> | </em><em>float</em>) – Associated wavelengths in micron.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return fnu</dt>
+<dd class="field-even"><p>Spectral flux density in F_nu format and Jy units</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.auxiliary.constants.gaussian_2d_elliptical_ravel">
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.constants.</span></span><span class="sig-name descname"><span class="pre">gaussian_2d_elliptical_ravel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sig_min</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sig_maj_min_sig_min</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pa</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="headerlink" href="#distroi.auxiliary.constants.gaussian_2d_elliptical_ravel" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Definition for calculating the value of a 2D Elliptical Gaussian at a given point. Defined by an amplitude,</dt><dd><p>xy center, standard deviations along major/minor axis, a major axis position angle and an offset. Returns
+a raveled array.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>points</strong> (<em>tuple</em><em>(</em><em>float</em><em> | </em><em>np</em><em>)</em>) – 2D tuples describing the (x, y) points to be inserted. Note that positive x is
+defined as leftward and positive y as upward (i.e. the East and North repesctively in the OI convention).</p></li>
+<li><p><strong>amp</strong> (<em>float</em>) – Amplitude of the Gaussian.</p></li>
+<li><p><strong>x0</strong> (<em>float</em>) – x-coordinate center of the Guassian.</p></li>
+<li><p><strong>y0</strong> (<em>float</em>) – y-coordinate center of the Gaussian.</p></li>
+<li><p><strong>sig_min</strong> (<em>float</em>) – Standard deviation in the minor axis direction.</p></li>
+<li><p><strong>sig_maj_min_sig_min</strong> – How much the standard deviation in major ellipse axis direction is greater than that of
+minor axis direction. Defined so it can always be greater than or equal to sig_min when used in
+scipy.optimize.curve_fit.</p></li>
+<li><p><strong>pa</strong> (<em>float</em>) – Position angle of the Gaussian (i.e. the major axis direction) anti-clockwise, starting North
+(positive y).</p></li>
+<li><p><strong>offset</strong> (<em>float</em>) – Base level offset from 0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return values</dt>
+<dd class="field-even"><p>A raveled 1D array containg the values of the Gaussian calculated at the points.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.auxiliary.constants.redden_flux">
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.constants.</span></span><span class="sig-name descname"><span class="pre">redden_flux</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wavelength</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ebminv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reddening_law</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'/home/toond/Documents/phd/python/distroi/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="headerlink" href="#distroi.auxiliary.constants.redden_flux" title="Permalink to this definition"></a></dt>
+<dd><p>Takes wavelength(s) and the associated flux values, and reddens them according to the specified E(B-V) value.
+Note that this function will not extrapolate outside the wavelength ranges of the reddening law. Instead, no
+reddening will be applied outside this range.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>wavelength</strong> (<em>Union</em><em>[</em><em>float</em><em>, </em><em>np.ndarray</em><em>]</em>) – Wavelength(s) in micron.</p></li>
+<li><p><strong>flux</strong> (<em>Union</em><em>[</em><em>float</em><em>, </em><em>np.ndarray</em><em>]</em>) – The flux(es) to be reddened. Can be in either F_nu/F_lam or nu*F_nu/lam*F_lam
+format and in any units.</p></li>
+<li><p><strong>ebminv</strong> (<em>float</em>) – E(B-V) reddening factor to be applied.</p></li>
+<li><p><strong>reddening_law</strong> (<em>str</em>) – Path to the reddening law to be used. Defaults to the ISM reddening law by
+Cardelli (1989) in DISTROI’s ‘utils/ISM_reddening folder’. See this file for the expected formatting
+of your own reddening laws.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return flux_reddened</dt>
+<dd class="field-even"><p>The reddened flux value(s).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Union[float, np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="distroi.auxiliary.constants.set_matplotlib_params">
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.constants.</span></span><span class="sig-name descname"><span class="pre">set_matplotlib_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.auxiliary.constants.set_matplotlib_params" title="Permalink to this definition"></a></dt>
+<dd><p>Function to set project-wide matplotlib parameters. To be used at the top of a distroi module if plotting
+functionalities are included in it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="distroi.auxiliary.beam.html" class="btn btn-neutral float-left" title="distroi.auxiliary.beam module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="distroi.auxiliary.read_oifits.html" class="btn btn-neutral float-right" title="distroi.auxiliary.read_oifits module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Toon De Prins.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

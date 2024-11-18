@@ -9,10 +9,7 @@ distroi.model.dep package
 Submodules
 ----------
 
-distroi.model.dep.spec\_dep module
-----------------------------------
+.. toctree::
+   :maxdepth: 2
 
-.. automodule:: distroi.model.dep.spec_dep
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   distroi.model.dep.spec_dep

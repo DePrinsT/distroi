@@ -6,4 +6,40 @@ machine running DISTROI, and have it available in the command line interface (vi
 All RT model class implementations here must inherit from the abstract class defined in the 'rt_model' module.
 """
 
+from distroi.model.rt_comp.rt_comp import RTComp
+
 # TODO: implement a class for a simple 1-zone symmetric 2D disk as a first example
+
+
+class McfostDisk2D(RTComp):
+    """
+    A symmetric 2D MCFOST disk radiative transfer model.
+    """
+
+    def __init__(self, settings_dict: dict) -> None:
+        """
+        Constructor method. See class docstring for information on initialzization parameters and instance properties.
+        """
+        pass
+
+    def write_param(self):
+        """
+        Writes the MCFOST parameter input file.
+        """
+        pass
+
+
+class McfostDiskZone:
+    """
+    An MCFOST disk zone
+    """
+
+    def __init__(self) -> None:
+        """
+        Constructor method. See class docstring for information on initialzization parameters and instance properties.
+        """
+        pass
+
+
+# class McfostStar:
+#     """ """

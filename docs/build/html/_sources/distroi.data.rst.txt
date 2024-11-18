@@ -9,26 +9,10 @@ distroi.data package
 Submodules
 ----------
 
-distroi.data.image module
--------------------------
+.. toctree::
+   :maxdepth: 2
 
-.. automodule:: distroi.data.image
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-distroi.data.oi\_container module
----------------------------------
-
-.. automodule:: distroi.data.oi_container
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-distroi.data.sed module
------------------------
-
-.. automodule:: distroi.data.sed
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   distroi.data.image
+   distroi.data.oi_container
+   distroi.data.oi_data
+   distroi.data.sed

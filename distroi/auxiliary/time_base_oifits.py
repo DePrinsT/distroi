@@ -68,7 +68,7 @@ def oifits_time_window_plot(
 
     # create copy directory if it doesn't exist yet
     if copy_dir is not None:
-        if not os.path.exists(copy_dir):
+        if not os.path.isdir(copy_dir):
             os.makedirs(copy_dir)
 
     if init_window_width < 0:
@@ -353,14 +353,14 @@ def oifits_time_window_plot(
             vf_selection / 1e6,
             c=wavelength_selection * constants.M2MICRON,
             s=1,
-            cmap="rainbow",
+            cmap=constants.PLOT_CMAP,
         )
         sc = uv_cov_ax.scatter(
             -uf_selection / 1e6,
             -vf_selection / 1e6,
             c=wavelength_selection * constants.M2MICRON,
             s=1,
-            cmap="rainbow",
+            cmap=constants.PLOT_CMAP,
         )
         clb = fig.colorbar(sc, cax=uv_cov_cax)
         clb.set_label(r"$\lambda$ ($\mu$m)", labelpad=5)
@@ -386,7 +386,7 @@ def oifits_time_window_plot(
         copy_files_button = Button(copy_files_button_ax, "copy files", color="white")
 
         def copy_files_button_on_click(mouse_event):
-            if not os.path.exists(copy_dir):  # make directory if it doesn't exist yet
+            if not os.path.isdir(copy_dir):  # make directory if it doesn't exist yet
                 os.makedirs(copy_dir)
             for filepath in files_within_window:
                 shutil.copy(filepath, copy_dir)  # copy over the files within the time window
