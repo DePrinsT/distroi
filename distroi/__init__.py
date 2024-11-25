@@ -24,7 +24,7 @@ import distroi.fitting
 from distroi.data.image import Image
 from distroi.data.image import read_image_list
 from distroi.data.image import read_image_mcfost
-from distroi.data.image import _image_fft_comp_vis_interpolator
+from distroi.data.image import image_fft_comp_vis_interpolator
 # imports from oi_container module
 from distroi.data.oi_container import OIContainer
 from distroi.data.oi_container import read_oi_container_from_oifits

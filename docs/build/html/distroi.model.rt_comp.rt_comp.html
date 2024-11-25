@@ -99,6 +99,12 @@ comparison with observational data.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
 <p>Abstract class representing a radiative transfer model component and the
 methods it should provide.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="distroi.model.param.html#distroi.model.param.Param" title="distroi.model.param.Param"><em>Param</em></a><em>]</em>) – Dictionary containing the names of parameters within the <cite>RTComp</cite> 
+scope and the corresponding parameter objects.</p>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="distroi.model.rt_comp.rt_comp.RTComp._abc_impl">
 <span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#distroi.model.rt_comp.rt_comp.RTComp._abc_impl" title="Permalink to this definition"></a></dt>
@@ -114,6 +120,13 @@ methods it should provide.</p>
 <dt class="sig sig-object py" id="distroi.model.rt_comp.rt_comp.RTComp.calc_sed">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calc_sed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wrange</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="distroi.data.sed.html#distroi.data.sed.SED" title="distroi.data.sed.SED"><span class="pre">distroi.data.sed.SED</span></a></span></span><a class="headerlink" href="#distroi.model.rt_comp.rt_comp.RTComp.calc_sed" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate the SED within a specified wavelength interval in unit micron.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="distroi.model.rt_comp.rt_comp.RTComp.get_params">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="distroi.model.param.html#distroi.model.param.Param" title="distroi.model.param.Param"><span class="pre">distroi.model.param.Param</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#distroi.model.rt_comp.rt_comp.RTComp.get_params" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieve a dictionary of parameters for this RT component, linking the name of the component within the 
+<cite>RTComp</cite> scope to the corresponding <cite>Param</cite> objects.</p>
 </dd></dl>
 
 </dd></dl>

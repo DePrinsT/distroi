@@ -159,9 +159,13 @@ optional arguments)</p>
 <p>Abstract class representing a geometric model component.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables</dt>
-<dd class="field-odd"><p><strong>sp_dep</strong> (<a class="reference internal" href="distroi.model.dep.spec_dep.html#distroi.model.dep.spec_dep.SpecDep" title="distroi.model.dep.spec_dep.SpecDep"><em>spec_dep.SpecDep</em></a><em> | </em><em>None</em>) – Optional spectral dependence of the component. If None, the spectral
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="distroi.model.param.html#distroi.model.param.Param" title="distroi.model.param.Param"><em>Param</em></a><em>]</em>) – Dictionary containing the names of parameters within the <cite>GeomComp</cite> 
+scope and the corresponding parameter objects.</p></li>
+<li><p><strong>sp_dep</strong> (<a class="reference internal" href="distroi.model.dep.spec_dep.html#distroi.model.dep.spec_dep.SpecDep" title="distroi.model.dep.spec_dep.SpecDep"><em>spec_dep.SpecDep</em></a>) – Optional spectral dependence of the component. If not specified at init, the spectral
 dependency will be assumed flat in F_lam flux accross wavelength (note that flatness in F_lam means a spectral
-dependency ~ wavelength^2 ~ frequency^-2 for F_nu, and thus for the correlated flux).</p>
+dependency ~ wavelength^2 ~ frequency^-2 for F_nu, and thus for the correlated flux).</p></li>
+</ul>
 </dd>
 </dl>
 <dl class="py attribute">

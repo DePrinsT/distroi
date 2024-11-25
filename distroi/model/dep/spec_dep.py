@@ -23,14 +23,14 @@ class SpecDep(ABC):
     :ivar dict[str, Param] params: Dictionary containing the names of parameters within the `SpecDep` 
         scope and the corresponding parameter objects.
     """
-
-    @abstractmethod
-    def get_params(self) -> dict[str, param.Param]:
-        """
-        Retrieve a dictionary of parameters for this SpecDep, linking the name of the component within the 
-        SpecDep scope to the corresponding `Param` objects.
-        """
-        pass
+    ## TODO: actually implement the get_params method
+    # @abstractmethod
+    # def get_params(self) -> dict[str, param.Param]:
+    #     """
+    #     Retrieve a dictionary of parameters for this SpecDep, linking the name of the component within the 
+    #     SpecDep scope to the corresponding `Param` objects.
+    #     """
+    #     pass
 
     @abstractmethod
     def flux_from_ref(

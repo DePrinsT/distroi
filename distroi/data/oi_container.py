@@ -469,7 +469,7 @@ def oi_container_calc_image_fft_observables(
         raise ValueError("The sum of geometric component flux fractions cannot exceed 1.")
 
     # retrieve interpolator for normalized complex visibilities from model image(s)
-    vcomp_norm_img_interpolator = image._image_fft_comp_vis_interpolator(
+    vcomp_norm_img_interpolator = image.image_fft_comp_vis_interpolator(
         img_ffts, normalised=True, interp_method=interp_method
     )
 
@@ -504,7 +504,7 @@ def oi_container_calc_image_fft_observables(
 
             # get total model flux
             if img_sed is None:
-                ftot_img_interpolator = image._image_fft_ftot_interpolator(
+                ftot_img_interpolator = image.image_fft_ftot_interpolator(
                     img_ffts=img_ffts, interp_method=interp_method
                 )
                 ftot_img = ftot_img_interpolator(wavelengths)
@@ -540,7 +540,7 @@ def oi_container_calc_image_fft_observables(
             )
         else:
             # case for multiple model images
-            ftot_img_interpolator = image._image_fft_ftot_interpolator(img_ffts=img_ffts, interp_method=interp_method)
+            ftot_img_interpolator = image.image_fft_ftot_interpolator(img_ffts=img_ffts, interp_method=interp_method)
             ftot_img_ref = ftot_img_interpolator(ref_wavelength)
 
         # loop over geometric components to add their effects to the total model complex visibility and flux
@@ -892,12 +892,12 @@ if __name__ == "__main__":
     #     "*.fits",
     # )
 
-    # object_id = "EN_TrA"
-    # epoch_id = "img_ep_jan2021-mar2021"
-    # data_dir, data_file = (
-    #     f"/home/toond/Documents/phd/data/{object_id}/inspiring/PIONIER/{epoch_id}/",
-    #     "*.fits",
-    # )
+    object_id = "EN_TrA"
+    epoch_id = "img_ep_jan2021-mar2021"
+    data_dir, data_file = (
+        f"/home/toond/Documents/phd/data/{object_id}/inspiring/PIONIER/{epoch_id}/",
+        "*.fits",
+    )
 
     # object_id = "IRAS15469-5311"
     # epoch_id = "img_ep_jan2021-mar2021"
@@ -906,11 +906,11 @@ if __name__ == "__main__":
     #     "*.fits",
     # )
 
-    object_id = "IRAS08544-4431"
-    data_dir, data_file = (
-        f"/home/toond/Documents/phd/data/IRAS08544-4431/imaging_campaign_hillen_et_al2016/PIONIER",
-        "*.fits",
-    )
+    # object_id = "IRAS08544-4431"
+    # data_dir, data_file = (
+    #     f"/home/toond/Documents/phd/data/IRAS08544-4431/imaging_campaign_hillen_et_al2016/PIONIER",
+    #     "*.fits",
+    # )
 
     container_data = read_oi_container_from_oifits(data_dir, data_file)
     fig_dir = f"{data_dir}/figures/"

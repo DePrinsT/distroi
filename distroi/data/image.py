@@ -124,7 +124,7 @@ class Image:
             self.img = dictionary["img"]
             self.ftot = dictionary["ftot"]
             # perform the fft to set the other instance variables
-            self._perform_fft(padding=padding)
+            self.perform_fft(padding=padding)
 
         # set spectral dependency
         if sp_dep is not None:
@@ -134,7 +134,7 @@ class Image:
 
         return
 
-    def _perform_fft(self, padding: tuple[int, int] | None = None) -> None:
+    def perform_fft(self, padding: tuple[int, int] | None = None) -> None:
         """
         Perform the numpy FFT and set the required properties related to the image's FFT.
 
@@ -860,7 +860,7 @@ def read_image_list(
     return imgs
 
 
-def _image_fft_comp_vis_interpolator(
+def image_fft_comp_vis_interpolator(
     img_ffts: list[Image],
     normalised: bool = False,
     interp_method: str = "linear",
@@ -930,7 +930,7 @@ def _image_fft_comp_vis_interpolator(
     return interpolator
 
 
-def _image_fft_ftot_interpolator(
+def image_fft_ftot_interpolator(
     img_ffts: list[Image],
     interp_method: str = "linear",
 ) -> interp1d:

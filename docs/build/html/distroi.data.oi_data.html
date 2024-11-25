@@ -142,6 +142,56 @@ E.g. name=’visamp’ &amp; range=(0.01, 0.1) -&gt; will filter out all data wi
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIData.plot_data">
+<span class="sig-name descname"><span class="pre">plot_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_baseline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ptype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'line'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_plots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">matplotlib.figure.Figure</span></span></span><a class="headerlink" href="#distroi.data.oi_data.OIData.plot_data" title="Permalink to this definition"></a></dt>
+<dd><p>Make a plot of the data contained in the object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dname</strong> (<em>str</em>) – Name of the type of OI data table to plot. Can be <cite>vis</cite>, <cite>vis2</cite>, <cite>t3</cite> and <cite>flux</cite>.</p></li>
+<li><p><strong>x</strong> (<em>str</em>) – Name of the data to be plotted on the x axis. Can be any of the names of the np.ndarray
+object attributes corresponding to dtype, except <cite>flag</cite>.</p></li>
+<li><p><strong>y</strong> (<em>str</em>) – Name of the data to be plotted on the y axis. Can be any of the names of the np.ndarray
+object attributes corresponding to dtype, except <cite>flag</cite>.</p></li>
+<li><p><strong>error</strong> (<em>str</em>) – Name of the data to be used to plot errorbars. None by default -&gt; i.e. no errorbars.</p></li>
+<li><p><strong>cname</strong> (<em>str</em>) – Name of the data used to colour the plot. Can be any of the names of the np.ndarray
+object attributes corresponding to dtype, except <cite>flag</cite>, but also <cite>baseline</cite> in order to colour data
+by the baseline pair/triangle/telescope. None by default, in which case all datapoints will have the
+same color.</p></li>
+<li><p><strong>per_baseline</strong> (<em>bool</em>) – Whether to make a separate plot per baseline pair/triangle/telescope. By default
+set to False, meaning all data is put into a separate plot.</p></li>
+<li><p><strong>ptype</strong> (<em>str</em>) – Plotting type, by default set to ‘line’ to plot a line for each baseline pair/triangle
+/telescope. Can be set to ‘scatter’ to instead plot point separately in a scatterplot.</p></li>
+<li><p><strong>show_plots</strong> (<em>bool</em>) – Whether to show the plots.</p></li>
+<li><p><strong>fig_dir</strong> (<em>str</em>) – Directory of where to save the figure. None by default, in which case no figure will be
+saved.</p></li>
+<li><p><strong>logx</strong> (<em>bool</em>) – Whether to plot x axis in log scale.</p></li>
+<li><p><strong>logy</strong> (<em>bool</em>) – Whether to plot y axis in log scale.</p></li>
+<li><p><strong>logc</strong> (<em>bool</em>) – Whether to plot the color scale in log scale.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return fig</dt>
+<dd class="field-even"><p>The matplotlib figure, which can then be further manipulated.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>plt.Figure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIData.plot_uv">
+<span class="sig-name descname"><span class="pre">plot_uv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dname</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.data.oi_data.OIData.plot_uv" title="Permalink to this definition"></a></dt>
+<dd><p>Make a plot of the uv coverage for the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dname</strong> (<em>str</em>) – Name of the type of OI data table whose uv coverage is plotted.
+Can be <cite>vis</cite>, <cite>vis2</cite> or <cite>t3</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="distroi.data.oi_data.OIData.read_oifits">
 <span class="sig-name descname"><span class="pre">read_oifits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ft_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.data.oi_data.OIData.read_oifits" title="Permalink to this definition"></a></dt>
 <dd><p>Reads in data from OIFits files. Includes the use of wildcards, e.g. <a href="#id1"><span class="problematic" id="id2">*</span></a>, to read in data from multiple files
@@ -187,25 +237,6 @@ If ‘CALSTAT = C’, will instead remain None.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="distroi.data.oi_data.OIFlux.filter">
-<span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.data.oi_data.OIFlux.filter" title="Permalink to this definition"></a></dt>
-<dd><p>Filter data based on user input range on quantity of interest or on if data has been flagged.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>names</strong> (<em>str</em><em> | </em><em>list</em><em>[</em><em>str</em><em>]</em>) – Name(s) of the variables to be filtered (e.g. ‘visamp’). Can also pass ‘flag’ in
-order to filter out flagged data.</p></li>
-<li><p><strong>float</strong><strong>]</strong><strong>]</strong> (<em>tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>] </em><em>| </em><em>list</em><em>[</em><em>tuple</em><em>[</em><em>float</em><em>,</em>) – Range(s) of the variables which we want to cut.
-E.g. name=’visamp’ &amp; range=(0.01, 0.1) -&gt; will filter out all data with visibility between 0.01 and 0.1.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
@@ -247,28 +278,11 @@ with V3* being the conjugate of the third baseline’s visibility.</p>
 <li><p><strong>v2fcoord</strong> (<em>np.ndarray</em>) – v coordinate spatial frequency of second baseline; units cycle rad^-1.</p></li>
 <li><p><strong>u3fcoord</strong> (<em>np.ndarray</em>) – u coordinate spatial frequency of third baseline; units cycle rad^-1.</p></li>
 <li><p><strong>v3fcoord</strong> (<em>np.ndarray</em>) – v coordinate spatial frequency of third baseline; units cycle rad^-1.</p></li>
+<li><p><strong>base_max</strong> (<em>np.ndarray</em>) – Size of the longest baseline in m. #TODO: actually implement base_max and spat_freq_max in reader function</p></li>
+<li><p><strong>spat_freq_max</strong> (<em>np.ndarray</em>) – Spatial frequency in of the longest baseline cycles per radian.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.filter">
-<span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.filter" title="Permalink to this definition"></a></dt>
-<dd><p>Filter data based on user input range on quantity of interest or on if data has been flagged.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>names</strong> (<em>str</em><em> | </em><em>list</em><em>[</em><em>str</em><em>]</em>) – Name(s) of the variables to be filtered (e.g. ‘visamp’). Can also pass ‘flag’ in
-order to filter out flagged data.</p></li>
-<li><p><strong>float</strong><strong>]</strong><strong>]</strong> (<em>tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>] </em><em>| </em><em>list</em><em>[</em><em>tuple</em><em>[</em><em>float</em><em>,</em>) – Range(s) of the variables which we want to cut.
-E.g. name=’visamp’ &amp; range=(0.01, 0.1) -&gt; will filter out all data with visibility between 0.01 and 0.1.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
@@ -338,28 +352,11 @@ in Jansky.</p></li>
 <li><p><strong>eff_band</strong> (<em>np.ndarray</em>) – Effective wavelength bandwidth of data; units m.</p></li>
 <li><p><strong>ufcoord</strong> (<em>np.ndarray</em>) – u coordinate spatial frequency; units cycle rad^-1.</p></li>
 <li><p><strong>vfcoord</strong> (<em>np.ndarray</em>) – v coordinate spatial frequency; units cycle rad^-1.</p></li>
+<li><p><strong>base</strong> (<em>np.ndarray</em>) – Size of the baseline in m.</p></li>
+<li><p><strong>spat_freq</strong> (<em>np.ndarray</em>) – Spatial frequency in cycles per radian.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis.filter">
-<span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis.filter" title="Permalink to this definition"></a></dt>
-<dd><p>Filter data based on user input range on quantity of interest or on if data has been flagged.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>names</strong> (<em>str</em><em> | </em><em>list</em><em>[</em><em>str</em><em>]</em>) – Name(s) of the variables to be filtered (e.g. ‘visamp’). Can also pass ‘flag’ in
-order to filter out flagged data.</p></li>
-<li><p><strong>float</strong><strong>]</strong><strong>]</strong> (<em>tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>] </em><em>| </em><em>list</em><em>[</em><em>tuple</em><em>[</em><em>float</em><em>,</em>) – Range(s) of the variables which we want to cut.
-E.g. name=’visamp’ &amp; range=(0.01, 0.1) -&gt; will filter out all data with visibility between 0.01 and 0.1.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
@@ -390,28 +387,11 @@ baseline_dict dictionary, and, in addition, the wavelength information is stored
 <li><p><strong>eff_band</strong> (<em>np.ndarray</em>) – Effective wavelength bandwidth of data; units m.</p></li>
 <li><p><strong>ufcoord</strong> (<em>np.ndarray</em>) – u coordinate spatial frequency; units cycle rad^-1.</p></li>
 <li><p><strong>vfcoord</strong> (<em>np.ndarray</em>) – v coordinate spatial frequency; units cycle rad^-1.</p></li>
+<li><p><strong>base</strong> (<em>np.ndarray</em>) – Size of the baseline in m.</p></li>
+<li><p><strong>spat_freq</strong> (<em>np.ndarray</em>) – Spatial frequency in cycles per radian.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis2.filter">
-<span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis2.filter" title="Permalink to this definition"></a></dt>
-<dd><p>Filter data based on user input range on quantity of interest or on if data has been flagged.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>names</strong> (<em>str</em><em> | </em><em>list</em><em>[</em><em>str</em><em>]</em>) – Name(s) of the variables to be filtered (e.g. ‘visamp’). Can also pass ‘flag’ in
-order to filter out flagged data.</p></li>
-<li><p><strong>float</strong><strong>]</strong><strong>]</strong> (<em>tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>] </em><em>| </em><em>list</em><em>[</em><em>tuple</em><em>[</em><em>float</em><em>,</em>) – Range(s) of the variables which we want to cut.
-E.g. name=’visamp’ &amp; range=(0.01, 0.1) -&gt; will filter out all data with visibility between 0.01 and 0.1.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
 </dd></dl>
 
 </section>

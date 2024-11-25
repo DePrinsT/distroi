@@ -29,13 +29,14 @@ class GeomComp(ABC):
         dependency ~ wavelength^2 ~ frequency^-2 for F_nu, and thus for the correlated flux).
     """
 
-    @abstractmethod
-    def get_params(self) -> dict[str, param.Param]:
-        """
-        Retrieve a dictionary of parameters for this geometric component, linking the name of the component within the 
-        `GeomComp` scope to the corresponding `Param` objects.
-        """
-        pass
+    ## TODO: actually implement the get_params method
+    # @abstractmethod
+    # def get_params(self) -> dict[str, param.Param]:
+    #     """
+    #     Retrieve a dictionary of parameters for this geometric component, linking the name of the component within the 
+    #     `GeomComp` scope to the corresponding `Param` objects.
+    #     """
+    #     pass
 
     @abstractmethod
     def calc_vis(
