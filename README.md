@@ -1,6 +1,6 @@
 <p align='center'>
   <br/>
-  <img src="./docs/logo/distroi_logo.png" width="240" height="64" alt= >
+  <img src="./docs/logo/distroi_logo.png" width="240" height=auto alt= >
   <br/>
 </p>
 
