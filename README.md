@@ -39,9 +39,9 @@ If you face any issues when installing or using DISTROI, report them at the proj
 
 # Developers and contributors
 
-**Devlopers**
+**Developers**
 
-- [Toon De Prins](https://deprinst.github.io/)
+- [Toon De Prins](https://deprinst.github.io/) (current lead developer)
 
 # License
 
