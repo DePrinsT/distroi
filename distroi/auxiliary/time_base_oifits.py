@@ -406,10 +406,14 @@ def oifits_time_window_plot(
 
 
 if __name__ == "__main__":
-    data_dir = "/home/toond/Documents/phd/data/IRAS15469-5311/inspiring/PIONIER/all_data"
+    # data_dir = "/home/toond/Documents/phd/data/IRAS15469-5311/inspiring/PIONIER/all_data"
+    # data_file = "*.fits"
+    # oifits_time_window_plot(data_dir=data_dir, data_file=data_file, init_window_width=10)
+
+    data_dir = "/home/toond/Documents/phd/data/EN_TrA/inspiring/PIONIER/img_ep_jan2021-mar2021"
     data_file = "*.fits"
     oifits_time_window_plot(data_dir=data_dir, data_file=data_file, init_window_width=10)
 
-    data_dir = "/home/toond/Documents/phd/writing/proposals/ESO_P115/jmmc_tools"
-    data_file = "*.fits"
-    oifits_time_window_plot(data_dir=data_dir, data_file=data_file, init_window_width=10)
+    # data_dir = "/home/toond/Documents/phd/writing/proposals/ESO_P115/jmmc_tools"
+    # data_file = "*.fits"
+    # oifits_time_window_plot(data_dir=data_dir, data_file=data_file, init_window_width=10)

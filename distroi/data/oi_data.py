@@ -55,7 +55,7 @@ class OIData:
 
     def read_oifits(self, data_dir: str, data_file: str, ft_only: bool = False) -> None:
         """
-        Reads in data from OIFits files. Includes the use of wildcards, e.g. *, to read in data from multiple files
+        Reads in data from OIFits files. Includes the use of wildcards to read in data from multiple files
         simultaneously.
 
         NOTE: The read-in metadata on the instrument setup, targer and array (i.e. the primary table header,
@@ -979,7 +979,7 @@ class OIT3:
     :ivar np.ndarray v2fcoord: v coordinate spatial frequency of second baseline; units cycle rad^-1.
     :ivar np.ndarray u3fcoord: u coordinate spatial frequency of third baseline; units cycle rad^-1.
     :ivar np.ndarray v3fcoord: v coordinate spatial frequency of third baseline; units cycle rad^-1.
-    :ivar np.ndarray base_max: Size of the longest baseline in m. #TODO: actually implement base_max and spat_freq_max in reader function
+    :ivar np.ndarray base_max: Size of the longest baseline in m.
     :ivar np.ndarray spat_freq_max: Spatial frequency in of the longest baseline cycles per radian.
     """
 

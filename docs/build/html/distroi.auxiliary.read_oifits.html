@@ -1,427 +1,889 @@
-<!DOCTYPE html>
-<html class="writer-html5" lang="en" >
-<head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>distroi.auxiliary.read_oifits module &mdash; DISTROI  documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-      <link rel="stylesheet" href="_static/fonts.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>distroi.auxiliary.read_oifits module &#8212; DISTROI  documentation</title>
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-    <script src="_static/js/theme.js"></script>
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'distroi.auxiliary.read_oifits';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="distroi.auxiliary.select_data_oifits module" href="distroi.auxiliary.select_data_oifits.html" />
-    <link rel="prev" title="distroi.auxiliary.constants module" href="distroi.auxiliary.constants.html" /> 
-</head>
+    <link rel="prev" title="distroi.auxiliary.constants module" href="distroi.auxiliary.constants.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-            <a href="index.html">
-            <img src="_static/distroi_logo.png" class="logo" alt="Logo"/>
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="distroi.html">distroi package</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="distroi.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="distroi.auxiliary.html">distroi.auxiliary package</a><ul class="current">
-<li class="toctree-l4 current"><a class="reference internal" href="distroi.auxiliary.html#submodules">Submodules</a></li>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/distroi_logo.png" class="logo__image only-light" alt="DISTROI  documentation - Home"/>
+    <img src="_static/distroi_logo.png" class="logo__image only-dark pst-js-only" alt="DISTROI  documentation - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="distroi.html">distroi package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="distroi.auxiliary.html">distroi.auxiliary package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="distroi.auxiliary.beam.html">distroi.auxiliary.beam module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.auxiliary.constants.html">distroi.auxiliary.constants module</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">distroi.auxiliary.read_oifits module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.auxiliary.select_data_oifits.html">distroi.auxiliary.select_data_oifits module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.auxiliary.time_base_oifits.html">distroi.auxiliary.time_base_oifits module</a></li>
 </ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="distroi.data.html">distroi.data package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="distroi.fitting.html">distroi.fitting package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="distroi.model.html">distroi.model package</a></li>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="distroi.data.html">distroi.data package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="distroi.data.image.html">distroi.data.image module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.data.oi_container.html">distroi.data.oi_container module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.data.oi_data.html">distroi.data.oi_data module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.data.sed.html">distroi.data.sed module</a></li>
 </ul>
-</li>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="distroi.fitting.html">distroi.fitting package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="distroi.fitting.bads.html">distroi.fitting.bads module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.fitting.grid.html">distroi.fitting.grid module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.fitting.vbmc.html">distroi.fitting.vbmc module</a></li>
 </ul>
-</li>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="distroi.model.html">distroi.model package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="distroi.model.dep.html">distroi.model.dep package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="distroi.model.dep.spec_dep.html">distroi.model.dep.spec_dep module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="distroi.model.geom_comp.html">distroi.model.geom_comp package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="distroi.model.geom_comp.geom_comp.html">distroi.model.geom_comp.geom_comp module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="distroi.model.rt_comp.html">distroi.model.rt_comp package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="distroi.model.rt_comp.mcfost.html">distroi.model.rt_comp.mcfost module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="distroi.model.rt_comp.rt_comp.html">distroi.model.rt_comp.rt_comp module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.model.model.html">distroi.model.model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="distroi.model.param.html">distroi.model.param module</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
 </ul>
 
-        </div>
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
       </div>
-    </nav>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">DISTROI</a>
-      </nav>
+<div class="sbt-scroll-pixel-helper"></div>
 
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a></li>
-          <li class="breadcrumb-item"><a href="distroi.html">distroi package</a></li>
-          <li class="breadcrumb-item"><a href="distroi.auxiliary.html">distroi.auxiliary package</a></li>
-      <li class="breadcrumb-item active">distroi.auxiliary.read_oifits module</li>
-      <li class="wy-breadcrumbs-aside">
-            <a href="_sources/distroi.auxiliary.read_oifits.rst.txt" rel="nofollow"> View page source</a>
-      </li>
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/distroi.auxiliary.read_oifits.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
   </ul>
-  <hr/>
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>distroi.auxiliary.read_oifits module</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.Bases"><code class="docutils literal notranslate"><span class="pre">Bases()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.DataUnpack"><code class="docutils literal notranslate"><span class="pre">DataUnpack()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.GiveDataValues"><code class="docutils literal notranslate"><span class="pre">GiveDataValues()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.ListCP"><code class="docutils literal notranslate"><span class="pre">ListCP()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.ListV2"><code class="docutils literal notranslate"><span class="pre">ListV2()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.Load"><code class="docutils literal notranslate"><span class="pre">Load()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OIARRAY"><code class="docutils literal notranslate"><span class="pre">OIARRAY</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OIARRAY.addarray"><code class="docutils literal notranslate"><span class="pre">OIARRAY.addarray()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OIFLUX"><code class="docutils literal notranslate"><span class="pre">OIFLUX</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OIT3"><code class="docutils literal notranslate"><span class="pre">OIT3</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OITARGET"><code class="docutils literal notranslate"><span class="pre">OITARGET</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OITARGET.addtarget"><code class="docutils literal notranslate"><span class="pre">OITARGET.addtarget()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OITARGET.giveid"><code class="docutils literal notranslate"><span class="pre">OITARGET.giveid()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OITARGET.givetarget"><code class="docutils literal notranslate"><span class="pre">OITARGET.givetarget()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OITARGET.givetargetid"><code class="docutils literal notranslate"><span class="pre">OITARGET.givetargetid()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OITARGET.givetheid"><code class="docutils literal notranslate"><span class="pre">OITARGET.givetheid()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OITARGET.givethetarget"><code class="docutils literal notranslate"><span class="pre">OITARGET.givethetarget()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OITARGET.printtarget"><code class="docutils literal notranslate"><span class="pre">OITARGET.printtarget()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OIVIS"><code class="docutils literal notranslate"><span class="pre">OIVIS</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OIVIS2"><code class="docutils literal notranslate"><span class="pre">OIVIS2</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OIWAVE"><code class="docutils literal notranslate"><span class="pre">OIWAVE</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OIWAVE.addwave"><code class="docutils literal notranslate"><span class="pre">OIWAVE.addwave()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.bcolors"><code class="docutils literal notranslate"><span class="pre">bcolors</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.bcolors.BOLD"><code class="docutils literal notranslate"><span class="pre">bcolors.BOLD</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.bcolors.ENDC"><code class="docutils literal notranslate"><span class="pre">bcolors.ENDC</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.bcolors.FAIL"><code class="docutils literal notranslate"><span class="pre">bcolors.FAIL</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.bcolors.HEADER"><code class="docutils literal notranslate"><span class="pre">bcolors.HEADER</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.bcolors.OKBLUE"><code class="docutils literal notranslate"><span class="pre">bcolors.OKBLUE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.bcolors.OKGREEN"><code class="docutils literal notranslate"><span class="pre">bcolors.OKGREEN</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.bcolors.UNDERLINE"><code class="docutils literal notranslate"><span class="pre">bcolors.UNDERLINE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.bcolors.WARNING"><code class="docutils literal notranslate"><span class="pre">bcolors.WARNING</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.bold"><code class="docutils literal notranslate"><span class="pre">bold()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data"><code class="docutils literal notranslate"><span class="pre">data</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.associateFreq"><code class="docutils literal notranslate"><span class="pre">data.associateFreq()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.associateWave"><code class="docutils literal notranslate"><span class="pre">data.associateWave()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.extendMJD"><code class="docutils literal notranslate"><span class="pre">data.extendMJD()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.filterFlagged"><code class="docutils literal notranslate"><span class="pre">data.filterFlagged()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.giveV2"><code class="docutils literal notranslate"><span class="pre">data.giveV2()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.givedataJK"><code class="docutils literal notranslate"><span class="pre">data.givedataJK()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.plotV2CP"><code class="docutils literal notranslate"><span class="pre">data.plotV2CP()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.read"><code class="docutils literal notranslate"><span class="pre">data.read()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.readARRAY"><code class="docutils literal notranslate"><span class="pre">data.readARRAY()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.readFLUX"><code class="docutils literal notranslate"><span class="pre">data.readFLUX()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.readT3"><code class="docutils literal notranslate"><span class="pre">data.readT3()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.readTARGET"><code class="docutils literal notranslate"><span class="pre">data.readTARGET()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.readVIS"><code class="docutils literal notranslate"><span class="pre">data.readVIS()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.readVIS2"><code class="docutils literal notranslate"><span class="pre">data.readVIS2()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.readWAVE"><code class="docutils literal notranslate"><span class="pre">data.readWAVE()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.readfile"><code class="docutils literal notranslate"><span class="pre">data.readfile()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.writeOIFITS"><code class="docutils literal notranslate"><span class="pre">data.writeOIFITS()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.fail"><code class="docutils literal notranslate"><span class="pre">fail()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.flatten"><code class="docutils literal notranslate"><span class="pre">flatten()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.header"><code class="docutils literal notranslate"><span class="pre">header()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.inform"><code class="docutils literal notranslate"><span class="pre">inform()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.inform2"><code class="docutils literal notranslate"><span class="pre">inform2()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.log"><code class="docutils literal notranslate"><span class="pre">log()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.read"><code class="docutils literal notranslate"><span class="pre">read()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.underline"><code class="docutils literal notranslate"><span class="pre">underline()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.warn"><code class="docutils literal notranslate"><span class="pre">warn()</span></code></a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
   <section id="module-distroi.auxiliary.read_oifits">
-<span id="distroi-auxiliary-read-oifits-module"></span><h1>distroi.auxiliary.read_oifits module<a class="headerlink" href="#module-distroi.auxiliary.read_oifits" title="Permalink to this headline"></a></h1>
+<span id="distroi-auxiliary-read-oifits-module"></span><h1>distroi.auxiliary.read_oifits module<a class="headerlink" href="#module-distroi.auxiliary.read_oifits" title="Link to this heading">#</a></h1>
 <p>Provides a class to read in observation data from OIFITS files. This is a modification of the original module stored at
-<a class="reference external" href="https://github.com/kluskaj/ReadOIFITS">https://github.com/kluskaj/ReadOIFITS</a> on GitHub.</p>
+<a class="github reference external" href="https://github.com/kluskaj/ReadOIFITS">kluskaj/ReadOIFITS</a> on GitHub.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.Bases">
-<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">Bases</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.Bases" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">Bases</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.Bases" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.DataUnpack">
-<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">DataUnpack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.DataUnpack" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">DataUnpack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.DataUnpack" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.GiveDataValues">
-<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">GiveDataValues</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.GiveDataValues" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">GiveDataValues</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.GiveDataValues" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.ListCP">
-<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">ListCP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.ListCP" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">ListCP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.ListCP" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.ListV2">
-<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">ListV2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.ListV2" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">ListV2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.ListV2" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.Load">
-<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">Load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.Load" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">Load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.Load" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.OIARRAY">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">OIARRAY</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arrname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UNKNOWN'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tel_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sta_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sta_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diameter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OIARRAY" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">OIARRAY</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arrname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UNKNOWN'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tel_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sta_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sta_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diameter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OIARRAY" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.OIARRAY.addarray">
-<span class="sig-name descname"><span class="pre">addarray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arrname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tel_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sta_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sta_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diameter</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OIARRAY.addarray" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">addarray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arrname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tel_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sta_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sta_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diameter</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OIARRAY.addarray" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.OIFLUX">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">OIFLUX</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">insname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arrname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calstat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'unknown'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dateobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mjd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fluxdata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fluxerr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">targetid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">staid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OIFLUX" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">OIFLUX</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">insname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arrname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calstat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'unknown'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dateobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mjd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fluxdata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fluxerr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">targetid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">staid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OIFLUX" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.OIT3">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">OIT3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arrname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">insname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dateobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mjd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t3amp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t3amperr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t3phi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t3phierr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u1coord</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v1coord</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u2coord</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v2coord</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">targetid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">staid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OIT3" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">OIT3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arrname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">insname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dateobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mjd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t3amp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t3amperr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t3phi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t3phierr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u1coord</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v1coord</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u2coord</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v2coord</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">targetid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">staid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OIT3" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.OITARGET">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">OITARGET</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OITARGET" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">OITARGET</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OITARGET" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.OITARGET.addtarget">
-<span class="sig-name descname"><span class="pre">addtarget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OITARGET.addtarget" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">addtarget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OITARGET.addtarget" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.OITARGET.giveid">
-<span class="sig-name descname"><span class="pre">giveid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OITARGET.giveid" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">giveid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OITARGET.giveid" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.OITARGET.givetarget">
-<span class="sig-name descname"><span class="pre">givetarget</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OITARGET.givetarget" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">givetarget</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OITARGET.givetarget" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.OITARGET.givetargetid">
-<span class="sig-name descname"><span class="pre">givetargetid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OITARGET.givetargetid" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">givetargetid</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OITARGET.givetargetid" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.OITARGET.givetheid">
-<span class="sig-name descname"><span class="pre">givetheid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OITARGET.givetheid" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">givetheid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OITARGET.givetheid" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.OITARGET.givethetarget">
-<span class="sig-name descname"><span class="pre">givethetarget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OITARGET.givethetarget" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">givethetarget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OITARGET.givethetarget" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.OITARGET.printtarget">
-<span class="sig-name descname"><span class="pre">printtarget</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OITARGET.printtarget" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">printtarget</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OITARGET.printtarget" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.OIVIS">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">OIVIS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arrname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">insname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amptype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UNKNOWN'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phitype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UNKNOWN'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dateobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mjd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visamp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visamperr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visphi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visphierr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ucoord</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vcoord</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">targetid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">staid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OIVIS" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">OIVIS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arrname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">insname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amptype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UNKNOWN'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phitype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UNKNOWN'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dateobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mjd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visamp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visamperr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visphi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visphierr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ucoord</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vcoord</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">targetid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">staid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OIVIS" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.OIVIS2">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">OIVIS2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arrname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">insname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dateobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mjd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vis2data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vis2err</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ucoord</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vcoord</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">staid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">targetid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OIVIS2" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">OIVIS2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arrname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">insname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dateobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mjd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vis2data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vis2err</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ucoord</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vcoord</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">staid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">targetid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OIVIS2" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.OIWAVE">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">OIWAVE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">insname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">effwave</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">effband</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OIWAVE" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">OIWAVE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">insname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">effwave</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">effband</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OIWAVE" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.OIWAVE.addwave">
-<span class="sig-name descname"><span class="pre">addwave</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">insname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">effwave</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">effband</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OIWAVE.addwave" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">addwave</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">insname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">effwave</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">effband</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.OIWAVE.addwave" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.bcolors">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">bcolors</span></span><a class="headerlink" href="#distroi.auxiliary.read_oifits.bcolors" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">bcolors</span></span><a class="headerlink" href="#distroi.auxiliary.read_oifits.bcolors" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.bcolors.BOLD">
-<span class="sig-name descname"><span class="pre">BOLD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[1m'</span></em><a class="headerlink" href="#distroi.auxiliary.read_oifits.bcolors.BOLD" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">BOLD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[1m'</span></em><a class="headerlink" href="#distroi.auxiliary.read_oifits.bcolors.BOLD" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.bcolors.ENDC">
-<span class="sig-name descname"><span class="pre">ENDC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[0m'</span></em><a class="headerlink" href="#distroi.auxiliary.read_oifits.bcolors.ENDC" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">ENDC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[0m'</span></em><a class="headerlink" href="#distroi.auxiliary.read_oifits.bcolors.ENDC" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.bcolors.FAIL">
-<span class="sig-name descname"><span class="pre">FAIL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[91m'</span></em><a class="headerlink" href="#distroi.auxiliary.read_oifits.bcolors.FAIL" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">FAIL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[91m'</span></em><a class="headerlink" href="#distroi.auxiliary.read_oifits.bcolors.FAIL" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.bcolors.HEADER">
-<span class="sig-name descname"><span class="pre">HEADER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[95m'</span></em><a class="headerlink" href="#distroi.auxiliary.read_oifits.bcolors.HEADER" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">HEADER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[95m'</span></em><a class="headerlink" href="#distroi.auxiliary.read_oifits.bcolors.HEADER" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.bcolors.OKBLUE">
-<span class="sig-name descname"><span class="pre">OKBLUE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[94m'</span></em><a class="headerlink" href="#distroi.auxiliary.read_oifits.bcolors.OKBLUE" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">OKBLUE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[94m'</span></em><a class="headerlink" href="#distroi.auxiliary.read_oifits.bcolors.OKBLUE" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.bcolors.OKGREEN">
-<span class="sig-name descname"><span class="pre">OKGREEN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[92m'</span></em><a class="headerlink" href="#distroi.auxiliary.read_oifits.bcolors.OKGREEN" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">OKGREEN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[92m'</span></em><a class="headerlink" href="#distroi.auxiliary.read_oifits.bcolors.OKGREEN" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.bcolors.UNDERLINE">
-<span class="sig-name descname"><span class="pre">UNDERLINE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[4m'</span></em><a class="headerlink" href="#distroi.auxiliary.read_oifits.bcolors.UNDERLINE" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">UNDERLINE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[4m'</span></em><a class="headerlink" href="#distroi.auxiliary.read_oifits.bcolors.UNDERLINE" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.bcolors.WARNING">
-<span class="sig-name descname"><span class="pre">WARNING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[93m'</span></em><a class="headerlink" href="#distroi.auxiliary.read_oifits.bcolors.WARNING" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">WARNING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[93m'</span></em><a class="headerlink" href="#distroi.auxiliary.read_oifits.bcolors.WARNING" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.bold">
-<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">bold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.bold" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">bold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.bold" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.data">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'*fits'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">removeFlagged</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'*fits'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">removeFlagged</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.data.associateFreq">
-<span class="sig-name descname"><span class="pre">associateFreq</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.associateFreq" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">associateFreq</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.associateFreq" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.data.associateWave">
-<span class="sig-name descname"><span class="pre">associateWave</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.associateWave" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">associateWave</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.associateWave" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.data.extendMJD">
-<span class="sig-name descname"><span class="pre">extendMJD</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.extendMJD" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">extendMJD</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.extendMJD" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.data.filterFlagged">
-<span class="sig-name descname"><span class="pre">filterFlagged</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.filterFlagged" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">filterFlagged</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.filterFlagged" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.data.giveV2">
-<span class="sig-name descname"><span class="pre">giveV2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">removeflagged</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.giveV2" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">giveV2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">removeflagged</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.giveV2" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.data.givedataJK">
-<span class="sig-name descname"><span class="pre">givedataJK</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.givedataJK" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">givedataJK</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.givedataJK" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.data.plotV2CP">
-<span class="sig-name descname"><span class="pre">plotV2CP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Data.pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">V2sigclip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CPsigclip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">180</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Blim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CPext</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">V2min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">V2max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlog</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylog</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.plotV2CP" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">plotV2CP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Data.pdf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">V2sigclip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CPsigclip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">180</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Blim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CPext</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">V2min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">V2max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlog</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylog</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.plotV2CP" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.data.read">
-<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.read" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.read" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.data.readARRAY">
-<span class="sig-name descname"><span class="pre">readARRAY</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hd</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.readARRAY" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">readARRAY</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hd</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.readARRAY" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.data.readFLUX">
-<span class="sig-name descname"><span class="pre">readFLUX</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hd</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.readFLUX" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">readFLUX</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hd</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.readFLUX" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.data.readT3">
-<span class="sig-name descname"><span class="pre">readT3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hd</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.readT3" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">readT3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hd</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.readT3" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.data.readTARGET">
-<span class="sig-name descname"><span class="pre">readTARGET</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hd</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.readTARGET" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">readTARGET</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hd</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.readTARGET" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.data.readVIS">
-<span class="sig-name descname"><span class="pre">readVIS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hd</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.readVIS" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">readVIS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hd</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.readVIS" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.data.readVIS2">
-<span class="sig-name descname"><span class="pre">readVIS2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hd</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.readVIS2" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">readVIS2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hd</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.readVIS2" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.data.readWAVE">
-<span class="sig-name descname"><span class="pre">readWAVE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hd</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.readWAVE" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">readWAVE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hd</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.readWAVE" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.data.readfile">
-<span class="sig-name descname"><span class="pre">readfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.readfile" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">readfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.readfile" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.data.writeOIFITS">
-<span class="sig-name descname"><span class="pre">writeOIFITS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.writeOIFITS" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">writeOIFITS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.data.writeOIFITS" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.fail">
-<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">fail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.fail" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">fail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.fail" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.flatten">
-<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">flatten</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">L</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.flatten" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">flatten</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">L</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.flatten" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.header">
-<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.header" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.header" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.inform">
-<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">inform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.inform" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">inform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.inform" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.inform2">
-<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">inform2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.inform2" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">inform2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.inform2" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.log">
-<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.log" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dir</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.log" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.read">
-<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">removeFlagged</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.read" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">removeFlagged</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.read" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.underline">
-<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">underline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.underline" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">underline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.underline" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.auxiliary.read_oifits.warn">
-<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">warn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.warn" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.read_oifits.</span></span><span class="sig-name descname"><span class="pre">warn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.auxiliary.read_oifits.warn" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 </section>
 
 
-           </div>
-          </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="distroi.auxiliary.constants.html" class="btn btn-neutral float-left" title="distroi.auxiliary.constants module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="distroi.auxiliary.select_data_oifits.html" class="btn btn-neutral float-right" title="distroi.auxiliary.select_data_oifits module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+                </article>
+              
 
-  <hr/>
-
-  <div role="contentinfo">
-    <p>&#169; Copyright 2024, Toon De Prins.</p>
-  </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
-</footer>
-        </div>
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="distroi.auxiliary.constants.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">distroi.auxiliary.constants module</p>
       </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
+    </a>
+    <a class="right-next"
+       href="distroi.auxiliary.select_data_oifits.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">distroi.auxiliary.select_data_oifits module</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
-</body>
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.Bases"><code class="docutils literal notranslate"><span class="pre">Bases()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.DataUnpack"><code class="docutils literal notranslate"><span class="pre">DataUnpack()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.GiveDataValues"><code class="docutils literal notranslate"><span class="pre">GiveDataValues()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.ListCP"><code class="docutils literal notranslate"><span class="pre">ListCP()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.ListV2"><code class="docutils literal notranslate"><span class="pre">ListV2()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.Load"><code class="docutils literal notranslate"><span class="pre">Load()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OIARRAY"><code class="docutils literal notranslate"><span class="pre">OIARRAY</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OIARRAY.addarray"><code class="docutils literal notranslate"><span class="pre">OIARRAY.addarray()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OIFLUX"><code class="docutils literal notranslate"><span class="pre">OIFLUX</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OIT3"><code class="docutils literal notranslate"><span class="pre">OIT3</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OITARGET"><code class="docutils literal notranslate"><span class="pre">OITARGET</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OITARGET.addtarget"><code class="docutils literal notranslate"><span class="pre">OITARGET.addtarget()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OITARGET.giveid"><code class="docutils literal notranslate"><span class="pre">OITARGET.giveid()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OITARGET.givetarget"><code class="docutils literal notranslate"><span class="pre">OITARGET.givetarget()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OITARGET.givetargetid"><code class="docutils literal notranslate"><span class="pre">OITARGET.givetargetid()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OITARGET.givetheid"><code class="docutils literal notranslate"><span class="pre">OITARGET.givetheid()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OITARGET.givethetarget"><code class="docutils literal notranslate"><span class="pre">OITARGET.givethetarget()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OITARGET.printtarget"><code class="docutils literal notranslate"><span class="pre">OITARGET.printtarget()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OIVIS"><code class="docutils literal notranslate"><span class="pre">OIVIS</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OIVIS2"><code class="docutils literal notranslate"><span class="pre">OIVIS2</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OIWAVE"><code class="docutils literal notranslate"><span class="pre">OIWAVE</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.OIWAVE.addwave"><code class="docutils literal notranslate"><span class="pre">OIWAVE.addwave()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.bcolors"><code class="docutils literal notranslate"><span class="pre">bcolors</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.bcolors.BOLD"><code class="docutils literal notranslate"><span class="pre">bcolors.BOLD</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.bcolors.ENDC"><code class="docutils literal notranslate"><span class="pre">bcolors.ENDC</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.bcolors.FAIL"><code class="docutils literal notranslate"><span class="pre">bcolors.FAIL</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.bcolors.HEADER"><code class="docutils literal notranslate"><span class="pre">bcolors.HEADER</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.bcolors.OKBLUE"><code class="docutils literal notranslate"><span class="pre">bcolors.OKBLUE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.bcolors.OKGREEN"><code class="docutils literal notranslate"><span class="pre">bcolors.OKGREEN</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.bcolors.UNDERLINE"><code class="docutils literal notranslate"><span class="pre">bcolors.UNDERLINE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.bcolors.WARNING"><code class="docutils literal notranslate"><span class="pre">bcolors.WARNING</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.bold"><code class="docutils literal notranslate"><span class="pre">bold()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data"><code class="docutils literal notranslate"><span class="pre">data</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.associateFreq"><code class="docutils literal notranslate"><span class="pre">data.associateFreq()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.associateWave"><code class="docutils literal notranslate"><span class="pre">data.associateWave()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.extendMJD"><code class="docutils literal notranslate"><span class="pre">data.extendMJD()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.filterFlagged"><code class="docutils literal notranslate"><span class="pre">data.filterFlagged()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.giveV2"><code class="docutils literal notranslate"><span class="pre">data.giveV2()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.givedataJK"><code class="docutils literal notranslate"><span class="pre">data.givedataJK()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.plotV2CP"><code class="docutils literal notranslate"><span class="pre">data.plotV2CP()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.read"><code class="docutils literal notranslate"><span class="pre">data.read()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.readARRAY"><code class="docutils literal notranslate"><span class="pre">data.readARRAY()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.readFLUX"><code class="docutils literal notranslate"><span class="pre">data.readFLUX()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.readT3"><code class="docutils literal notranslate"><span class="pre">data.readT3()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.readTARGET"><code class="docutils literal notranslate"><span class="pre">data.readTARGET()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.readVIS"><code class="docutils literal notranslate"><span class="pre">data.readVIS()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.readVIS2"><code class="docutils literal notranslate"><span class="pre">data.readVIS2()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.readWAVE"><code class="docutils literal notranslate"><span class="pre">data.readWAVE()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.readfile"><code class="docutils literal notranslate"><span class="pre">data.readfile()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.data.writeOIFITS"><code class="docutils literal notranslate"><span class="pre">data.writeOIFITS()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.fail"><code class="docutils literal notranslate"><span class="pre">fail()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.flatten"><code class="docutils literal notranslate"><span class="pre">flatten()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.header"><code class="docutils literal notranslate"><span class="pre">header()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.inform"><code class="docutils literal notranslate"><span class="pre">inform()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.inform2"><code class="docutils literal notranslate"><span class="pre">inform2()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.log"><code class="docutils literal notranslate"><span class="pre">log()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.read"><code class="docutils literal notranslate"><span class="pre">read()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.underline"><code class="docutils literal notranslate"><span class="pre">underline()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.auxiliary.read_oifits.warn"><code class="docutils literal notranslate"><span class="pre">warn()</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Toon De Prins
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Toon De Prins.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
 </html>
