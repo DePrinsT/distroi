@@ -1,11 +1,7 @@
-"""
-Provides function to interactively plot multiple OIFITS files as a time-series, allowing the user to specify and adapt
-a certain time window. In other words, it allows the user to investigate the timebase of the observations.
-Functionalities are provided to plot the uv coverage of data within the time window, and retrieve
-the paths of OIFITS files with observations within the time window (and optionally copy them to a specified directory).
+"""A module to interactively plot the uv coverage of time-series of OIFITS files.
 
-NOTE: Because of the spawning of interactive plots, this functionalities in this module cannot be properly used
-in jupyter notebooks, instead use them within a python script.
+Provides a method to interactively plot multiple OIFITS files as a time-series, allowing the user to specify and adapt
+a certain time window, allowing the user to investigate the timebase of the observations.
 """
 
 import os
@@ -26,14 +22,19 @@ constants.set_matplotlib_params()  # set project matplotlib parameters
 
 def timestamp_to_plt_float(date_time: pd.Timestamp) -> float:
     """
-    Pass along a pandas Timestamp object and convert it to the amount of days passed since
-    midnight 1970-01-01 UTC as a float. This is also how numpy converts Timestamp instances
-    to floats for plotting purposes.
+    Convert a pandas Timestamp object to the amount of days passed since
+    midnight 1970-01-01 UTC as a float.
 
-    :param pd.Timestamp date_time: Pandas Timestamp instance.
-    :return date_plt_float: The Timestamp converted to a float value to be used in matplotlib when specifying e.g.
+    Parameters
+    ----------
+    date_time : pd.Timestamp
+        Pandas Timestamp instance.
+
+    Returns
+    -------
+    float
+        The Timestamp converted to a float value to be used in matplotlib when specifying e.g.
         position along the axes.
-    :rtype: float
     """
     date_ref = pd.to_datetime(0, unit="D")  # reference date at midnight 1970-01-01 UTC
     time_dif = date_time - date_ref  # time difference in nanoseconds
@@ -45,25 +46,43 @@ def timestamp_to_plt_float(date_time: pd.Timestamp) -> float:
 def oifits_time_window_plot(
     data_dir: str, data_file: str, init_window_width: float, copy_dir: str = None
 ) -> list[str] | None:
-    """
-    Produces an interactive matplotlib plot showing the specified OIFITS file as a time-series.
-    The specified time window is shown as a red-shaded area. Sliders are provided to change the position and width
-    of this time window. The 'uv coverage' button can then be clicked in order to plot the uv coverage of the data
-    included within the time window. If the copy_dir argument is passed along, the 'Copy files' button can be
-    pressed to copy over the OIFITS file which contain observations within the interactively set time window.
-    After all plots are closed, returns a list with the filepaths of these OIFITS files.
+    """Interactive matplotlib plot showing uv coverage of specified OIFITS files.
 
-    NOTE: Because the uv coverage button spawns another plot,
-    this function cannot be properly used in jupyter notebooks, instead use this method within a python script.
+    Makes an interactive plot for specified OIFITS files as a time-series. The specified time window is shown as a 
+    red-shaded area. Sliders are provided to change the position and width of this time window. The 'uv coverage'
+    button can then be clicked in order to plot the uv coverage of the data included within the time window.
+    If the copy_dir argument is passed along, the 'Copy files' button can be pressed to copy over the OIFITS file
+    which contain observations within the interactively set time window. After all plots are closed, returns a list
+    with the filepaths of these OIFITS files.
 
-    :param str data_dir: Path to the directory where the OIFITS files are stored.
-    :param str data_file: Data filename. Use wildcards to read in multiple files at once.
-    :param float init_window_width: Initial width of the time window in days. Needs to be larger than 0 days.
-    :param str copy_dir: If specified, the OIFITS files that have observations within the interactively set time window
+    Parameters
+    ----------
+    data_dir : str
+        Path to the directory where the OIFITS files are stored.
+    data_file : str
+        Data filename. Use wildcards to read in multiple files at once.
+    init_window_width : float
+        Initial width of the time window in days. Needs to be larger than 0 days.
+    copy_dir : str, optional
+        If specified, the OIFITS files that have observations within the interactively set time window
         will be copied to this directory upon using the 'Copy files' button.
-    :return files_within_window: List of filepaths corresponding to the OIFITS files that have observations within the
+
+    Returns
+    -------
+    list[str] or None
+        List of filepaths corresponding to the OIFITS files that have observations within the
         interactively set time window.
-    :rtype: list[str]
+
+    Warnings
+    --------
+    Because the uv coverage button spawns another plot, this function cannot be properly used in jupyter notebooks,
+    instead use this method within a python script.
+
+    Raises
+    ------
+    ValueError
+        If `init_window_width` is non-positive.
+
     """
 
     # create copy directory if it doesn't exist yet
@@ -71,8 +90,8 @@ def oifits_time_window_plot(
         if not os.path.isdir(copy_dir):
             os.makedirs(copy_dir)
 
-    if init_window_width < 0:
-        raise ValueError("init_window_width must be larger than or equal to 0!")
+    if init_window_width <= 0:
+        raise ValueError("init_window_width must be larger than 0!")
 
     obs_mjd = []  # list to hold MJD dates extracted from OIFITS files
     file_names = []  # list to assign filenames to the observations

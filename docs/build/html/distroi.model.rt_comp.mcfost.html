@@ -182,7 +182,6 @@
 </ul>
 </details></li>
 <li class="toctree-l3"><a class="reference internal" href="distroi.model.model.html">distroi.model.model module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="distroi.model.param.html">distroi.model.param module</a></li>
 </ul>
 </details></li>
 </ul>
@@ -327,8 +326,8 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notes">Notes:</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.rt_comp.mcfost.McfostDisk2D"><code class="docutils literal notranslate"><span class="pre">McfostDisk2D</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.rt_comp.mcfost.McfostDisk2D._abc_impl"><code class="docutils literal notranslate"><span class="pre">McfostDisk2D._abc_impl</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.rt_comp.mcfost.McfostDisk2D.write_param"><code class="docutils literal notranslate"><span class="pre">McfostDisk2D.write_param()</span></code></a></li>
 </ul>
 </li>
@@ -346,20 +345,19 @@
                   
   <section id="module-distroi.model.rt_comp.mcfost">
 <span id="distroi-model-rt-comp-mcfost-module"></span><h1>distroi.model.rt_comp.mcfost module<a class="headerlink" href="#module-distroi.model.rt_comp.mcfost" title="Link to this heading">#</a></h1>
+<p>A module to define an interface with the MCFOST RT code.</p>
 <p>Defines classes for interfacing with different models produced with the MCFOST RT code (Pinte et al. 2009:
 <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/2009A%26A...498..967P/abstract">https://ui.adsabs.harvard.edu/abs/2009A%26A…498..967P/abstract</a>). Requires the user to have installed MCFOST on the
 machine running DISTROI, and have it available in the command line interface (via e.g. ‘$ mcfost &lt;parameter_file&gt;’).</p>
-<p>All RT model class implementations here must inherit from the abstract class defined in the ‘rt_model’ module.</p>
+<section id="notes">
+<h2>Notes:<a class="headerlink" href="#notes" title="Link to this heading">#</a></h2>
+<p>All RT model class implementations must inherit from the abstract class defined in the ‘rt_model’ module.</p>
+</section>
 <dl class="py class">
 <dt class="sig sig-object py" id="distroi.model.rt_comp.mcfost.McfostDisk2D">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.model.rt_comp.mcfost.</span></span><span class="sig-name descname"><span class="pre">McfostDisk2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.model.rt_comp.mcfost.McfostDisk2D" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="distroi.model.rt_comp.rt_comp.html#distroi.model.rt_comp.rt_comp.RTComp" title="distroi.model.rt_comp.rt_comp.RTComp"><code class="xref py py-class docutils literal notranslate"><span class="pre">RTComp</span></code></a></p>
 <p>A symmetric 2D MCFOST disk radiative transfer model.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="distroi.model.rt_comp.mcfost.McfostDisk2D._abc_impl">
-<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#distroi.model.rt_comp.mcfost.McfostDisk2D._abc_impl" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.model.rt_comp.mcfost.McfostDisk2D.write_param">
 <span class="sig-name descname"><span class="pre">write_param</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#distroi.model.rt_comp.mcfost.McfostDisk2D.write_param" title="Link to this definition">#</a></dt>
@@ -423,8 +421,8 @@ machine running DISTROI, and have it available in the command line interface (vi
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notes">Notes:</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.rt_comp.mcfost.McfostDisk2D"><code class="docutils literal notranslate"><span class="pre">McfostDisk2D</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.rt_comp.mcfost.McfostDisk2D._abc_impl"><code class="docutils literal notranslate"><span class="pre">McfostDisk2D._abc_impl</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.rt_comp.mcfost.McfostDisk2D.write_param"><code class="docutils literal notranslate"><span class="pre">McfostDisk2D.write_param()</span></code></a></li>
 </ul>
 </li>

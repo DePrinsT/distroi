@@ -182,7 +182,6 @@
 </ul>
 </details></li>
 <li class="toctree-l3"><a class="reference internal" href="distroi.model.model.html">distroi.model.model module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="distroi.model.param.html">distroi.model.param module</a></li>
 </ul>
 </details></li>
 </ul>
@@ -328,6 +327,14 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.sed.SED"><code class="docutils literal notranslate"><span class="pre">SED</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.sed.SED.wavelengths"><code class="docutils literal notranslate"><span class="pre">SED.wavelengths</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.sed.SED.frequencies"><code class="docutils literal notranslate"><span class="pre">SED.frequencies</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.sed.SED.flam"><code class="docutils literal notranslate"><span class="pre">SED.flam</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.sed.SED.flam_err"><code class="docutils literal notranslate"><span class="pre">SED.flam_err</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.sed.SED.fnu"><code class="docutils literal notranslate"><span class="pre">SED.fnu</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.sed.SED.fnu_err"><code class="docutils literal notranslate"><span class="pre">SED.fnu_err</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.sed.SED.bands"><code class="docutils literal notranslate"><span class="pre">SED.bands</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.sed.SED.sources"><code class="docutils literal notranslate"><span class="pre">SED.sources</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.sed.SED.add_freq_vars"><code class="docutils literal notranslate"><span class="pre">SED.add_freq_vars()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.sed.SED.get_flux"><code class="docutils literal notranslate"><span class="pre">SED.get_flux()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.sed.SED.plot"><code class="docutils literal notranslate"><span class="pre">SED.plot()</span></code></a></li>
@@ -352,38 +359,112 @@
                   
   <section id="module-distroi.data.sed">
 <span id="distroi-data-sed-module"></span><h1>distroi.data.sed module<a class="headerlink" href="#module-distroi.data.sed" title="Link to this heading">#</a></h1>
-<p>Defines a class and the corresponding methods to load in and handle both observed and model spectral energy
-distributions (SEDs).</p>
+<p>A module to handle spectral energy distributions (SEDs).</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="distroi.data.sed.SED">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.data.sed.</span></span><span class="sig-name descname"><span class="pre">SED</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.data.sed.SED" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Class containing information on an SED. Can contain SED information either related to astronomical observations
-or model RT images.</p>
+<p>Contains information on an SED.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dictionary</strong> (<em>dict</em>) – Dictionary containing keys and values representing several instance variables described
-below. Should include ‘wavelengths’, ‘flam’, and ‘flam_err’. The other required instance variables are set
-automatically through add_freq_vars().</p>
-</dd>
-<dt class="field-even">Variables<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>wavelengths</strong> (<em>np.ndarray</em>) – 1D array containing the wavelengths in micron.</p></li>
-<li><p><strong>frequencies</strong> (<em>np.ndarray</em>) – 1D array containing the frequencies in Hz.</p></li>
-<li><p><strong>flam</strong> (<em>np.ndarray</em>) – 1D array containing the flux in F_lam format, the unit is erg s^-1 cm^-2 micron^-1.</p></li>
-<li><p><strong>flam_err</strong> (<em>np.ndarray</em>) – 1D array containing the errors on flam_err (set to 0 if reading in a model SED).</p></li>
-<li><p><strong>fnu</strong> (<em>np.ndarray</em>) – 1D array containing the flux in F_nu format, the unit is Jansky (Jy).</p></li>
-<li><p><strong>fnu_err</strong> (<em>np.ndarray</em>) – 1D array containing the error on F_nu.</p></li>
-<li><p><strong>bands</strong> (<em>list</em><em>[</em><em>str</em><em>] </em><em>| </em><em>None</em>) – Optional list of strings containing the names of the associated photometric bands.
-Mostly useful when reading in observed SED data tables from e.g. VizieR.</p></li>
-<li><p><strong>sources</strong> (<em>list</em><em>[</em><em>str</em><em>] </em><em>| </em><em>None</em>) – Similar to the ‘bands’ attribute, but listing the source catalogue.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>dictionary</strong> (<em>dict</em>) – Dictionary containing keys and values representing several instance variables described below. Should include
+<cite>‘wavelengths’</cite>, <cite>‘flam’</cite>, and <cite>‘flam_err’</cite>. The other required instance variables are set automatically through
+<cite>add_freq_vars</cite>.</p>
 </dd>
 </dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.sed.SED.wavelengths">
+<span class="sig-name descname"><span class="pre">wavelengths</span></span><a class="headerlink" href="#distroi.data.sed.SED.wavelengths" title="Link to this definition">#</a></dt>
+<dd><p>1D array containing the wavelengths in micron.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.sed.SED.frequencies">
+<span class="sig-name descname"><span class="pre">frequencies</span></span><a class="headerlink" href="#distroi.data.sed.SED.frequencies" title="Link to this definition">#</a></dt>
+<dd><p>1D array containing the frequencies in Hz.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.sed.SED.flam">
+<span class="sig-name descname"><span class="pre">flam</span></span><a class="headerlink" href="#distroi.data.sed.SED.flam" title="Link to this definition">#</a></dt>
+<dd><p>1D array containing the flux in F_lam format, the unit is erg s^-1 cm^-2 micron^-1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.sed.SED.flam_err">
+<span class="sig-name descname"><span class="pre">flam_err</span></span><a class="headerlink" href="#distroi.data.sed.SED.flam_err" title="Link to this definition">#</a></dt>
+<dd><p>1D array containing the errors on flam_err (set to 0 if reading in a model SED).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.sed.SED.fnu">
+<span class="sig-name descname"><span class="pre">fnu</span></span><a class="headerlink" href="#distroi.data.sed.SED.fnu" title="Link to this definition">#</a></dt>
+<dd><p>1D array containing the flux in F_nu format, the unit is Jansky (Jy).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.sed.SED.fnu_err">
+<span class="sig-name descname"><span class="pre">fnu_err</span></span><a class="headerlink" href="#distroi.data.sed.SED.fnu_err" title="Link to this definition">#</a></dt>
+<dd><p>1D array containing the error on F_nu.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.sed.SED.bands">
+<span class="sig-name descname"><span class="pre">bands</span></span><a class="headerlink" href="#distroi.data.sed.SED.bands" title="Link to this definition">#</a></dt>
+<dd><p>Optional list of strings containing the names of the associated photometric bands. Mostly useful when reading
+in observed SED data tables from e.g. VizieR.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of str or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.sed.SED.sources">
+<span class="sig-name descname"><span class="pre">sources</span></span><a class="headerlink" href="#distroi.data.sed.SED.sources" title="Link to this definition">#</a></dt>
+<dd><p>Similar to the ‘bands’ attribute, but listing the source catalogue.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of str or None</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.data.sed.SED.add_freq_vars">
 <span class="sig-name descname"><span class="pre">add_freq_vars</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.data.sed.SED.add_freq_vars" title="Link to this definition">#</a></dt>
-<dd><p>Calculate and set frequency-based instance variables from the wavelength-based ones.</p>
+<dd><p>Calculate and set frequency-based attributes from the wavelength-based ones.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
@@ -394,30 +475,33 @@ Mostly useful when reading in observed SED data tables from e.g. VizieR.</p></li
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.data.sed.SED.get_flux">
 <span class="sig-name descname"><span class="pre">get_flux</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux_form</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'flam'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interp_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'linear'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></span><a class="headerlink" href="#distroi.data.sed.SED.get_flux" title="Link to this definition">#</a></dt>
-<dd><p>Retrieve the flux at certain wavelengths/frequencies by interpolating the contained SED data. Note that this
-method throws an error if you try to retrieve fluxes outside the wavelength/frequency bounds.</p>
+<dd><p>Get the flux at specified wavelengths or frequencies.</p>
+<p>Retrieve the flux at certain wavelengths/frequencies by interpolating the contained SED data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<em>np.ndarray</em><em> | </em><em>float</em>) – Wavelengths/frequencies (in micron/Hz) at which to calculate the flux.</p></li>
-<li><p><strong>flux_form</strong> (<em>str</em>) – The format of the flux to be calculated. Options are ‘flam’ (default) and ‘lam_flam’,
-as well as their frequency analogues ‘fnu’ and ‘nu_fnu’. In case flux_form = ‘flam’ or ‘lam_flam’, x is
-assumed to be wavelengths, while in case of ‘fnu’ and ‘nu_fnu’, x is assumed to be frequencies.</p></li>
-<li><p><strong>interp_method</strong> (<em>str</em>) – Interpolation method used by scipy’s interp1d method. Defualt is ‘linear’.
-Can support ‘linear’, ‘nearest’, ‘nearest-up’, ‘zero’, ‘slinear’, ‘quadratic’, ‘cubic’, ‘previous’, or
-‘next’.</p></li>
+<li><p><strong>x</strong> (<em>np.ndarray</em><em> or </em><em>float</em>) – Wavelengths/frequencies (in micron/Hz) at which to calculate the flux.</p></li>
+<li><p><strong>flux_form</strong> (<em>str</em><em>, </em><em>optional</em>) – The format of the flux to be calculated. Options are <cite>‘flam’</cite> (default) and <cite>‘lam_flam’</cite>, as well as their
+frequency analogues <cite>‘fnu’</cite> and <cite>‘nu_fnu’</cite>. In case <code class="docutils literal notranslate"><span class="pre">flux_form</span> <span class="pre">=</span> <span class="pre">'flam'</span></code> or <code class="docutils literal notranslate"><span class="pre">'lam_flam'</span></code>, <cite>x</cite> is assumed
+to represent wavelengths, while in case of <code class="docutils literal notranslate"><span class="pre">'fnu'</span></code> and <code class="docutils literal notranslate"><span class="pre">'nu_fnu'</span></code>, <cite>x</cite> is assumed to be frequencies.</p></li>
+<li><p><strong>interp_method</strong> (<em>str</em><em>, </em><em>optional</em>) – Interpolation method used by scipy’s interp1d method. Default is <cite>‘linear’</cite>. Can support <cite>‘linear’</cite>,
+<cite>‘nearest’</cite>, <cite>‘nearest-up’</cite>, <cite>‘zero’</cite>, <cite>‘slinear’</cite>, <cite>‘quadratic’</cite>, <cite>‘cubic’</cite>, <cite>‘previous’</cite>, or <cite>‘next’</cite>.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return flux<span class="colon">:</span></dt>
-<dd class="field-even"><p>The flux calculated at x using the reference wavelength/frequency and reference flux value.
-In case of flux_form=’flam’, output will be in units erg s^-1 cm^-2 micron^-1. In case of
-flux_form=’fnu’, output will be in units Jansky. In case of flux_form=’lam_flam’, units
-will be in erg s^-1 cm^-2. In case of flux_form=’nu_fnu’, units will be Jy Hz</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>flux</strong> – The flux calculated at <cite>x</cite> using the reference wavelength/frequency and reference flux value. In case of
+<code class="docutils literal notranslate"><span class="pre">flux_form='flam'</span></code>, output will be in units erg s^-1 cm^-2 micron^-1. In case of <code class="docutils literal notranslate"><span class="pre">flux_form='fnu'</span></code>,
+output will be in units Jansky. In case of <code class="docutils literal notranslate"><span class="pre">flux_form='lam_flam'</span></code>, units will be in erg s^-1 cm^-2.
+In case of <code class="docutils literal notranslate"><span class="pre">flux_form='nu_fnu'</span></code>, units will be Jy Hz.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray | float</p>
+<dd class="field-odd"><p>np.ndarray or float</p>
 </dd>
 </dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This method throws an error if you try to retrieve fluxes outside the wavelength/frequency bounds.</p>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -425,8 +509,19 @@ will be in erg s^-1 cm^-2. In case of flux_form=’nu_fnu’, units will be Jy H
 <span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux_form</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'lam_flam'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_plot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_plots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.data.sed.SED.plot" title="Link to this definition">#</a></dt>
 <dd><p>Make a scatter plot of the SED.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fig_dir</strong> (<em>str</em><em>, </em><em>optional</em>) – Directory to store plots in.</p></li>
+<li><p><strong>flux_form</strong> (<em>str</em><em>, </em><em>optional</em>) – Format for the flux. By default, it is set to <cite>‘lam_flam’</cite>, meaning we represent the flux in lam*F_lam
+format  (units erg s^-1 cm^-2). Analogously, other options are <cite>‘flam’</cite> (erg s^-1 cm^-2 micron^-1),
+<cite>‘fnu’</cite> (Jy) and <cite>‘nu_fnu’</cite> (Jy Hz).</p></li>
+<li><p><strong>log_plot</strong> (<em>bool</em><em>, </em><em>optional</em>) – Set to False if you want the plot axes to be in linear scale.</p></li>
+<li><p><strong>show_plots</strong> (<em>bool</em><em>, </em><em>optional</em>) – Set to False if you do not want the plots to be shown during your script run. Note that if True, this
+freezes further code execution until the plot windows are closed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -434,14 +529,14 @@ will be in erg s^-1 cm^-2. In case of flux_form=’nu_fnu’, units will be Jy H
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.data.sed.SED.redden">
 <span class="sig-name descname"><span class="pre">redden</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ebminv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reddening_law</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'/home/toond/Documents/phd/python/distroi/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.data.sed.SED.redden" title="Link to this definition">#</a></dt>
-<dd><p>Further reddens the SED according to the approriate E(B-V) and a corresponding reddening law.</p>
+<dd><p>Redden the SED.</p>
+<p>Further reddens the SED according to the appropriate E(B-V) and a corresponding reddening law.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>ebminv</strong> (<em>float</em>) – E(B-V) reddening factor to be applied.</p></li>
-<li><p><strong>reddening_law</strong> (<em>str</em>) – Path to the reddening law to be used. Defaults to the ISM reddening law by
-Cardelli (1989) in DISTROI’s ‘utils/ISM_reddening folder’. See this file for the expected formatting
-of your own reddening laws.</p></li>
+<li><p><strong>reddening_law</strong> (<em>str</em><em>, </em><em>optional</em>) – Path to the reddening law to be used. Defaults to the ISM reddening law by Cardelli (1989) in DISTROI’s
+‘utils/ISM_reddening folder’. See this file for the expected formatting of your own reddening laws.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -455,17 +550,17 @@ of your own reddening laws.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.data.sed.read_sed_mcfost">
 <span class="sig-prename descclassname"><span class="pre">distroi.data.sed.</span></span><span class="sig-name descname"><span class="pre">read_sed_mcfost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sed_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">star_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#distroi.data.sed.SED" title="distroi.data.sed.SED"><span class="pre">SED</span></a></span></span><a class="headerlink" href="#distroi.data.sed.read_sed_mcfost" title="Link to this definition">#</a></dt>
-<dd><p>Retrieve SED data from an MCFOST model SED and return it as an SED class instance.</p>
+<dd><p>Retrieve SED data from an MCFOST model SED.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sed_path</strong> (<em>str</em>) – Path to an MCFOST output sed_rt.fits.gz model SED file.</p></li>
-<li><p><strong>star_only</strong> (<em>bool</em>) – Set to True if you only want to read in the flux from the star.</p></li>
+<li><p><strong>star_only</strong> (<em>bool</em><em>, </em><em>optional</em>) – Set to True if you only want to read in the flux from the star.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return sed<span class="colon">:</span></dt>
-<dd class="field-even"><p>SED instance containing the information on the MCFOST model SED. Note that the errors on the flux
-‘flam_err’ are set to zero (since this is a model SED).</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>sed</strong> – <cite>SED</cite> instance containing the information on the MCFOST model SED. Note that the errors on the flux <cite>flam_err</cite>
+are set to zero (since this is a model SED).</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#distroi.data.sed.SED" title="distroi.data.sed.SED">SED</a></p>
@@ -476,18 +571,19 @@ of your own reddening laws.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.data.sed.read_sed_repo_phot">
 <span class="sig-prename descclassname"><span class="pre">distroi.data.sed.</span></span><span class="sig-name descname"><span class="pre">read_sed_repo_phot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sed_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wave_lims</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#distroi.data.sed.SED" title="distroi.data.sed.SED"><span class="pre">SED</span></a></span></span><a class="headerlink" href="#distroi.data.sed.read_sed_repo_phot" title="Link to this definition">#</a></dt>
-<dd><p>Retrieve observed SED data stored in a .phot file from the SED catalog presented in Kluska et al. 2022 (
-A&amp;A, 658 (2022) A36). Such files are stored in the local system of KU Leuven’s Institute of Astronomy.
-Return it as an SED class instance.</p>
+<dd><p>Retrieve SED data from a KU Leuven Insitute of Astronomy SED repository .phot file.</p>
+<p>Retrieve observed SED data stored in a .phot file as presented in e.g. the SED catalog presented in
+Kluska et al. 2022 (A&amp;A, 658 (2022) A36). Such files are stored in the local system of KU Leuven’s
+Institute of Astronomy.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sed_path</strong> (<em>str</em>) – Path to an MCFOST output sed_rt.fits.gz model SED file.</p></li>
-<li><p><strong>wave_lims</strong> (<em>tuple</em><em>(</em><em>float</em><em>)</em>) – The lower and upper wavelength limits in micron used when reading in data.</p></li>
+<li><p><strong>wave_lims</strong> (<em>tuple</em><em> of </em><em>float</em><em>, </em><em>optional</em>) – The lower and upper wavelength limits in micron used when reading in data.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return sed<span class="colon">:</span></dt>
-<dd class="field-even"><p>SED instance containing the information on the MCFOST model SED.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>sed</strong> – <cite>SED</cite> instance containing the information on the MCFOST model SED.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#distroi.data.sed.SED" title="distroi.data.sed.SED">SED</a></p>
@@ -498,22 +594,22 @@ Return it as an SED class instance.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.data.sed.sed_chi2reddened">
 <span class="sig-prename descclassname"><span class="pre">distroi.data.sed.</span></span><span class="sig-name descname"><span class="pre">sed_chi2reddened</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sed_obs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#distroi.data.sed.SED" title="distroi.data.sed.SED"><span class="pre">SED</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sed_mod</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#distroi.data.sed.SED" title="distroi.data.sed.SED"><span class="pre">SED</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ebminv</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reddening_law</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'/home/toond/Documents/phd/python/distroi/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#distroi.data.sed.sed_chi2reddened" title="Link to this definition">#</a></dt>
-<dd><p>Returns the chi2 between an RT model SED and an observed SED under a certain amount of additional reddening.
-Note that this doesn’t actually redden any of the SED object class instances, only calculates the chi2 assuming the
-model SED were to be reddened.</p>
+<dd><p>Get the chi2 between a data SED and a reddened model SED.</p>
+<p>Returns the chi2 between an RT model <cite>SED</cite> and an observed <cite>SED</cite> under a certain amount of additional reddening.
+Note that this doesn’t actually redden any of the <cite>SED</cite> object class instances, only calculates the chi2 assuming
+the model <cite>SED</cite> were to be reddened.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sed_obs</strong> (<a class="reference internal" href="#distroi.data.sed.SED" title="distroi.data.sed.SED"><em>SED</em></a>) – Observed SED.</p></li>
-<li><p><strong>sed_mod</strong> (<a class="reference internal" href="#distroi.data.sed.SED" title="distroi.data.sed.SED"><em>SED</em></a>) – RT model SED.</p></li>
+<li><p><strong>sed_obs</strong> (<a class="reference internal" href="#distroi.data.sed.SED" title="distroi.data.sed.SED"><em>SED</em></a>) – Observed <cite>SED</cite>.</p></li>
+<li><p><strong>sed_mod</strong> (<a class="reference internal" href="#distroi.data.sed.SED" title="distroi.data.sed.SED"><em>SED</em></a>) – RT model <cite>SED</cite>.</p></li>
 <li><p><strong>ebminv</strong> (<em>float</em>) – E(B-V) reddening factor to be applied.</p></li>
-<li><p><strong>reddening_law</strong> (<em>str</em>) – Path to the reddening law to be used. Defaults to the ISM reddening law by
-Cardelli (1989) in DISTROI’s ‘utils/ISM_reddening folder’. See this file for the expected formatting
-of your own reddening laws.</p></li>
+<li><p><strong>reddening_law</strong> (<em>str</em><em>, </em><em>optional</em>) – Path to the reddening law to be used. Defaults to the ISM reddening law by Cardelli (1989) in DISTROI’s
+‘utils/ISM_reddening folder’. See this file for the expected formatting of your own reddening laws.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return chi2<span class="colon">:</span></dt>
-<dd class="field-even"><p>The chi2 value between the reddened model SED and the observed SED.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>chi2</strong> – The chi2 value between the reddened model <cite>SED</cite> and the observed <cite>SED</cite>.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -524,20 +620,20 @@ of your own reddening laws.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.data.sed.sed_plot_data_vs_model">
 <span class="sig-prename descclassname"><span class="pre">distroi.data.sed.</span></span><span class="sig-name descname"><span class="pre">sed_plot_data_vs_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sed_dat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#distroi.data.sed.SED" title="distroi.data.sed.SED"><span class="pre">SED</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sed_mod</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#distroi.data.sed.SED" title="distroi.data.sed.SED"><span class="pre">SED</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux_form</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'lam_flam'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_plot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_plots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.data.sed.sed_plot_data_vs_model" title="Link to this definition">#</a></dt>
-<dd><p>Plots the data (observed) SED against the model SED. Note that this function shares a name with a similar function
-in the oi_observables module. Take care with your namespace if you use both functions in the same script.</p>
+<dd><p>Plot an observed SED against a model SED.</p>
+<p>Plots the data (observed) SED against the model SED.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sed_dat</strong> (<a class="reference internal" href="#distroi.data.sed.SED" title="distroi.data.sed.SED"><em>SED</em></a>) – Data SED. Typically corresponds to observations.</p></li>
 <li><p><strong>sed_mod</strong> (<a class="reference internal" href="#distroi.data.sed.SED" title="distroi.data.sed.SED"><em>SED</em></a>) – RT model SED.</p></li>
-<li><p><strong>fig_dir</strong> (<em>str</em>) – Directory to store plots in.</p></li>
-<li><p><strong>flux_form</strong> (<em>str</em>) – Format for the flux. By default, it is set to ‘lam_flam’, meaning we represent the flux in
-lam*F_lam format (units erg s^-1 cm^-2). Analogously, other options are ‘flam’ (erg s^-1 cm^-2 micron^-1),
-‘fnu’ (Jy) and ‘nu_fnu’ (Jy Hz).</p></li>
-<li><p><strong>log_plot</strong> (<em>bool</em>) – Set to False if you want the plot axes to be in linear scale.</p></li>
-<li><p><strong>show_plots</strong> (<em>bool</em>) – Set to False if you do not want the plots to be shown during your script run.
-Note that if True, this freazes further code execution until the plot windows are closed.</p></li>
+<li><p><strong>fig_dir</strong> (<em>str</em><em>, </em><em>optional</em>) – Directory to store plots in.</p></li>
+<li><p><strong>flux_form</strong> (<em>str</em><em>, </em><em>optional</em>) – Format for the flux. By default, it is set to <cite>‘lam_flam’</cite>, meaning we represent the flux in lam*F_lam format
+(units erg s^-1 cm^-2). Analogously, other options are <cite>‘flam’</cite> (erg s^-1 cm^-2 micron^-1), <cite>‘fnu’</cite> (Jy) and
+<cite>‘nu_fnu’</cite> (Jy Hz).</p></li>
+<li><p><strong>log_plot</strong> (<em>bool</em><em>, </em><em>optional</em>) – Set to False if you want the plot axes to be in linear scale.</p></li>
+<li><p><strong>show_plots</strong> (<em>bool</em><em>, </em><em>optional</em>) – Set to False if you do not want the plots to be shown during your script run. Note that if True, this freezes
+further code execution until the plot windows are closed.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -549,26 +645,26 @@ Note that if True, this freazes further code execution until the plot windows ar
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.data.sed.sed_reddening_fit">
 <span class="sig-prename descclassname"><span class="pre">distroi.data.sed.</span></span><span class="sig-name descname"><span class="pre">sed_reddening_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sed_obs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#distroi.data.sed.SED" title="distroi.data.sed.SED"><span class="pre">SED</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sed_mod</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#distroi.data.sed.SED" title="distroi.data.sed.SED"><span class="pre">SED</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ebminv_guess</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redden_mod</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reddening_law</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'/home/toond/Documents/phd/python/distroi/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#distroi.data.sed.sed_reddening_fit" title="Link to this definition">#</a></dt>
-<dd><p>Fits an additional reddening E(B-V) value to make a model SED match up to an observed SED as much as possible. In
-case of a successfull fit, the model SED is subsequently reddened according to the fitted value E(B-V) and the
-chi2 value between model and observations is returned.</p>
+<dd><p>Fits an additional reddening to make a model SED match an observed SED.</p>
+<p>Fits an additional reddening E(B-V) value to make a model <cite>SED</cite> match up to an observed <cite>SED</cite> as much as possible.
+In case of a successful fit, the model <cite>SED</cite> is subsequently reddened according to the fitted value of E(B-V) and
+the chi2 value between model and observations is returned.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sed_obs</strong> (<a class="reference internal" href="#distroi.data.sed.SED" title="distroi.data.sed.SED"><em>SED</em></a>) – Observed SED.</p></li>
-<li><p><strong>sed_mod</strong> (<a class="reference internal" href="#distroi.data.sed.SED" title="distroi.data.sed.SED"><em>SED</em></a>) – RT model SED.</p></li>
+<li><p><strong>sed_obs</strong> (<a class="reference internal" href="#distroi.data.sed.SED" title="distroi.data.sed.SED"><em>SED</em></a>) – Observed <cite>SED</cite>.</p></li>
+<li><p><strong>sed_mod</strong> (<a class="reference internal" href="#distroi.data.sed.SED" title="distroi.data.sed.SED"><em>SED</em></a>) – Model <cite>SED</cite>.</p></li>
 <li><p><strong>ebminv_guess</strong> (<em>float</em>) – Initial guess for the E(B-V) reddening factor.</p></li>
-<li><p><strong>redden_mod</strong> – Redden the model SED according to the fitted value. Set to true
-by default.</p></li>
-<li><p><strong>reddening_law</strong> (<em>str</em>)</p></li>
+<li><p><strong>redden_mod</strong> (<em>bool</em><em>, </em><em>optional</em>) – Redden the model <cite>SED</cite> according to the fitted value. Set to True by default.</p></li>
+<li><p><strong>reddening_law</strong> (<em>str</em><em>, </em><em>optional</em>) – Path to the reddening law to be used. Defaults to the ISM reddening law by Cardelli (1989) in DISTROI’s
+‘utils/ISM_reddening folder’. See this file for the expected formatting of your own reddening laws.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return tuple(ebminv_opt, chi2)<span class="colon">:</span></dt>
-<dd class="field-even"><p>The optimal E(B-V) and corresponding chi2 value between the reddened model SED and
-the observed SED.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The optimal E(B-V) and corresponding chi2 value between the reddened model <cite>SED</cite> and the observed <cite>SED</cite>.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple(float)</p>
+<dd class="field-odd"><p>tuple of float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -622,6 +718,14 @@ the observed SED.</p>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.sed.SED"><code class="docutils literal notranslate"><span class="pre">SED</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.sed.SED.wavelengths"><code class="docutils literal notranslate"><span class="pre">SED.wavelengths</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.sed.SED.frequencies"><code class="docutils literal notranslate"><span class="pre">SED.frequencies</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.sed.SED.flam"><code class="docutils literal notranslate"><span class="pre">SED.flam</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.sed.SED.flam_err"><code class="docutils literal notranslate"><span class="pre">SED.flam_err</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.sed.SED.fnu"><code class="docutils literal notranslate"><span class="pre">SED.fnu</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.sed.SED.fnu_err"><code class="docutils literal notranslate"><span class="pre">SED.fnu_err</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.sed.SED.bands"><code class="docutils literal notranslate"><span class="pre">SED.bands</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.sed.SED.sources"><code class="docutils literal notranslate"><span class="pre">SED.sources</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.sed.SED.add_freq_vars"><code class="docutils literal notranslate"><span class="pre">SED.add_freq_vars()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.sed.SED.get_flux"><code class="docutils literal notranslate"><span class="pre">SED.get_flux()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.sed.SED.plot"><code class="docutils literal notranslate"><span class="pre">SED.plot()</span></code></a></li>

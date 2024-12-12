@@ -23,4 +23,3 @@ Submodules
    :maxdepth: 2
 
    distroi.model.model
-   distroi.model.param

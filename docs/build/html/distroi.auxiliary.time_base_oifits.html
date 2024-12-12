@@ -182,7 +182,6 @@
 </ul>
 </details></li>
 <li class="toctree-l3"><a class="reference internal" href="distroi.model.model.html">distroi.model.model module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="distroi.model.param.html">distroi.model.param module</a></li>
 </ul>
 </details></li>
 </ul>
@@ -342,39 +341,45 @@
                   
   <section id="module-distroi.auxiliary.time_base_oifits">
 <span id="distroi-auxiliary-time-base-oifits-module"></span><h1>distroi.auxiliary.time_base_oifits module<a class="headerlink" href="#module-distroi.auxiliary.time_base_oifits" title="Link to this heading">#</a></h1>
-<p>Provides function to interactively plot multiple OIFITS files as a time-series, allowing the user to specify and adapt
-a certain time window. In other words, it allows the user to investigate the timebase of the observations.
-Functionalities are provided to plot the uv coverage of data within the time window, and retrieve
-the paths of OIFITS files with observations within the time window (and optionally copy them to a specified directory).</p>
-<p>NOTE: Because of the spawning of interactive plots, this functionalities in this module cannot be properly used
-in jupyter notebooks, instead use them within a python script.</p>
+<p>A module to interactively plot the uv coverage of time-series of OIFITS files.</p>
+<p>Provides a method to interactively plot multiple OIFITS files as a time-series, allowing the user to specify and adapt
+a certain time window, allowing the user to investigate the timebase of the observations.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.auxiliary.time_base_oifits.oifits_time_window_plot">
 <span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.time_base_oifits.</span></span><span class="sig-name descname"><span class="pre">oifits_time_window_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_window_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.auxiliary.time_base_oifits.oifits_time_window_plot" title="Link to this definition">#</a></dt>
-<dd><p>Produces an interactive matplotlib plot showing the specified OIFITS file as a time-series.
-The specified time window is shown as a red-shaded area. Sliders are provided to change the position and width
-of this time window. The ‘uv coverage’ button can then be clicked in order to plot the uv coverage of the data
-included within the time window. If the copy_dir argument is passed along, the ‘Copy files’ button can be
-pressed to copy over the OIFITS file which contain observations within the interactively set time window.
-After all plots are closed, returns a list with the filepaths of these OIFITS files.</p>
-<p>NOTE: Because the uv coverage button spawns another plot,
-this function cannot be properly used in jupyter notebooks, instead use this method within a python script.</p>
+<dd><p>Interactive matplotlib plot showing uv coverage of specified OIFITS files.</p>
+<p>Makes an interactive plot for specified OIFITS files as a time-series. The specified time window is shown as a
+red-shaded area. Sliders are provided to change the position and width of this time window. The ‘uv coverage’
+button can then be clicked in order to plot the uv coverage of the data included within the time window.
+If the copy_dir argument is passed along, the ‘Copy files’ button can be pressed to copy over the OIFITS file
+which contain observations within the interactively set time window. After all plots are closed, returns a list
+with the filepaths of these OIFITS files.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data_dir</strong> (<em>str</em>) – Path to the directory where the OIFITS files are stored.</p></li>
 <li><p><strong>data_file</strong> (<em>str</em>) – Data filename. Use wildcards to read in multiple files at once.</p></li>
 <li><p><strong>init_window_width</strong> (<em>float</em>) – Initial width of the time window in days. Needs to be larger than 0 days.</p></li>
-<li><p><strong>copy_dir</strong> (<em>str</em>) – If specified, the OIFITS files that have observations within the interactively set time window
+<li><p><strong>copy_dir</strong> (<em>str</em><em>, </em><em>optional</em>) – If specified, the OIFITS files that have observations within the interactively set time window
 will be copied to this directory upon using the ‘Copy files’ button.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return files_within_window<span class="colon">:</span></dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>List of filepaths corresponding to the OIFITS files that have observations within the
 interactively set time window.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list[str]</p>
+<dd class="field-odd"><p>list[str] or None</p>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Because the uv coverage button spawns another plot, this function cannot be properly used in jupyter notebooks,
+instead use this method within a python script.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If <cite>init_window_width</cite> is non-positive.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -382,14 +387,13 @@ interactively set time window.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="distroi.auxiliary.time_base_oifits.timestamp_to_plt_float">
 <span class="sig-prename descclassname"><span class="pre">distroi.auxiliary.time_base_oifits.</span></span><span class="sig-name descname"><span class="pre">timestamp_to_plt_float</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Timestamp</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#distroi.auxiliary.time_base_oifits.timestamp_to_plt_float" title="Link to this definition">#</a></dt>
-<dd><p>Pass along a pandas Timestamp object and convert it to the amount of days passed since
-midnight 1970-01-01 UTC as a float. This is also how numpy converts Timestamp instances
-to floats for plotting purposes.</p>
+<dd><p>Convert a pandas Timestamp object to the amount of days passed since
+midnight 1970-01-01 UTC as a float.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>date_time</strong> (<em>pd.Timestamp</em>) – Pandas Timestamp instance.</p>
 </dd>
-<dt class="field-even">Return date_plt_float<span class="colon">:</span></dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The Timestamp converted to a float value to be used in matplotlib when specifying e.g.
 position along the axes.</p>
 </dd>

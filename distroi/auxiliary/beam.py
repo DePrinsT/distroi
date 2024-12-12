@@ -1,7 +1,7 @@
-"""
-Contains a class to represent a model for the OI point spread function (PSF) (a Gaussian fit). The formal PSF
-is called the 'dirty beam'. Methods to calculate the dirty beam from the uv coverage of an OIContainer object and
-get a fit to the dirty beam's inner few resolution elements (a 'Gaussian beam') are included.
+"""A module to calculate the resolution beam from the uv coverage.
+
+Models the OI point spread function (PSF, i.e. 'dirty beam') with a Gaussian fit to the inner image regions
+called the (clean) beam.
 """
 
 from distroi.auxiliary import constants
@@ -21,25 +21,34 @@ constants.set_matplotlib_params()  # set project matplotlib parameters
 
 
 class Beam:
-    """
-    Class containing information for a 2D Gaussian beam, typically acquired from a fit to the inner regions of a
-    dirty beam (the formal PSF).
+    """Represents a 2D elliptical Gaussian beam.
 
-    :param dict dictionary: Dictionary containing keys and values representing several instance variables described
-        below. Should include 'sig_min', 'sig_maj' and 'pa'.
-    :ivar float sig_min: Standard deviation of the Gaussian along the minor axis.
-    :ivar float sig_maj: Standard deviation of the Gaussian along the major axis.
-    :ivar float pa: Position angle of the Gaussian's major axis, anticlockwise from North to East.
-    :ivar float fwhm_min: Full-width-half-maximum (FWHM) of the Gaussian along the minor axis. This defines the
-        resolution corresponding to the uv coverage along this axis.
-    :ivar float fwhm_maj: FWHM of the Gaussian along the major axis. This defines the resolution
+    Class containing information for a 2D Gaussian beam, typically acquired from a fit to the inner regions of a
+    dirty beam (the formal interferometric PSF).
+
+    Parameters
+    ----------
+    dictionary : dict
+        Dictionary containing keys and values representing several instance variables described below.
+        Should include 'sig_min', 'sig_maj' and 'pa'.
+
+    Attributes
+    ----------
+    sig_min : float
+        Standard deviation of the Gaussian along the minor axis.
+    sig_maj : float
+        Standard deviation of the Gaussian along the major axis.
+    pa : float
+        Position angle of the Gaussian's major axis, anticlockwise from North to East.
+    fwhm_min : float
+        Full-width-half-maximum (FWHM) of the Gaussian along the minor axis. This defines the resolution
         corresponding to the uv coverage along this axis.
+    fwhm_maj : float
+        FWHM of the Gaussian along the major axis. This defines the resolution corresponding to the uv coverage
+        along this axis.
     """
 
     def __init__(self, dictionary):
-        """
-        Initializes a Beam object.
-        """
         self.sig_min = dictionary["sig_min"]  # sigma along short axis in mas
         self.sig_maj = dictionary["sig_maj"]  # sigma y in mas
         self.pa = dictionary["pa"]  # position angle (PA) in degrees
@@ -48,9 +57,9 @@ class Beam:
         self.fwhm_maj = 2 * np.sqrt(2 * np.log(2)) * self.sig_maj
 
     def plot(self) -> None:
-        """
-        Makes a colour plot of the Beam, including contours representing the sigma/FWHM levels
-        :return:
+        """Image plot of the beam.
+
+        Makes a colour image plot of the Beam, including contours representing the sigma/FWHM levels.
         """
         # TODO actually implement this
         return
@@ -58,37 +67,52 @@ class Beam:
 
 def oi_container_calc_gaussian_beam(
     container: oi_container.OIContainer,
-    vistype: Literal["vis2", "vis", "fcorr"] = "vis2",
+    vistype: Literal["vis2", "vis"] = "vis2",
     make_plots: bool = False,
     fig_dir: str = None,
     show_plots: bool = False,
     num_res: int = 3,
     pix_per_res: int = 32,
 ) -> Beam:
-    """
-    Given an OIContainer and the uv frequencies to be used, calculates the clean beam Gaussian parameters by making a
-    Gaussian fit to the dirty beam. The dirty beam acts as the interferometric point spread funtion (PSF)
+    """Calculate the beam from an `OIContainer` object.
+
+    Given an `OIContainer` instance and the uv frequencies to be used, calculates the clean beam Gaussian parameters by
+    making a Gaussian fit to the dirty beam. The dirty beam acts as the interferometric point spread funtion (PSF)
     corresponding to the chosen uv coverage, by setting visibilities constant at the observed uv points and inverting
     the Fourier transform directly to the image plane.
 
-    :param OIContainer container: Container with observables for which we want to calculate the resolution corresponding
-        to its uv coverage.
-    :param str, optional vistype: Sets the uv coverage to be used for the Gaussian beam calculation. 'vis2' for the
-        coverage corresponding to the squared visibility measurements or 'vis' for the uv coverage corresponding to the
-        visibility/correlated flux measurements.
-    :param bool make_plots: Set to True to make plots of the dirty beam.
-    :param str fig_dir: Set to a directory in which you want the plots to be saved.
-    :param show_plots: Set to True if you want the generated plots to be shown in a window.
-    :param int num_res: The number of resolution elements to be included in the calculation. A resolution element is
-        defined as 1 / (2 x 'max_uv'), with max_uv the maximum norm of the probed uv frequency points.
-        Set to 2 by default. Going above this can skew the Gaussian fit or cause it to fail, as the non-Gaussian
-        behavior of the PSF becomes more apparent further away from the dirty beam center.
-        It will also increase calculation time as O(n^2).
-    :param int pix_per_res: Amount of dirty beam pixels used per resolution element. This should be even.
-        Set to 32 by default. Increasing this can significantly increase computation time (scales as O(n^2)).
-    :return gauss_beam: Beam object containing the information of the Gaussian fit.
-    :rtype: Beam
+    Parameters
+    ----------
+    container : OIContainer
+        Container with observables for which we want to calculate the resolution corresponding to its uv coverage.
+    vistype : {'vis2', 'vis', 'fcorr'}, optional
+        Sets the uv coverage to be used for the Gaussian beam calculation. `'vis2'` for the coverage corresponding to
+        the squared visibility measurements or `'vis'` for the uv coverage corresponding to the visibility/correlated
+        flux measurements.
+    make_plots : bool, optional
+        Set to True to make plots of the dirty beam.
+    fig_dir : str, optional
+        Set to a directory in which you want the plots to be saved.
+    show_plots : bool, optional
+        Set to True if you want the generated plots to be shown in a window.
+    num_res : int, optional
+        The number of resolution elements to be included in the calculation. A resolution element is defined as
+        1 / (2 x 'max_uv'), with max_uv the maximum norm of the probed uv frequency points. Set to 2 by default.
+        Going above this can skew the Gaussian fit or cause it to fail, as the non-Gaussian behavior of the PSF
+        becomes more apparent further away from the dirty beam center. It will also increase calculation time as O(n^2).
+    pix_per_res : int, optional
+        Amount of dirty beam pixels used per resolution element. This should be even. Set to 32 by default.
+        Increasing this can significantly increase computation time (scales as O(n^2)).
 
+    Returns
+    -------
+    gauss_beam : Beam
+        `Beam` object containing the information of the Gaussian fit.
+
+    Raises
+    ------
+    ValueError
+        If an invalid vistype is provided or if `pix_per_res` is not even.
     """
     valid_vistypes = ["vis2", "vis", "fcorr"]
     # check for valid vistype

@@ -1,5 +1,9 @@
-"""
-Defines a class and the corresponding methods to handle images and their fast fourier transform (FFT).
+"""A module for handling images and their fast Fourier transform (FFT).
+
+Warnings
+--------
+Currently only supports images with an even amount of pixels.
+
 """
 # TODO: add support for polarimetric observations, e.g. different flux types.
 # TODO: add support for convolution of two images (and their FFT) with the same dimensions.
@@ -24,45 +28,67 @@ constants.set_matplotlib_params()  # set project matplotlib parameters
 
 
 class Image:
-    """
-    Class containing information on an image and (optionally) its Fast Fourier Transform (FFT).
+    """Contains information on an image and its FFT.
 
-    Contains all properties in order to fully describe both the image and its FFT. Note that all these properties are
-    expected if all class methods are to work. It can easily be generalized to different RT codes by defining a
-    corresponding image reader function analogous to 'read_image_fft_mcfost'. Can handle any amount of pixels
-    in an image, as long as the amount of pixels in each dimension is even.
+    Contains all attributes in order to fully describe both a regular grid image and its FFT. Note that all these 
+    attributes are expected if all class methods are to work. It can easily be generalized to different RT codes by
+    defining a corresponding image reader function analogous to `read_image_fft_mcfost`. Can handle any amount 
+    of pixels in an image, as long as the amount of pixels in each dimension is even.
 
-    :param dict dictionary: Dictionary containing keys and values representing several instance variables described
-        below. Should include 'wavelength', 'pixelscale_x'/'y', 'num_pix_x'/'y', 'img', and 'ftot'. The other required
-        instance variables (related to the FFT) are set automatically through perform_fft().
-    :param SpecDep sp_dep: Optional spectral dependence of the image. This will only be used if this Image
-        is used on its own in methods calculating interferometric observables. If instead multiple Image object or
-        an SED are passed along as well, this property of the image will be ignored. By default, the spectral
-        dependency will be assumed to be flat in correlated flux accross wavelengths (note that flatness in correlated
-        flux means a spectral dependency ~ wavelength ^ -2 for F_lam).
-    :param tuple[int, int] padding: Number of (x, y)-pixles to which an image should be 0-padded before performing
-        the FFT. I.e. padding=(680, 540) will 0-pad an image to 680 and 540 pixels in the x and y dimensions,
-        respectively. If smaller than the number of pixels already in the 'img' array, no padding will be added in
-        the respective dimension. These should both be even numbers!
-    :ivar float wavelength: Image wavelength in micron.
-    :ivar float pixelscale_x: Pixelscale in radian in x (East-West) direction.
-    :ivar float pixelscale_y: Pixelscale in radian in y (North-South) direction.
-    :ivar int num_pix_x: Amount of image pixels in the x direction.
-    :ivar int num_pix_y: Amount of image pixels in the y direction.
-    :ivar np.ndarray img: 2D numpy array containing the image flux in Jy. 1st index = image y-axis,
-        2nd index = image x-axis.
-    :ivar float ftot: Total image flux in Jy
-    :ivar SpecDep sp_dep: Optional spectral dependence of the image. Assumed flat in correlated flux (F_nu) by
-        default.
-    :ivar np.ndarray fft: Complex 2D numpy FFT of img in Jy, i.e. in correlated flux formulation.
-    :ivar int num_pix_fft_x: Amount of image FFT pixels in the x direction. This can be different
-        from num_pix_x due to padding.
-    :ivar int num_pix_fft_y: Amount of image FFT pixels in the y direction. This can be different
-        from num_pix_y due to padding.
-    :ivar np.ndarray w_x: 1D array with numpy FFT x-axis frequencies in units of 1/pixelscale_x.
-    :ivar np.ndarray w_y: 1D array with numpy FFT y-axis frequencies in units of 1/pixelscale_y.
-    :ivar np.ndarray uf: 1D array with FFT spatial x-axis frequencies in 1/radian, i.e. uf = w_x/pixelscale_x.
-    :ivar np.ndarray vf: 1D array with FFT spatial y-axis frequencies in 1/radian, i.e. vf = w_y/pixelscale_y.
+    Parameters
+    ----------
+    dictionary : dict
+        Dictionary containing keys and values representing several instance variables described below. Should include
+        `wavelength`, `pixelscale_x/y`, `num_pix_x/y`, `img`, and `ftot`. The other required instance variables
+        (related to the FFT) are set automatically through `perform_fft`.
+    sp_dep : SpecDep, optional
+        Optional spectral dependence of the image. This will only be used if this `Image` is used on its own in methods
+        calculating interferometric observables. If instead multiple `Image` objects or an `SED` are passed along as 
+        well, this property of the image will be ignored. By default, the spectral dependency will be assumed to be 
+        flat in F_lam across wavelengths.
+    padding : tuple of int, optional
+        Number of (x, y)-pixels to which an image should be 0-padded before performing the FFT. I.e.
+        ``padding=(680, 540)`` will 0-pad an image to 680 and 540 pixels in the x and y dimensions, respectively.
+        If smaller than the number of pixels already in the `img` array, no padding will be added in the respective
+        dimension. These should both be even numbers!
+
+    Attributes
+    ----------
+    wavelength : float
+        Image wavelength in micron.
+    pixelscale_x : float
+        Pixelscale in radian in x (East-West) direction.
+    pixelscale_y : float
+        Pixelscale in radian in y (North-South) direction.
+    num_pix_x : int
+        Amount of image pixels in the x direction.
+    num_pix_y : int
+        Amount of image pixels in the y direction.
+    img : np.ndarray
+        2D numpy array containing the image flux in Jy. 1st index = image y-axis, 2nd index = image x-axis.
+    ftot : float
+        Total image flux in Jy.
+    sp_dep : SpecDep
+        Optional spectral dependence of the image. Assumed flat in F_lam by default.
+    fft : np.ndarray
+        Complex 2D numpy FFT of `img` in Jy, i.e. in correlated flux formulation.
+    num_pix_fft_x : int
+        Amount of image FFT pixels in the x direction. This can be different from `num_pix_x` due to padding.
+    num_pix_fft_y : int
+        Amount of image FFT pixels in the y direction. This can be different from `num_pix_y` due to padding.
+    w_x : np.ndarray
+        1D array with numpy FFT x-axis frequencies in units of ``1/pixelscale_x``.
+    w_y : np.ndarray
+        1D array with numpy FFT y-axis frequencies in units of ``1/pixelscale_y``.
+    uf : np.ndarray
+        1D array with FFT spatial x-axis frequencies in cycles/radian, i.e. ``uf = w_x/pixelscale_x``.
+    vf : np.ndarray
+        1D array with FFT spatial y-axis frequencies in cycles/radian, i.e. ``vf = w_y/pixelscale_y``.
+
+    Warnings
+    --------
+    The default value of `sp_dep` assumes a flat spectrum in F_lam. This implies a spectral dependency ~ frequency^-2
+    ~ wavelength^2 for F_nu. Thus the total correlated flux of the image FFT will not be flat accross wavelength.
     """
 
     def __init__(
@@ -71,9 +97,6 @@ class Image:
         sp_dep: spec_dep.SpecDep | None = None,
         padding: tuple[int, int] | None = None,
     ):
-        """
-        Constructor method. See class docstring for information on initialzization parameters and instance properties.
-        """
         self.wavelength: float | None = None  # image wavelength in micron
         # TODO: add option for adding polarimetric state information of light, maybe using self.stokes_type
 
@@ -130,19 +153,32 @@ class Image:
         if sp_dep is not None:
             self.sp_dep = sp_dep  # set spectral dependence if given
         else:
-            self.sp_dep = spec_dep.FlatSpecDep(flux_form="fnu")  # otherwise, assume flat spectrum in correlated flux
+            self.sp_dep = spec_dep.FlatSpecDep(flux_form="flam")  # otherwise, assume flat spectrum in F_lam
 
         return
 
     def perform_fft(self, padding: tuple[int, int] | None = None) -> None:
-        """
-        Perform the numpy FFT and set the required properties related to the image's FFT.
+        """Perform an FFT on the image.
 
-        :param tuple[int, int] padding: Number of (x, y)-pixles to which an image should be 0-padded before performing
-            the FFT. I.e. padding=(680, 540) will 0-pad an image to 680 and 540 pixels in the x and y dimensions,
-            respectively. If smaller than the number of pixels already in the 'img' array, no padding will be added in
-            the respective dimension. These should both be even numbers!
-        :rtype: None
+        Perform the numpy FFT on the `img` property and set the other required attributes related to the
+        image's FFT.
+
+        Parameters
+        ----------
+        padding : tuple of int, optional
+            Number of (x, y)-pixels to which an image should be 0-padded before performing the FFT. I.e.
+            ``padding=(680, 540)`` will 0-pad an image to 680 and 540 pixels in the x and y dimensions, respectively.
+            If smaller than the number of pixels already in the `img` array, no padding will be added in the
+            respective dimension. These should both be even numbers!
+
+        Returns
+        -------
+        None
+
+        Raises
+        ------
+        ValueError
+            If the padding dimensions are not even numbers.
         """
 
         if padding is None:  # case if no padding is required
@@ -197,14 +233,21 @@ class Image:
         ebminv: float,
         reddening_law: str = constants.PROJECT_ROOT + "/utils/ISM_reddening" "/ISMreddening_law_Cardelli1989.dat",
     ) -> None:
-        """
-        Further reddens the model image according to the approriate E(B-V) and a corresponding reddening law.
+        """Redden the image.
 
-        :param float ebminv: E(B-V) reddening factor to be applied.
-        :param str reddening_law: Path to the reddening law to be used. Defaults to the ISM reddening law by
-            Cardelli (1989) in DISTROI's 'utils/ISM_reddening folder'. See this file for the expected formatting
-            of your own reddening laws.
-        :rtype: None
+        Further reddens the model image according to the appropriate E(B-V) and a corresponding reddening law.
+
+        Parameters
+        ----------
+        ebminv : float
+            E(B-V) reddening factor to be applied.
+        reddening_law : str, optional
+            Path to the reddening law to be used. Defaults to the ISM reddening law by Cardelli (1989) in DISTROI's
+            'utils/ISM_reddening folder'. See this file for the expected formatting of your own reddening laws.
+
+        Returns
+        -------
+        None
         """
         self.img = constants.redden_flux(
             self.wavelength,
@@ -222,12 +265,15 @@ class Image:
         return
 
     def freq_info(self) -> str:
-        """
+        """Get a string with frequency domain info.
+
         Returns a string containing information on both the spatial frequency domain/sampling and the corresponding
         projected baselines.
 
-        :return info_str: String containing frequency info which can be printed.
-        :rtype: str
+        Returns
+        -------
+        info_str : str
+            String containing frequency info which can be printed.
         """
         image_size_x = self.pixelscale_x * self.num_pix_x
         image_size_y = self.pixelscale_y * self.num_pix_y
@@ -297,91 +343,28 @@ class Image:
         )
         return info_str
 
-    # # TODO: add point source and add overresolved flux might be very much overkill and have unintended side_effects
-    # # Hence maybe not a bad idea to remove them.
-    # def add_point_source(self, flux: float, coords: tuple[float, float]) -> None:
-    #     """
-    #     Function that adds the effect of an additional point source to the Image instance. This affects the
-    #     following instance variables: 'img', 'ftot' and 'fft'. The flux of the point source is added to the pixel in
-    #     'img' closest to the specified source position as well as to the value of ftot. 'fft' is modified by the
-    #     analytical addition of the point-source's complex correlated flux. Note that, after this function is called,
-    #     there is thus a mismatch between 'fft' and 'img', since the effect of the source is added in an exact
-    #     analytic manner in the former while it is added aproximately in the latter. For example, nothing prevents the
-    #     addition of a point source far outside image axes ranges. The addition to 'fft' will be analytically exact,
-    #     while the point source flux will be added to the nearest border pixel in 'img'. The addition to 'img' serves
-    #     more for visualization, e.g. the plots created by fft_diagonstic_plot(). As a result, be careful with future
-    #     invocations of perform_fft(), the effect may not be as desired!
-
-    #     :param float flux: The flux value (F_nu, in Jy) of the point source at the wavelength of the Image instance.
-    #     :param tuple(float) coords: 2D tuple giving the x and y position of the point source (in milli-arcsecond).
-    #         The positive x direction is towards the East. The positive y direction is towards the North.
-    #     :rtype: None
-    #     """
-    #     x, y = coords[0], coords[1]  # point source position
-
-    #     self.ftot += flux
-
-    #     # define numpy arrays with coordinates for pixel centres in milli-arcsecond
-    #     coords_pix_x = (
-    #         np.linspace(self.num_pix_x / 2 - 0.5, -self.num_pix_x / 2 + 0.5, self.num_pix_x)
-    #         * self.pixelscale_x
-    #         * constants.RAD2MAS
-    #     )
-    #     coords_pix_y = (
-    #         np.linspace(self.num_pix_y / 2 - 0.5, -self.num_pix_y / 2 + 0.5, self.num_pix_y)
-    #         * self.pixelscale_y
-    #         * constants.RAD2MAS
-    #     )
-    #     coords_pix_mesh_x, coords_pix_mesh_y = np.meshgrid(coords_pix_x, coords_pix_y)  # create a meshgrid
-    #     distances = np.sqrt((coords_pix_mesh_x - x) ** 2 + (coords_pix_mesh_y - y) ** 2)  # calc dist pixels to point
-
-    #     min_dist_indices = np.where(distances == np.min(distances))  # retrieve indices of where distance is minimum
-    #     min_ind_x, min_ind_y = min_dist_indices[1][0], min_dist_indices[0][0]
-
-    #     self.img[min_ind_y][min_ind_x] += flux  # add point source flux to the nearest pixel
-
-    #     # define meshgrid for spatial frequencies in units of 1/milli-arcsecond
-    #     freq_mesh_u, freq_mesh_v = np.meshgrid(self.uf * constants.MAS2RAD, self.vf * constants.MAS2RAD)
-    #     # add the complex contribution of the secondary to the stored FFT
-    #     self.fft += flux * np.exp(-2j * np.pi * (freq_mesh_u * x + freq_mesh_v * y))
-
-    #     return
-
-    # def add_overresolved_flux(self, flux: float) -> None:
-    #     """
-    #     Function that adds the effect of an overresolved flux component to the Image instance. This affects the
-    #     following instance variables: 'img', and 'ftot'. The flux of the overresolved component is added to 'img',
-    #     spread uniformly accross all its pixels. The flux is also added to 'ftot'. Note that the complex visibilities
-    #     in 'fft' remain unaffected. This is the exact, analytical formulation of infinitely extended flux,
-    #     where the correlated flux of such a component is a direct delta at frequency 0. In this regime ad using the
-    #     FFT, only 'ftot' is increased, while 'fft' remains unaffected. This only has an effect on (squared)
-    #     visibilities if they are normalized. If they are expressed in correlated flux, this addition will have no
-    #     effect. Note that this function causes a discrepancy between 'fft' and 'img', as the addition to the former
-    #     assumes an infinitely extended uniform flux, while addition to the latter is spread over the finite image
-    #     size. The addition to 'img' serves more for visualization, e.g. the plots created by fft_diagonstic_plot().
-    #     As a result, be careful with future invocations of perform_fft(), the effect may not be as desired!
-
-    #     :param float flux: The flux value (in Jy) of the overresolved component at the wavelength of the Image
-    #         instance.
-    #     :rtype: None
-    #     """
-
-    #     self.ftot += flux
-    #     self.img += flux / (self.num_pix_x * self.num_pix_y)
-
-    #     return
-
     def half_light_radius(self) -> float:
-        """
+        """Calculate the half light radius.
+
         Calculate the half light radius of the image by adding up the fluxes of pixels within increasing circular
-        aperatures. If you want only the half light radius excluding the central source, e.g. the model disk in an
-        MCFOST model, one should exclude the central source when reading in the image file (e.g. using disk_only=True
-        with read_image_fft_mcfost()). Due to the implImageimentation, the returned value's accuracy is inherently
+        apertures.
+
+        Returns
+        -------
+        hlr : float
+            The half light radius in milli-arcseconds.
+
+        Warnings
+        --------
+        Due to the implementation, the returned value's accuracy is inherently
         limited by the model image pixelscale. Note also that the radius is calculated in the image plane, and thus
         depends on e.g. inclination of the RT model.
 
-        :return hlr: The half light radius in milli-arcseconds.
-        :rtype: float
+        Notes
+        -----
+        If you want only the half light radius excluding the central source, e.g. the model disk in an
+        MCFOST model, one should exclude the central source when reading in the image file (e.g. using
+        ``disk_only=True`` with `read_image_fft_mcfost`).
         """
         # define numpy arrays with coordinates for pixel centres in milli-arcsecond
         coords_pix_x = (
@@ -417,17 +400,33 @@ class Image:
         log_ploti: bool = False,
         show_plots: bool = True,
     ) -> None:
-        """
+        """Create diagnostic plots.
+
         Makes diagnostic plots showing both the model image and the FFT (squared) visibilities and complex phases.
 
-        :param str fig_dir: Directory to store plots in.
-        :param str plot_vistype: Sets the type of visibility to be plotted. 'vis2' for squared visibilities, 'vis'
-            for visibilities or 'fcorr' for correlated flux in Jy.
-        :param bool log_plotv: Set to True for a logarithmic y-scale in the (squared) visibility plot.
-        :param bool log_ploti: Set to True for a logarithmic intensity scale in the model image plot.
-        :param bool show_plots: Set to False if you do not want the plots to be shown during your script run.
-            Note that if True, this freazes further code execution until the plot windows are closed.
-        :rtype: None
+        Parameters
+        ----------
+        fig_dir : str, optional
+            Directory to store plots in.
+        plot_vistype : {'vis2', 'vis', 'fcorr'}, optional
+            Sets the type of visibility to be plotted. 'vis2' for squared visibilities, 'vis' for visibilities or
+            'fcorr' for correlated flux in Jy.
+        log_plotv : bool, optional
+            Set to True for a logarithmic y-scale in the (squared) visibility plot.
+        log_ploti : bool, optional
+            Set to True for a logarithmic intensity scale in the model image plot.
+        show_plots : bool, optional
+            Set to False if you do not want the plots to be shown during your script run. Note that if True, this
+            freezes further code execution until the plot windows are closed.
+
+        Returns
+        -------
+        None
+
+        Raises
+        ------
+        ValueError
+            If an invalid `plot_vistype` is provided.
         """
         valid_vistypes = ["vis2", "vis", "fcorr"]
         if plot_vistype not in valid_vistypes:
@@ -754,17 +753,31 @@ class Image:
 
 
 def read_image_mcfost(img_path: str, padding: tuple[int, int] | None = None, disk_only: bool = False) -> Image:
-    """
-    Retrieve image data from an MCFOST model image and return it as an Image class instance.
+    """Read in MCFOST model image.
 
-    :param str img_path: Path to an MCFOST output RT.fits.gz model image file.
-    :param tuple[int, int] padding: Number of (x, y)-pixles to which an image should be 0-padded before performing
-        the FFT. I.e. padding=(680, 540) will 0-pad an image to 680 and 540 pixels in the x and y dimensions,
-        respectively. If smaller than the number of pixels already in the 'img' array, no padding will be added in
-        the respective dimension. These should both be even numbers!
-    :param bool disk_only: Set to True if you only want to read in the flux from the disk.
-    :return image: Image instance containing the information on the MCFOST RT image.
-    :rtype: Image
+    Retrieve image data from an MCFOST model image file and return it as an `Image` class instance.
+
+    Parameters
+    ----------
+    img_path : str
+        Path to an MCFOST output RT.fits.gz model image file.
+    padding : tuple of int, optional
+        Number of (x, y)-pixels to which an image should be 0-padded before performing the FFT. I.e.
+        ``padding=(680, 540)`` will 0-pad an image to 680 and 540 pixels in the x and y dimensions, respectively.
+        If smaller than the number of pixels already in the `img` array, no padding will be added in the respective
+        dimension. These should both be even numbers!
+    disk_only : bool, optional
+        Set to True if you only want to read in the flux from the disk.
+
+    Returns
+    -------
+    image : Image
+        Image instance containing the information on the MCFOST RT image.
+
+    Raises
+    ------
+    FileNotFoundError
+        If the specified `img_path` does not exist.
     """
     dictionary = {}  # dictionary to construct Image instance
 
@@ -787,7 +800,7 @@ def read_image_mcfost(img_path: str, padding: tuple[int, int] | None = None, dis
     # disk flux (scattered starlight + direct thermal emission + scattered thermal emission)
     img_disk = img_array[6, az, inc, :, :] + img_array[7, az, inc, :, :]
 
-    # Set all image-related class instance properties below.
+    # Set all image-related class instance attributes below.
 
     if disk_only:
         dictionary["img"] = img_disk
@@ -814,28 +827,43 @@ def read_image_list(
     ebminv: float = 0.0,
     reddening_law: str = f"{constants.PROJECT_ROOT}" f"/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat",
 ) -> list[Image] | None:
-    """
-    Function that takes the path to an RT model's directory and a subdirectory containing image files, and returns a
-    list of Image objects representing those model images. They should thus represent the same underlying physical
+    """Read in multiple model image files into a list of `Image` objects.
+
+    Function that takes the path to an model's directory and a subdirectory containing image files, and returns a
+    list of `Image` objects representing those model images. They should thus represent the same underlying physical
     model, but imaged at different wavelengths.
 
-    :param str mod_dir: Parent directory of the RT model of interest.
-    :param str img_dir: Subdirectory containing RT model images. All image files recursively found in the subdirectories
-         of 'mod_dir+img_dir' are read.
-    :param str read_method: Type of method used to read in RT model images when creating Image class instances.
-        Currently only supports 'mcfost', in which case all files ending on the sufix 'RT.fits.gz' are read in.
-    :param tuple[int, int] padding: Number of (x, y)-pixles to which an image should be 0-padded before performing
-        the FFT. I.e. padding=(680, 540) will 0-pad an image to 680 and 540 pixels in the x and y dimensions,
-        respectively. If smaller than the number of pixels already in the 'img' array, no padding will be added in
-        the respective dimension. These should both be even numbers!
-    :param float ebminv: E(B-V) of additional reddening to be applied to the model images. Only useful if
-        the visibilities need to be expressed in correlated flux at some point.
-    :param str reddening_law: Path to the reddening law to be used. Defaults to the ISM reddening law by
-        Cardelli (1989) in DISTROI's 'utils/ISM_reddening folder'. See this file for the expected formatting
-        of your own reddening laws.
-    :return: img_ffts: List of Image objects representing all model image files found under 'mod_dir+img_dir'.
-        Sorted by wavelength
-    :rtype: list(Image)
+    Parameters
+    ----------
+    mod_dir : str
+        Parent directory of the RT model of interest.
+    img_dir : str
+        Subdirectory containing RT model images. All image files recursively found in the subdirectories of
+        ``mod_dir+img_dir`` are read.
+    read_method : {'mcfost'}, optional
+        Type of method used to read in RT model images when creating `Image` class instances. Currently only supports
+        `'mcfost'`, in which case all files ending on the suffix 'RT.fits.gz' are read in.
+    padding : tuple of int, optional
+        Number of (x, y)-pixels to which an image should be 0-padded before performing the FFT. I.e.
+        ``padding=(680, 540)`` will 0-pad an image to 680 and 540 pixels in the x and y dimensions, respectively.
+        If smaller than the number of pixels already in the `img` array, no padding will be added in the respective
+        dimension. These should both be even numbers!
+    ebminv : float, optional
+        E(B-V) of additional reddening to be applied to the model images. Only useful if the visibilities need to be
+        expressed in correlated flux at some point.
+    reddening_law : str, optional
+        Path to the reddening law to be used. Defaults to the ISM reddening law by Cardelli (1989) in DISTROI's
+        'utils/ISM_reddening folder'. See this file for the expected formatting of your own reddening laws.
+
+    Returns
+    -------
+    img_ffts : list of Image
+        List of Image objects representing all model image files found under ``mod_dir+img_dir``. Sorted by wavelength.
+
+    Raises
+    ------
+    ValueError
+        If an invalid `read_method` is provided.
     """
     valid_read_methods = ["mcfost"]
     if read_method not in valid_read_methods:
@@ -865,27 +893,44 @@ def image_fft_comp_vis_interpolator(
     normalised: bool = False,
     interp_method: str = "linear",
 ) -> RegularGridInterpolator:
-    """
-    Creates a scipy RegularGridInterpolator from model Image objects, which can be used to interpolate the complex
-    visibility to different spatial frequencies than those returned by the FFT algorithm and, optionally,
-    different wavelengths than those of the RT model images themselves. Note: The interpolator will throw errors if
-    arguments outside their bounds are supplied! Note: Expects, in case of multiple model images, that every image
-    included has the same pixelscale and amount of pixels (in both x- and y-direction).
+    """Create a regular grid interpolator for model image complex FFTs.
 
-    :param list img_ffts: List of Image objects to create an interpolator from. If the list has length one,
-        i.e. a monochromatic model for the emission, the returned interpolator can only take the 2 spatial frequencies
-        (units 1/Hz) as arguments. If the list contains multiple objects, i.e. a chromatic model for the emission,
-        the interpolator will also be able to take wavelength (in micron) as an argument and will be able to interpolate
-        along the wavelength dimension.
-    :param bool normalised: Set to True if you want the returned interpolator to produce normalised, non-absolute
-        complex visibilities (for calculating e.g. squared visibilities). By default normalised = False, meaning
-        the interpolator returns absolute complex visibilities, i.e. complex correlated fluxes (in units Jy).
-    :param str interp_method: Interpolation method used by the returned scipy RegularGridInterpolator.
-        Can support 'linear', 'nearest', 'slinear', 'cubic', 'quintic' or 'pchip'.
-    :return interpolator: Interpolator for the model image FFTs. If len(img_ffts) == 1, only takes the uv spatial
-        frequencies (units 1/rad) as arguments as follows: interpolator(v, u).  If len(img_ffts) > 1, then it also
-        can interpolate between wavelengths (units micron) as follows: interpolator(wavelength, v, u).
-    :rtype: scipy.interpolate.RegularGridInterpolator
+    Creates a `scipy RegularGridInterpolator` from model `Image` objects, which can be used to interpolate the complex
+    visibility to different spatial frequencies than those returned by the FFT algorithm and, optionally,
+    different wavelengths than those of the RT model images themselves.
+
+    Parameters
+    ----------
+    img_ffts : list of Image
+        List of Image objects to create an interpolator from. If the list has length one, i.e. a monochromatic model
+        for the emission, the returned interpolator can only take the 2 spatial frequencies (units 1/Hz) as arguments.
+        If the list contains multiple objects, i.e. a chromatic model for the emission, the interpolator will also be
+        able to take wavelength (in micron) as an argument and will be able to interpolate along the wavelength
+        dimension.
+    normalised : bool, optional
+        Set to True if you want the returned interpolator to produce normalised, non-absolute complex visibilities
+        (for calculating e.g. squared visibilities). By default normalised = False, meaning the interpolator returns
+        absolute complex visibilities, i.e. complex correlated fluxes (in units Jy).
+    interp_method : str, optional
+        Interpolation method used by the returned scipy RegularGridInterpolator. Can support 'linear', 'nearest',
+        'slinear', 'cubic', 'quintic' or 'pchip'.
+
+    Returns
+    -------
+    interpolator : scipy.interpolate.RegularGridInterpolator
+        Interpolator for the model image FFTs. If ``len(img_ffts) == 1``, only takes the uv spatial frequencies (units
+        1/rad) as arguments as follows: interpolator(v, u). If ``len(img_ffts) > 1``, then it also can interpolate
+        between wavelengths (units micron) as follows: ``interpolator(wavelength, v, u)``.
+
+    Raises
+    ------
+    ValueError
+        If the length of img_ffts is less than 1.
+
+    Warnings
+    --------
+    The interpolator will throw errors if arguments outside their bounds are supplied! Expects, in case of multiple
+    model images, that every image included has the same pixelscale and amount of pixels (in both x- and y-direction).
     """
 
     if len(img_ffts) == 1:  # single image -> monochromatic emission model
@@ -934,17 +979,29 @@ def image_fft_ftot_interpolator(
     img_ffts: list[Image],
     interp_method: str = "linear",
 ) -> interp1d:
-    """
+    """Create a regular grid interpolator for the total flux in model images.
+
     Creates a scipy interp1d object from a list of model Image objects, allowing to interpolate the total
     flux (F_nu format in unit Jansky) along the wavelength dimension.
 
-    :param list img_ffts: List of Image objects to create an interpolator from. Must have length longer than one.
-    :param str interp_method: Interpolation method used by scipy's interp1d method. Defualt is 'linear'.
-        Can support 'linear', 'nearest', 'nearest-up', 'zero', 'slinear', 'quadratic', 'cubic', 'previous', or
-        'next'.
-    :return interpolator: Interpolator for the total flux in F_nu format and units Jy. Takes the wavelength in micron
-        as its only argument.
-    :rtype: scipy.interpolate.interp1d
+    Parameters
+    ----------
+    img_ffts : list of Image
+        List of `Image` objects to create an interpolator from. Must have length longer than one.
+    interp_method : str, optional
+        Interpolation method used by scipy's interp1d method. Default is `'linear'`. Can support 'linear', 'nearest',
+        'nearest-up', 'zero', 'slinear', 'quadratic', 'cubic', 'previous', or 'next'.
+
+    Returns
+    -------
+    interpolator : scipy.interpolate.interp1d
+        Interpolator for the total flux in F_nu format and units Jy. Takes the wavelength in micron as its only
+        argument.
+
+    Raises
+    ------
+    Exception
+        If the length of `img_ffts` is less than 2.
     """
 
     if len(img_ffts) < 2:
@@ -970,51 +1027,6 @@ def image_fft_ftot_interpolator(
 
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
-    # from distroi import oi_container
-    # from scipy.spatial import distance
-    #
-    # # FFT test + output info on frequencies
-    # mod_dir = "/home/toond/Documents/phd/python/distroi/examples/models/IRAS08544-4431_test_model/"
-    # img_dir = "PIONIER/data_1.65/"
-    # img = read_image_fft_mcfost(
-    #     img_path=f"{mod_dir}{img_dir}/RT.fits.gz", disk_only=True
-    # )
-    # print(img.freq_info())
-    # img.diagnostic_plot(fig_dir=None, log_plotv=True, show_plots=True)
-
-    # object_id = "IRAS15469-5311"
-    # data_dir, data_file = (
-    #     f"/home/toond/Documents/phd/data/{object_id}/inspiring/PIONIER/img_ep_jan2021-mar2021/",
-    #     "*.fits",
-    # )
-    # container_data = oi_container.read_oi_container_from_oifits(data_dir, data_file)
-    # uf, vf = container_data.v2uf, container_data.v2vf
-
-    # # np.random.seed(0)
-    # # uf = np.random.rand(3) * 100e6
-    # # vf = np.random.rand(3) * 100e6
-
-    # plt.scatter(uf, vf)
-    # plt.show()
-
-    # pixelscale = 0.6 * constants.MAS2RAD  # pixelscale in radian
-    # dummy
-    # # 2d array with the different points along the rows and the 2 columns being the coordinates
-    # uv_coord_array = np.array((uf, vf)).T
-    # # feed to scipy's cdist to calculate the distances between the points
-    # uv_dists = distance.cdist(uv_coord_array, uv_coord_array)
-    # # find the lowest nonzero frequency distance between the uv points
-    # min_uv_dist = np.min(uv_dists[np.nonzero(uv_dists)])
-    # print(f"minimum distace {min_uv_dist}")
-
-    # fov_req = 1 / min_uv_dist  # required fov in radian
-    # min_pix = int((fov_req // pixelscale) + 1)
-    # if min_pix % 2 == 1:
-    #     min_pix += 1
-    # print(f"required fov: {fov_req * constants.RAD2MAS}")
-    # print(f"minimum required amount of pixels {min_pix}")
-
-    # FFT test + output info on frequencies
     import distroi.auxiliary.constants
 
     distroi.auxiliary.constants.FIG_OUTPUT_TYPE = "pdf"

@@ -1,5 +1,5 @@
-"""
-Subpackage containing auxiliary modules used to support the main parts of the code.
+"""Subpackage containing auxiliary modules used to support the main parts of the code.
+
 Some modules are originally written by A. Corporaal and J. Kluska.
 """
 

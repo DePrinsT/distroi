@@ -20,7 +20,6 @@ img_dir = "PIONIER/data_1.65/"
 img = distroi.read_image_mcfost(img_path=f"{mod_dir}{img_dir}/RT.fits.gz", disk_only=True)
 print("Printing frequency info: \n", img.freq_info())
 img.diagnostic_plot(f"{fig_dir}/fft", log_plotv=True, show_plots=True)
-img.bullshit_plot()
 
 # Monochromatic model observables test
 img_dir = "PIONIER/data_1.65/"

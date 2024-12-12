@@ -182,7 +182,6 @@
 </ul>
 </details></li>
 <li class="toctree-l3"><a class="reference internal" href="distroi.model.model.html">distroi.model.model module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="distroi.model.param.html">distroi.model.param module</a></li>
 </ul>
 </details></li>
 </ul>
@@ -327,18 +326,133 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notes">Notes:</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIData"><code class="docutils literal notranslate"><span class="pre">OIData</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIData.header"><code class="docutils literal notranslate"><span class="pre">OIData.header</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIData.target"><code class="docutils literal notranslate"><span class="pre">OIData.target</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIData.vis"><code class="docutils literal notranslate"><span class="pre">OIData.vis</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIData.vis2"><code class="docutils literal notranslate"><span class="pre">OIData.vis2</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIData.t3"><code class="docutils literal notranslate"><span class="pre">OIData.t3</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIData.flux"><code class="docutils literal notranslate"><span class="pre">OIData.flux</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIData.filter"><code class="docutils literal notranslate"><span class="pre">OIData.filter()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIData.plot_data"><code class="docutils literal notranslate"><span class="pre">OIData.plot_data()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIData.plot_uv"><code class="docutils literal notranslate"><span class="pre">OIData.plot_uv()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIData.read_oifits"><code class="docutils literal notranslate"><span class="pre">OIData.read_oifits()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIFlux"><code class="docutils literal notranslate"><span class="pre">OIFlux</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3"><code class="docutils literal notranslate"><span class="pre">OIT3</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget"><code class="docutils literal notranslate"><span class="pre">OITarget</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis"><code class="docutils literal notranslate"><span class="pre">OIVis</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2"><code class="docutils literal notranslate"><span class="pre">OIVis2</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIFlux"><code class="docutils literal notranslate"><span class="pre">OIFlux</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIFlux.header"><code class="docutils literal notranslate"><span class="pre">OIFlux.header</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIFlux.time"><code class="docutils literal notranslate"><span class="pre">OIFlux.time</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIFlux.mjd"><code class="docutils literal notranslate"><span class="pre">OIFlux.mjd</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIFlux.int_time"><code class="docutils literal notranslate"><span class="pre">OIFlux.int_time</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIFlux.fluxdata"><code class="docutils literal notranslate"><span class="pre">OIFlux.fluxdata</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIFlux.fluxerr"><code class="docutils literal notranslate"><span class="pre">OIFlux.fluxerr</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIFlux.flag"><code class="docutils literal notranslate"><span class="pre">OIFlux.flag</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIFlux.telescope_dict"><code class="docutils literal notranslate"><span class="pre">OIFlux.telescope_dict</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIFlux.telescope_idx"><code class="docutils literal notranslate"><span class="pre">OIFlux.telescope_idx</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIFlux.eff_wave"><code class="docutils literal notranslate"><span class="pre">OIFlux.eff_wave</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIFlux.eff_band"><code class="docutils literal notranslate"><span class="pre">OIFlux.eff_band</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3"><code class="docutils literal notranslate"><span class="pre">OIT3</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.header"><code class="docutils literal notranslate"><span class="pre">OIT3.header</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.time"><code class="docutils literal notranslate"><span class="pre">OIT3.time</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.mjd"><code class="docutils literal notranslate"><span class="pre">OIT3.mjd</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.int_time"><code class="docutils literal notranslate"><span class="pre">OIT3.int_time</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.t3amp"><code class="docutils literal notranslate"><span class="pre">OIT3.t3amp</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.t3amperr"><code class="docutils literal notranslate"><span class="pre">OIT3.t3amperr</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.t3phi"><code class="docutils literal notranslate"><span class="pre">OIT3.t3phi</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.t3phierr"><code class="docutils literal notranslate"><span class="pre">OIT3.t3phierr</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.u1coord"><code class="docutils literal notranslate"><span class="pre">OIT3.u1coord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.v1coord"><code class="docutils literal notranslate"><span class="pre">OIT3.v1coord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.u2coord"><code class="docutils literal notranslate"><span class="pre">OIT3.u2coord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.v2coord"><code class="docutils literal notranslate"><span class="pre">OIT3.v2coord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.flag"><code class="docutils literal notranslate"><span class="pre">OIT3.flag</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.baseline_dict"><code class="docutils literal notranslate"><span class="pre">OIT3.baseline_dict</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.baseline_idx"><code class="docutils literal notranslate"><span class="pre">OIT3.baseline_idx</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.eff_wave"><code class="docutils literal notranslate"><span class="pre">OIT3.eff_wave</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.eff_band"><code class="docutils literal notranslate"><span class="pre">OIT3.eff_band</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.u3coord"><code class="docutils literal notranslate"><span class="pre">OIT3.u3coord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.v3coord"><code class="docutils literal notranslate"><span class="pre">OIT3.v3coord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.u1fcoord"><code class="docutils literal notranslate"><span class="pre">OIT3.u1fcoord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.v1fcoord"><code class="docutils literal notranslate"><span class="pre">OIT3.v1fcoord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.u2fcoord"><code class="docutils literal notranslate"><span class="pre">OIT3.u2fcoord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.v2fcoord"><code class="docutils literal notranslate"><span class="pre">OIT3.v2fcoord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.u3fcoord"><code class="docutils literal notranslate"><span class="pre">OIT3.u3fcoord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.v3fcoord"><code class="docutils literal notranslate"><span class="pre">OIT3.v3fcoord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.base_max"><code class="docutils literal notranslate"><span class="pre">OIT3.base_max</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.spat_freq_max"><code class="docutils literal notranslate"><span class="pre">OIT3.spat_freq_max</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.Notes"><code class="docutils literal notranslate"><span class="pre">OIT3.Notes</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget"><code class="docutils literal notranslate"><span class="pre">OITarget</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.header"><code class="docutils literal notranslate"><span class="pre">OITarget.header</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.target_id"><code class="docutils literal notranslate"><span class="pre">OITarget.target_id</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.target"><code class="docutils literal notranslate"><span class="pre">OITarget.target</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.equinox"><code class="docutils literal notranslate"><span class="pre">OITarget.equinox</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.raep0"><code class="docutils literal notranslate"><span class="pre">OITarget.raep0</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.decep0"><code class="docutils literal notranslate"><span class="pre">OITarget.decep0</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.ra_err"><code class="docutils literal notranslate"><span class="pre">OITarget.ra_err</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.dec_err"><code class="docutils literal notranslate"><span class="pre">OITarget.dec_err</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.sysvel"><code class="docutils literal notranslate"><span class="pre">OITarget.sysvel</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.veltyp"><code class="docutils literal notranslate"><span class="pre">OITarget.veltyp</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.veldef"><code class="docutils literal notranslate"><span class="pre">OITarget.veldef</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.pmra"><code class="docutils literal notranslate"><span class="pre">OITarget.pmra</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.pmdec"><code class="docutils literal notranslate"><span class="pre">OITarget.pmdec</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.pmra_err"><code class="docutils literal notranslate"><span class="pre">OITarget.pmra_err</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.pmdec_err"><code class="docutils literal notranslate"><span class="pre">OITarget.pmdec_err</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.parallax"><code class="docutils literal notranslate"><span class="pre">OITarget.parallax</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.para_err"><code class="docutils literal notranslate"><span class="pre">OITarget.para_err</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.spectyp"><code class="docutils literal notranslate"><span class="pre">OITarget.spectyp</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.Notes"><code class="docutils literal notranslate"><span class="pre">OITarget.Notes</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis"><code class="docutils literal notranslate"><span class="pre">OIVis</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.header"><code class="docutils literal notranslate"><span class="pre">OIVis.header</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.time"><code class="docutils literal notranslate"><span class="pre">OIVis.time</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.mjd"><code class="docutils literal notranslate"><span class="pre">OIVis.mjd</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.int_time"><code class="docutils literal notranslate"><span class="pre">OIVis.int_time</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.visamp"><code class="docutils literal notranslate"><span class="pre">OIVis.visamp</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.visamperr"><code class="docutils literal notranslate"><span class="pre">OIVis.visamperr</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.visphi"><code class="docutils literal notranslate"><span class="pre">OIVis.visphi</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.visphierr"><code class="docutils literal notranslate"><span class="pre">OIVis.visphierr</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.rvis"><code class="docutils literal notranslate"><span class="pre">OIVis.rvis</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.rviserr"><code class="docutils literal notranslate"><span class="pre">OIVis.rviserr</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.ivis"><code class="docutils literal notranslate"><span class="pre">OIVis.ivis</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.iviserr"><code class="docutils literal notranslate"><span class="pre">OIVis.iviserr</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.ucoord"><code class="docutils literal notranslate"><span class="pre">OIVis.ucoord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.vcoord"><code class="docutils literal notranslate"><span class="pre">OIVis.vcoord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.flag"><code class="docutils literal notranslate"><span class="pre">OIVis.flag</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.baseline_dict"><code class="docutils literal notranslate"><span class="pre">OIVis.baseline_dict</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.baseline_idx"><code class="docutils literal notranslate"><span class="pre">OIVis.baseline_idx</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.eff_wave"><code class="docutils literal notranslate"><span class="pre">OIVis.eff_wave</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.eff_band"><code class="docutils literal notranslate"><span class="pre">OIVis.eff_band</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.ufcoord"><code class="docutils literal notranslate"><span class="pre">OIVis.ufcoord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.vfcoord"><code class="docutils literal notranslate"><span class="pre">OIVis.vfcoord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.base"><code class="docutils literal notranslate"><span class="pre">OIVis.base</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.spat_freq"><code class="docutils literal notranslate"><span class="pre">OIVis.spat_freq</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2"><code class="docutils literal notranslate"><span class="pre">OIVis2</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.header"><code class="docutils literal notranslate"><span class="pre">OIVis2.header</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.time"><code class="docutils literal notranslate"><span class="pre">OIVis2.time</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.mjd"><code class="docutils literal notranslate"><span class="pre">OIVis2.mjd</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.int_time"><code class="docutils literal notranslate"><span class="pre">OIVis2.int_time</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.vis2data"><code class="docutils literal notranslate"><span class="pre">OIVis2.vis2data</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.vis2err"><code class="docutils literal notranslate"><span class="pre">OIVis2.vis2err</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.ucoord"><code class="docutils literal notranslate"><span class="pre">OIVis2.ucoord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.vcoord"><code class="docutils literal notranslate"><span class="pre">OIVis2.vcoord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.flag"><code class="docutils literal notranslate"><span class="pre">OIVis2.flag</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.baseline_dict"><code class="docutils literal notranslate"><span class="pre">OIVis2.baseline_dict</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.baseline_idx"><code class="docutils literal notranslate"><span class="pre">OIVis2.baseline_idx</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.eff_wave"><code class="docutils literal notranslate"><span class="pre">OIVis2.eff_wave</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.eff_band"><code class="docutils literal notranslate"><span class="pre">OIVis2.eff_band</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.ufcoord"><code class="docutils literal notranslate"><span class="pre">OIVis2.ufcoord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.vfcoord"><code class="docutils literal notranslate"><span class="pre">OIVis2.vfcoord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.base"><code class="docutils literal notranslate"><span class="pre">OIVis2.base</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.spat_freq"><code class="docutils literal notranslate"><span class="pre">OIVis2.spat_freq</span></code></a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -352,92 +466,156 @@
                   
   <section id="module-distroi.data.oi_data">
 <span id="distroi-data-oi-data-module"></span><h1>distroi.data.oi_data module<a class="headerlink" href="#module-distroi.data.oi_data" title="Link to this heading">#</a></h1>
-<p>Contains a class to store optical inteferometric (OI) observables, taken using the same instrument setup, and additional
-functions to take radiative transfer (RT) model images and convert them to interferometric observables at the spatial
-frequencies of the observables.</p>
-<p>NOTE: With the aim of flexibility in including multiple files and computational ease, this class does not fully reflect
+<p>A module to handle OIFITS data.</p>
+<p>Contains the master <cite>OIData</cite> class to store optical inteferometric (OI) observables, taken using the same instrument
+setup, and additional functions to take radiative transfer (RT) model images and convert them to interferometric
+observables at the spatial frequencies of the observables.</p>
+<section id="notes">
+<h2>Notes:<a class="headerlink" href="#notes" title="Link to this heading">#</a></h2>
+<p>With the aim of flexibility in including multiple files and computational ease, the <cite>OIData</cite> class doesn’t fully reflect
 all the infromation stored in the OIFITS file format. For example, the wavelengths and baselines/triplets at which
 observables were taken is stored in the relevant observable properties. E.g. the wavelengths and baselines associated
-to the OI_VIS2 measurements are stored as a np.ndarray inside the OIData.vis2 instance property itself, instead of in
+to the OI_VIS2 measurements are stored as a np.ndarray inside the <cite>OIData.vis2</cite> instance property itself, instead of in
 a separate property mirroring the OI_WAVELENGTH and OI_ARRAY tables inside the OIFITS files.</p>
+</section>
 <dl class="py class">
 <dt class="sig sig-object py" id="distroi.data.oi_data.OIData">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.data.oi_data.</span></span><span class="sig-name descname"><span class="pre">OIData</span></span><a class="headerlink" href="#distroi.data.oi_data.OIData" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Class to describe optical interferometry data, allowing to represent simultaneously the data contained in multiple
-OIFits files observed using the same array and instrument setup. The constructor simply initiates all properties
-of the instance to None. Data is meant to be read in using the read_oifits method instead.</p>
-<p>Make sure the data in different files is consistent in terms of target and setup. E.g. if first file read in uses
-differential instead of absolute visibilities in the OI_VIS table, all other files should also contain differential
-visibilities. If you wish to model observations taken with different instrument setup simultaneously, different
-OIData objects should be created for each setup.</p>
+<p>Describes a set of optical interferometry data.</p>
+<p>Optical interferometry data container class, allowing to represent simultaneously the data contained in multiple
+OIFits files observed using the same array and instrument setup.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIData.header">
+<span class="sig-name descname"><span class="pre">header</span></span><a class="headerlink" href="#distroi.data.oi_data.OIData.header" title="Link to this definition">#</a></dt>
+<dd><p>Primary header dictionary. Taken from the first file that’s read in.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>header</strong> (<em>dict</em>) – Primary header dictionary. Taken from the first file that’s read in.</p></li>
-<li><p><strong>target</strong> (<a class="reference internal" href="#distroi.data.oi_data.OITarget" title="distroi.data.oi_data.OITarget"><em>OITarget</em></a>) – Object representing the OI_TARGET table of an OIFITS file. Taken from the first file
-that’s read in.</p></li>
-<li><p><strong>vis</strong> (<a class="reference internal" href="#distroi.data.oi_data.OIVis" title="distroi.data.oi_data.OIVis"><em>OIVis</em></a>) – Object representing data in the OI_VIS tables concatenated over the considered OIFITS files.</p></li>
-<li><p><strong>vis2</strong> (<a class="reference internal" href="#distroi.data.oi_data.OIVis2" title="distroi.data.oi_data.OIVis2"><em>OIVis2</em></a>) – Object representing data in the OI_VIS2 tables concatenated over the considered OIFITS files.</p></li>
-<li><p><strong>vis2</strong> – Object representing data in the OI_VIS2 tables concatenated over the considered OIFITS files.</p></li>
-<li><p><strong>t3</strong> (<a class="reference internal" href="#distroi.data.oi_data.OIT3" title="distroi.data.oi_data.OIT3"><em>OIT3</em></a>) – Object representing data in the OI_T3 tables concatenated over the considered OIFITS files.</p></li>
-<li><p><strong>flux</strong> (<a class="reference internal" href="#distroi.data.oi_data.OIFlux" title="distroi.data.oi_data.OIFlux"><em>OIFlux</em></a>) – Object representing data in the OI_FLUX tables concatenated over the considered OIFITS files.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="distroi.data.oi_data.OIData.filter">
-<span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.data.oi_data.OIData.filter" title="Link to this definition">#</a></dt>
-<dd><p>Filter data based on user input range on quantity of interest or on if data has been flagged.</p>
-<p>NOTE: This function applies to all relevant types of stored data. I.e. if the OIData object contains both
-squared visibilities and tiple products, and you filter based on ‘eff_wave’, filtering will be applied to
-both types of observables. If you want to filter differently for different data types, e.g. on wavelength of
-the triple product only, call the filter function of the OIT3 class directly instead.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>names</strong> (<em>str</em><em> | </em><em>list</em><em>[</em><em>str</em><em>]</em>) – Name(s) of the variables to be filtered (e.g. ‘visamp’). Can also pass ‘flag’ in
-order to filter out flagged data.</p></li>
-<li><p><strong>float</strong><strong>]</strong><strong>]</strong> (<em>tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>] </em><em>| </em><em>list</em><em>[</em><em>tuple</em><em>[</em><em>float</em><em>,</em>) – Range(s) of the variables which we want to cut.
-E.g. name=’visamp’ &amp; range=(0.01, 0.1) -&gt; will filter out all data with visibility between 0.01 and 0.1.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIData.target">
+<span class="sig-name descname"><span class="pre">target</span></span><a class="headerlink" href="#distroi.data.oi_data.OIData.target" title="Link to this definition">#</a></dt>
+<dd><p>Object representing the OI_TARGET table of an OIFITS file. Taken from the first file that’s read in.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#distroi.data.oi_data.OITarget" title="distroi.data.oi_data.OITarget">OITarget</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIData.vis">
+<span class="sig-name descname"><span class="pre">vis</span></span><a class="headerlink" href="#distroi.data.oi_data.OIData.vis" title="Link to this definition">#</a></dt>
+<dd><p>Object representing data in the OI_VIS tables concatenated over the considered OIFITS files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#distroi.data.oi_data.OIVis" title="distroi.data.oi_data.OIVis">OIVis</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIData.vis2">
+<span class="sig-name descname"><span class="pre">vis2</span></span><a class="headerlink" href="#distroi.data.oi_data.OIData.vis2" title="Link to this definition">#</a></dt>
+<dd><p>Object representing data in the OI_VIS2 tables concatenated over the considered OIFITS files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#distroi.data.oi_data.OIVis2" title="distroi.data.oi_data.OIVis2">OIVis2</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIData.t3">
+<span class="sig-name descname"><span class="pre">t3</span></span><a class="headerlink" href="#distroi.data.oi_data.OIData.t3" title="Link to this definition">#</a></dt>
+<dd><p>Object representing data in the OI_T3 tables concatenated over the considered OIFITS files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#distroi.data.oi_data.OIT3" title="distroi.data.oi_data.OIT3">OIT3</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIData.flux">
+<span class="sig-name descname"><span class="pre">flux</span></span><a class="headerlink" href="#distroi.data.oi_data.OIData.flux" title="Link to this definition">#</a></dt>
+<dd><p>Object representing data in the OI_FLUX tables concatenated over the considered OIFITS files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#distroi.data.oi_data.OIFlux" title="distroi.data.oi_data.OIFlux">OIFlux</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Make sure the data in different files is consistent in terms of target and setup. E.g. if first file read in uses
+differential instead of absolute visibilities in the OI_VIS table, all other files should also contain differential
+visibilities. If you wish to model observations taken with different instrument setup simultaneously, different
+<cite>OIData</cite> objects should be created for each setup.</p>
+</div>
+<p class="rubric">Notes</p>
+<p>The constructor simply initiates all properties of the instance to None. Data is meant to be read in using
+the <cite>read_oifits</cite> method instead.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="distroi.data.oi_data.OIData.plot_data">
-<span class="sig-name descname"><span class="pre">plot_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_baseline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ptype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'line'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_plots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Figure</span></span></span><a class="headerlink" href="#distroi.data.oi_data.OIData.plot_data" title="Link to this definition">#</a></dt>
-<dd><p>Make a plot of the data contained in the object.</p>
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIData.filter">
+<span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.data.oi_data.OIData.filter" title="Link to this definition">#</a></dt>
+<dd><p>Filter data.</p>
+<p>Filter out data based on user input range on quantity of interest or on if data has been flagged if
+<code class="docutils literal notranslate"><span class="pre">name='flag'</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dname</strong> (<em>str</em>) – Name of the type of OI data table to plot. Can be <cite>vis</cite>, <cite>vis2</cite>, <cite>t3</cite> and <cite>flux</cite>.</p></li>
-<li><p><strong>x</strong> (<em>str</em>) – Name of the data to be plotted on the x axis. Can be any of the names of the np.ndarray
-object attributes corresponding to dtype, except <cite>flag</cite>.</p></li>
-<li><p><strong>y</strong> (<em>str</em>) – Name of the data to be plotted on the y axis. Can be any of the names of the np.ndarray
-object attributes corresponding to dtype, except <cite>flag</cite>.</p></li>
-<li><p><strong>error</strong> (<em>str</em>) – Name of the data to be used to plot errorbars. None by default -&gt; i.e. no errorbars.</p></li>
-<li><p><strong>cname</strong> (<em>str</em>) – Name of the data used to colour the plot. Can be any of the names of the np.ndarray
-object attributes corresponding to dtype, except <cite>flag</cite>, but also <cite>baseline</cite> in order to colour data
-by the baseline pair/triangle/telescope. None by default, in which case all datapoints will have the
-same color.</p></li>
-<li><p><strong>per_baseline</strong> (<em>bool</em>) – Whether to make a separate plot per baseline pair/triangle/telescope. By default
-set to False, meaning all data is put into a separate plot.</p></li>
-<li><p><strong>ptype</strong> (<em>str</em>) – Plotting type, by default set to ‘line’ to plot a line for each baseline pair/triangle
-/telescope. Can be set to ‘scatter’ to instead plot point separately in a scatterplot.</p></li>
-<li><p><strong>show_plots</strong> (<em>bool</em>) – Whether to show the plots.</p></li>
-<li><p><strong>fig_dir</strong> (<em>str</em>) – Directory of where to save the figure. None by default, in which case no figure will be
-saved.</p></li>
-<li><p><strong>logx</strong> (<em>bool</em>) – Whether to plot x axis in log scale.</p></li>
-<li><p><strong>logy</strong> (<em>bool</em>) – Whether to plot y axis in log scale.</p></li>
-<li><p><strong>logc</strong> (<em>bool</em>) – Whether to plot the color scale in log scale.</p></li>
+<li><p><strong>name</strong> (<em>str</em><em> or </em><em>list</em><em> of </em><em>str</em>) – Name(s) of the variables to be filtered (e.g. <cite>‘visamp’</cite>). Can also pass <cite>‘flag’</cite> in
+order to filter out flagged data.</p></li>
+<li><p><strong>range</strong> (<em>tuple</em><em> of </em><em>float</em><em> or </em><em>list</em><em> of </em><em>tuple</em><em> of </em><em>float</em>) – Range(s) of the variables which we want to cut.
+E.g. name=’visamp’ &amp; range=(0.01, 0.1) -&gt; will filter out all data with visibility between 0.01 and 0.1.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return fig<span class="colon">:</span></dt>
+</dl>
+<p class="rubric">Notes</p>
+<p>This function applies to all relevant types of stored data. I.e. if the <cite>OIData</cite> object contains both
+squared visibilities and triple products, and you filter based on <cite>‘eff_wave’</cite>, filtering will be applied to
+both types of observables.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIData.plot_data">
+<span class="sig-name descname"><span class="pre">plot_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_baseline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ptype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'line'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_plots</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Figure</span></span></span><a class="headerlink" href="#distroi.data.oi_data.OIData.plot_data" title="Link to this definition">#</a></dt>
+<dd><p>Plot data.</p>
+<p>Master plotting function to plot data contained in the <cite>OIData</cite> object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dname</strong> (<em>str</em>) – Name of the type of OI data table to plot. Can be <cite>‘vis’</cite>, <cite>‘vis2’</cite>, <cite>‘t3’</cite> and <cite>‘flux’</cite>.</p></li>
+<li><p><strong>xname</strong> (<em>str</em>) – Name of the data to be plotted on the x axis. Can be any of the names of the np.ndarray
+object attributes corresponding to dtype, except <cite>‘flag’</cite>.</p></li>
+<li><p><strong>yname</strong> (<em>str</em>) – Name of the data to be plotted on the y axis. Can be any of the names of the np.ndarray
+object attributes corresponding to dtype, except <cite>‘flag’</cite>.</p></li>
+<li><p><strong>ename</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of the data to be used to plot errorbars. None by default, meaning no errorbars.</p></li>
+<li><p><strong>cname</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of the data used to colour the plot. Can be any of the names of the np.ndarray
+object attributes corresponding to dtype, except <cite>‘flag’</cite>, but also <cite>‘baseline’</cite> in order to colour data
+by the baseline pair/triangle/telescope. None by default, in which case all datapoints will have the
+same color.</p></li>
+<li><p><strong>xlim</strong> (<em>tuple</em><em> of </em><em>float</em><em>, </em><em>optional</em>) – Limits for the x axis, by default None.</p></li>
+<li><p><strong>ylim</strong> (<em>tuple</em><em> of </em><em>float</em><em>, </em><em>optional</em>) – Limits for the y axis, by default None.</p></li>
+<li><p><strong>per_baseline</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to make a separate plot per baseline pair/triangle/telescope. By default
+set to False, meaning all data is put into a separate plot.</p></li>
+<li><p><strong>ptype</strong> (<em>str</em><em>, </em><em>optional</em>) – Plotting type, by default set to <cite>‘line’</cite> to plot a line for each baseline pair/triangle
+/telescope. Can be set to <cite>‘scatter’</cite> to instead plot point separately in a scatterplot.</p></li>
+<li><p><strong>show_plots</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to show the plots, by default True.</p></li>
+<li><p><strong>fig_dir</strong> (<em>str</em><em>, </em><em>optional</em>) – Directory of where to save the figure. None by default, in which case no figure will be
+saved.</p></li>
+<li><p><strong>logx</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to plot x axis in log scale, by default False.</p></li>
+<li><p><strong>logy</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to plot y axis in log scale, by default False.</p></li>
+<li><p><strong>logc</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to plot the color scale in log scale, by default False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The matplotlib figure, which can then be further manipulated.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -453,7 +631,7 @@ saved.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>dname</strong> (<em>str</em>) – Name of the type of OI data table whose uv coverage is plotted.
-Can be <cite>vis</cite>, <cite>vis2</cite> or <cite>t3</cite>.</p>
+Can be <cite>‘vis’</cite>, <cite>‘vis2’</cite> or <cite>‘t3’</cite>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -461,14 +639,27 @@ Can be <cite>vis</cite>, <cite>vis2</cite> or <cite>t3</cite>.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.data.oi_data.OIData.read_oifits">
 <span class="sig-name descname"><span class="pre">read_oifits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ft_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#distroi.data.oi_data.OIData.read_oifits" title="Link to this definition">#</a></dt>
-<dd><p>Reads in data from OIFits files. Includes the use of wildcards to read in data from multiple files
+<dd><p>Read in data from OIFITS files.</p>
+<p>Master function to read in OIFITS data, including the use of wildcards to read in data from multiple files
 simultaneously.</p>
-<p>NOTE: The read-in metadata on the instrument setup, targer and array (i.e. the primary table header,
-OI_TARGET, OI_ARRAY) and choice of observables (absolute, differential, coherent flux, etc) are read in only
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_dir</strong> (<em>str</em>) – Directory containing the OIFITS files.</p></li>
+<li><p><strong>data_file</strong> (<em>str</em>) – Filename or wildcard pattern to match the OIFITS files.</p></li>
+<li><p><strong>ft_only</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to only read in fringe tracker data, by default False. If True, only science data is considered.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The read-in metadata on the instrument setup, target and array (i.e. the primary table header,
+OI_TARGET, OI_ARRAY) and choice of observables (absolute, differential, coherent flux, etc.) are read in only
 from the first considered file. Make sure the data in simultaneously read-in files are thus consistent in terms
 of setup. This allows the consistent merging of OI_VIS, OI_VIS2, OI_T3 and OI_FLUX tables into single
 consistent Python objects. If you wish to model observations taken with different instrument setup
-simultaneously, different OIData objects should be created for each setup.</p>
+simultaneously, different <cite>OIData</cite> objects should be created for each setup.</p>
+</div>
 </dd></dl>
 
 </dd></dl>
@@ -477,79 +668,458 @@ simultaneously, different OIData objects should be created for each setup.</p>
 <dt class="sig sig-object py" id="distroi.data.oi_data.OIFlux">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.data.oi_data.</span></span><span class="sig-name descname"><span class="pre">OIFlux</span></span><a class="headerlink" href="#distroi.data.oi_data.OIFlux" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to describe OI_FLUX table data.</p>
 <p>Class to describe the concatenated data contained in OI_FLUX tables of multiple OIFITS files.</p>
-<p>NOTE: The correspondence to the OIFITS standard is not exact. For example, all visibility data is flattened
-into 1D arrays for ease of use, instead of keeping the OIFITS 2D array structures, where the different rows denote
-the telescopes. Instead, the baseline pair corresponding to a datapoint is encoded in the telescope_idx array and
-the telescope_dict dictionary, and, in addition, the wavelength information is stored in the 1D eff_wave array
-(replacing the usual link with the OI_ARRAY and OI_WAVELENGTH tables).</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIFlux.header">
+<span class="sig-name descname"><span class="pre">header</span></span><a class="headerlink" href="#distroi.data.oi_data.OIFlux.header" title="Link to this definition">#</a></dt>
+<dd><p>Header dictionary.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>header</strong> (<em>dict</em>) – Header dictionary.</p></li>
-<li><p><strong>time</strong> (<em>np.ndarray</em>) – Time of observations in seconds.</p></li>
-<li><p><strong>mjd</strong> (<em>np.ndarray</em>) – Modified Julian Date of observations.</p></li>
-<li><p><strong>int_time</strong> (<em>np.ndarray</em>) – Integration time in seconds.</p></li>
-<li><p><strong>fluxdata</strong> (<em>np.ndarray</em>) – Measured flux; units specified in header.</p></li>
-<li><p><strong>fluxerr</strong> (<em>np.ndarray</em>) – Data on measured flux.</p></li>
-<li><p><strong>flag</strong> (<em>np.ndarray</em>) – Array of booleans denoting whether data has been flagged by the reduction or not.</p></li>
-<li><p><strong>telescope_dict</strong> (<em>dict</em>) – Dictionary mapping index integers to the strings describing the telescope used for the
-measurement. Only used if ‘CALSTAT = U’, in which the uncalibrated flux spectrum is stored per telescope
-(see OIFITS 2 standard). If ‘CALSTAT = C’, will instead remain None.</p></li>
-<li><p><strong>telescope_idx</strong> (<em>np.ndarray</em>) – Telescope index of the data (to be used with telescope_dict). Only used if
-‘CALSTAT = U’, in which case the uncalibrated flux spectrum is stored per telescope (see OIFITS 2 standard).
-If ‘CALSTAT = C’, will instead remain None.</p></li>
-<li><p><strong>eff_wave</strong> (<em>np.ndarray</em>) – Effective wavelength of the data; units m.</p></li>
-<li><p><strong>eff_band</strong> (<em>np.ndarray</em>) – Effective wavelength bandwidth of data; units m.</p></li>
-</ul>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIFlux.time">
+<span class="sig-name descname"><span class="pre">time</span></span><a class="headerlink" href="#distroi.data.oi_data.OIFlux.time" title="Link to this definition">#</a></dt>
+<dd><p>Time of observations in seconds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIFlux.mjd">
+<span class="sig-name descname"><span class="pre">mjd</span></span><a class="headerlink" href="#distroi.data.oi_data.OIFlux.mjd" title="Link to this definition">#</a></dt>
+<dd><p>Modified Julian Date of observations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIFlux.int_time">
+<span class="sig-name descname"><span class="pre">int_time</span></span><a class="headerlink" href="#distroi.data.oi_data.OIFlux.int_time" title="Link to this definition">#</a></dt>
+<dd><p>Integration time in seconds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIFlux.fluxdata">
+<span class="sig-name descname"><span class="pre">fluxdata</span></span><a class="headerlink" href="#distroi.data.oi_data.OIFlux.fluxdata" title="Link to this definition">#</a></dt>
+<dd><p>Measured flux; units specified in header.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIFlux.fluxerr">
+<span class="sig-name descname"><span class="pre">fluxerr</span></span><a class="headerlink" href="#distroi.data.oi_data.OIFlux.fluxerr" title="Link to this definition">#</a></dt>
+<dd><p>Data on measured flux.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIFlux.flag">
+<span class="sig-name descname"><span class="pre">flag</span></span><a class="headerlink" href="#distroi.data.oi_data.OIFlux.flag" title="Link to this definition">#</a></dt>
+<dd><p>Array of booleans denoting whether data has been flagged by the reduction or not.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIFlux.telescope_dict">
+<span class="sig-name descname"><span class="pre">telescope_dict</span></span><a class="headerlink" href="#distroi.data.oi_data.OIFlux.telescope_dict" title="Link to this definition">#</a></dt>
+<dd><p>Dictionary mapping index integers to the strings describing the telescope used for the
+measurement. Only used if ‘CALSTAT = U’, in which the uncalibrated flux spectrum is stored per telescope
+(see OIFITS 2 standard). If ‘CALSTAT = C’, will instead remain None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIFlux.telescope_idx">
+<span class="sig-name descname"><span class="pre">telescope_idx</span></span><a class="headerlink" href="#distroi.data.oi_data.OIFlux.telescope_idx" title="Link to this definition">#</a></dt>
+<dd><p>Telescope index of the data (to be used with telescope_dict). Only used if
+‘CALSTAT = U’, in which case the uncalibrated flux spectrum is stored per telescope (see OIFITS 2 standard).
+If ‘CALSTAT = C’, will instead remain None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIFlux.eff_wave">
+<span class="sig-name descname"><span class="pre">eff_wave</span></span><a class="headerlink" href="#distroi.data.oi_data.OIFlux.eff_wave" title="Link to this definition">#</a></dt>
+<dd><p>Effective wavelength of the data; units m.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIFlux.eff_band">
+<span class="sig-name descname"><span class="pre">eff_band</span></span><a class="headerlink" href="#distroi.data.oi_data.OIFlux.eff_band" title="Link to this definition">#</a></dt>
+<dd><p>Effective wavelength bandwidth of data; units m.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="distroi.data.oi_data.OIT3">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.data.oi_data.</span></span><span class="sig-name descname"><span class="pre">OIT3</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to describe OI_T3 table data.</p>
 <p>Class to describe the concatenated data contained in OI_T3 tables of multiple OIFITS files.</p>
-<p>NOTE: The correspondence to the OIFITS standard. For example, all triple product data is flattened into 1D arrays
-for ease of use, instead of keeping the OIFITS 2D array structures, where the different rows denote the baseline
-triangles. Instead, the baseline pair corresponding to a datapoint is encoded in the baseline_idx array and the
-baseline_dict dictionary. In addition, the wavelength information is stored in the 1D eff_wave array.</p>
-<p>NOTE: The third baseline is chosen following the convention that the triple product is calculated as V1 x V2 x V3*,
-with V3* being the conjugate of the third baseline’s visibility.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.header">
+<span class="sig-name descname"><span class="pre">header</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.header" title="Link to this definition">#</a></dt>
+<dd><p>Header dictionary.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>header</strong> (<em>dict</em>) – Header dictionary.</p></li>
-<li><p><strong>time</strong> (<em>np.ndarray</em>) – Time of observations in seconds.</p></li>
-<li><p><strong>mjd</strong> (<em>np.ndarray</em>) – Modified Julian Date of observations.</p></li>
-<li><p><strong>int_time</strong> (<em>np.ndarray</em>) – Integration time in seconds.</p></li>
-<li><p><strong>t3amp</strong> (<em>np.ndarray</em>) – Triple product amplitude.</p></li>
-<li><p><strong>t3amperr</strong> (<em>np.ndarray</em>) – Error on tiple product amplitude.</p></li>
-<li><p><strong>t3phi</strong> (<em>np.ndarray</em>) – Triple product phase (closure phase) in degrees.</p></li>
-<li><p><strong>t3phierr</strong> (<em>np.ndarray</em>) – Error on tiple product phase (closure phase).</p></li>
-<li><p><strong>u1coord</strong> (<em>np.ndarray</em>) – u coordinate of the data’s first baseline in unit m.</p></li>
-<li><p><strong>v1coord</strong> (<em>np.ndarray</em>) – v coordinate of the data’s first baseline in unit m.</p></li>
-<li><p><strong>u2coord</strong> (<em>np.ndarray</em>) – u coordinate of the data’s second baseline in unit m.</p></li>
-<li><p><strong>v2coord</strong> (<em>np.ndarray</em>) – v coordinate of the data’s second baseline in unit m.</p></li>
-<li><p><strong>flag</strong> (<em>np.ndarray</em>) – Array of booleans denoting whether data has been flagged by the reduction or not.</p></li>
-<li><p><strong>baseline_dict</strong> (<em>dict</em>) – Dictionary mapping baseline index integers to the strings describing the baseline.</p></li>
-<li><p><strong>baseline_idx</strong> (<em>np.ndarray</em>) – Baseline index of the data (to be used with baseline_dict).</p></li>
-<li><p><strong>eff_wave</strong> (<em>np.ndarray</em>) – Effective wavelength of the data; units m.</p></li>
-<li><p><strong>eff_band</strong> (<em>np.ndarray</em>) – Effective wavelength bandwidth of data; units m.</p></li>
-<li><p><strong>u3coord</strong> (<em>np.ndarray</em>) – u coordinate of the data’s third baseline in unit m.</p></li>
-<li><p><strong>v3coord</strong> (<em>np.ndarray</em>) – v coordinate of the data’s third baseline in unit m.</p></li>
-<li><p><strong>u1fcoord</strong> (<em>np.ndarray</em>) – u coordinate spatial frequency of first baseline; units cycle rad^-1.</p></li>
-<li><p><strong>v1fcoord</strong> (<em>np.ndarray</em>) – v coordinate spatial frequency of first baseline; units cycle rad^-1.</p></li>
-<li><p><strong>u2fcoord</strong> (<em>np.ndarray</em>) – u coordinate spatial frequency of second baseline; units cycle rad^-1.</p></li>
-<li><p><strong>v2fcoord</strong> (<em>np.ndarray</em>) – v coordinate spatial frequency of second baseline; units cycle rad^-1.</p></li>
-<li><p><strong>u3fcoord</strong> (<em>np.ndarray</em>) – u coordinate spatial frequency of third baseline; units cycle rad^-1.</p></li>
-<li><p><strong>v3fcoord</strong> (<em>np.ndarray</em>) – v coordinate spatial frequency of third baseline; units cycle rad^-1.</p></li>
-<li><p><strong>base_max</strong> (<em>np.ndarray</em>) – Size of the longest baseline in m.</p></li>
-<li><p><strong>spat_freq_max</strong> (<em>np.ndarray</em>) – Spatial frequency in of the longest baseline cycles per radian.</p></li>
-</ul>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.time">
+<span class="sig-name descname"><span class="pre">time</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.time" title="Link to this definition">#</a></dt>
+<dd><p>Time of observations in seconds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.mjd">
+<span class="sig-name descname"><span class="pre">mjd</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.mjd" title="Link to this definition">#</a></dt>
+<dd><p>Modified Julian Date of observations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.int_time">
+<span class="sig-name descname"><span class="pre">int_time</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.int_time" title="Link to this definition">#</a></dt>
+<dd><p>Integration time in seconds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.t3amp">
+<span class="sig-name descname"><span class="pre">t3amp</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.t3amp" title="Link to this definition">#</a></dt>
+<dd><p>Triple product amplitude.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.t3amperr">
+<span class="sig-name descname"><span class="pre">t3amperr</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.t3amperr" title="Link to this definition">#</a></dt>
+<dd><p>Error on triple product amplitude.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.t3phi">
+<span class="sig-name descname"><span class="pre">t3phi</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.t3phi" title="Link to this definition">#</a></dt>
+<dd><p>Triple product phase (closure phase) in degrees.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.t3phierr">
+<span class="sig-name descname"><span class="pre">t3phierr</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.t3phierr" title="Link to this definition">#</a></dt>
+<dd><p>Error on triple product phase (closure phase).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.u1coord">
+<span class="sig-name descname"><span class="pre">u1coord</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.u1coord" title="Link to this definition">#</a></dt>
+<dd><p>u coordinate of the data’s first baseline in unit m.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.v1coord">
+<span class="sig-name descname"><span class="pre">v1coord</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.v1coord" title="Link to this definition">#</a></dt>
+<dd><p>v coordinate of the data’s first baseline in unit m.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.u2coord">
+<span class="sig-name descname"><span class="pre">u2coord</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.u2coord" title="Link to this definition">#</a></dt>
+<dd><p>u coordinate of the data’s second baseline in unit m.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.v2coord">
+<span class="sig-name descname"><span class="pre">v2coord</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.v2coord" title="Link to this definition">#</a></dt>
+<dd><p>v coordinate of the data’s second baseline in unit m.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.flag">
+<span class="sig-name descname"><span class="pre">flag</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.flag" title="Link to this definition">#</a></dt>
+<dd><p>Array of booleans denoting whether data has been flagged by the reduction or not.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.baseline_dict">
+<span class="sig-name descname"><span class="pre">baseline_dict</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.baseline_dict" title="Link to this definition">#</a></dt>
+<dd><p>Dictionary mapping baseline index integers to the strings describing the baseline.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.baseline_idx">
+<span class="sig-name descname"><span class="pre">baseline_idx</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.baseline_idx" title="Link to this definition">#</a></dt>
+<dd><p>Baseline index of the data (to be used with baseline_dict).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.eff_wave">
+<span class="sig-name descname"><span class="pre">eff_wave</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.eff_wave" title="Link to this definition">#</a></dt>
+<dd><p>Effective wavelength of the data; units m.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.eff_band">
+<span class="sig-name descname"><span class="pre">eff_band</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.eff_band" title="Link to this definition">#</a></dt>
+<dd><p>Effective wavelength bandwidth of data; units m.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.u3coord">
+<span class="sig-name descname"><span class="pre">u3coord</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.u3coord" title="Link to this definition">#</a></dt>
+<dd><p>u coordinate of the data’s third baseline in unit m.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.v3coord">
+<span class="sig-name descname"><span class="pre">v3coord</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.v3coord" title="Link to this definition">#</a></dt>
+<dd><p>v coordinate of the data’s third baseline in unit m.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.u1fcoord">
+<span class="sig-name descname"><span class="pre">u1fcoord</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.u1fcoord" title="Link to this definition">#</a></dt>
+<dd><p>u coordinate spatial frequency of first baseline; units cycle rad^-1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.v1fcoord">
+<span class="sig-name descname"><span class="pre">v1fcoord</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.v1fcoord" title="Link to this definition">#</a></dt>
+<dd><p>v coordinate spatial frequency of first baseline; units cycle rad^-1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.u2fcoord">
+<span class="sig-name descname"><span class="pre">u2fcoord</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.u2fcoord" title="Link to this definition">#</a></dt>
+<dd><p>u coordinate spatial frequency of second baseline; units cycle rad^-1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.v2fcoord">
+<span class="sig-name descname"><span class="pre">v2fcoord</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.v2fcoord" title="Link to this definition">#</a></dt>
+<dd><p>v coordinate spatial frequency of second baseline; units cycle rad^-1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.u3fcoord">
+<span class="sig-name descname"><span class="pre">u3fcoord</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.u3fcoord" title="Link to this definition">#</a></dt>
+<dd><p>u coordinate spatial frequency of third baseline; units cycle rad^-1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.v3fcoord">
+<span class="sig-name descname"><span class="pre">v3fcoord</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.v3fcoord" title="Link to this definition">#</a></dt>
+<dd><p>v coordinate spatial frequency of third baseline; units cycle rad^-1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.base_max">
+<span class="sig-name descname"><span class="pre">base_max</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.base_max" title="Link to this definition">#</a></dt>
+<dd><p>Size of the longest baseline in m.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.spat_freq_max">
+<span class="sig-name descname"><span class="pre">spat_freq_max</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.spat_freq_max" title="Link to this definition">#</a></dt>
+<dd><p>Spatial frequency of the longest baseline in cycles per radian.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIT3.Notes">
+<span class="sig-name descname"><span class="pre">Notes</span></span><a class="headerlink" href="#distroi.data.oi_data.OIT3.Notes" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">------</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">The</span> <span class="pre">third</span> <span class="pre">baseline</span> <span class="pre">is</span> <span class="pre">chosen</span> <span class="pre">following</span> <span class="pre">the</span> <span class="pre">convention</span> <span class="pre">that</span> <span class="pre">the</span> <span class="pre">triple</span> <span class="pre">product</span> <span class="pre">is</span> <span class="pre">calculated</span> <span class="pre">as</span> <span class="pre">V1</span> <span class="pre">x</span> <span class="pre">V2</span> <span class="pre">x</span> <span class="pre">V3*,</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">with</span> <span class="pre">V3*</span> <span class="pre">being</span> <span class="pre">the</span> <span class="pre">conjugate</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">third</span> <span class="pre">baseline's</span> <span class="pre">visibility.</span></span></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -557,108 +1127,682 @@ with V3* being the conjugate of the third baseline’s visibility.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.data.oi_data.</span></span><span class="sig-name descname"><span class="pre">OITarget</span></span><a class="headerlink" href="#distroi.data.oi_data.OITarget" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Class to describe the OI_TARGET table of an OIFITS file.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OITarget.header">
+<span class="sig-name descname"><span class="pre">header</span></span><a class="headerlink" href="#distroi.data.oi_data.OITarget.header" title="Link to this definition">#</a></dt>
+<dd><p>Header dictionary.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>header</strong> (<em>dict</em>) – Header dictionary.</p></li>
-<li><p><strong>target_id</strong> (<em>int</em>) – Target ID number.</p></li>
-<li><p><strong>target</strong> (<em>str</em>) – Target name.</p></li>
-<li><p><strong>equinox</strong> (<em>float</em>) – Equinox in years.</p></li>
-<li><p><strong>raep0</strong> (<em>float</em>) – Target right ascension at equinox in deg.</p></li>
-<li><p><strong>decep0</strong> (<em>float</em>) – Target declination at equinox in deg.</p></li>
-<li><p><strong>ra_err</strong> (<em>float</em>) – Error on right ascension.</p></li>
-<li><p><strong>dec_err</strong> (<em>float</em>) – Error on declination.</p></li>
-<li><p><strong>sysvel</strong> (<em>float</em>) – Systemic radial velocity in m/s.</p></li>
-<li><p><strong>veltyp</strong> (<em>str</em>) – Reference for radial velocity (e.g. “LSR”).</p></li>
-<li><p><strong>veldef</strong> (<em>str</em>) – Definition for radial velocity (e.g. “OPTICAL”).</p></li>
-<li><p><strong>pmra</strong> (<em>float</em>) – Right ascension proper motion in deg/yr.</p></li>
-<li><p><strong>pmdec</strong> (<em>float</em>) – Declination proper motion in deg/yr.</p></li>
-<li><p><strong>pmra_err</strong> (<em>float</em>) – Error on right ascension proper motion.</p></li>
-<li><p><strong>pmdec_err</strong> (<em>float</em>) – Error on declination proper motion.</p></li>
-<li><p><strong>parallax</strong> (<em>float</em>) – Parallax in degrees.</p></li>
-<li><p><strong>para_err</strong> (<em>float</em>) – Error on parallax.</p></li>
-<li><p><strong>spectyp</strong> (<em>str</em>) – Target spectral type.</p></li>
-</ul>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OITarget.target_id">
+<span class="sig-name descname"><span class="pre">target_id</span></span><a class="headerlink" href="#distroi.data.oi_data.OITarget.target_id" title="Link to this definition">#</a></dt>
+<dd><p>Target ID number.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OITarget.target">
+<span class="sig-name descname"><span class="pre">target</span></span><a class="headerlink" href="#distroi.data.oi_data.OITarget.target" title="Link to this definition">#</a></dt>
+<dd><p>Target name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OITarget.equinox">
+<span class="sig-name descname"><span class="pre">equinox</span></span><a class="headerlink" href="#distroi.data.oi_data.OITarget.equinox" title="Link to this definition">#</a></dt>
+<dd><p>Equinox in years.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OITarget.raep0">
+<span class="sig-name descname"><span class="pre">raep0</span></span><a class="headerlink" href="#distroi.data.oi_data.OITarget.raep0" title="Link to this definition">#</a></dt>
+<dd><p>Target right ascension at equinox in deg.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OITarget.decep0">
+<span class="sig-name descname"><span class="pre">decep0</span></span><a class="headerlink" href="#distroi.data.oi_data.OITarget.decep0" title="Link to this definition">#</a></dt>
+<dd><p>Target declination at equinox in deg.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OITarget.ra_err">
+<span class="sig-name descname"><span class="pre">ra_err</span></span><a class="headerlink" href="#distroi.data.oi_data.OITarget.ra_err" title="Link to this definition">#</a></dt>
+<dd><p>Error on right ascension.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OITarget.dec_err">
+<span class="sig-name descname"><span class="pre">dec_err</span></span><a class="headerlink" href="#distroi.data.oi_data.OITarget.dec_err" title="Link to this definition">#</a></dt>
+<dd><p>Error on declination.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OITarget.sysvel">
+<span class="sig-name descname"><span class="pre">sysvel</span></span><a class="headerlink" href="#distroi.data.oi_data.OITarget.sysvel" title="Link to this definition">#</a></dt>
+<dd><p>Systemic radial velocity in m/s.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OITarget.veltyp">
+<span class="sig-name descname"><span class="pre">veltyp</span></span><a class="headerlink" href="#distroi.data.oi_data.OITarget.veltyp" title="Link to this definition">#</a></dt>
+<dd><p>Reference for radial velocity (e.g. “LSR”).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OITarget.veldef">
+<span class="sig-name descname"><span class="pre">veldef</span></span><a class="headerlink" href="#distroi.data.oi_data.OITarget.veldef" title="Link to this definition">#</a></dt>
+<dd><p>Definition for radial velocity (e.g. “OPTICAL”).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OITarget.pmra">
+<span class="sig-name descname"><span class="pre">pmra</span></span><a class="headerlink" href="#distroi.data.oi_data.OITarget.pmra" title="Link to this definition">#</a></dt>
+<dd><p>Right ascension proper motion in deg/yr.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OITarget.pmdec">
+<span class="sig-name descname"><span class="pre">pmdec</span></span><a class="headerlink" href="#distroi.data.oi_data.OITarget.pmdec" title="Link to this definition">#</a></dt>
+<dd><p>Declination proper motion in deg/yr.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OITarget.pmra_err">
+<span class="sig-name descname"><span class="pre">pmra_err</span></span><a class="headerlink" href="#distroi.data.oi_data.OITarget.pmra_err" title="Link to this definition">#</a></dt>
+<dd><p>Error on right ascension proper motion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OITarget.pmdec_err">
+<span class="sig-name descname"><span class="pre">pmdec_err</span></span><a class="headerlink" href="#distroi.data.oi_data.OITarget.pmdec_err" title="Link to this definition">#</a></dt>
+<dd><p>Error on declination proper motion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OITarget.parallax">
+<span class="sig-name descname"><span class="pre">parallax</span></span><a class="headerlink" href="#distroi.data.oi_data.OITarget.parallax" title="Link to this definition">#</a></dt>
+<dd><p>Parallax in degrees.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OITarget.para_err">
+<span class="sig-name descname"><span class="pre">para_err</span></span><a class="headerlink" href="#distroi.data.oi_data.OITarget.para_err" title="Link to this definition">#</a></dt>
+<dd><p>Error on parallax.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OITarget.spectyp">
+<span class="sig-name descname"><span class="pre">spectyp</span></span><a class="headerlink" href="#distroi.data.oi_data.OITarget.spectyp" title="Link to this definition">#</a></dt>
+<dd><p>Target spectral type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OITarget.Notes">
+<span class="sig-name descname"><span class="pre">Notes</span></span><a class="headerlink" href="#distroi.data.oi_data.OITarget.Notes" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">------</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">Only</span> <span class="pre">read</span> <span class="pre">in</span> <span class="pre">once</span> <span class="pre">when</span> <span class="pre">using</span> <span class="pre">`read_oifits`,</span> <span class="pre">since</span> <span class="pre">we</span> <span class="pre">assume</span> <span class="pre">the</span> <span class="pre">target</span> <span class="pre">will</span> <span class="pre">be</span> <span class="pre">the</span> <span class="pre">same</span> <span class="pre">for</span> <span class="pre">all</span> <span class="pre">considered</span></span></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">OIFITS</span> <span class="pre">files.</span></span></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="distroi.data.oi_data.OIVis">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.data.oi_data.</span></span><span class="sig-name descname"><span class="pre">OIVis</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to describe OI_VIS table data.</p>
 <p>Class to describe the concatenated data contained in OI_VIS tables of multiple OIFITS files.</p>
-<p>NOTE: The correspondence to the OIFITS standard is not exact. For example, all visibility data is flattened
-into 1D arrays for ease of use, instead of keeping the OIFITS 2D array structures, where the different rows denote
-the baselines. Instead, the baseline pair corresponding to a datapoint is encoded in the baseline_idx array and the
-baseline_dict dictionary, and, in addition, the wavelength information is stored in the 1D eff_wave array
-(replacing the usual link with the OI_ARRAY and OI_WAVELENGTH tables).</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis.header">
+<span class="sig-name descname"><span class="pre">header</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis.header" title="Link to this definition">#</a></dt>
+<dd><p>Header dictionary.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>header</strong> (<em>dict</em>) – Header dictionary.</p></li>
-<li><p><strong>time</strong> (<em>np.ndarray</em>) – Time of observations in seconds.</p></li>
-<li><p><strong>mjd</strong> (<em>np.ndarray</em>) – Modified Julian Date of observations.</p></li>
-<li><p><strong>int_time</strong> (<em>np.ndarray</em>) – Integration time in seconds.</p></li>
-<li><p><strong>visamp</strong> (<em>np.ndarray</em>) – Visibility amplitude. Units depend on type of visibility (e.g. coherent flux vs.
-normalized visibility). In case ‘correlated flux’ and TUNIT keyword not specified in header -&gt; assumed to be
-in Jansky.</p></li>
-<li><p><strong>visamperr</strong> (<em>np.ndarray</em>) – Error on visibility amplitude.</p></li>
-<li><p><strong>visphi</strong> (<em>np.ndarray</em>) – Visibility phase in degrees.</p></li>
-<li><p><strong>visphierr</strong> (<em>np.ndarray</em>) – Error on visibility phase.</p></li>
-<li><p><strong>rvis</strong> (<em>np.ndarray</em>) – Real part of complex coherent flux; units defined in header</p></li>
-<li><p><strong>rviserr</strong> (<em>np.ndarray</em>) – Error on real part of complex coherent flux.</p></li>
-<li><p><strong>ivis</strong> (<em>np.ndarray</em>) – Imaginary part of complex coherent flux; units defined in header</p></li>
-<li><p><strong>iviserr</strong> (<em>np.ndarray</em>) – Error on imaginary part of complex coherent flux.</p></li>
-<li><p><strong>ucoord</strong> (<em>np.ndarray</em>) – u coordinate of the data in unit m.</p></li>
-<li><p><strong>vcoord</strong> (<em>np.ndarray</em>) – v coordinate of the data in unit m.</p></li>
-<li><p><strong>flag</strong> (<em>np.ndarray</em>) – Array of booleans denoting whether data has been flagged by the reduction or not.</p></li>
-<li><p><strong>baseline_dict</strong> (<em>dict</em>) – Dictionary mapping baseline index integers to the strings describing the baseline.</p></li>
-<li><p><strong>baseline_idx</strong> (<em>np.ndarray</em>) – Baseline index of the data (to be used with baseline_dict).</p></li>
-<li><p><strong>eff_wave</strong> (<em>np.ndarray</em>) – Effective wavelength of the data; units m.</p></li>
-<li><p><strong>eff_band</strong> (<em>np.ndarray</em>) – Effective wavelength bandwidth of data; units m.</p></li>
-<li><p><strong>ufcoord</strong> (<em>np.ndarray</em>) – u coordinate spatial frequency; units cycle rad^-1.</p></li>
-<li><p><strong>vfcoord</strong> (<em>np.ndarray</em>) – v coordinate spatial frequency; units cycle rad^-1.</p></li>
-<li><p><strong>base</strong> (<em>np.ndarray</em>) – Size of the baseline in m.</p></li>
-<li><p><strong>spat_freq</strong> (<em>np.ndarray</em>) – Spatial frequency in cycles per radian.</p></li>
-</ul>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis.time">
+<span class="sig-name descname"><span class="pre">time</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis.time" title="Link to this definition">#</a></dt>
+<dd><p>Time of observations in seconds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis.mjd">
+<span class="sig-name descname"><span class="pre">mjd</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis.mjd" title="Link to this definition">#</a></dt>
+<dd><p>Modified Julian Date of observations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis.int_time">
+<span class="sig-name descname"><span class="pre">int_time</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis.int_time" title="Link to this definition">#</a></dt>
+<dd><p>Integration time in seconds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis.visamp">
+<span class="sig-name descname"><span class="pre">visamp</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis.visamp" title="Link to this definition">#</a></dt>
+<dd><p>Visibility amplitude. Units depend on type of visibility (e.g. coherent flux vs.
+normalized visibility). In case ‘correlated flux’ and TUNIT keyword not specified in header -&gt; assumed to be
+in Jansky.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis.visamperr">
+<span class="sig-name descname"><span class="pre">visamperr</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis.visamperr" title="Link to this definition">#</a></dt>
+<dd><p>Error on visibility amplitude.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis.visphi">
+<span class="sig-name descname"><span class="pre">visphi</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis.visphi" title="Link to this definition">#</a></dt>
+<dd><p>Visibility phase in degrees.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis.visphierr">
+<span class="sig-name descname"><span class="pre">visphierr</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis.visphierr" title="Link to this definition">#</a></dt>
+<dd><p>Error on visibility phase.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis.rvis">
+<span class="sig-name descname"><span class="pre">rvis</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis.rvis" title="Link to this definition">#</a></dt>
+<dd><p>Real part of complex coherent flux; units defined in header.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis.rviserr">
+<span class="sig-name descname"><span class="pre">rviserr</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis.rviserr" title="Link to this definition">#</a></dt>
+<dd><p>Error on real part of complex coherent flux.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis.ivis">
+<span class="sig-name descname"><span class="pre">ivis</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis.ivis" title="Link to this definition">#</a></dt>
+<dd><p>Imaginary part of complex coherent flux; units defined in header.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis.iviserr">
+<span class="sig-name descname"><span class="pre">iviserr</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis.iviserr" title="Link to this definition">#</a></dt>
+<dd><p>Error on imaginary part of complex coherent flux.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis.ucoord">
+<span class="sig-name descname"><span class="pre">ucoord</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis.ucoord" title="Link to this definition">#</a></dt>
+<dd><p>u coordinate of the data in unit m.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis.vcoord">
+<span class="sig-name descname"><span class="pre">vcoord</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis.vcoord" title="Link to this definition">#</a></dt>
+<dd><p>v coordinate of the data in unit m.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis.flag">
+<span class="sig-name descname"><span class="pre">flag</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis.flag" title="Link to this definition">#</a></dt>
+<dd><p>Array of booleans denoting whether data has been flagged by the reduction or not.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis.baseline_dict">
+<span class="sig-name descname"><span class="pre">baseline_dict</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis.baseline_dict" title="Link to this definition">#</a></dt>
+<dd><p>Dictionary mapping baseline index integers to the strings describing the baseline.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis.baseline_idx">
+<span class="sig-name descname"><span class="pre">baseline_idx</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis.baseline_idx" title="Link to this definition">#</a></dt>
+<dd><p>Baseline index of the data (to be used with baseline_dict).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis.eff_wave">
+<span class="sig-name descname"><span class="pre">eff_wave</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis.eff_wave" title="Link to this definition">#</a></dt>
+<dd><p>Effective wavelength of the data; units m.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis.eff_band">
+<span class="sig-name descname"><span class="pre">eff_band</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis.eff_band" title="Link to this definition">#</a></dt>
+<dd><p>Effective wavelength bandwidth of data; units m.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis.ufcoord">
+<span class="sig-name descname"><span class="pre">ufcoord</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis.ufcoord" title="Link to this definition">#</a></dt>
+<dd><p>u coordinate spatial frequency; units cycle rad^-1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis.vfcoord">
+<span class="sig-name descname"><span class="pre">vfcoord</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis.vfcoord" title="Link to this definition">#</a></dt>
+<dd><p>v coordinate spatial frequency; units cycle rad^-1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis.base">
+<span class="sig-name descname"><span class="pre">base</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis.base" title="Link to this definition">#</a></dt>
+<dd><p>Size of the baseline in m.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis.spat_freq">
+<span class="sig-name descname"><span class="pre">spat_freq</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis.spat_freq" title="Link to this definition">#</a></dt>
+<dd><p>Spatial frequency in cycles per radian.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="distroi.data.oi_data.OIVis2">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.data.oi_data.</span></span><span class="sig-name descname"><span class="pre">OIVis2</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis2" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to describe OI_VIS2 table data.</p>
 <p>Class to describe the concatenated data contained in OI_VIS2 tables of multiple OIFITS files.</p>
-<p>NOTE: The correspondence to the OIFITS standard is not exact. For example, all visibility data is flattened
-into 1D arrays for ease of use, instead of keeping the OIFITS 2D array structures, where the different rows denote
-the baselines. Instead, the baseline pair corresponding to a datapoint is encoded in the baseline_idx array and the
-baseline_dict dictionary, and, in addition, the wavelength information is stored in the 1D eff_wave array
-(replacing the usual link with the OI_ARRAY and OI_WAVELENGTH tables).</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis2.header">
+<span class="sig-name descname"><span class="pre">header</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis2.header" title="Link to this definition">#</a></dt>
+<dd><p>Header dictionary.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>header</strong> (<em>dict</em>) – Header dictionary.</p></li>
-<li><p><strong>time</strong> (<em>np.ndarray</em>) – Time of observations in seconds.</p></li>
-<li><p><strong>mjd</strong> (<em>np.ndarray</em>) – Modified Julian Date of observations.</p></li>
-<li><p><strong>int_time</strong> (<em>np.ndarray</em>) – Integration time in seconds.</p></li>
-<li><p><strong>vis2data</strong> (<em>np.ndarray</em>) – Squared visibility amplitude. Always normalized.</p></li>
-<li><p><strong>vis2err</strong> (<em>np.ndarray</em>) – Error on squared visibility amplitude.</p></li>
-<li><p><strong>ucoord</strong> (<em>np.ndarray</em>) – u coordinate of the data in unit m.</p></li>
-<li><p><strong>vcoord</strong> (<em>np.ndarray</em>) – v coordinate of the data in unit m.</p></li>
-<li><p><strong>flag</strong> (<em>np.ndarray</em>) – Array of booleans denoting whether data has been flagged by the reduction or not.</p></li>
-<li><p><strong>baseline_dict</strong> (<em>dict</em>) – Dictionary mapping baseline index integers to the strings describing the baseline.</p></li>
-<li><p><strong>baseline_idx</strong> (<em>np.ndarray</em>) – Baseline index of the data (to be used with baseline_dict).</p></li>
-<li><p><strong>eff_wave</strong> (<em>np.ndarray</em>) – Effective wavelength of the data; units m.</p></li>
-<li><p><strong>eff_band</strong> (<em>np.ndarray</em>) – Effective wavelength bandwidth of data; units m.</p></li>
-<li><p><strong>ufcoord</strong> (<em>np.ndarray</em>) – u coordinate spatial frequency; units cycle rad^-1.</p></li>
-<li><p><strong>vfcoord</strong> (<em>np.ndarray</em>) – v coordinate spatial frequency; units cycle rad^-1.</p></li>
-<li><p><strong>base</strong> (<em>np.ndarray</em>) – Size of the baseline in m.</p></li>
-<li><p><strong>spat_freq</strong> (<em>np.ndarray</em>) – Spatial frequency in cycles per radian.</p></li>
-</ul>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis2.time">
+<span class="sig-name descname"><span class="pre">time</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis2.time" title="Link to this definition">#</a></dt>
+<dd><p>Time of observations in seconds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis2.mjd">
+<span class="sig-name descname"><span class="pre">mjd</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis2.mjd" title="Link to this definition">#</a></dt>
+<dd><p>Modified Julian Date of observations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis2.int_time">
+<span class="sig-name descname"><span class="pre">int_time</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis2.int_time" title="Link to this definition">#</a></dt>
+<dd><p>Integration time in seconds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis2.vis2data">
+<span class="sig-name descname"><span class="pre">vis2data</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis2.vis2data" title="Link to this definition">#</a></dt>
+<dd><p>Squared visibility amplitude. Always normalized.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis2.vis2err">
+<span class="sig-name descname"><span class="pre">vis2err</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis2.vis2err" title="Link to this definition">#</a></dt>
+<dd><p>Error on squared visibility amplitude.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis2.ucoord">
+<span class="sig-name descname"><span class="pre">ucoord</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis2.ucoord" title="Link to this definition">#</a></dt>
+<dd><p>u coordinate of the data in unit m.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis2.vcoord">
+<span class="sig-name descname"><span class="pre">vcoord</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis2.vcoord" title="Link to this definition">#</a></dt>
+<dd><p>v coordinate of the data in unit m.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis2.flag">
+<span class="sig-name descname"><span class="pre">flag</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis2.flag" title="Link to this definition">#</a></dt>
+<dd><p>Array of booleans denoting whether data has been flagged by the reduction or not.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis2.baseline_dict">
+<span class="sig-name descname"><span class="pre">baseline_dict</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis2.baseline_dict" title="Link to this definition">#</a></dt>
+<dd><p>Dictionary mapping baseline index integers to the strings describing the baseline.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis2.baseline_idx">
+<span class="sig-name descname"><span class="pre">baseline_idx</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis2.baseline_idx" title="Link to this definition">#</a></dt>
+<dd><p>Baseline index of the data (to be used with baseline_dict).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis2.eff_wave">
+<span class="sig-name descname"><span class="pre">eff_wave</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis2.eff_wave" title="Link to this definition">#</a></dt>
+<dd><p>Effective wavelength of the data; units m.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis2.eff_band">
+<span class="sig-name descname"><span class="pre">eff_band</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis2.eff_band" title="Link to this definition">#</a></dt>
+<dd><p>Effective wavelength bandwidth of data; units m.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis2.ufcoord">
+<span class="sig-name descname"><span class="pre">ufcoord</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis2.ufcoord" title="Link to this definition">#</a></dt>
+<dd><p>u coordinate spatial frequency; units cycle rad^-1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis2.vfcoord">
+<span class="sig-name descname"><span class="pre">vfcoord</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis2.vfcoord" title="Link to this definition">#</a></dt>
+<dd><p>v coordinate spatial frequency; units cycle rad^-1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis2.base">
+<span class="sig-name descname"><span class="pre">base</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis2.base" title="Link to this definition">#</a></dt>
+<dd><p>Size of the baseline in m.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="distroi.data.oi_data.OIVis2.spat_freq">
+<span class="sig-name descname"><span class="pre">spat_freq</span></span><a class="headerlink" href="#distroi.data.oi_data.OIVis2.spat_freq" title="Link to this definition">#</a></dt>
+<dd><p>Spatial frequency in cycles per radian.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -709,18 +1853,133 @@ baseline_dict dictionary, and, in addition, the wavelength information is stored
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notes">Notes:</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIData"><code class="docutils literal notranslate"><span class="pre">OIData</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIData.header"><code class="docutils literal notranslate"><span class="pre">OIData.header</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIData.target"><code class="docutils literal notranslate"><span class="pre">OIData.target</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIData.vis"><code class="docutils literal notranslate"><span class="pre">OIData.vis</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIData.vis2"><code class="docutils literal notranslate"><span class="pre">OIData.vis2</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIData.t3"><code class="docutils literal notranslate"><span class="pre">OIData.t3</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIData.flux"><code class="docutils literal notranslate"><span class="pre">OIData.flux</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIData.filter"><code class="docutils literal notranslate"><span class="pre">OIData.filter()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIData.plot_data"><code class="docutils literal notranslate"><span class="pre">OIData.plot_data()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIData.plot_uv"><code class="docutils literal notranslate"><span class="pre">OIData.plot_uv()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIData.read_oifits"><code class="docutils literal notranslate"><span class="pre">OIData.read_oifits()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIFlux"><code class="docutils literal notranslate"><span class="pre">OIFlux</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3"><code class="docutils literal notranslate"><span class="pre">OIT3</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget"><code class="docutils literal notranslate"><span class="pre">OITarget</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis"><code class="docutils literal notranslate"><span class="pre">OIVis</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2"><code class="docutils literal notranslate"><span class="pre">OIVis2</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIFlux"><code class="docutils literal notranslate"><span class="pre">OIFlux</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIFlux.header"><code class="docutils literal notranslate"><span class="pre">OIFlux.header</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIFlux.time"><code class="docutils literal notranslate"><span class="pre">OIFlux.time</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIFlux.mjd"><code class="docutils literal notranslate"><span class="pre">OIFlux.mjd</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIFlux.int_time"><code class="docutils literal notranslate"><span class="pre">OIFlux.int_time</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIFlux.fluxdata"><code class="docutils literal notranslate"><span class="pre">OIFlux.fluxdata</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIFlux.fluxerr"><code class="docutils literal notranslate"><span class="pre">OIFlux.fluxerr</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIFlux.flag"><code class="docutils literal notranslate"><span class="pre">OIFlux.flag</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIFlux.telescope_dict"><code class="docutils literal notranslate"><span class="pre">OIFlux.telescope_dict</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIFlux.telescope_idx"><code class="docutils literal notranslate"><span class="pre">OIFlux.telescope_idx</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIFlux.eff_wave"><code class="docutils literal notranslate"><span class="pre">OIFlux.eff_wave</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIFlux.eff_band"><code class="docutils literal notranslate"><span class="pre">OIFlux.eff_band</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3"><code class="docutils literal notranslate"><span class="pre">OIT3</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.header"><code class="docutils literal notranslate"><span class="pre">OIT3.header</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.time"><code class="docutils literal notranslate"><span class="pre">OIT3.time</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.mjd"><code class="docutils literal notranslate"><span class="pre">OIT3.mjd</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.int_time"><code class="docutils literal notranslate"><span class="pre">OIT3.int_time</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.t3amp"><code class="docutils literal notranslate"><span class="pre">OIT3.t3amp</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.t3amperr"><code class="docutils literal notranslate"><span class="pre">OIT3.t3amperr</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.t3phi"><code class="docutils literal notranslate"><span class="pre">OIT3.t3phi</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.t3phierr"><code class="docutils literal notranslate"><span class="pre">OIT3.t3phierr</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.u1coord"><code class="docutils literal notranslate"><span class="pre">OIT3.u1coord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.v1coord"><code class="docutils literal notranslate"><span class="pre">OIT3.v1coord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.u2coord"><code class="docutils literal notranslate"><span class="pre">OIT3.u2coord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.v2coord"><code class="docutils literal notranslate"><span class="pre">OIT3.v2coord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.flag"><code class="docutils literal notranslate"><span class="pre">OIT3.flag</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.baseline_dict"><code class="docutils literal notranslate"><span class="pre">OIT3.baseline_dict</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.baseline_idx"><code class="docutils literal notranslate"><span class="pre">OIT3.baseline_idx</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.eff_wave"><code class="docutils literal notranslate"><span class="pre">OIT3.eff_wave</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.eff_band"><code class="docutils literal notranslate"><span class="pre">OIT3.eff_band</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.u3coord"><code class="docutils literal notranslate"><span class="pre">OIT3.u3coord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.v3coord"><code class="docutils literal notranslate"><span class="pre">OIT3.v3coord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.u1fcoord"><code class="docutils literal notranslate"><span class="pre">OIT3.u1fcoord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.v1fcoord"><code class="docutils literal notranslate"><span class="pre">OIT3.v1fcoord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.u2fcoord"><code class="docutils literal notranslate"><span class="pre">OIT3.u2fcoord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.v2fcoord"><code class="docutils literal notranslate"><span class="pre">OIT3.v2fcoord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.u3fcoord"><code class="docutils literal notranslate"><span class="pre">OIT3.u3fcoord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.v3fcoord"><code class="docutils literal notranslate"><span class="pre">OIT3.v3fcoord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.base_max"><code class="docutils literal notranslate"><span class="pre">OIT3.base_max</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.spat_freq_max"><code class="docutils literal notranslate"><span class="pre">OIT3.spat_freq_max</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIT3.Notes"><code class="docutils literal notranslate"><span class="pre">OIT3.Notes</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget"><code class="docutils literal notranslate"><span class="pre">OITarget</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.header"><code class="docutils literal notranslate"><span class="pre">OITarget.header</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.target_id"><code class="docutils literal notranslate"><span class="pre">OITarget.target_id</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.target"><code class="docutils literal notranslate"><span class="pre">OITarget.target</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.equinox"><code class="docutils literal notranslate"><span class="pre">OITarget.equinox</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.raep0"><code class="docutils literal notranslate"><span class="pre">OITarget.raep0</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.decep0"><code class="docutils literal notranslate"><span class="pre">OITarget.decep0</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.ra_err"><code class="docutils literal notranslate"><span class="pre">OITarget.ra_err</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.dec_err"><code class="docutils literal notranslate"><span class="pre">OITarget.dec_err</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.sysvel"><code class="docutils literal notranslate"><span class="pre">OITarget.sysvel</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.veltyp"><code class="docutils literal notranslate"><span class="pre">OITarget.veltyp</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.veldef"><code class="docutils literal notranslate"><span class="pre">OITarget.veldef</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.pmra"><code class="docutils literal notranslate"><span class="pre">OITarget.pmra</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.pmdec"><code class="docutils literal notranslate"><span class="pre">OITarget.pmdec</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.pmra_err"><code class="docutils literal notranslate"><span class="pre">OITarget.pmra_err</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.pmdec_err"><code class="docutils literal notranslate"><span class="pre">OITarget.pmdec_err</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.parallax"><code class="docutils literal notranslate"><span class="pre">OITarget.parallax</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.para_err"><code class="docutils literal notranslate"><span class="pre">OITarget.para_err</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.spectyp"><code class="docutils literal notranslate"><span class="pre">OITarget.spectyp</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OITarget.Notes"><code class="docutils literal notranslate"><span class="pre">OITarget.Notes</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis"><code class="docutils literal notranslate"><span class="pre">OIVis</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.header"><code class="docutils literal notranslate"><span class="pre">OIVis.header</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.time"><code class="docutils literal notranslate"><span class="pre">OIVis.time</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.mjd"><code class="docutils literal notranslate"><span class="pre">OIVis.mjd</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.int_time"><code class="docutils literal notranslate"><span class="pre">OIVis.int_time</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.visamp"><code class="docutils literal notranslate"><span class="pre">OIVis.visamp</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.visamperr"><code class="docutils literal notranslate"><span class="pre">OIVis.visamperr</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.visphi"><code class="docutils literal notranslate"><span class="pre">OIVis.visphi</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.visphierr"><code class="docutils literal notranslate"><span class="pre">OIVis.visphierr</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.rvis"><code class="docutils literal notranslate"><span class="pre">OIVis.rvis</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.rviserr"><code class="docutils literal notranslate"><span class="pre">OIVis.rviserr</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.ivis"><code class="docutils literal notranslate"><span class="pre">OIVis.ivis</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.iviserr"><code class="docutils literal notranslate"><span class="pre">OIVis.iviserr</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.ucoord"><code class="docutils literal notranslate"><span class="pre">OIVis.ucoord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.vcoord"><code class="docutils literal notranslate"><span class="pre">OIVis.vcoord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.flag"><code class="docutils literal notranslate"><span class="pre">OIVis.flag</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.baseline_dict"><code class="docutils literal notranslate"><span class="pre">OIVis.baseline_dict</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.baseline_idx"><code class="docutils literal notranslate"><span class="pre">OIVis.baseline_idx</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.eff_wave"><code class="docutils literal notranslate"><span class="pre">OIVis.eff_wave</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.eff_band"><code class="docutils literal notranslate"><span class="pre">OIVis.eff_band</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.ufcoord"><code class="docutils literal notranslate"><span class="pre">OIVis.ufcoord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.vfcoord"><code class="docutils literal notranslate"><span class="pre">OIVis.vfcoord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.base"><code class="docutils literal notranslate"><span class="pre">OIVis.base</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis.spat_freq"><code class="docutils literal notranslate"><span class="pre">OIVis.spat_freq</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2"><code class="docutils literal notranslate"><span class="pre">OIVis2</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.header"><code class="docutils literal notranslate"><span class="pre">OIVis2.header</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.time"><code class="docutils literal notranslate"><span class="pre">OIVis2.time</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.mjd"><code class="docutils literal notranslate"><span class="pre">OIVis2.mjd</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.int_time"><code class="docutils literal notranslate"><span class="pre">OIVis2.int_time</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.vis2data"><code class="docutils literal notranslate"><span class="pre">OIVis2.vis2data</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.vis2err"><code class="docutils literal notranslate"><span class="pre">OIVis2.vis2err</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.ucoord"><code class="docutils literal notranslate"><span class="pre">OIVis2.ucoord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.vcoord"><code class="docutils literal notranslate"><span class="pre">OIVis2.vcoord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.flag"><code class="docutils literal notranslate"><span class="pre">OIVis2.flag</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.baseline_dict"><code class="docutils literal notranslate"><span class="pre">OIVis2.baseline_dict</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.baseline_idx"><code class="docutils literal notranslate"><span class="pre">OIVis2.baseline_idx</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.eff_wave"><code class="docutils literal notranslate"><span class="pre">OIVis2.eff_wave</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.eff_band"><code class="docutils literal notranslate"><span class="pre">OIVis2.eff_band</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.ufcoord"><code class="docutils literal notranslate"><span class="pre">OIVis2.ufcoord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.vfcoord"><code class="docutils literal notranslate"><span class="pre">OIVis2.vfcoord</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.base"><code class="docutils literal notranslate"><span class="pre">OIVis2.base</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.data.oi_data.OIVis2.spat_freq"><code class="docutils literal notranslate"><span class="pre">OIVis2.spat_freq</span></code></a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

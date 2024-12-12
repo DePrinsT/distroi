@@ -1,12 +1,15 @@
-"""
-Contains a class to store optical inteferometric (OI) observables, taken using the same instrument setup, and additional
-functions to take radiative transfer (RT) model images and convert them to interferometric observables at the spatial
-frequencies of the observables.
+"""A module to handle OIFITS data.
 
-NOTE: With the aim of flexibility in including multiple files and computational ease, this class does not fully reflect
+Contains the master `OIData` class to store optical inteferometric (OI) observables, taken using the same instrument
+setup, and additional functions to take radiative transfer (RT) model images and convert them to interferometric
+observables at the spatial frequencies of the observables.
+
+Notes:
+------
+With the aim of flexibility in including multiple files and computational ease, the `OIData` class doesn't fully reflect
 all the infromation stored in the OIFITS file format. For example, the wavelengths and baselines/triplets at which
 observables were taken is stored in the relevant observable properties. E.g. the wavelengths and baselines associated
-to the OI_VIS2 measurements are stored as a np.ndarray inside the OIData.vis2 instance property itself, instead of in
+to the OI_VIS2 measurements are stored as a np.ndarray inside the `OIData.vis2` instance property itself, instead of in
 a separate property mirroring the OI_WAVELENGTH and OI_ARRAY tables inside the OIFITS files.
 """
 
@@ -22,30 +25,40 @@ from typing import Literal
 
 
 class OIData:
-    """
-    Class to describe optical interferometry data, allowing to represent simultaneously the data contained in multiple
-    OIFits files observed using the same array and instrument setup. The constructor simply initiates all properties
-    of the instance to None. Data is meant to be read in using the read_oifits method instead.
+    """Describes a set of optical interferometry data.
 
+    Optical interferometry data container class, allowing to represent simultaneously the data contained in multiple
+    OIFits files observed using the same array and instrument setup.
+
+    Attributes
+    ----------
+    header : dict
+        Primary header dictionary. Taken from the first file that's read in.
+    target : OITarget
+        Object representing the OI_TARGET table of an OIFITS file. Taken from the first file that's read in.
+    vis : OIVis
+        Object representing data in the OI_VIS tables concatenated over the considered OIFITS files.
+    vis2 : OIVis2
+        Object representing data in the OI_VIS2 tables concatenated over the considered OIFITS files.
+    t3 : OIT3
+        Object representing data in the OI_T3 tables concatenated over the considered OIFITS files.
+    flux : OIFlux
+        Object representing data in the OI_FLUX tables concatenated over the considered OIFITS files.
+
+    Warnings
+    --------
     Make sure the data in different files is consistent in terms of target and setup. E.g. if first file read in uses
     differential instead of absolute visibilities in the OI_VIS table, all other files should also contain differential
     visibilities. If you wish to model observations taken with different instrument setup simultaneously, different
-    OIData objects should be created for each setup.
+    `OIData` objects should be created for each setup.
 
-    :ivar dict header: Primary header dictionary. Taken from the first file that's read in.
-    :ivar OITarget target: Object representing the OI_TARGET table of an OIFITS file. Taken from the first file
-        that's read in.
-    :ivar OIVis vis: Object representing data in the OI_VIS tables concatenated over the considered OIFITS files.
-    :ivar OIVis2 vis2: Object representing data in the OI_VIS2 tables concatenated over the considered OIFITS files.
-    :ivar OIVis2 vis2: Object representing data in the OI_VIS2 tables concatenated over the considered OIFITS files.
-    :ivar OIT3 t3: Object representing data in the OI_T3 tables concatenated over the considered OIFITS files.
-    :ivar OIFlux flux: Object representing data in the OI_FLUX tables concatenated over the considered OIFITS files.
+    Notes
+    -----
+    The constructor simply initiates all properties of the instance to None. Data is meant to be read in using
+    the `read_oifits` method instead.
     """
 
-    def __init__(self) -> None:
-        """
-        Constructor method. See class docstring for information on initialization parameters and instance properties.
-        """
+    def __init__(self):
         self.header = None  # Primary header dictionary
         self.target = None  # OITarget instance
         self.vis = None  # OIVis object
@@ -54,16 +67,28 @@ class OIData:
         self.flux = None  # OIFlux object
 
     def read_oifits(self, data_dir: str, data_file: str, ft_only: bool = False) -> None:
-        """
-        Reads in data from OIFits files. Includes the use of wildcards to read in data from multiple files
+        """Read in data from OIFITS files.
+
+        Master function to read in OIFITS data, including the use of wildcards to read in data from multiple files
         simultaneously.
 
-        NOTE: The read-in metadata on the instrument setup, targer and array (i.e. the primary table header,
-        OI_TARGET, OI_ARRAY) and choice of observables (absolute, differential, coherent flux, etc) are read in only
+        Parameters
+        ----------
+        data_dir : str
+            Directory containing the OIFITS files.
+        data_file : str
+            Filename or wildcard pattern to match the OIFITS files.
+        ft_only : bool, optional
+            Whether to only read in fringe tracker data, by default False. If True, only science data is considered.
+
+        Warnings
+        --------
+        The read-in metadata on the instrument setup, target and array (i.e. the primary table header,
+        OI_TARGET, OI_ARRAY) and choice of observables (absolute, differential, coherent flux, etc.) are read in only
         from the first considered file. Make sure the data in simultaneously read-in files are thus consistent in terms
         of setup. This allows the consistent merging of OI_VIS, OI_VIS2, OI_T3 and OI_FLUX tables into single
         consistent Python objects. If you wish to model observations taken with different instrument setup
-        simultaneously, different OIData objects should be created for each setup.
+        simultaneously, different `OIData` objects should be created for each setup.
         """
 
         file_paths = sorted(glob.glob(f"{data_dir}/{data_file}"))  # OIFITS files
@@ -598,9 +623,9 @@ class OIData:
     def plot_data(
         self,
         dname: str,
-        x: str,
-        y: str,
-        error: str | None = None,
+        xname: str,
+        yname: str,
+        ename: str | None = None,
         cname: str | None = None,
         xlim: tuple[float, float] | None = None,
         ylim: tuple[float, float] | None = None,
@@ -612,31 +637,53 @@ class OIData:
         logy: bool = False,
         logc: bool = False,
     ) -> plt.Figure:
-        """
-        Make a plot of the data contained in the object.
+        """Plot data.
 
-        :param str dname: Name of the type of OI data table to plot. Can be `vis`, `vis2`, `t3` and `flux`.
-        :param str x: Name of the data to be plotted on the x axis. Can be any of the names of the np.ndarray
-            object attributes corresponding to dtype, except `flag`.
-        :param str y: Name of the data to be plotted on the y axis. Can be any of the names of the np.ndarray
-            object attributes corresponding to dtype, except `flag`.
-        :param str error: Name of the data to be used to plot errorbars. None by default -> i.e. no errorbars.
-        :param str cname: Name of the data used to colour the plot. Can be any of the names of the np.ndarray
-            object attributes corresponding to dtype, except `flag`, but also `baseline` in order to colour data
+        Master plotting function to plot data contained in the `OIData` object.
+
+        Parameters
+        ----------
+        dname : str
+            Name of the type of OI data table to plot. Can be `'vis'`, `'vis2'`, `'t3'` and `'flux'`.
+        xname : str
+            Name of the data to be plotted on the x axis. Can be any of the names of the np.ndarray
+            object attributes corresponding to dtype, except `'flag'`.
+        yname : str
+            Name of the data to be plotted on the y axis. Can be any of the names of the np.ndarray
+            object attributes corresponding to dtype, except `'flag'`.
+        ename : str, optional
+            Name of the data to be used to plot errorbars. None by default, meaning no errorbars.
+        cname : str, optional
+            Name of the data used to colour the plot. Can be any of the names of the np.ndarray
+            object attributes corresponding to dtype, except `'flag'`, but also `'baseline'` in order to colour data
             by the baseline pair/triangle/telescope. None by default, in which case all datapoints will have the
             same color.
-        :param bool per_baseline: Whether to make a separate plot per baseline pair/triangle/telescope. By default
+        xlim : tuple of float, optional
+            Limits for the x axis, by default None.
+        ylim : tuple of float, optional
+            Limits for the y axis, by default None.
+        per_baseline : bool, optional
+            Whether to make a separate plot per baseline pair/triangle/telescope. By default
             set to False, meaning all data is put into a separate plot.
-        :param str ptype: Plotting type, by default set to 'line' to plot a line for each baseline pair/triangle
-            /telescope. Can be set to 'scatter' to instead plot point separately in a scatterplot.
-        :param bool show_plots: Whether to show the plots.
-        :param str fig_dir: Directory of where to save the figure. None by default, in which case no figure will be
+        ptype : str, optional
+            Plotting type, by default set to `'line'` to plot a line for each baseline pair/triangle
+            /telescope. Can be set to `'scatter'` to instead plot point separately in a scatterplot.
+        show_plots : bool, optional
+            Whether to show the plots, by default True.
+        fig_dir : str, optional
+            Directory of where to save the figure. None by default, in which case no figure will be
             saved.
-        :param bool logx: Whether to plot x axis in log scale.
-        :param bool logy: Whether to plot y axis in log scale.
-        :param bool logc: Whether to plot the color scale in log scale.
-        :return fig: The matplotlib figure, which can then be further manipulated.
-        :rtype: plt.Figure
+        logx : bool, optional
+            Whether to plot x axis in log scale, by default False.
+        logy : bool, optional
+            Whether to plot y axis in log scale, by default False.
+        logc : bool, optional
+            Whether to plot the color scale in log scale, by default False.
+
+        Returns
+        -------
+        plt.Figure
+            The matplotlib figure, which can then be further manipulated.
         """
 
         # TODO: finnish this dictionary
@@ -656,10 +703,10 @@ class OIData:
         }
 
         data = getattr(self, dname)  # get main data attribute, e.g. vis, vis2, t3 or flux
-        xdata = getattr(data, x)  # get x axis data
-        ydata = getattr(data, y)  # get y axis data
-        if error is not None:
-            error_data = getattr(data, error)  # get error
+        xdata = getattr(data, xname)  # get x axis data
+        ydata = getattr(data, yname)  # get y axis data
+        if ename is not None:
+            error_data = getattr(data, ename)  # get error
         else:
             error_data = np.zeros_like(xdata)  # set to 0s otherwise
         if cname is not None:
@@ -717,8 +764,8 @@ class OIData:
                     ax.set_ylim(ylim[0], ylim[1])
 
                 # set axis labels
-                ax.set_xlabel(label_dict[x])
-                ax.set_ylabel(label_dict[y])
+                ax.set_xlabel(label_dict[xname])
+                ax.set_ylabel(label_dict[yname])
 
         plt.tight_layout()
 
@@ -734,61 +781,90 @@ class OIData:
         return
 
     def plot_uv(self, dname):
-        """
-        Make a plot of the uv coverage for the data.
+        """Make a plot of the uv coverage for the data.
 
-        :param str dname: Name of the type of OI data table whose uv coverage is plotted.
-            Can be `vis`, `vis2` or `t3`.
+        Parameters
+        ----------
+        dname : str
+            Name of the type of OI data table whose uv coverage is plotted.
+            Can be `'vis'`, `'vis2'` or `'t3'`.
         """
         pass
 
     # TODO: finnish this filtering function
     def filter(self, name: str | list[str], range: tuple[float, float] | list[tuple[float, float]]) -> None:
-        """
-        Filter data based on user input range on quantity of interest or on if data has been flagged.
+        """Filter data.
 
-        NOTE: This function applies to all relevant types of stored data. I.e. if the OIData object contains both
-        squared visibilities and tiple products, and you filter based on 'eff_wave', filtering will be applied to
-        both types of observables. If you want to filter differently for different data types, e.g. on wavelength of
-        the triple product only, call the filter function of the OIT3 class directly instead.
+        Filter out data based on user input range on quantity of interest or on if data has been flagged if
+        ``name='flag'``.
 
-        :param str | list[str] names: Name(s) of the variables to be filtered (e.g. 'visamp'). Can also pass 'flag' in
+        Parameters
+        ----------
+        name : str or list of str
+            Name(s) of the variables to be filtered (e.g. `'visamp'`). Can also pass `'flag'` in
             order to filter out flagged data.
-        :param tuple[float, float] | list[tuple[float, float]]: Range(s) of the variables which we want to cut.
+        range : tuple of float or list of tuple of float
+            Range(s) of the variables which we want to cut.
             E.g. name='visamp' & range=(0.01, 0.1) -> will filter out all data with visibility between 0.01 and 0.1.
-        :rtype: None
+
+        Notes
+        -----
+        This function applies to all relevant types of stored data. I.e. if the `OIData` object contains both
+        squared visibilities and triple products, and you filter based on `'eff_wave'`, filtering will be applied to
+        both types of observables.
         """
         pass
 
 
 class OITarget:
-    """
-    Class to describe the OI_TARGET table of an OIFITS file.
+    """Class to describe the OI_TARGET table of an OIFITS file.
 
-    :ivar dict header: Header dictionary.
-    :ivar int target_id: Target ID number.
-    :ivar str target: Target name.
-    :ivar float equinox: Equinox in years.
-    :ivar float raep0: Target right ascension at equinox in deg.
-    :ivar float decep0: Target declination at equinox in deg.
-    :ivar float ra_err: Error on right ascension.
-    :ivar float dec_err: Error on declination.
-    :ivar float sysvel: Systemic radial velocity in m/s.
-    :ivar str veltyp: Reference for radial velocity (e.g. "LSR").
-    :ivar str veldef: Definition for radial velocity (e.g. "OPTICAL").
-    :ivar float pmra: Right ascension proper motion in deg/yr.
-    :ivar float pmdec: Declination proper motion in deg/yr.
-    :ivar float pmra_err: Error on right ascension proper motion.
-    :ivar float pmdec_err: Error on declination proper motion.
-    :ivar float parallax: Parallax in degrees.
-    :ivar float para_err: Error on parallax.
-    :ivar str spectyp: Target spectral type.
+    Attributes
+    ----------
+    header : dict
+        Header dictionary.
+    target_id : int
+        Target ID number.
+    target : str
+        Target name.
+    equinox : float
+        Equinox in years.
+    raep0 : float
+        Target right ascension at equinox in deg.
+    decep0 : float
+        Target declination at equinox in deg.
+    ra_err : float
+        Error on right ascension.
+    dec_err : float
+        Error on declination.
+    sysvel : float
+        Systemic radial velocity in m/s.
+    veltyp : str
+        Reference for radial velocity (e.g. "LSR").
+    veldef : str
+        Definition for radial velocity (e.g. "OPTICAL").
+    pmra : float
+        Right ascension proper motion in deg/yr.
+    pmdec : float
+        Declination proper motion in deg/yr.
+    pmra_err : float
+        Error on right ascension proper motion.
+    pmdec_err : float
+        Error on declination proper motion.
+    parallax : float
+        Parallax in degrees.
+    para_err : float
+        Error on parallax.
+    spectyp : str
+        Target spectral type.
+
+    Notes:
+    ------
+    Only read in once when using `read_oifits`, since we assume the target will be the same for all considered
+    OIFITS files.
     """
 
-    def __init__(self) -> None:
-        """
-        Constructor method. See class docstring for information on initialization parameters and instance properties.
-        """
+    def __init__(self):
         self.header = None  # header dictionary
         self.target_id = None  # target ID
         self.target = None  # target name
@@ -810,46 +886,63 @@ class OITarget:
 
 
 class OIVis:
-    """
+    """Class to describe OI_VIS table data.
+
     Class to describe the concatenated data contained in OI_VIS tables of multiple OIFITS files.
 
-    NOTE: The correspondence to the OIFITS standard is not exact. For example, all visibility data is flattened
-    into 1D arrays for ease of use, instead of keeping the OIFITS 2D array structures, where the different rows denote
-    the baselines. Instead, the baseline pair corresponding to a datapoint is encoded in the baseline_idx array and the
-    baseline_dict dictionary, and, in addition, the wavelength information is stored in the 1D eff_wave array
-    (replacing the usual link with the OI_ARRAY and OI_WAVELENGTH tables).
-
-    :ivar dict header: Header dictionary.
-    :ivar np.ndarray time: Time of observations in seconds.
-    :ivar np.ndarray mjd: Modified Julian Date of observations.
-    :ivar np.ndarray int_time: Integration time in seconds.
-    :ivar np.ndarray visamp: Visibility amplitude. Units depend on type of visibility (e.g. coherent flux vs.
+    Attributes
+    ----------
+    header : dict
+        Header dictionary.
+    time : np.ndarray
+        Time of observations in seconds.
+    mjd : np.ndarray
+        Modified Julian Date of observations.
+    int_time : np.ndarray
+        Integration time in seconds.
+    visamp : np.ndarray
+        Visibility amplitude. Units depend on type of visibility (e.g. coherent flux vs.
         normalized visibility). In case 'correlated flux' and TUNIT keyword not specified in header -> assumed to be
         in Jansky.
-    :ivar np.ndarray visamperr: Error on visibility amplitude.
-    :ivar np.ndarray visphi: Visibility phase in degrees.
-    :ivar np.ndarray visphierr: Error on visibility phase.
-    :ivar np.ndarray rvis: Real part of complex coherent flux; units defined in header
-    :ivar np.ndarray rviserr: Error on real part of complex coherent flux.
-    :ivar np.ndarray ivis: Imaginary part of complex coherent flux; units defined in header
-    :ivar np.ndarray iviserr: Error on imaginary part of complex coherent flux.
-    :ivar np.ndarray ucoord: u coordinate of the data in unit m.
-    :ivar np.ndarray vcoord: v coordinate of the data in unit m.
-    :ivar np.ndarray flag: Array of booleans denoting whether data has been flagged by the reduction or not.
-    :ivar dict baseline_dict: Dictionary mapping baseline index integers to the strings describing the baseline.
-    :ivar np.ndarray baseline_idx: Baseline index of the data (to be used with baseline_dict).
-    :ivar np.ndarray eff_wave: Effective wavelength of the data; units m.
-    :ivar np.ndarray eff_band: Effective wavelength bandwidth of data; units m.
-    :ivar np.ndarray ufcoord: u coordinate spatial frequency; units cycle rad^-1.
-    :ivar np.ndarray vfcoord: v coordinate spatial frequency; units cycle rad^-1.
-    :ivar np.ndarray base: Size of the baseline in m.
-    :ivar np.ndarray spat_freq: Spatial frequency in cycles per radian.
+    visamperr : np.ndarray
+        Error on visibility amplitude.
+    visphi : np.ndarray
+        Visibility phase in degrees.
+    visphierr : np.ndarray
+        Error on visibility phase.
+    rvis : np.ndarray
+        Real part of complex coherent flux; units defined in header.
+    rviserr : np.ndarray
+        Error on real part of complex coherent flux.
+    ivis : np.ndarray
+        Imaginary part of complex coherent flux; units defined in header.
+    iviserr : np.ndarray
+        Error on imaginary part of complex coherent flux.
+    ucoord : np.ndarray
+        u coordinate of the data in unit m.
+    vcoord : np.ndarray
+        v coordinate of the data in unit m.
+    flag : np.ndarray
+        Array of booleans denoting whether data has been flagged by the reduction or not.
+    baseline_dict : dict
+        Dictionary mapping baseline index integers to the strings describing the baseline.
+    baseline_idx : np.ndarray
+        Baseline index of the data (to be used with baseline_dict).
+    eff_wave : np.ndarray
+        Effective wavelength of the data; units m.
+    eff_band : np.ndarray
+        Effective wavelength bandwidth of data; units m.
+    ufcoord : np.ndarray
+        u coordinate spatial frequency; units cycle rad^-1.
+    vfcoord : np.ndarray
+        v coordinate spatial frequency; units cycle rad^-1.
+    base : np.ndarray
+        Size of the baseline in m.
+    spat_freq : np.ndarray
+        Spatial frequency in cycles per radian.
     """
 
     def __init__(self):
-        """
-        Constructor method. See class docstring for information on initialization parameters and instance properties.
-        """
         ### OIFITS-based properties
         self.header = None  # header dictionary
         # properties with dimension equal to amount of considered data points
@@ -883,39 +976,49 @@ class OIVis:
 
 
 class OIVis2:
-    """
+    """Class to describe OI_VIS2 table data.
+
     Class to describe the concatenated data contained in OI_VIS2 tables of multiple OIFITS files.
 
-    NOTE: The correspondence to the OIFITS standard is not exact. For example, all visibility data is flattened
-    into 1D arrays for ease of use, instead of keeping the OIFITS 2D array structures, where the different rows denote
-    the baselines. Instead, the baseline pair corresponding to a datapoint is encoded in the baseline_idx array and the
-    baseline_dict dictionary, and, in addition, the wavelength information is stored in the 1D eff_wave array
-    (replacing the usual link with the OI_ARRAY and OI_WAVELENGTH tables).
-
-
-    :ivar dict header: Header dictionary.
-    :ivar np.ndarray time: Time of observations in seconds.
-    :ivar np.ndarray mjd: Modified Julian Date of observations.
-    :ivar np.ndarray int_time: Integration time in seconds.
-    :ivar np.ndarray vis2data: Squared visibility amplitude. Always normalized.
-    :ivar np.ndarray vis2err: Error on squared visibility amplitude.
-    :ivar np.ndarray ucoord: u coordinate of the data in unit m.
-    :ivar np.ndarray vcoord: v coordinate of the data in unit m.
-    :ivar np.ndarray flag: Array of booleans denoting whether data has been flagged by the reduction or not.
-    :ivar dict baseline_dict: Dictionary mapping baseline index integers to the strings describing the baseline.
-    :ivar np.ndarray baseline_idx: Baseline index of the data (to be used with baseline_dict).
-    :ivar np.ndarray eff_wave: Effective wavelength of the data; units m.
-    :ivar np.ndarray eff_band: Effective wavelength bandwidth of data; units m.
-    :ivar np.ndarray ufcoord: u coordinate spatial frequency; units cycle rad^-1.
-    :ivar np.ndarray vfcoord: v coordinate spatial frequency; units cycle rad^-1.
-    :ivar np.ndarray base: Size of the baseline in m.
-    :ivar np.ndarray spat_freq: Spatial frequency in cycles per radian.
+    Attributes
+    ----------
+    header : dict
+        Header dictionary.
+    time : np.ndarray
+        Time of observations in seconds.
+    mjd : np.ndarray
+        Modified Julian Date of observations.
+    int_time : np.ndarray
+        Integration time in seconds.
+    vis2data : np.ndarray
+        Squared visibility amplitude. Always normalized.
+    vis2err : np.ndarray
+        Error on squared visibility amplitude.
+    ucoord : np.ndarray
+        u coordinate of the data in unit m.
+    vcoord : np.ndarray
+        v coordinate of the data in unit m.
+    flag : np.ndarray
+        Array of booleans denoting whether data has been flagged by the reduction or not.
+    baseline_dict : dict
+        Dictionary mapping baseline index integers to the strings describing the baseline.
+    baseline_idx : np.ndarray
+        Baseline index of the data (to be used with baseline_dict).
+    eff_wave : np.ndarray
+        Effective wavelength of the data; units m.
+    eff_band : np.ndarray
+        Effective wavelength bandwidth of data; units m.
+    ufcoord : np.ndarray
+        u coordinate spatial frequency; units cycle rad^-1.
+    vfcoord : np.ndarray
+        v coordinate spatial frequency; units cycle rad^-1.
+    base : np.ndarray
+        Size of the baseline in m.
+    spat_freq : np.ndarray
+        Spatial frequency in cycles per radian.
     """
 
     def __init__(self):
-        """
-        Constructor method. See class docstring for information on initialization parameters and instance properties.
-        """
         ### OIFITS-based properties
         self.header = None  # OIFITS table header dictionary
         # properties with dimension equal to amount of considered data points
@@ -943,56 +1046,74 @@ class OIVis2:
 
 
 class OIT3:
-    """
+    """Class to describe OI_T3 table data.
+
     Class to describe the concatenated data contained in OI_T3 tables of multiple OIFITS files.
 
-    NOTE: The correspondence to the OIFITS standard. For example, all triple product data is flattened into 1D arrays
-    for ease of use, instead of keeping the OIFITS 2D array structures, where the different rows denote the baseline
-    triangles. Instead, the baseline pair corresponding to a datapoint is encoded in the baseline_idx array and the
-    baseline_dict dictionary. In addition, the wavelength information is stored in the 1D eff_wave array.
+    Attributes
+    ----------
+    header : dict
+        Header dictionary.
+    time : np.ndarray
+        Time of observations in seconds.
+    mjd : np.ndarray
+        Modified Julian Date of observations.
+    int_time : np.ndarray
+        Integration time in seconds.
+    t3amp : np.ndarray
+        Triple product amplitude.
+    t3amperr : np.ndarray
+        Error on triple product amplitude.
+    t3phi : np.ndarray
+        Triple product phase (closure phase) in degrees.
+    t3phierr : np.ndarray
+        Error on triple product phase (closure phase).
+    u1coord : np.ndarray
+        u coordinate of the data's first baseline in unit m.
+    v1coord : np.ndarray
+        v coordinate of the data's first baseline in unit m.
+    u2coord : np.ndarray
+        u coordinate of the data's second baseline in unit m.
+    v2coord : np.ndarray
+        v coordinate of the data's second baseline in unit m.
+    flag : np.ndarray
+        Array of booleans denoting whether data has been flagged by the reduction or not.
+    baseline_dict : dict
+        Dictionary mapping baseline index integers to the strings describing the baseline.
+    baseline_idx : np.ndarray
+        Baseline index of the data (to be used with baseline_dict).
+    eff_wave : np.ndarray
+        Effective wavelength of the data; units m.
+    eff_band : np.ndarray
+        Effective wavelength bandwidth of data; units m.
+    u3coord : np.ndarray
+        u coordinate of the data's third baseline in unit m.
+    v3coord : np.ndarray
+        v coordinate of the data's third baseline in unit m.
+    u1fcoord : np.ndarray
+        u coordinate spatial frequency of first baseline; units cycle rad^-1.
+    v1fcoord : np.ndarray
+        v coordinate spatial frequency of first baseline; units cycle rad^-1.
+    u2fcoord : np.ndarray
+        u coordinate spatial frequency of second baseline; units cycle rad^-1.
+    v2fcoord : np.ndarray
+        v coordinate spatial frequency of second baseline; units cycle rad^-1.
+    u3fcoord : np.ndarray
+        u coordinate spatial frequency of third baseline; units cycle rad^-1.
+    v3fcoord : np.ndarray
+        v coordinate spatial frequency of third baseline; units cycle rad^-1.
+    base_max : np.ndarray
+        Size of the longest baseline in m.
+    spat_freq_max : np.ndarray
+        Spatial frequency of the longest baseline in cycles per radian.
 
-    NOTE: The third baseline is chosen following the convention that the triple product is calculated as V1 x V2 x V3*,
+    Notes:
+    ------
+    The third baseline is chosen following the convention that the triple product is calculated as V1 x V2 x V3*,
     with V3* being the conjugate of the third baseline's visibility.
-
-    :ivar dict header: Header dictionary.
-    :ivar np.ndarray time: Time of observations in seconds.
-    :ivar np.ndarray mjd: Modified Julian Date of observations.
-    :ivar np.ndarray int_time: Integration time in seconds.
-    :ivar np.ndarray t3amp: Triple product amplitude.
-    :ivar np.ndarray t3amperr: Error on tiple product amplitude.
-    :ivar np.ndarray t3phi: Triple product phase (closure phase) in degrees.
-    :ivar np.ndarray t3phierr: Error on tiple product phase (closure phase).
-    :ivar np.ndarray u1coord: u coordinate of the data's first baseline in unit m.
-    :ivar np.ndarray v1coord: v coordinate of the data's first baseline in unit m.
-    :ivar np.ndarray u2coord: u coordinate of the data's second baseline in unit m.
-    :ivar np.ndarray v2coord: v coordinate of the data's second baseline in unit m.
-    :ivar np.ndarray flag: Array of booleans denoting whether data has been flagged by the reduction or not.
-    :ivar dict baseline_dict: Dictionary mapping baseline index integers to the strings describing the baseline.
-    :ivar np.ndarray baseline_idx: Baseline index of the data (to be used with baseline_dict).
-    :ivar np.ndarray eff_wave: Effective wavelength of the data; units m.
-    :ivar np.ndarray eff_band: Effective wavelength bandwidth of data; units m.
-    :ivar np.ndarray u3coord: u coordinate of the data's third baseline in unit m.
-    :ivar np.ndarray v3coord: v coordinate of the data's third baseline in unit m.
-    :ivar np.ndarray u1fcoord: u coordinate spatial frequency of first baseline; units cycle rad^-1.
-    :ivar np.ndarray v1fcoord: v coordinate spatial frequency of first baseline; units cycle rad^-1.
-    :ivar np.ndarray u2fcoord: u coordinate spatial frequency of second baseline; units cycle rad^-1.
-    :ivar np.ndarray v2fcoord: v coordinate spatial frequency of second baseline; units cycle rad^-1.
-    :ivar np.ndarray u3fcoord: u coordinate spatial frequency of third baseline; units cycle rad^-1.
-    :ivar np.ndarray v3fcoord: v coordinate spatial frequency of third baseline; units cycle rad^-1.
-    :ivar np.ndarray base_max: Size of the longest baseline in m.
-    :ivar np.ndarray spat_freq_max: Spatial frequency in of the longest baseline cycles per radian.
     """
 
     def __init__(self):
-        """
-        Constructor method. See class docstring for information on initialization parameters and instance properties.
-
-        NOTE: The correspondence to the OIFITS standard is not exact. For example, all visibility data is flattened
-        into 1D arrays for ease of use, instead of keeping the OIFITS 2D array structures, where the different rows
-        denote the baselines. Instead, the baseline pair corresponding to a datapoint is encoded in the baseline_idx
-        array and the baseline_dict dictionary, and, in addition, the wavelength information is stored in the 1D
-        eff_wave array (replacing the usual link with the OI_ARRAY and OI_WAVELENGTH tables).
-        """
         ### OIFITS-based properties
         self.header = None  # OIFITS table header dictionary
         # properties with dimension equal to amount of considered data points
@@ -1030,38 +1151,41 @@ class OIT3:
 
 
 class OIFlux:
-    """
+    """Class to describe OI_FLUX table data.
+
     Class to describe the concatenated data contained in OI_FLUX tables of multiple OIFITS files.
 
-    NOTE: The correspondence to the OIFITS standard is not exact. For example, all visibility data is flattened
-    into 1D arrays for ease of use, instead of keeping the OIFITS 2D array structures, where the different rows denote
-    the telescopes. Instead, the baseline pair corresponding to a datapoint is encoded in the telescope_idx array and
-    the telescope_dict dictionary, and, in addition, the wavelength information is stored in the 1D eff_wave array
-    (replacing the usual link with the OI_ARRAY and OI_WAVELENGTH tables).
-
-    :ivar dict header: Header dictionary.
-    :ivar np.ndarray time: Time of observations in seconds.
-    :ivar np.ndarray mjd: Modified Julian Date of observations.
-    :ivar np.ndarray int_time: Integration time in seconds.
-    :ivar np.ndarray fluxdata: Measured flux; units specified in header.
-    :ivar np.ndarray fluxerr: Data on measured flux.
-    :ivar np.ndarray flag: Array of booleans denoting whether data has been flagged by the reduction or not.
-    :ivar dict telescope_dict: Dictionary mapping index integers to the strings describing the telescope used for the
+    Attributes
+    ----------
+    header : dict
+        Header dictionary.
+    time : np.ndarray
+        Time of observations in seconds.
+    mjd : np.ndarray
+        Modified Julian Date of observations.
+    int_time : np.ndarray
+        Integration time in seconds.
+    fluxdata : np.ndarray
+        Measured flux; units specified in header.
+    fluxerr : np.ndarray
+        Data on measured flux.
+    flag : np.ndarray
+        Array of booleans denoting whether data has been flagged by the reduction or not.
+    telescope_dict : dict
+        Dictionary mapping index integers to the strings describing the telescope used for the
         measurement. Only used if 'CALSTAT = U', in which the uncalibrated flux spectrum is stored per telescope
         (see OIFITS 2 standard). If 'CALSTAT = C', will instead remain None.
-    :ivar np.ndarray telescope_idx: Telescope index of the data (to be used with telescope_dict). Only used if
+    telescope_idx : np.ndarray
+        Telescope index of the data (to be used with telescope_dict). Only used if
         'CALSTAT = U', in which case the uncalibrated flux spectrum is stored per telescope (see OIFITS 2 standard).
         If 'CALSTAT = C', will instead remain None.
-    :ivar np.ndarray eff_wave: Effective wavelength of the data; units m.
-    :ivar np.ndarray eff_band: Effective wavelength bandwidth of data; units m.
+    eff_wave : np.ndarray
+        Effective wavelength of the data; units m.
+    eff_band : np.ndarray
+        Effective wavelength bandwidth of data; units m.
     """
 
-    # TODO: account for the calibrated/uncalibrated cases described in the OIFITS V2 paper
-
     def __init__(self):
-        """
-        Constructor method. See class docstring for information on initialization parameters and instance properties.
-        """
         ### OIFITS-based properties
         self.header = None  # OIFITS table header dictionary
         # properties with dimension equal to amount of considered data points
@@ -1099,9 +1223,9 @@ if __name__ == "__main__":
     oidata.read_oifits(data_dir=data_dir, data_file=data_file)
     oidata.plot_data(
         dname="vis",
-        x="spat_freq",
-        y="visphi",
-        error="visphierr",
+        xname="spat_freq",
+        yname="visphi",
+        ename="visphierr",
         cname="eff_wave",
         ptype="scatter",
     )

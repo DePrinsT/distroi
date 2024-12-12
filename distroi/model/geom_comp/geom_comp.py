@@ -1,39 +1,34 @@
-"""
+"""A module to define geometric model components.
+
 Defines the classes and methods for representing geometric components and calculating their complex visibilities.
-
 These geometric components can be used in conjunction to RT models in the calculation of interferometric observables.
-A geometric component also includes a spectral profile to describe its flux dependence accross wavelength.
-By default, the spectrum is assumed to be flat in F_lam.
 
-NOTE: A flat spectrum in F_lam implies a dependency of F_nu ~ nu^-2 ~ lambda^2. Hence, the correlated flux will not be
-flat. Take this in mind when calculating or comparing to observations in correlated flux.
+Warnings
+--------
+A geometric component also includes a spectral profile to describe its flux dependence accross wavelength.
+By default, the spectrum is assumed to be flat in F_lam. A flat spectrum in F_lam implies a dependency of
+F_nu ~ nu^-2 ~ lambda^2. Hence, the correlated flux will not be flat. Take this in mind when calculating or
+comparing to observations in correlated flux.
 """
 
 from distroi.auxiliary import constants
 from distroi.model.dep import spec_dep
-from distroi.model import param
 
 import numpy as np
 from scipy.special import j1 as bessel_j1  # import Bessel function of the first kind
 from abc import ABC, abstractmethod
 
+
 # TODO: add parameters dictionary to retrieve parameters which can be iterated over
 class GeomComp(ABC):
-    """
-    Abstract class representing a geometric model component.
-
-    :ivar dict[str, Param] params: Dictionary containing the names of parameters within the `GeomComp` 
-        scope and the corresponding parameter objects.
-    :ivar spec_dep.SpecDep sp_dep: Optional spectral dependence of the component. If not specified at init, the spectral
-        dependency will be assumed flat in F_lam flux accross wavelength (note that flatness in F_lam means a spectral
-        dependency ~ wavelength^2 ~ frequency^-2 for F_nu, and thus for the correlated flux).
+    """Abstract class representing a geometric model component.
     """
 
     ## TODO: actually implement the get_params method
     # @abstractmethod
     # def get_params(self) -> dict[str, param.Param]:
     #     """
-    #     Retrieve a dictionary of parameters for this geometric component, linking the name of the component within the 
+    #     Retrieve a dictionary of parameters for this geometric component, linking the name of the component within the
     #     `GeomComp` scope to the corresponding `Param` objects.
     #     """
     #     pass
@@ -47,38 +42,59 @@ class GeomComp(ABC):
         ref_wavelength: float | None = None,
         ref_corr_flux: float | None = None,
     ) -> np.ndarray | float:
-        """
-        Calculate the visibility of the geometric component at given spatial frequencies. Wavelengths corresponding to
-        these spatial frequencies and a reference total flux (at reference wavelength) can also be passed along, in
+        """Calculate the visibility of the component.
+
+        Calculate the visibility of the component at given spatial frequencies. Wavelengths corresponding to these
+        spatial frequencies and a reference total flux (at reference wavelength) can also be passed along, in
         which case the returned visibilities will be in correlated flux (Jy) instead of normalized.
 
-        :param np.ndarray | float uf: 1D array with spatial x-axis frequencies in 1/radian. Must be the same size as uf.
-        :param np.ndarray | float vf: 1D array with spatial y-axis frequencies in 1/radian. Must be the same size as vf.
-        :param np.ndarray | float wavelength: 1D array with wavelength values in micron.
-        :param float | None ref_wavelength: Reference wavelength in micron.
-        :param float | None ref_corr_flux: Reference correlated flux in Jy corresponding to ref_wavelength. If provided
-            together with ref_corr_flux, then the returned visibilities are in correlated flux.
-        :return vis: 1D array with the calculated visibilities (normalized or in corrleated flux, depending on the
-            optional arguments)
-        :rtype: np.ndarray | float
+        Parameters
+        ----------
+        uf : np.ndarray or float
+            1D array with spatial x-axis frequencies in 1/radian.
+        vf : np.ndarray or float
+            1D array with spatial y-axis frequencies in 1/radian. Must be the same size as `uf`.
+        wavelength : np.ndarray or float, optional
+            1D array with wavelength values in micron.
+        ref_wavelength : float, optional
+            Reference wavelength in micron.
+        ref_corr_flux : float, optional
+            Reference correlated flux in Jy corresponding to `ref_wavelength`. If provided together with
+            `ref_corr_flux`, then the returned visibilities are in correlated flux.
+
+        Returns
+        -------
+        np.ndarray or float
+            1D array with the calculated visibilities (normalized or in correlated flux, depending on the optional
+            arguments).
         """
         pass
 
 
 class UniformDisk(GeomComp):
-    """
-    Class representing a uniform disk geometric component.
+    """Class representing a uniform disk geometric component.
 
-    :param float diameter: The radius of the disk in milli-arcsecond.
-    :param tuple(float) coords:  2D tuples with (x, y) coordinates of the disk center's coordinates (in mas).
-        Note that positive x is defined as leftward and positive y as upward (i.e. the East and North repesctively
-        in the OI convention). If not given, will default to (0, 0).
-    :param SpecDep sp_dep: Optional spectral dependence of the component. If None, the spectral dependency will be
-        assumed flat in F_lam flux accross wavelength (note that flatness in F_lam means a spectral
-        dependency ~ wavelength^2 ~ frequency^-2 for F_nu, and thus for the correlated flux).
-    :ivar float radius: See parameter description.
-    :ivar tuple(float) coords: See parameter description.
-    :ivar SpecDep sp_dep: See parameter description.
+    Parameters
+    ----------
+    diameter : float
+        The radius of the disk in milli-arcsecond.
+    coords : tuple of float, optional
+        2D tuples with (x, y) coordinates of the disk center's coordinates (in mas). Note that positive x is defined as
+        leftward and positive y as upward (i.e. the East and North respectively in the OI convention). If not given,
+        will default to (0, 0).
+    sp_dep : SpecDep, optional
+        Optional spectral dependence of the component. If None, the spectral dependency will be assumed flat in F_lam
+        flux accross wavelength (note that flatness in F_lam means a spectral dependency ~ wavelength^2 ~ frequency^-2
+        for F_nu, and thus for the correlated flux).
+
+    Attributes
+    ----------
+    radius : float
+        See parameter description.
+    coords : tuple of float
+        See parameter description.
+    sp_dep : SpecDep
+        See parameter description.
     """
 
     def __init__(
@@ -87,9 +103,6 @@ class UniformDisk(GeomComp):
         coords: tuple[float, float] | None = None,
         sp_dep: spec_dep.SpecDep | None = None,
     ):
-        """
-        Initializes a UniformDisk object.
-        """
         self.diameter = diameter
         if coords is None:
             self.coords = (0, 0)
@@ -108,20 +121,31 @@ class UniformDisk(GeomComp):
         ref_wavelength: float | None = None,
         ref_corr_flux: float | None = None,
     ) -> np.ndarray | float:
-        """
-        Calculate the visibility at given spatial frequencies. Wavelengths corresponding to these spatial frequencies a
-        and a reference flux value (at reference wavelength) can also be passed along, in which case the returned
-        visibilities will be in correlated flux (Jy) instead of normalized.
+        """Calculate the visibility of the component.
 
-        :param np.ndarray uf: 1D array with spatial x-axis frequencies in 1/radian. Must be the same size as uf.
-        :param np.ndarray vf: 1D array with spatial y-axis frequencies in 1/radian. Must be the same size as vf.
-        :param np.ndarray wavelength: 1D array with wavelength values in micron.
-        :param float ref_wavelength: Reference wavelength in micron.
-        :param float ref_corr_flux: Reference correlated flux in Jy corresponding to ref_wavelength. If provided
-            together with ref_corr_flux, then the returned visibilities are in correlated flux.
-        :return vis: 1D array with the calculated visibilities (normalized or in corrleated flux, depending on the
-            optional arguments)
-        :rtype: np.ndarray
+        Calculate the visibility of the component at given spatial frequencies. Wavelengths corresponding to these
+        spatial frequencies and a reference total flux (at reference wavelength) can also be passed along, in
+        which case the returned visibilities will be in correlated flux (Jy) instead of normalized.
+
+        Parameters
+        ----------
+        uf : np.ndarray or float
+            1D array with spatial x-axis frequencies in 1/radian.
+        vf : np.ndarray or float
+            1D array with spatial y-axis frequencies in 1/radian. Must be the same size as `uf`.
+        wavelength : np.ndarray or float, optional
+            1D array with wavelength values in micron.
+        ref_wavelength : float, optional
+            Reference wavelength in micron.
+        ref_corr_flux : float, optional
+            Reference correlated flux in Jy corresponding to `ref_wavelength`. If provided together with
+            `ref_corr_flux`, then the returned visibilities are in correlated flux.
+
+        Returns
+        -------
+        np.ndarray or float
+            1D array with the calculated visibilities (normalized or in correlated flux, depending on the optional
+            arguments).
         """
 
         norm_comp_vis = (
@@ -150,25 +174,32 @@ class UniformDisk(GeomComp):
 
 
 class Gaussian(GeomComp):
-    """
-    Class representing a Gaussian geomteric component:
+    """Class representing a Gaussian geometric component.
 
-    :param float fwhm: Full-width-half-maximum of the Gaussian in the image plane (in mas units).
-    :param tuple(float) coords:  2D tuples with (x, y) coordinates of the point's coordinates (in mas).
-        Note that positive x is defined as leftward and positive y as upward (i.e. the East and North repesctively
-        in the OI convention). If not given, will default to (0, 0).
-    :param SpecDep sp_dep: Optional spectral dependence of the component. If None, the spectral dependency will be
-        assumed flat in F_lam flux accross wavelength (note that flatness in F_lam means a spectral
-        dependency ~ wavelength^2 ~ frequency^-2 for F_nu, and thus for the correlated flux).
-    :ivar float fwhm: See parameter description.
-    :ivar tuple(float) coords: See parameter description.
-    :ivar SpecDep sp_dep: See parameter description.
+    Parameters
+    ----------
+    fwhm : float
+        Full-width-half-maximum of the Gaussian in the image plane (in mas units).
+    coords : tuple of float, optional
+        2D tuples with (x, y) coordinates of the point's coordinates (in mas). Note that positive x is defined as
+        leftward and positive y as upward (i.e. the East and North respectively in the OI convention). If not given,
+        will default to (0, 0).
+    sp_dep : SpecDep, optional
+        Optional spectral dependence of the component. If None, the spectral dependency will be assumed flat in F_lam
+        flux accross wavelength (note that flatness in F_lam means a spectral dependency ~ wavelength^2 ~ frequency^-2
+        for F_nu, and thus for the correlated flux).
+
+    Attributes
+    ----------
+    fwhm : float
+        See parameter description.
+    coords : tuple of float
+        See parameter description.
+    sp_dep : SpecDep
+        See parameter description.
     """
 
     def __init__(self, fwhm: float, coords: tuple[float, float] | None = None, sp_dep: spec_dep.SpecDep | None = None):
-        """
-        Initializes a Gaussian object.
-        """
         self.fwhm = fwhm
         if coords is None:
             self.coords = (0, 0)
@@ -187,20 +218,31 @@ class Gaussian(GeomComp):
         ref_wavelength: float | None = None,
         ref_corr_flux: float | None = None,
     ) -> np.ndarray | float:
-        """
-        Calculate the visibility at given spatial frequencies. Wavelengths corresponding to these spatial frequencies a
-        and a reference flux value (at reference wavelength) can also be passed along, in which case the returned
-        visibilities will be in correlated flux (Jy) instead of normalized.
+        """Calculate the visibility of the component.
 
-        :param np.ndarray uf: 1D array with spatial x-axis frequencies in 1/radian. Must be the same size as uf.
-        :param np.ndarray vf: 1D array with spatial y-axis frequencies in 1/radian. Must be the same size as vf.
-        :param np.ndarray wavelength: 1D array with wavelength values in micron.
-        :param float ref_wavelength: Reference wavelength in micron.
-        :param float ref_corr_flux: Reference correlated flux in Jy corresponding to ref_wavelength. If provided
-            together with ref_corr_flux, then the returned visibilities are in correlated flux.
-        :return vis: 1D array with the calculated visibilities (normalized or in corrleated flux, depending on the
-            optional arguments)
-        :rtype: np.ndarray
+        Calculate the visibility of the component at given spatial frequencies. Wavelengths corresponding to these
+        spatial frequencies and a reference total flux (at reference wavelength) can also be passed along, in
+        which case the returned visibilities will be in correlated flux (Jy) instead of normalized.
+
+        Parameters
+        ----------
+        uf : np.ndarray or float
+            1D array with spatial x-axis frequencies in 1/radian.
+        vf : np.ndarray or float
+            1D array with spatial y-axis frequencies in 1/radian. Must be the same size as `uf`.
+        wavelength : np.ndarray or float, optional
+            1D array with wavelength values in micron.
+        ref_wavelength : float, optional
+            Reference wavelength in micron.
+        ref_corr_flux : float, optional
+            Reference correlated flux in Jy corresponding to `ref_wavelength`. If provided together with
+            `ref_corr_flux`, then the returned visibilities are in correlated flux.
+
+        Returns
+        -------
+        np.ndarray or float
+            1D array with the calculated visibilities (normalized or in correlated flux, depending on the optional
+            arguments).
         """
         # TODO: check if correct, lots of sources online disagree
         norm_comp_vis = np.exp(-1 * np.pi**2 * (self.fwhm * constants.MAS2RAD) ** 2 * (uf**2 + vf**2) / (4 * np.log(2)))
@@ -225,23 +267,28 @@ class Gaussian(GeomComp):
 
 
 class PointSource(GeomComp):
-    """
-    Class representing a point source geometric component.
+    """Class representing a point source geometric component.
 
-    :param tuple(float) coords:  2D tuples with (x, y) coordinates of the point's coordinates (in mas).
-        Note that positive x is defined as leftward and positive y as upward (i.e. the East and North repesctively
-        in the OI convention). If not given, will default to (0, 0).
-    :param SpecDep sp_dep: Optional spectral dependence of the component. If None, the spectral dependency will be
-        assumed flat in F_lam flux accross wavelength (note that flatness in F_lam means a spectral
-        dependency ~ wavelength^2 ~ frequency^-2 for F_nu, and thus for the correlated flux).
-    :ivar tuple(float) coords: See parameter description.
-    :ivar SpecDep sp_dep: See parameter description.
+    Parameters
+    ----------
+    coords : tuple of float, optional
+        2D tuples with (x, y) coordinates of the point's coordinates (in mas). Note that positive x is defined as
+        leftward and positive y as upward (i.e. the East and North respectively in the OI convention). If not given,
+        will default to (0, 0).
+    sp_dep : SpecDep, optional
+        Optional spectral dependence of the component. If None, the spectral dependency will be assumed flat in F_lam
+        flux accross wavelength (note that flatness in F_lam means a spectral dependency ~ wavelength^2 ~ frequency^-2
+        for F_nu, and thus for the correlated flux).
+
+    Attributes
+    ----------
+    coords : tuple of float
+        See parameter description.
+    sp_dep : SpecDep
+        See parameter description.
     """
 
     def __init__(self, coords: tuple[float, float] | None = None, sp_dep: spec_dep.SpecDep | None = None):
-        """
-        Initializes a PointSource object.
-        """
         if coords is None:
             self.coords = (0, 0)
         else:
@@ -259,20 +306,31 @@ class PointSource(GeomComp):
         ref_wavelength: float | None = None,
         ref_corr_flux: float | None = None,
     ) -> np.ndarray | float:
-        """
-        Calculate the visibility at given spatial frequencies. Wavelengths corresponding to these spatial frequencies a
-        and a reference flux value (at reference wavelength) can also be passed along, in which case the returned
-        visibilities will be in correlated flux (Jy) instead of normalized.
+        """Calculate the visibility of the component.
 
-        :param np.ndarray uf: 1D array with spatial x-axis frequencies in 1/radian. Must be the same size as uf.
-        :param np.ndarray vf: 1D array with spatial y-axis frequencies in 1/radian. Must be the same size as vf.
-        :param np.ndarray wavelength: 1D array with wavelength values in micron.
-        :param float ref_wavelength: Reference wavelength in micron.
-        :param float ref_corr_flux: Reference correlated flux in Jy corresponding to ref_wavelength. If provided
-            together with ref_corr_flux, then the returned visibilities are in correlated flux.
-        :return vis: 1D array with the calculated visibilities (normalized or in corrleated flux, depending on the
-            optional arguments)
-        :rtype: np.ndarray
+        Calculate the visibility of the component at given spatial frequencies. Wavelengths corresponding to these
+        spatial frequencies and a reference total flux (at reference wavelength) can also be passed along, in
+        which case the returned visibilities will be in correlated flux (Jy) instead of normalized.
+
+        Parameters
+        ----------
+        uf : np.ndarray or float
+            1D array with spatial x-axis frequencies in 1/radian.
+        vf : np.ndarray or float
+            1D array with spatial y-axis frequencies in 1/radian. Must be the same size as `uf`.
+        wavelength : np.ndarray or float, optional
+            1D array with wavelength values in micron.
+        ref_wavelength : float, optional
+            Reference wavelength in micron.
+        ref_corr_flux : float, optional
+            Reference correlated flux in Jy corresponding to `ref_wavelength`. If provided together with
+            `ref_corr_flux`, then the returned visibilities are in correlated flux.
+
+        Returns
+        -------
+        np.ndarray or float
+            1D array with the calculated visibilities (normalized or in correlated flux, depending on the optional
+            arguments).
         """
 
         norm_comp_vis = np.exp(
@@ -295,19 +353,22 @@ class PointSource(GeomComp):
 
 
 class Overresolved(GeomComp):
-    """
-    Class representing a fully resolved, a.k.a. overresolved, geometric component.
+    """Class representing a fully resolved geometric component.
 
-    :param SpecDep sp_dep: Optional spectral dependence of the component. If None, the spectral dependency will be
-        assumed flat in F_lam flux accross wavelength (note that flatness in F_lam means a spectral
-        dependency ~ wavelength^2 ~ frequency^-2 for F_nu, and thus for the correlated flux).
-    :ivar SpecDep sp_dep: See parameter description.
+    Parameters
+    ----------
+    sp_dep : SpecDep, optional
+        Optional spectral dependence of the component. If None, the spectral dependency will be assumed flat in F_lam
+        flux accross wavelength (note that flatness in F_lam means a spectral dependency ~ wavelength^2 ~ frequency^-2
+        for F_nu, and thus for the correlated flux).
+
+    Attributes
+    ----------
+    sp_dep : SpecDep
+        See parameter description.
     """
 
     def __init__(self, sp_dep=None):
-        """
-        Initializes an Overresolved object.
-        """
         if sp_dep is not None:
             self.sp_dep = sp_dep  # set spectral dependence if given
         else:
@@ -321,18 +382,31 @@ class Overresolved(GeomComp):
         ref_wavelength: float | None = None,
         ref_corr_flux: float | None = None,
     ) -> np.ndarray | float:
-        """
-        Calculate the visibility at given spatial frequencies. Automatically returns an
+        """Calculate the visibility of the component.
 
-        :param np.ndarray uf: 1D array with spatial x-axis frequencies in 1/radian. Must be the same size as uf.
-        :param np.ndarray vf: 1D array with spatial y-axis frequencies in 1/radian. Must be the same size as vf.
-        :param np.ndarray wavelength: 1D array with wavelength values in micron.
-        :param float ref_wavelength: Reference wavelength in micron.
-        :param float ref_corr_flux: Reference correlated flux in Jy corresponding to ref_wavelength. If provided
-            together with ref_corr_flux, then the returned visibilities are in correlated flux.
-        :return vis: 1D array with the calculated visibilities (normalized or in corrleated flux, depending on the
-            optional arguments)
-        :rtype: np.ndarray
+        Calculate the visibility of the component at given spatial frequencies. Wavelengths corresponding to these
+        spatial frequencies and a reference total flux (at reference wavelength) can also be passed along, in
+        which case the returned visibilities will be in correlated flux (Jy) instead of normalized.
+
+        Parameters
+        ----------
+        uf : np.ndarray or float
+            1D array with spatial x-axis frequencies in 1/radian.
+        vf : np.ndarray or float
+            1D array with spatial y-axis frequencies in 1/radian. Must be the same size as `uf`.
+        wavelength : np.ndarray or float, optional
+            1D array with wavelength values in micron.
+        ref_wavelength : float, optional
+            Reference wavelength in micron.
+        ref_corr_flux : float, optional
+            Reference correlated flux in Jy corresponding to `ref_wavelength`. If provided together with
+            `ref_corr_flux`, then the returned visibilities are in correlated flux.
+
+        Returns
+        -------
+        np.ndarray or float
+            1D array with the calculated visibilities (normalized or in correlated flux, depending on the optional
+            arguments).
         """
 
         if isinstance(uf, float):

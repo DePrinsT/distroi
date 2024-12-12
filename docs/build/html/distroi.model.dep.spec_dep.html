@@ -182,7 +182,6 @@
 </ul>
 </details></li>
 <li class="toctree-l3"><a class="reference internal" href="distroi.model.model.html">distroi.model.model module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="distroi.model.param.html">distroi.model.param module</a></li>
 </ul>
 </details></li>
 </ul>
@@ -328,27 +327,22 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.BlackBodySpecDep"><code class="docutils literal notranslate"><span class="pre">BlackBodySpecDep</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.BlackBodySpecDep._abc_impl"><code class="docutils literal notranslate"><span class="pre">BlackBodySpecDep._abc_impl</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.BlackBodySpecDep.flux_from_ref"><code class="docutils literal notranslate"><span class="pre">BlackBodySpecDep.flux_from_ref()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.FlatSpecDep"><code class="docutils literal notranslate"><span class="pre">FlatSpecDep</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.FlatSpecDep._abc_impl"><code class="docutils literal notranslate"><span class="pre">FlatSpecDep._abc_impl</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.FlatSpecDep.flux_from_ref"><code class="docutils literal notranslate"><span class="pre">FlatSpecDep.flux_from_ref()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.PowerLawSpecDep"><code class="docutils literal notranslate"><span class="pre">PowerLawSpecDep</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.PowerLawSpecDep._abc_impl"><code class="docutils literal notranslate"><span class="pre">PowerLawSpecDep._abc_impl</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.PowerLawSpecDep.flux_from_ref"><code class="docutils literal notranslate"><span class="pre">PowerLawSpecDep.flux_from_ref()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.SpecDep"><code class="docutils literal notranslate"><span class="pre">SpecDep</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.SpecDep._abc_impl"><code class="docutils literal notranslate"><span class="pre">SpecDep._abc_impl</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.SpecDep.flux_from_ref"><code class="docutils literal notranslate"><span class="pre">SpecDep.flux_from_ref()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.ThinAccDiskSpecDep"><code class="docutils literal notranslate"><span class="pre">ThinAccDiskSpecDep</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.ThinAccDiskSpecDep._abc_impl"><code class="docutils literal notranslate"><span class="pre">ThinAccDiskSpecDep._abc_impl</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.ThinAccDiskSpecDep.flux_from_ref"><code class="docutils literal notranslate"><span class="pre">ThinAccDiskSpecDep.flux_from_ref()</span></code></a></li>
 </ul>
 </li>
@@ -365,10 +359,10 @@
                   
   <section id="module-distroi.model.dep.spec_dep">
 <span id="distroi-model-dep-spec-dep-module"></span><h1>distroi.model.dep.spec_dep module<a class="headerlink" href="#module-distroi.model.dep.spec_dep" title="Link to this heading">#</a></h1>
-<p>Defines the classes and methods for representing spectral dependencies accross wavelength and frequency
-of various model components.</p>
-<p>These spectral dependencies can be attached to model components in the calculation of observables.
-Support is provided for spectral dependencies in F_lam, lam x F_lam, F_nu and nu x F_nu flux formats.</p>
+<p>A module to define spectral dependencies of model components.</p>
+<p>Spectral dependencies can be attached to model components in the calculation of observables.</p>
+<p class="rubric">Notes</p>
+<p>Support is provided for spectral dependencies in F_lam, lam x F_lam, F_nu and nu x F_nu flux formats.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="distroi.model.dep.spec_dep.BlackBodySpecDep">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.model.dep.spec_dep.</span></span><span class="sig-name descname"><span class="pre">BlackBodySpecDep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">temp</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.model.dep.spec_dep.BlackBodySpecDep" title="Link to this definition">#</a></dt>
@@ -378,38 +372,30 @@ Support is provided for spectral dependencies in F_lam, lam x F_lam, F_nu and nu
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>temp</strong> (<em>float</em>) – The blackbody temperature in Kelvin.</p>
 </dd>
-<dt class="field-even">Variables<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>temp</strong> (<em>float</em>) – See parameter description.</p>
-</dd>
 </dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="distroi.model.dep.spec_dep.BlackBodySpecDep._abc_impl">
-<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#distroi.model.dep.spec_dep.BlackBodySpecDep._abc_impl" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.model.dep.spec_dep.BlackBodySpecDep.flux_from_ref">
 <span class="sig-name descname"><span class="pre">flux_from_ref</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_ref</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_flux</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux_form</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'flam'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></span><a class="headerlink" href="#distroi.model.dep.spec_dep.BlackBodySpecDep.flux_from_ref" title="Link to this definition">#</a></dt>
-<dd><p>Retrieve the flux at certain wavelengths/frequencies when given a reference flux value and wavelength/frequency.</p>
+<dd><p>Retrieve flux at wavelengths/frequencies when given a reference flux value and wavelength/frequency.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<em>np.ndarray</em><em> | </em><em>float</em>) – Wavelengths/frequencies (in micron/Hz) at which to calculate the flux.</p></li>
-<li><p><strong>x_ref</strong> (<em>np.ndarray</em><em> | </em><em>float</em>) – Reference wavelength/frequency (in micron/Hz) at which to calculate the flux.
-In case flux_form = ‘flam’ or ‘lam_flam’, x_ref is assumed to be a wavelength, while in case of ‘fnu’ and
-‘nu_fnu’, x_ref is assumed to be a frequency.</p></li>
-<li><p><strong>ref_flux</strong> (<em>float</em>) – Reference flux from which to calculate the flux, in the specified ‘flux_form’ format.</p></li>
-<li><p><strong>flux_form</strong> (<em>str</em>) – The format of the flux to be calculated. Options are ‘flam’ (default) and ‘lam_flam’,
-as well as their frequency analogues ‘fnu’ and ‘nu_fnu’. In case flux_form = ‘flam’ or ‘lam_flam’, x is
-assumed to be wavelengths, while in case of ‘fnu’ and ‘nu_fnu’, x is assumed to be frequencies.</p></li>
+<li><p><strong>x</strong> (<em>np.ndarray</em><em> or </em><em>float</em>) – Wavelengths/frequencies (in micron/Hz) at which to calculate the flux.</p></li>
+<li><p><strong>x_ref</strong> (<em>np.ndarray</em><em> or </em><em>float</em>) – Reference wavelength/frequency (in micron/Hz) at which to calculate the flux. In case <code class="docutils literal notranslate"><span class="pre">flux_form</span> <span class="pre">=</span> <span class="pre">'flam'</span></code>
+or <cite>‘lam_flam’</cite>, <cite>x_ref</cite> is assumed to be a wavelength, while in case of <cite>‘fnu’</cite> and <cite>‘nu_fnu’</cite>, <cite>x_ref</cite>
+is assumed to be a frequency.</p></li>
+<li><p><strong>ref_flux</strong> (<em>float</em>) – Reference flux from which to calculate the flux, in the specified <cite>flux_form</cite> format.</p></li>
+<li><p><strong>flux_form</strong> (<em>str</em><em>, </em><em>optional</em>) – The format of the flux to be calculated. Options are <cite>‘flam’</cite> (default) and <cite>‘lam_flam’</cite>, as well as their
+frequency analogues <cite>‘fnu’</cite> and <cite>‘nu_fnu’</cite>. In case <code class="docutils literal notranslate"><span class="pre">flux_form</span> <span class="pre">=</span> <span class="pre">'flam'</span></code> or <cite>‘lam_flam’</cite>, <cite>x</cite> is assumed
+to be wavelengths, while in case of <cite>‘fnu’</cite> and <cite>‘nu_fnu’</cite>, <cite>x</cite> is assumed to be frequencies.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return flux<span class="colon">:</span></dt>
-<dd class="field-even"><p>The flux calculated at x using the reference wavelength/frequency and reference flux value. Note
-that the units of both input and output will correspond to those of x_ref and ref_flux.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The flux calculated at <cite>x</cite> using the reference wavelength/frequency and reference flux value. Note that the
+units of both input and output will correspond to those of <cite>x_ref</cite> and <cite>ref_flux</cite>.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray | float</p>
+<dd class="field-odd"><p>np.ndarray or float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -420,46 +406,41 @@ that the units of both input and output will correspond to those of x_ref and re
 <dt class="sig sig-object py" id="distroi.model.dep.spec_dep.FlatSpecDep">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.model.dep.spec_dep.</span></span><span class="sig-name descname"><span class="pre">FlatSpecDep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flux_form</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'flam'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.model.dep.spec_dep.FlatSpecDep" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#distroi.model.dep.spec_dep.SpecDep" title="distroi.model.dep.spec_dep.SpecDep"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpecDep</span></code></a></p>
-<p>Flat spectral dependence.</p>
+<p>Flat spectral dependency.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>flux_form</strong> (<em>str</em>) – The format of the flux which follows the flat dependency.
-Options are ‘flam’ (default) and ‘lam_flam’, as well as their frequency analogues ‘fnu’ and ‘nu_fnu’.
-The formats in wavelength specification (‘flam’ and ‘lam_flam’) assume the power law dependency to be in
-wavelength (i.e. flux1 / flux2 = (wavelength1 / wavelength2) ^ power), while the ones in frequency specification
-assume the power law to be in frequency (i.e. flux1 / flux2 = (frequency1 / frequency2) ^ power). Note that a
-flat law in ‘flam’ in wavelength will result in a power law for ‘fnu’ in frequency of power ‘-2’, i.e. the
-transformation between ‘fnu’ and ‘flam’ matters.</p>
+<dd class="field-odd"><p><strong>flux_form</strong> (<em>str</em><em>, </em><em>optional</em>) – The format of the flux which follows the flat dependency. Options are <cite>‘flam’</cite> (default) and <cite>‘lam_flam’</cite>,
+as well as their frequency analogues <cite>‘fnu’</cite> and <cite>‘nu_fnu’</cite>. The formats in wavelength specification
+(<cite>‘flam’</cite> and <cite>‘lam_flam’</cite>) assume the power law dependency to be in wavelength (i.e. <code class="docutils literal notranslate"><span class="pre">flux1</span> <span class="pre">/</span> <span class="pre">flux2</span> <span class="pre">=</span>
+<span class="pre">(wavelength1</span> <span class="pre">/</span> <span class="pre">wavelength2)</span> <span class="pre">^</span> <span class="pre">power</span></code>), while the ones in frequency specification assume the power law to be
+in frequency (i.e. <code class="docutils literal notranslate"><span class="pre">flux1</span> <span class="pre">/</span> <span class="pre">flux2</span> <span class="pre">=</span> <span class="pre">(frequency1</span> <span class="pre">/</span> <span class="pre">frequency2)</span> <span class="pre">^</span> <span class="pre">power</span></code>). Note that a flat law in ‘flam’ in
+wavelength will result in a power law for ‘fnu’ in frequency of power ‘-2’, i.e. the transformation between
+‘fnu’ and ‘flam’ matters.</p>
 </dd>
 </dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="distroi.model.dep.spec_dep.FlatSpecDep._abc_impl">
-<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#distroi.model.dep.spec_dep.FlatSpecDep._abc_impl" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.model.dep.spec_dep.FlatSpecDep.flux_from_ref">
 <span class="sig-name descname"><span class="pre">flux_from_ref</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_ref</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_flux</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux_form</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'flam'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></span><a class="headerlink" href="#distroi.model.dep.spec_dep.FlatSpecDep.flux_from_ref" title="Link to this definition">#</a></dt>
-<dd><p>Retrieve the flux at certain wavelengths/frequencies when given a reference flux value and wavelength/frequency.</p>
+<dd><p>Retrieve flux at wavelengths/frequencies when given a reference flux value and wavelength/frequency.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<em>np.ndarray</em><em> | </em><em>float</em>) – Wavelengths/frequencies (in micron/Hz) at which to calculate the flux.</p></li>
-<li><p><strong>x_ref</strong> (<em>np.ndarray</em><em> | </em><em>float</em>) – Reference wavelength/frequency (in micron/Hz) at which to calculate the flux.
-In case flux_form = ‘flam’ or ‘lam_flam’, x_ref is assumed to be a wavelength, while in case of ‘fnu’ and
-‘nu_fnu’, x_ref is assumed to be a frequency.</p></li>
-<li><p><strong>ref_flux</strong> (<em>float</em>) – Reference flux from which to calculate the flux, in the specified ‘flux_form’ format.</p></li>
-<li><p><strong>flux_form</strong> (<em>str</em>) – The format of the flux to be calculated. Options are ‘flam’ (default) and ‘lam_flam’,
-as well as their frequency analogues ‘fnu’ and ‘nu_fnu’. In case flux_form = ‘flam’ or ‘lam_flam’, x is
-assumed to be wavelengths, while in case of ‘fnu’ and ‘nu_fnu’, x is assumed to be frequencies.</p></li>
+<li><p><strong>x</strong> (<em>np.ndarray</em><em> or </em><em>float</em>) – Wavelengths/frequencies (in micron/Hz) at which to calculate the flux.</p></li>
+<li><p><strong>x_ref</strong> (<em>np.ndarray</em><em> or </em><em>float</em>) – Reference wavelength/frequency (in micron/Hz) at which to calculate the flux. In case <code class="docutils literal notranslate"><span class="pre">flux_form</span> <span class="pre">=</span> <span class="pre">'flam'</span></code>
+or <cite>‘lam_flam’</cite>, <cite>x_ref</cite> is assumed to be a wavelength, while in case of <cite>‘fnu’</cite> and <cite>‘nu_fnu’</cite>, <cite>x_ref</cite>
+is assumed to be a frequency.</p></li>
+<li><p><strong>ref_flux</strong> (<em>float</em>) – Reference flux from which to calculate the flux, in the specified <cite>flux_form</cite> format.</p></li>
+<li><p><strong>flux_form</strong> (<em>str</em><em>, </em><em>optional</em>) – The format of the flux to be calculated. Options are <cite>‘flam’</cite> (default) and <cite>‘lam_flam’</cite>, as well as their
+frequency analogues <cite>‘fnu’</cite> and <cite>‘nu_fnu’</cite>. In case <code class="docutils literal notranslate"><span class="pre">flux_form</span> <span class="pre">=</span> <span class="pre">'flam'</span></code> or <cite>‘lam_flam’</cite>, <cite>x</cite> is assumed
+to be wavelengths, while in case of <cite>‘fnu’</cite> and <cite>‘nu_fnu’</cite>, <cite>x</cite> is assumed to be frequencies.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return flux<span class="colon">:</span></dt>
-<dd class="field-even"><p>The flux calculated at x using the reference wavelength/frequency and reference flux value. Note
-that the units of both input and output will correspond to those of x_ref and ref_flux.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The flux calculated at <cite>x</cite> using the reference wavelength/frequency and reference flux value. Note that the
+units of both input and output will correspond to those of <cite>x_ref</cite> and <cite>ref_flux</cite>.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray | float</p>
+<dd class="field-odd"><p>np.ndarray or float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -475,47 +456,39 @@ that the units of both input and output will correspond to those of x_ref and re
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>power</strong> (<em>float</em>) – The power of the flux profile.</p></li>
-<li><p><strong>flux_form</strong> (<em>str</em>) – The format of the flux to be calculated. This flux will follow the specified power law
-dependency. Options are ‘flam’ (default) and ‘lam_flam’, as well as their frequency analogues ‘fnu’ and
-‘nu_fnu’. The formats in wavelength specification (‘flam’ and ‘lam_flam’) assume the power law dependency to be
-in wavelength (i.e. flux1 / flux2 = (wavelength1 / wavelength2) ^ power), while the ones in frequency
-specification assume the power law to be in frequency (i.e. flux1 / flux2 = (frequency1 / frequency2) ^ power).
+<li><p><strong>flux_form</strong> (<em>str</em><em>, </em><em>optional</em>) – The format of the flux to be calculated. This flux will follow the specified power law dependency. Options are
+<cite>‘flam’</cite> (default) and <cite>‘lam_flam’</cite>, as well as their frequency analogues <cite>‘fnu’</cite> and <cite>‘nu_fnu’</cite>. The formats in
+wavelength specification (<cite>‘flam’</cite> and <cite>‘lam_flam’</cite>) assume the power law dependency to be in wavelength (i.e.
+<code class="docutils literal notranslate"><span class="pre">flux1</span> <span class="pre">/</span> <span class="pre">flux2</span> <span class="pre">=</span> <span class="pre">(wavelength1</span> <span class="pre">/</span> <span class="pre">wavelength2)</span> <span class="pre">**</span> <span class="pre">power</span></code>), while the ones in frequency specification assume the
+power law to be in frequency (i.e. <code class="docutils literal notranslate"><span class="pre">flux1</span> <span class="pre">/</span> <span class="pre">flux2</span> <span class="pre">=</span> <span class="pre">(frequency1</span> <span class="pre">/</span> <span class="pre">frequency2)**power</span></code>).
 Note that a power law of ‘flam’ of power ‘d’ in wavelength will result in a power law for ‘fnu’ in frequency of
 power ‘-d-2’, i.e. the transformation between ‘fnu’ and ‘flam’ matters.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Variables<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>power</strong> (<em>float</em>) – See parameter description.</p>
-</dd>
 </dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="distroi.model.dep.spec_dep.PowerLawSpecDep._abc_impl">
-<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#distroi.model.dep.spec_dep.PowerLawSpecDep._abc_impl" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.model.dep.spec_dep.PowerLawSpecDep.flux_from_ref">
 <span class="sig-name descname"><span class="pre">flux_from_ref</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_ref</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_flux</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux_form</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'flam'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></span><a class="headerlink" href="#distroi.model.dep.spec_dep.PowerLawSpecDep.flux_from_ref" title="Link to this definition">#</a></dt>
-<dd><p>Retrieve the flux at certain wavelengths/frequencies when given a reference flux value and wavelength/frequency.</p>
+<dd><p>Retrieve flux at wavelengths/frequencies when given a reference flux value and wavelength/frequency.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<em>np.ndarray</em><em> | </em><em>float</em>) – Wavelengths/frequencies (in micron/Hz) at which to calculate the flux.</p></li>
-<li><p><strong>x_ref</strong> (<em>np.ndarray</em><em> | </em><em>float</em>) – Reference wavelength/frequency (in micron/Hz) at which to calculate the flux.
-In case flux_form = ‘flam’ or ‘lam_flam’, x_ref is assumed to be a wavelength, while in case of ‘fnu’ and
-‘nu_fnu’, x_ref is assumed to be a frequency.</p></li>
-<li><p><strong>ref_flux</strong> (<em>float</em>) – Reference flux from which to calculate the flux, in the specified ‘flux_form’ format.</p></li>
-<li><p><strong>flux_form</strong> (<em>str</em>) – The format of the flux to be calculated. Options are ‘flam’ (default) and ‘lam_flam’,
-as well as their frequency analogues ‘fnu’ and ‘nu_fnu’. In case flux_form = ‘flam’ or ‘lam_flam’, x is
-assumed to be wavelengths, while in case of ‘fnu’ and ‘nu_fnu’, x is assumed to be frequencies.</p></li>
+<li><p><strong>x</strong> (<em>np.ndarray</em><em> or </em><em>float</em>) – Wavelengths/frequencies (in micron/Hz) at which to calculate the flux.</p></li>
+<li><p><strong>x_ref</strong> (<em>np.ndarray</em><em> or </em><em>float</em>) – Reference wavelength/frequency (in micron/Hz) at which to calculate the flux. In case <code class="docutils literal notranslate"><span class="pre">flux_form</span> <span class="pre">=</span> <span class="pre">'flam'</span></code>
+or <cite>‘lam_flam’</cite>, <cite>x_ref</cite> is assumed to be a wavelength, while in case of <cite>‘fnu’</cite> and <cite>‘nu_fnu’</cite>, <cite>x_ref</cite>
+is assumed to be a frequency.</p></li>
+<li><p><strong>ref_flux</strong> (<em>float</em>) – Reference flux from which to calculate the flux, in the specified <cite>flux_form</cite> format.</p></li>
+<li><p><strong>flux_form</strong> (<em>str</em><em>, </em><em>optional</em>) – The format of the flux to be calculated. Options are <cite>‘flam’</cite> (default) and <cite>‘lam_flam’</cite>, as well as their
+frequency analogues <cite>‘fnu’</cite> and <cite>‘nu_fnu’</cite>. In case <code class="docutils literal notranslate"><span class="pre">flux_form</span> <span class="pre">=</span> <span class="pre">'flam'</span></code> or <cite>‘lam_flam’</cite>, <cite>x</cite> is assumed
+to be wavelengths, while in case of <cite>‘fnu’</cite> and <cite>‘nu_fnu’</cite>, <cite>x</cite> is assumed to be frequencies.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return flux<span class="colon">:</span></dt>
-<dd class="field-even"><p>The flux calculated at x using the reference wavelength/frequency and reference flux value. Note
-that the units of both input and output will correspond to those of x_ref and ref_flux.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The flux calculated at <cite>x</cite> using the reference wavelength/frequency and reference flux value. Note that the
+units of both input and output will correspond to those of <cite>x_ref</cite> and <cite>ref_flux</cite>.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray | float</p>
+<dd class="field-odd"><p>np.ndarray or float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -526,44 +499,34 @@ that the units of both input and output will correspond to those of x_ref and re
 <dt class="sig sig-object py" id="distroi.model.dep.spec_dep.SpecDep">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.model.dep.spec_dep.</span></span><span class="sig-name descname"><span class="pre">SpecDep</span></span><a class="headerlink" href="#distroi.model.dep.spec_dep.SpecDep" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Abstract representation of a total flux spectral dependency.</p>
 <p>Abstract class representing a spectral dependence to be attached to a geometric model component. Note that these do
 not represent full-fledged spectra. These are not absolute-flux calibrated, and only represent the dependence of
 flux on wavelength/frequency. A flux at a reference wavelength/frequency (derived from e.g. geometrical modelling)
 must be passed along in order to get absolute values.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="distroi.model.param.html#distroi.model.param.Param" title="distroi.model.param.Param"><em>Param</em></a><em>]</em>) – Dictionary containing the names of parameters within the <cite>SpecDep</cite> 
-scope and the corresponding parameter objects.</p>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="distroi.model.dep.spec_dep.SpecDep._abc_impl">
-<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#distroi.model.dep.spec_dep.SpecDep._abc_impl" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.model.dep.spec_dep.SpecDep.flux_from_ref">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">flux_from_ref</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_ref</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_flux</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux_form</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'flam'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></span><a class="headerlink" href="#distroi.model.dep.spec_dep.SpecDep.flux_from_ref" title="Link to this definition">#</a></dt>
-<dd><p>Retrieve the flux at certain wavelengths/frequencies when given a reference flux value and wavelength/frequency.</p>
+<dd><p>Retrieve flux at wavelengths/frequencies when given a reference flux value and wavelength/frequency.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<em>np.ndarray</em><em> | </em><em>float</em>) – Wavelengths/frequencies (in micron/Hz) at which to calculate the flux.</p></li>
-<li><p><strong>x_ref</strong> (<em>np.ndarray</em><em> | </em><em>float</em>) – Reference wavelength/frequency (in micron/Hz) at which to calculate the flux.
-In case flux_form = ‘flam’ or ‘lam_flam’, x_ref is assumed to be a wavelength, while in case of ‘fnu’ and
-‘nu_fnu’, x_ref is assumed to be a frequency.</p></li>
-<li><p><strong>ref_flux</strong> (<em>float</em>) – Reference flux from which to calculate the flux, in the specified ‘flux_form’ format.</p></li>
-<li><p><strong>flux_form</strong> (<em>str</em>) – The format of the flux to be calculated. Options are ‘flam’ (default) and ‘lam_flam’,
-as well as their frequency analogues ‘fnu’ and ‘nu_fnu’. In case flux_form = ‘flam’ or ‘lam_flam’, x is
-assumed to be wavelengths, while in case of ‘fnu’ and ‘nu_fnu’, x is assumed to be frequencies.</p></li>
+<li><p><strong>x</strong> (<em>np.ndarray</em><em> or </em><em>float</em>) – Wavelengths/frequencies (in micron/Hz) at which to calculate the flux.</p></li>
+<li><p><strong>x_ref</strong> (<em>np.ndarray</em><em> or </em><em>float</em>) – Reference wavelength/frequency (in micron/Hz) at which to calculate the flux. In case <code class="docutils literal notranslate"><span class="pre">flux_form</span> <span class="pre">=</span> <span class="pre">'flam'</span></code>
+or <cite>‘lam_flam’</cite>, <cite>x_ref</cite> is assumed to be a wavelength, while in case of <cite>‘fnu’</cite> and <cite>‘nu_fnu’</cite>, <cite>x_ref</cite>
+is assumed to be a frequency.</p></li>
+<li><p><strong>ref_flux</strong> (<em>float</em>) – Reference flux from which to calculate the flux, in the specified <cite>flux_form</cite> format.</p></li>
+<li><p><strong>flux_form</strong> (<em>str</em><em>, </em><em>optional</em>) – The format of the flux to be calculated. Options are <cite>‘flam’</cite> (default) and <cite>‘lam_flam’</cite>, as well as their
+frequency analogues <cite>‘fnu’</cite> and <cite>‘nu_fnu’</cite>. In case <code class="docutils literal notranslate"><span class="pre">flux_form</span> <span class="pre">=</span> <span class="pre">'flam'</span></code> or <cite>‘lam_flam’</cite>, <cite>x</cite> is assumed
+to be wavelengths, while in case of <cite>‘fnu’</cite> and <cite>‘nu_fnu’</cite>, <cite>x</cite> is assumed to be frequencies.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return flux<span class="colon">:</span></dt>
-<dd class="field-even"><p>The flux calculated at x using the reference wavelength/frequency and reference flux value.
-Note that the units of both input and output will correspond to those of x_ref and ref_flux.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The flux calculated at <cite>x</cite> using the reference wavelength/frequency and reference flux value. Note that the
+units of both input and output will correspond to those of <cite>x_ref</cite> and <cite>ref_flux</cite>.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray | float</p>
+<dd class="field-odd"><p>np.ndarray or float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -574,6 +537,7 @@ Note that the units of both input and output will correspond to those of x_ref a
 <dt class="sig sig-object py" id="distroi.model.dep.spec_dep.ThinAccDiskSpecDep">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">distroi.model.dep.spec_dep.</span></span><span class="sig-name descname"><span class="pre">ThinAccDiskSpecDep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acc_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">star_mass</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r_in</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r_out</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eta_rad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#distroi.model.dep.spec_dep.ThinAccDiskSpecDep" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#distroi.model.dep.spec_dep.SpecDep" title="distroi.model.dep.spec_dep.SpecDep"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpecDep</span></code></a></p>
+<p>Spectral dependency of a thin, multi-blackbody accretion disk.</p>
 <p>Spectral dependency of a thin, multi-blackbody accretion disk, as specified in De Prins et al. 2024. The disk
 has a blackbody temperature gradient derived assuming a certain accretion rate and radiative efficiency, the
 latter denoting the fraction of released gravitational power which is converted to radiation.</p>
@@ -584,38 +548,33 @@ latter denoting the fraction of released gravitational power which is converted 
 <li><p><strong>star_mass</strong> (<em>float</em>) – Mass of the star at the centre of the disk in M_sun.</p></li>
 <li><p><strong>r_in</strong> (<em>float</em>) – Inner disk rim radius in Solar radii.</p></li>
 <li><p><strong>r_out</strong> (<em>float</em>) – Outer disk rim radius in Solar radii.</p></li>
-<li><p><strong>eta_rad</strong> (<em>float</em>) – Radiative efficiency, expressed as a fraction between 0 and 1</p></li>
+<li><p><strong>eta_rad</strong> (<em>float</em>) – Radiative efficiency, expressed as a fraction between 0 and 1.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="distroi.model.dep.spec_dep.ThinAccDiskSpecDep._abc_impl">
-<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#distroi.model.dep.spec_dep.ThinAccDiskSpecDep._abc_impl" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="distroi.model.dep.spec_dep.ThinAccDiskSpecDep.flux_from_ref">
 <span class="sig-name descname"><span class="pre">flux_from_ref</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_ref</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref_flux</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flux_form</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'flam'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span></span></span><a class="headerlink" href="#distroi.model.dep.spec_dep.ThinAccDiskSpecDep.flux_from_ref" title="Link to this definition">#</a></dt>
-<dd><p>Retrieve the flux at certain wavelengths/frequencies when given a reference flux value and wavelength/frequency.</p>
+<dd><p>Retrieve flux at wavelengths/frequencies when given a reference flux value and wavelength/frequency.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<em>np.ndarray</em><em> | </em><em>float</em>) – Wavelengths/frequencies (in micron/Hz) at which to calculate the flux.</p></li>
-<li><p><strong>x_ref</strong> (<em>np.ndarray</em><em> | </em><em>float</em>) – Reference wavelength/frequency (in micron/Hz) at which to calculate the flux.
-In case flux_form = ‘flam’ or ‘lam_flam’, x_ref is assumed to be a wavelength, while in case of ‘fnu’ and
-‘nu_fnu’, x_ref is assumed to be a frequency.</p></li>
-<li><p><strong>ref_flux</strong> (<em>float</em>) – Reference flux from which to calculate the flux, in the specified ‘flux_form’ format.</p></li>
-<li><p><strong>flux_form</strong> (<em>str</em>) – The format of the flux to be calculated. Options are ‘flam’ (default) and ‘lam_flam’,
-as well as their frequency analogues ‘fnu’ and ‘nu_fnu’. In case flux_form = ‘flam’ or ‘lam_flam’, x is
-assumed to be wavelengths, while in case of ‘fnu’ and ‘nu_fnu’, x is assumed to be frequencies.</p></li>
+<li><p><strong>x</strong> (<em>np.ndarray</em><em> or </em><em>float</em>) – Wavelengths/frequencies (in micron/Hz) at which to calculate the flux.</p></li>
+<li><p><strong>x_ref</strong> (<em>np.ndarray</em><em> or </em><em>float</em>) – Reference wavelength/frequency (in micron/Hz) at which to calculate the flux. In case <code class="docutils literal notranslate"><span class="pre">flux_form</span> <span class="pre">=</span> <span class="pre">'flam'</span></code>
+or <cite>‘lam_flam’</cite>, <cite>x_ref</cite> is assumed to be a wavelength, while in case of <cite>‘fnu’</cite> and <cite>‘nu_fnu’</cite>, <cite>x_ref</cite>
+is assumed to be a frequency.</p></li>
+<li><p><strong>ref_flux</strong> (<em>float</em>) – Reference flux from which to calculate the flux, in the specified <cite>flux_form</cite> format.</p></li>
+<li><p><strong>flux_form</strong> (<em>str</em><em>, </em><em>optional</em>) – The format of the flux to be calculated. Options are <cite>‘flam’</cite> (default) and <cite>‘lam_flam’</cite>, as well as their
+frequency analogues <cite>‘fnu’</cite> and <cite>‘nu_fnu’</cite>. In case <code class="docutils literal notranslate"><span class="pre">flux_form</span> <span class="pre">=</span> <span class="pre">'flam'</span></code> or <cite>‘lam_flam’</cite>, <cite>x</cite> is assumed
+to be wavelengths, while in case of <cite>‘fnu’</cite> and <cite>‘nu_fnu’</cite>, <cite>x</cite> is assumed to be frequencies.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return flux<span class="colon">:</span></dt>
-<dd class="field-even"><p>The flux calculated at x using the reference wavelength/frequency and reference flux value. Note
-that the units of both input and output will correspond to those of x_ref and ref_flux.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The flux calculated at <cite>x</cite> using the reference wavelength/frequency and reference flux value. Note that the
+units of both input and output will correspond to those of <cite>x_ref</cite> and <cite>ref_flux</cite>.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray | float</p>
+<dd class="field-odd"><p>np.ndarray or float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -671,27 +630,22 @@ that the units of both input and output will correspond to those of x_ref and re
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.BlackBodySpecDep"><code class="docutils literal notranslate"><span class="pre">BlackBodySpecDep</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.BlackBodySpecDep._abc_impl"><code class="docutils literal notranslate"><span class="pre">BlackBodySpecDep._abc_impl</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.BlackBodySpecDep.flux_from_ref"><code class="docutils literal notranslate"><span class="pre">BlackBodySpecDep.flux_from_ref()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.FlatSpecDep"><code class="docutils literal notranslate"><span class="pre">FlatSpecDep</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.FlatSpecDep._abc_impl"><code class="docutils literal notranslate"><span class="pre">FlatSpecDep._abc_impl</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.FlatSpecDep.flux_from_ref"><code class="docutils literal notranslate"><span class="pre">FlatSpecDep.flux_from_ref()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.PowerLawSpecDep"><code class="docutils literal notranslate"><span class="pre">PowerLawSpecDep</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.PowerLawSpecDep._abc_impl"><code class="docutils literal notranslate"><span class="pre">PowerLawSpecDep._abc_impl</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.PowerLawSpecDep.flux_from_ref"><code class="docutils literal notranslate"><span class="pre">PowerLawSpecDep.flux_from_ref()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.SpecDep"><code class="docutils literal notranslate"><span class="pre">SpecDep</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.SpecDep._abc_impl"><code class="docutils literal notranslate"><span class="pre">SpecDep._abc_impl</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.SpecDep.flux_from_ref"><code class="docutils literal notranslate"><span class="pre">SpecDep.flux_from_ref()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.ThinAccDiskSpecDep"><code class="docutils literal notranslate"><span class="pre">ThinAccDiskSpecDep</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.ThinAccDiskSpecDep._abc_impl"><code class="docutils literal notranslate"><span class="pre">ThinAccDiskSpecDep._abc_impl</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distroi.model.dep.spec_dep.ThinAccDiskSpecDep.flux_from_ref"><code class="docutils literal notranslate"><span class="pre">ThinAccDiskSpecDep.flux_from_ref()</span></code></a></li>
 </ul>
 </li>

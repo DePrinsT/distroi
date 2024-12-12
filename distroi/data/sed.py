@@ -1,7 +1,4 @@
-"""
-Defines a class and the corresponding methods to load in and handle both observed and model spectral energy
-distributions (SEDs).
-"""
+"""A module to handle spectral energy distributions (SEDs)."""
 
 from distroi.auxiliary import constants
 
@@ -19,28 +16,37 @@ constants.set_matplotlib_params()  # set project matplotlib parameters
 
 
 class SED:
-    """
-    Class containing information on an SED. Can contain SED information either related to astronomical observations
-    or model RT images.
+    """Contains information on an SED.
 
-    :param dict dictionary: Dictionary containing keys and values representing several instance variables described
-        below. Should include 'wavelengths', 'flam', and 'flam_err'. The other required instance variables are set
-        automatically through add_freq_vars().
-    :ivar np.ndarray wavelengths: 1D array containing the wavelengths in micron.
-    :ivar np.ndarray frequencies: 1D array containing the frequencies in Hz.
-    :ivar np.ndarray flam: 1D array containing the flux in F_lam format, the unit is erg s^-1 cm^-2 micron^-1.
-    :ivar np.ndarray flam_err: 1D array containing the errors on flam_err (set to 0 if reading in a model SED).
-    :ivar np.ndarray fnu: 1D array containing the flux in F_nu format, the unit is Jansky (Jy).
-    :ivar np.ndarray fnu_err: 1D array containing the error on F_nu.
-    :ivar list[str] | None bands: Optional list of strings containing the names of the associated photometric bands.
-        Mostly useful when reading in observed SED data tables from e.g. VizieR.
-    :ivar list[str] | None sources: Similar to the 'bands' attribute, but listing the source catalogue.
+    Parameters
+    ----------
+    dictionary : dict
+        Dictionary containing keys and values representing several instance variables described below. Should include
+        `'wavelengths'`, `'flam'`, and `'flam_err'`. The other required instance variables are set automatically through
+        `add_freq_vars`.
+
+    Attributes
+    ----------
+    wavelengths : np.ndarray
+        1D array containing the wavelengths in micron.
+    frequencies : np.ndarray
+        1D array containing the frequencies in Hz.
+    flam : np.ndarray
+        1D array containing the flux in F_lam format, the unit is erg s^-1 cm^-2 micron^-1.
+    flam_err : np.ndarray
+        1D array containing the errors on flam_err (set to 0 if reading in a model SED).
+    fnu : np.ndarray
+        1D array containing the flux in F_nu format, the unit is Jansky (Jy).
+    fnu_err : np.ndarray
+        1D array containing the error on F_nu.
+    bands : list of str or None
+        Optional list of strings containing the names of the associated photometric bands. Mostly useful when reading
+        in observed SED data tables from e.g. VizieR.
+    sources : list of str or None
+        Similar to the 'bands' attribute, but listing the source catalogue.
     """
 
     def __init__(self, dictionary: dict[str, np.ndarray]):
-        """
-        Constructor method. See class docstring for information on initialization parameters and instance properties.
-        """
         self.wavelengths = None  # wavelengths in micron
         self.frequencies = None  # frequencies in Hz
         self.flam = None  # wavelength-based flux densities (F_lambda) in erg s^-1 cm^-2 micron^-1
@@ -72,14 +78,21 @@ class SED:
         ebminv: float,
         reddening_law: str = constants.PROJECT_ROOT + "/utils/ISM_reddening/" "ISMreddening_law_Cardelli1989.dat",
     ) -> None:
-        """
-        Further reddens the SED according to the approriate E(B-V) and a corresponding reddening law.
+        """Redden the SED.
 
-        :param float ebminv: E(B-V) reddening factor to be applied.
-        :param str reddening_law: Path to the reddening law to be used. Defaults to the ISM reddening law by
-            Cardelli (1989) in DISTROI's 'utils/ISM_reddening folder'. See this file for the expected formatting
-            of your own reddening laws.
-        :rtype: None
+        Further reddens the SED according to the appropriate E(B-V) and a corresponding reddening law.
+
+        Parameters
+        ----------
+        ebminv : float
+            E(B-V) reddening factor to be applied.
+        reddening_law : str, optional
+            Path to the reddening law to be used. Defaults to the ISM reddening law by Cardelli (1989) in DISTROI's
+            'utils/ISM_reddening folder'. See this file for the expected formatting of your own reddening laws.
+
+        Returns
+        -------
+        None
         """
         self.flam = constants.redden_flux(self.wavelengths, self.flam, ebminv, reddening_law=reddening_law)
         self.fnu = constants.redden_flux(self.wavelengths, self.fnu, ebminv, reddening_law=reddening_law)
@@ -89,24 +102,34 @@ class SED:
     def get_flux(
         self, x: np.ndarray | float, flux_form: str = "flam", interp_method: str = "linear"
     ) -> np.ndarray | float:
-        """
-        Retrieve the flux at certain wavelengths/frequencies by interpolating the contained SED data. Note that this
-        method throws an error if you try to retrieve fluxes outside the wavelength/frequency bounds.
+        """Get the flux at specified wavelengths or frequencies.
 
-        :param np.ndarray | float x: Wavelengths/frequencies (in micron/Hz) at which to calculate the flux.
-        :param str flux_form: The format of the flux to be calculated. Options are 'flam' (default) and 'lam_flam',
-            as well as their frequency analogues 'fnu' and 'nu_fnu'. In case flux_form = 'flam' or 'lam_flam', x is
-            assumed to be wavelengths, while in case of 'fnu' and 'nu_fnu', x is assumed to be frequencies.
-        :param str interp_method: Interpolation method used by scipy's interp1d method. Defualt is 'linear'.
-            Can support 'linear', 'nearest', 'nearest-up', 'zero', 'slinear', 'quadratic', 'cubic', 'previous', or
-            'next'.
-        :return flux: The flux calculated at x using the reference wavelength/frequency and reference flux value.
-            In case of flux_form='flam', output will be in units erg s^-1 cm^-2 micron^-1. In case of
-            flux_form='fnu', output will be in units Jansky. In case of flux_form='lam_flam', units
-            will be in erg s^-1 cm^-2. In case of flux_form='nu_fnu', units will be Jy Hz
-        :rtype: np.ndarray | float
-        """
+        Retrieve the flux at certain wavelengths/frequencies by interpolating the contained SED data.
 
+        Parameters
+        ----------
+        x : np.ndarray or float
+            Wavelengths/frequencies (in micron/Hz) at which to calculate the flux.
+        flux_form : str, optional
+            The format of the flux to be calculated. Options are `'flam'` (default) and `'lam_flam'`, as well as their
+            frequency analogues `'fnu'` and `'nu_fnu'`. In case ``flux_form = 'flam'`` or ``'lam_flam'``, `x` is assumed
+            to represent wavelengths, while in case of ``'fnu'`` and ``'nu_fnu'``, `x` is assumed to be frequencies.
+        interp_method : str, optional
+            Interpolation method used by scipy's interp1d method. Default is `'linear'`. Can support `'linear'`,
+            `'nearest'`, `'nearest-up'`, `'zero'`, `'slinear'`, `'quadratic'`, `'cubic'`, `'previous'`, or `'next'`.
+
+        Returns
+        -------
+        flux : np.ndarray or float
+            The flux calculated at `x` using the reference wavelength/frequency and reference flux value. In case of
+            ``flux_form='flam'``, output will be in units erg s^-1 cm^-2 micron^-1. In case of ``flux_form='fnu'``,
+            output will be in units Jansky. In case of ``flux_form='lam_flam'``, units will be in erg s^-1 cm^-2.
+            In case of ``flux_form='nu_fnu'``, units will be Jy Hz.
+
+        Warnings
+        --------
+        This method throws an error if you try to retrieve fluxes outside the wavelength/frequency bounds.
+        """
         # set what flux to interpolate (e.g. 'flam') and what quantity to interpolate in (wavelengths/frequencies)
         if flux_form == "flam":
             x_sed = self.wavelengths
@@ -133,19 +156,35 @@ class SED:
         log_plot: bool = True,
         show_plots: bool = True,
     ) -> None:
-        """
-        Make a scatter plot of the SED.
+        """Make a scatter plot of the SED.
 
-        :rtype: None
+        Parameters
+        ----------
+        fig_dir : str, optional
+            Directory to store plots in.
+        flux_form : str, optional
+            Format for the flux. By default, it is set to `'lam_flam'`, meaning we represent the flux in lam*F_lam
+            format  (units erg s^-1 cm^-2). Analogously, other options are `'flam'` (erg s^-1 cm^-2 micron^-1),
+            `'fnu'` (Jy) and `'nu_fnu'` (Jy Hz).
+        log_plot : bool, optional
+            Set to False if you want the plot axes to be in linear scale.
+        show_plots : bool, optional
+            Set to False if you do not want the plots to be shown during your script run. Note that if True, this
+            freezes further code execution until the plot windows are closed.
+
+        Returns
+        -------
+        None
         """
         # TODO: implement this, including the printing of optional source/catalog and photband names
         pass
 
     def add_freq_vars(self) -> None:
-        """
-        Calculate and set frequency-based instance variables from the wavelength-based ones.
+        """Calculate and set frequency-based attributes from the wavelength-based ones.
 
-        :rtype: None
+        Returns
+        -------
+        None
         """
         wavelengths_si = self.wavelengths * constants.MICRON2M  # wavelength in SI
         self.frequencies = constants.SPEED_OF_LIGHT / wavelengths_si  # set frequencies in Hz
@@ -157,14 +196,20 @@ class SED:
 
 
 def read_sed_mcfost(sed_path: str, star_only: bool = False) -> SED:
-    """
-    Retrieve SED data from an MCFOST model SED and return it as an SED class instance.
+    """Retrieve SED data from an MCFOST model SED.
 
-    :param str sed_path: Path to an MCFOST output sed_rt.fits.gz model SED file.
-    :param bool star_only: Set to True if you only want to read in the flux from the star.
-    :return sed: SED instance containing the information on the MCFOST model SED. Note that the errors on the flux
-        'flam_err' are set to zero (since this is a model SED).
-    :rtype: SED
+    Parameters
+    ----------
+    sed_path : str
+        Path to an MCFOST output sed_rt.fits.gz model SED file.
+    star_only : bool, optional
+        Set to True if you only want to read in the flux from the star.
+
+    Returns
+    -------
+    sed : SED
+        `SED` instance containing the information on the MCFOST model SED. Note that the errors on the flux `flam_err`
+        are set to zero (since this is a model SED).
     """
     dictionary = {}  # dictionary to construct SED instance
 
@@ -194,15 +239,23 @@ def read_sed_mcfost(sed_path: str, star_only: bool = False) -> SED:
 
 
 def read_sed_repo_phot(sed_path: str, wave_lims: tuple[float, float] = None) -> SED:
-    """
-    Retrieve observed SED data stored in a .phot file from the SED catalog presented in Kluska et al. 2022 (
-    A&A, 658 (2022) A36). Such files are stored in the local system of KU Leuven's Institute of Astronomy.
-    Return it as an SED class instance.
+    """Retrieve SED data from a KU Leuven Insitute of Astronomy SED repository .phot file.
 
-    :param str sed_path: Path to an MCFOST output sed_rt.fits.gz model SED file.
-    :param tuple(float) wave_lims: The lower and upper wavelength limits in micron used when reading in data.
-    :return sed: SED instance containing the information on the MCFOST model SED.
-    :rtype: SED
+    Retrieve observed SED data stored in a .phot file as presented in e.g. the SED catalog presented in
+    Kluska et al. 2022 (A&A, 658 (2022) A36). Such files are stored in the local system of KU Leuven's
+    Institute of Astronomy.
+
+    Parameters
+    ----------
+    sed_path : str
+        Path to an MCFOST output sed_rt.fits.gz model SED file.
+    wave_lims : tuple of float, optional
+        The lower and upper wavelength limits in micron used when reading in data.
+
+    Returns
+    -------
+    sed : SED
+        `SED` instance containing the information on the MCFOST model SED.
     """
     dictionary = {}  # dictionary to construct SED instance
 
@@ -278,19 +331,28 @@ def sed_chi2reddened(
     ebminv: float,
     reddening_law: str = f"{constants.PROJECT_ROOT}" f"/utils/ISM_reddening" f"/ISMreddening_law_" f"Cardelli1989.dat",
 ) -> float:
-    """
-    Returns the chi2 between an RT model SED and an observed SED under a certain amount of additional reddening.
-    Note that this doesn't actually redden any of the SED object class instances, only calculates the chi2 assuming the
-    model SED were to be reddened.
+    """Get the chi2 between a data SED and a reddened model SED.
 
-    :param SED sed_obs: Observed SED.
-    :param SED sed_mod: RT model SED.
-    :param float ebminv: E(B-V) reddening factor to be applied.
-    :param str reddening_law: Path to the reddening law to be used. Defaults to the ISM reddening law by
-        Cardelli (1989) in DISTROI's 'utils/ISM_reddening folder'. See this file for the expected formatting
-        of your own reddening laws.
-    :return chi2: The chi2 value between the reddened model SED and the observed SED.
-    :rtype: float
+    Returns the chi2 between an RT model `SED` and an observed `SED` under a certain amount of additional reddening.
+    Note that this doesn't actually redden any of the `SED` object class instances, only calculates the chi2 assuming
+    the model `SED` were to be reddened.
+
+    Parameters
+    ----------
+    sed_obs : SED
+        Observed `SED`.
+    sed_mod : SED
+        RT model `SED`.
+    ebminv : float
+        E(B-V) reddening factor to be applied.
+    reddening_law : str, optional
+        Path to the reddening law to be used. Defaults to the ISM reddening law by Cardelli (1989) in DISTROI's
+        'utils/ISM_reddening folder'. See this file for the expected formatting of your own reddening laws.
+
+    Returns
+    -------
+    chi2 : float
+        The chi2 value between the reddened model `SED` and the observed `SED`.
     """
     flam_obs = sed_obs.flam
     flam_obs_err = sed_obs.flam_err
@@ -318,20 +380,30 @@ def sed_reddening_fit(
     redden_mod: bool = True,
     reddening_law: str = f"{constants.PROJECT_ROOT}" f"/utils/ISM_reddening" f"/ISMreddening_law_" f"Cardelli1989.dat",
 ) -> tuple[float, float]:
-    """
-    Fits an additional reddening E(B-V) value to make a model SED match up to an observed SED as much as possible. In
-    case of a successfull fit, the model SED is subsequently reddened according to the fitted value E(B-V) and the
-    chi2 value between model and observations is returned.
+    """Fits an additional reddening to make a model SED match an observed SED.
 
-    :param SED sed_obs: Observed SED.
-    :param SED sed_mod: RT model SED.
-    :param float ebminv_guess: Initial guess for the E(B-V) reddening factor.
-    :param redden_mod: Redden the model SED according to the fitted value. Set to true
-        by default.
-    :param str reddening_law:
-    :return tuple(ebminv_opt, chi2): The optimal E(B-V) and corresponding chi2 value between the reddened model SED and
-        the observed SED.
-    :rtype: tuple(float)
+    Fits an additional reddening E(B-V) value to make a model `SED` match up to an observed `SED` as much as possible.
+    In case of a successful fit, the model `SED` is subsequently reddened according to the fitted value of E(B-V) and
+    the chi2 value between model and observations is returned.
+
+    Parameters
+    ----------
+    sed_obs : SED
+        Observed `SED`.
+    sed_mod : SED
+        Model `SED`.
+    ebminv_guess : float
+        Initial guess for the E(B-V) reddening factor.
+    redden_mod : bool, optional
+        Redden the model `SED` according to the fitted value. Set to True by default.
+    reddening_law : str, optional
+        Path to the reddening law to be used. Defaults to the ISM reddening law by Cardelli (1989) in DISTROI's
+        'utils/ISM_reddening folder'. See this file for the expected formatting of your own reddening laws.
+
+    Returns
+    -------
+    tuple of float
+        The optimal E(B-V) and corresponding chi2 value between the reddened model `SED` and the observed `SED`.
     """
     par_min = minimize(
         lambda ebminv: sed_chi2reddened(sed_obs, sed_mod, ebminv, reddening_law=reddening_law),
@@ -342,7 +414,7 @@ def sed_reddening_fit(
     if redden_mod:
         sed_mod.redden(ebminv=ebminv_opt, reddening_law=reddening_law)  # redden model SED according to fitted E(B-V)
 
-    return ebminv_opt, chi2
+    return (ebminv_opt, chi2)
 
 
 def sed_plot_data_vs_model(
@@ -353,20 +425,31 @@ def sed_plot_data_vs_model(
     log_plot: bool = True,
     show_plots: bool = True,
 ) -> None:
-    """
-    Plots the data (observed) SED against the model SED. Note that this function shares a name with a similar function
-    in the oi_observables module. Take care with your namespace if you use both functions in the same script.
+    """Plot an observed SED against a model SED.
 
-    :param SED sed_dat: Data SED. Typically corresponds to observations.
-    :param SED sed_mod: RT model SED.
-    :param str fig_dir: Directory to store plots in.
-    :param str flux_form: Format for the flux. By default, it is set to 'lam_flam', meaning we represent the flux in
-        lam*F_lam format (units erg s^-1 cm^-2). Analogously, other options are 'flam' (erg s^-1 cm^-2 micron^-1),
-        'fnu' (Jy) and 'nu_fnu' (Jy Hz).
-    :param bool log_plot: Set to False if you want the plot axes to be in linear scale.
-    :param bool show_plots: Set to False if you do not want the plots to be shown during your script run.
-        Note that if True, this freazes further code execution until the plot windows are closed.
-    :rtype: None
+    Plots the data (observed) SED against the model SED.
+
+    Parameters
+    ----------
+    sed_dat : SED
+        Data SED. Typically corresponds to observations.
+    sed_mod : SED
+        RT model SED.
+    fig_dir : str, optional
+        Directory to store plots in.
+    flux_form : str, optional
+        Format for the flux. By default, it is set to `'lam_flam'`, meaning we represent the flux in lam*F_lam format
+        (units erg s^-1 cm^-2). Analogously, other options are `'flam'` (erg s^-1 cm^-2 micron^-1), `'fnu'` (Jy) and
+        `'nu_fnu'` (Jy Hz).
+    log_plot : bool, optional
+        Set to False if you want the plot axes to be in linear scale.
+    show_plots : bool, optional
+        Set to False if you do not want the plots to be shown during your script run. Note that if True, this freezes
+        further code execution until the plot windows are closed.
+
+    Returns
+    -------
+    None
     """
     fig, ax = plt.subplots(figsize=(8, 8))
     ax.errorbar(

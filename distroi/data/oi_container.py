@@ -1,8 +1,8 @@
 """
-Contains a class to store optical inteferometric (OI) observables and additional functions to take radiative
+Contains a class to store optical interferometric (OI) observables and additional functions to take radiative
 transfer (RT) model images and convert them to interferometric observables at the spatial frequencies of data
-stored in the OIFITS format. Currently supports the following combinations of obsevrables: Squared visibilities -
-Closure phases ; Visibilities - Closure phases ; Correlated fluxes (formaly stored as visibilities) - Closure phases.
+stored in the OIFITS format. Currently supports the following combinations of observables: Squared visibilities -
+Closure phases; Visibilities - Closure phases; Correlated fluxes (formally stored as visibilities) - Closure phases.
 """
 
 from distroi.auxiliary import constants
@@ -27,43 +27,69 @@ class OIContainer:
     """
     Class to contain optical interferometry observables, where each observable is stored in the form of raveled 1D
     numpy arrays. Based on the Data class in ReadOIFITS.py, where the observables are stored per OIFITS table,
-    but the raveled form makes calculations easier and less prone to error. Currenlty supports visibilities (both in
+    but the raveled form makes calculations easier and less prone to error. Currently supports visibilities (both in
     normalized and correlated flux form), squared visibilities and closure phases. In this format this class and the
-    methods below can be expanded to accomodate for different kinds of observables (i.e. addition of differential
+    methods below can be expanded to accommodate for different kinds of observables (i.e. addition of differential
     visibilities). Can contain observables either related to astronomical observations or model RT images.
 
-    :param dict dictionary: Dictionary containing keys and values representing all instance variables described below
-        (excluding fcorr).
-    :param bool fcorr: Set to True if the visibilities are to be stored as correlated fluxes in Jy.
-    :ivar bool vis_in_fcorr: Whether visibilities are stored in correlated flux or not.
-    :ivar np.ndarray v_uf: u-axis spatial freqs in 1/rad for visibility data.
-    :ivar np.ndarray v_vf: v-axis spatial freqs in 1/rad for visibility data.
-    :ivar np.ndarray v_wave: Wavelengths in micron for visibility data.
-    :ivar np.ndarray v: Visibilities, either normalized visibilities or correlated flux in Janksy.
-    :ivar np.ndarray v_err: Error on visibilities.
-    :ivar np.ndarray v_base: Baseline length in MegaLambda for visibility data.
-    :ivar np.ndarray v2_uf: u-axis spatial freqs in 1/rad for squared visibility data.
-    :ivar np.ndarray v2_vf: v-axis spatial freqs in 1/rad for squared visibility data.
-    :ivar np.ndarray v2_wave: Wavelengths in micron for squared visibility data.
-    :ivar np.ndarray v2: Squared visibilities.
-    :ivar np.ndarray v2_err: Error on squared visibilities.
-    :ivar np.ndarray v2_base: Baseline length in MegaLambda for squared visibility data.
-    :ivar np.ndarray t3_uf1: u-axis spatial freqs in 1/rad for the 1st projected baseline along the closure triangle.
-    :ivar np.ndarray t3_vf1: v-axis spatial freqs in 1/rad for the 1st projected baseline along the closure triangle.
-    :ivar np.ndarray t3_uf2: u-axis spatial freqs in 1/rad for the 2nd projected baseline along the closure triangle.
-    :ivar np.ndarray t3_vf2: v-axis spatial freqs in 1/rad for the 2nd projected baseline along the closure triangle.
-    :ivar np.ndarray t3_uf3: u-axis spatial freqs in 1/rad for the 3d projected baseline along the closure triangle.
-    :ivar np.ndarray t3_vf3: v-axis spatial freqs in 1/rad for the 3d projected baseline along the closure triangle.
-    :ivar np.ndarray t3_wave: Wavelengths in micron for closure phase data.
-    :ivar np.ndarray t3phi: Closure phases in degrees.
-    :ivar np.ndarray t3phi_err: Error on closure phases.
-    :ivar np.ndarray t3_bmax: Maximum baseline length along the closure triangle in units of MegaLambda.
+    Parameters
+    ----------
+    dictionary : dict
+        Dictionary containing keys and values representing all instance variables described below (excluding fcorr).
+    fcorr : bool, optional
+        Set to True if the visibilities are to be stored as correlated fluxes in Jy.
+
+    Attributes
+    ----------
+    vis_in_fcorr : bool
+        Whether visibilities are stored in correlated flux or not.
+    v_uf : np.ndarray
+        u-axis spatial freqs in 1/rad for visibility data.
+    v_vf : np.ndarray
+        v-axis spatial freqs in 1/rad for visibility data.
+    v_wave : np.ndarray
+        Wavelengths in micron for visibility data.
+    v : np.ndarray
+        Visibilities, either normalized visibilities or correlated flux in Jansky.
+    v_err : np.ndarray
+        Error on visibilities.
+    v_base : np.ndarray
+        Baseline length in MegaLambda for visibility data.
+    v2_uf : np.ndarray
+        u-axis spatial freqs in 1/rad for squared visibility data.
+    v2_vf : np.ndarray
+        v-axis spatial freqs in 1/rad for squared visibility data.
+    v2_wave : np.ndarray
+        Wavelengths in micron for squared visibility data.
+    v2 : np.ndarray
+        Squared visibilities.
+    v2_err : np.ndarray
+        Error on squared visibilities.
+    v2_base : np.ndarray
+        Baseline length in MegaLambda for squared visibility data.
+    t3_uf1 : np.ndarray
+        u-axis spatial freqs in 1/rad for the 1st projected baseline along the closure triangle.
+    t3_vf1 : np.ndarray
+        v-axis spatial freqs in 1/rad for the 1st projected baseline along the closure triangle.
+    t3_uf2 : np.ndarray
+        u-axis spatial freqs in 1/rad for the 2nd projected baseline along the closure triangle.
+    t3_vf2 : np.ndarray
+        v-axis spatial freqs in 1/rad for the 2nd projected baseline along the closure triangle.
+    t3_uf3 : np.ndarray
+        u-axis spatial freqs in 1/rad for the 3rd projected baseline along the closure triangle.
+    t3_vf3 : np.ndarray
+        v-axis spatial freqs in 1/rad for the 3rd projected baseline along the closure triangle.
+    t3_wave : np.ndarray
+        Wavelengths in micron for closure phase data.
+    t3phi : np.ndarray
+        Closure phases in degrees.
+    t3phi_err : np.ndarray
+        Error on closure phases.
+    t3_bmax : np.ndarray
+        Maximum baseline length along the closure triangle in units of MegaLambda.
     """
 
     def __init__(self, dictionary: dict[str, np.ndarray], fcorr: bool = False):
-        """
-        Constructor method. See class docstring for information on initialization parameters and instance properties.
-        """
         self.vis_in_fcorr = fcorr  # set if visibilities are in correlated flux
 
         # Properties for visibility (V) data
@@ -132,13 +158,22 @@ class OIContainer:
         Plots the data included in the OIContainer instance. Currently, plots uv coverage, a (squared) visibility curve
         and closure phases.
 
-        :param str fig_dir: Directory to store plots in.
-        :param bool log_plotv: Set to True for a logarithmic y-scale in the (squared) visibility plot.
-        :param str plot_vistype: Sets the type of visibility to be plotted. 'vis2' for squared visibilities or 'vis'
-            for visibilities (either normalized or correlated flux in Jy, as implied by the OIContainer objects).
-        :param bool show_plots: Set to False if you do not want the plots to be shown during your python instance.
-            Note that if True, this freazes further code execution until the plot windows are closed.
-        :rtype: None
+        Parameters
+        ----------
+        fig_dir : str, optional
+            Directory to store plots in.
+        log_plotv : bool, optional
+            Set to True for a logarithmic y-scale in the (squared) visibility plot.
+        plot_vistype : {'vis2', 'vis', 'fcorr'}, optional
+            Sets the type of visibility to be plotted. 'vis2' for squared visibilities or 'vis' for visibilities
+            (either normalized or correlated flux in Jy, as implied by the OIContainer objects).
+        show_plots : bool, optional
+            Set to False if you do not want the plots to be shown during your python instance. Note that if True,
+            this freezes further code execution until the plot windows are closed.
+
+        Returns
+        -------
+        None
         """
         # check if valid plot_vistype passed along
         valid_vistypes = ["vis2", "vis", "fcorr"]
@@ -282,15 +317,25 @@ def read_oi_container_from_oifits(
     fcorr: bool = False,
 ) -> OIContainer:
     """
-    Retrieve data from (multiple) OIFITS files and return in an OIConatiner class instance.
+    Retrieve data from (multiple) OIFITS files and return in an OIContainer class instance.
 
-    :param str data_dir: Path to the directory where the files are stored.
-    :param str data_file: Data filename, including wildcards if needed to read in multiple files at once.
-    :param tuple[float, float] wave_lims: The lower and upper wavelength limits in micron used when reading in data.
-    :param float v2lim: Upper limit on the squared visibility used when reading in data.
-    :param bool fcorr: Set to True if visibility data is to be interpreted as correlated fluxes in Jy units.
-    :return container: OIContainer with the observables from the OIFITS file.
-    :rtype: OIContainer
+    Parameters
+    ----------
+    data_dir : str
+        Path to the directory where the files are stored.
+    data_file : str
+        Data filename, including wildcards if needed to read in multiple files at once.
+    wave_lims : tuple[float, float], optional
+        The lower and upper wavelength limits in micron used when reading in data.
+    v2lim : float, optional
+        Upper limit on the squared visibility used when reading in data.
+    fcorr : bool, optional
+        Set to True if visibility data is to be interpreted as correlated fluxes in Jy units.
+
+    Returns
+    -------
+    OIContainer
+        OIContainer with the observables from the OIFITS file.
     """
     # if condition because * constants.MICRON2M fails if wavelimits None
     if wave_lims is not None:
@@ -442,24 +487,36 @@ def oi_container_calc_image_fft_observables(
     NOTE: This method expects that every Image object in the list has the same pixelscale and amount of pixels
     (in both x- and y-direction).
 
-    :param OIContainer container_data: OIContainer at whose spatial frequencies we calculate model observables.
-    :param img_ffts: List of Image objects representing the RT model images at different wavelengths. If containing
-        only one object, no interpolation of the normalized visibilities in the wavelength dimension will be performed.
-    :param SED img_sed: Optional SED to be passed along defining the total flux wavelength dependence of the model
-        Image(s). By default, this is None, and the total flux wavelength dependence will be taken from either
-        the SpecDep property of the Image, in case img_ffts contains a single Image object, or from
-        a linear interpolation between the total fluxes in case img_ffts contains multiple Image objects.
-    :param list[GeomComp] geom_comps: Optional list of GeomComp objects, representing geometric components to be added
-        to the complex visibility calculation.
-    :param list[float] geom_comp_flux_fracs: Flux fractions of the geometric components. Should add up to less than one.
-        The remainder from the difference with one will be the flux fraction attributed to the model image(s).
-    :param float ref_wavelength: Reference wavelength for the geometric component flux fractions in micron. In case
-        image_ffts contains more than one model image. This wavelength must lie within the wavelength range spanned by
-        the SED (if passed along), or by the model images.
-    :param str interp_method: Interpolation method used by scipy to perform interpolations. Can support 'linear',
-        'nearest', 'slinear', or 'cubic'.
-    :return container_mod: OIContainer for model image observables.
-    :rtype: OIContainer
+    Parameters
+    ----------
+    container_data : OIContainer
+        OIContainer at whose spatial frequencies we calculate model observables.
+    img_ffts : list of image.Image
+        List of Image objects representing the RT model images at different wavelengths. If containing only one object,
+        no interpolation of the normalized visibilities in the wavelength dimension will be performed.
+    img_sed : sed.SED, optional
+        Optional SED to be passed along defining the total flux wavelength dependence of the model Image(s). By default,
+        this is None, and the total flux wavelength dependence will be taken from either the SpecDep property of the
+        Image, in case img_ffts contains a single Image object, or from a linear interpolation between the total fluxes
+        in case img_ffts contains multiple Image objects.
+    geom_comps : list of geom_comp.GeomComp, optional
+        Optional list of GeomComp objects, representing geometric components to be added to the complex visibility
+        calculation.
+    geom_comp_flux_fracs : list of float, optional
+        Flux fractions of the geometric components. Should add up to less than one. The remainder from the difference
+        with one will be the flux fraction attributed to the model image(s).
+    ref_wavelength : float, optional
+        Reference wavelength for the geometric component flux fractions in micron. In case image_ffts contains more
+        than one model image. This wavelength must lie within the wavelength range spanned by the SED (if passed along),
+        or by the model images.
+    interp_method : str, optional
+        Interpolation method used by scipy to perform interpolations. Can support 'linear', 'nearest', 'slinear', or
+        'cubic'.
+
+    Returns
+    -------
+    OIContainer
+        OIContainer for model image observables.
     """
     # TODO: add functionality for including geometric components
     # TODO: check if closure phase calculations are correct, because they don't seem to be
@@ -673,15 +730,26 @@ def oi_container_plot_data_vs_model(
     closure phases. Note that this function shares a name with a similar function in the sed module. Take care with
     your namespace if you use both functions in the same script.
 
-    :param OIContainer container_data: Container with data observables.
-    :param OIContainer container_mod: Container with model observables.
-    :param str fig_dir: Directory to store plots in.
-    :param bool log_plotv: Set to True for a logarithmic y-scale in the (squared) visibility plot.
-    :param str plot_vistype: Sets the type of visibility to be plotted. 'vis2' for squared visibilities, 'vis'
-        for visibilities or 'fcorr' for correlated flux in Jy.
-    :param bool show_plots: Set to False if you do not want the plots to be shown during your python instance.
-        Note that if True, this freazes further code execution until the plot windows are closed.
-    :rtype: None
+    Parameters
+    ----------
+    container_data : OIContainer
+        Container with data observables.
+    container_mod : OIContainer
+        Container with model observables.
+    fig_dir : str, optional
+        Directory to store plots in.
+    log_plotv : bool, optional
+        Set to True for a logarithmic y-scale in the (squared) visibility plot.
+    plot_vistype : {'vis2', 'vis', 'fcorr'}, optional
+        Sets the type of visibility to be plotted. 'vis2' for squared visibilities, 'vis' for visibilities or 'fcorr'
+        for correlated flux in Jy.
+    show_plots : bool, optional
+        Set to False if you do not want the plots to be shown during your python instance. Note that if True, this
+        freezes further code execution until the plot windows are closed.
+
+    Returns
+    -------
+    None
     """
     valid_vistypes = ["vis2", "vis", "fcorr"]
     if plot_vistype not in valid_vistypes:
