@@ -1,0 +1,77 @@
+# PROJECT-WIDE RUFF FORMATTER SETTINGS
+# ------------------------------------
+
+line-length = 120  # line length
+indent-width = 4  # indentation space width
+target-version = "py310"  # assumed python version
+
+[lint]
+# selected formatting rules
+select = [
+    "F",  # pyflakes rules
+    "N",  # pep naming conventions
+    "D100",  # pydocstyle warnings
+    "D101",
+    "D102",
+    "D103",
+    "D104",
+    "D105",
+    "D106",
+    "D207",
+    "D208",
+    "D209",
+    "D419",
+    "W292",  # pycodestyle general warnings
+    "W293",
+    "W605",
+    "E112",  # pycodestyle errors
+    "E113",
+    "E221",
+    "E222",
+    "E223",
+    "E224",
+    "E225",
+    "E226",
+    "E227",
+    "E228",
+    "E231",
+    "E251",
+    "E252",
+    "E261",
+    "E262",
+    "E265",
+    "E271",
+    "E272",
+    "E273",
+    "E274",
+    "E275",
+    "E301",
+    "E302",
+    "E304",
+    "E305",
+    "E306",
+    "E401",
+    "E402",
+    "E501",
+    "E502",
+    "E701",
+    "E702",
+    "E703",
+    "E711",
+    "E712",
+    "E713",
+    "E714",
+    "E721",
+    "E722",
+    "E731",
+    "E741",
+    "E742",
+    "E743",
+    "E902",
+]
+
+[format]
+quote-style = "double"  # double quotes for strings
+indent-style = "space"  # use spaces for indenting
+line-ending = "auto"  # automatically detect appropriate line ending
+docstring-code-format = false  # auto-formatting of docstring code examples
