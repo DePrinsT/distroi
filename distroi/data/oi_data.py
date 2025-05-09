@@ -16,8 +16,9 @@ a separate property mirroring the OI_WAVELENGTH and OI_ARRAY tables inside the O
 from distroi.auxiliary import constants
 
 import os
-
 import glob
+
+import numpy as np
 from astropy.io import fits
 import matplotlib.pyplot as plt
 
@@ -55,18 +56,18 @@ class OIData:
     Notes
     -----
     The constructor simply initiates all properties of the instance to None. Data is meant to be read in using
-    the `read_oifits` method instead.
+    the `from_oifits` method instead.
     """
 
     def __init__(self):
-        self.header = None  # Primary header dictionary
-        self.target = None  # OITarget instance
-        self.vis = None  # OIVis object
-        self.vis2 = None  # OIVis2 object
-        self.t3 = None  # OIT3 object
+        self.header: dict = None  # Primary header dictionary
+        self.target: OITarget | None = None  # OITarget instance
+        self.vis: OIVis | None = None  # OIVis object
+        self.vis2: OIVis2 | None = None  # OIVis2 object
+        self.t3: OIT3 | None = None  # OIT3 object
         self.flux = None  # OIFlux object
 
-    def read_oifits(self, data_dir: str, data_file: str, ft_only: bool = False) -> None:
+    def from_oifits(self, data_dir: str, data_file: str, ft_only: bool = False) -> None:
         """Read in data from OIFITS files.
 
         Master function to read in OIFITS data, including the use of wildcards to read in data from multiple files
@@ -268,7 +269,6 @@ class OIData:
                         sta2 = sta_name_dict[hdu.header["ARRNAME"]][sta_indx_pair[1]]
                         sta_string = sta1 + "-" + sta2
                         self.vis.baseline_dict[baseline_indx] = sta_string  # extend baseline dict
-                        print(baseline_indx)
 
                         self.vis.baseline_idx = np.append(
                             self.vis.baseline_idx, np.repeat(baseline_indx, num_wave)
@@ -362,7 +362,6 @@ class OIData:
                         sta2 = sta_name_dict[hdu.header["ARRNAME"]][sta_indx_pair[1]]
                         sta_string = sta1 + "-" + sta2
                         self.vis2.baseline_dict[baseline_indx] = sta_string  # extend baseline dict
-                        print(baseline_indx)
 
                         self.vis2.baseline_idx = np.append(
                             self.vis2.baseline_idx, np.repeat(baseline_indx, num_wave)
@@ -473,7 +472,6 @@ class OIData:
                         sta3 = sta_name_dict[hdu.header["ARRNAME"]][sta_indx_triple[2]]
                         sta_string = sta1 + "-" + sta2 + "-" + sta3
                         self.t3.baseline_dict[baseline_indx] = sta_string  # extend baseline dict
-                        print(baseline_indx)
 
                         self.t3.baseline_idx = np.append(
                             self.t3.baseline_idx, np.repeat(baseline_indx, num_wave)
@@ -860,7 +858,7 @@ class OITarget:
 
     Notes:
     ------
-    Only read in once when using `read_oifits`, since we assume the target will be the same for all considered
+    Only read in once when using `from_oifits`, since we assume the target will be the same for all considered
     OIFITS files.
     """
 
@@ -1215,12 +1213,12 @@ if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
     data_dir = (
-        "/home/toond/Documents/phd/data/IRAS08544-4431/" "radiative_transfer_modelling_corporaal_et_al2023/MATISSE_L"
+        "/home/toond/Documents/phd/data_archive/IRAS08544-4431/"
+        "radiative_transfer_modelling_corporaal_et_al2023/MATISSE_L"
     )
     data_file = "2019-04-29T012641_IRAS08544-4431_K0G2D0J3_IR-LM_LOW_cal_oifits_0.fits"
 
-    oidata = OIData()
-    oidata.read_oifits(data_dir=data_dir, data_file=data_file)
+    oidata = OIData.from_oifits(data_dir=data_dir, data_file=data_file)
     oidata.plot_data(
         dname="vis",
         xname="spat_freq",

@@ -10,9 +10,13 @@ but a reconstructed image cannot reliably achieve much greater resolution.
 """
 
 import distroi
+from distroi.auxiliary.beam import oi_container_calc_gaussian_beam
+import os
 
 # Read in the data to an OIContainer object
-data_dir, data_file = "./data/IRAS08544-4431/PIONIER/", "*.fits"
+#data_dir, data_file = "./data/IRAS08544-4431/PIONIER/", "*.fits"
+data_dir, data_file = os.path.expandvars("$DATA/HD108015/PIONIER_FINAL/"), "*.fits"
+
 container_data = distroi.read_oi_container_from_oifits(data_dir, data_file)
 
 # Make plots of the data, including the uv coverage
@@ -21,12 +25,14 @@ container_data.plot_data(fig_dir=fig_dir)
 
 # Calculate the resolution ellipse from a Gaussian fit to the interferometric point-spread function.
 # This method is available in the auxiliary subpackage.
-beam = distroi.auxiliary.oi_container_calc_gaussian_beam(
+beam = oi_container_calc_gaussian_beam(
     container_data,
     vistype="vis2",
     make_plots=True,
     show_plots=True,
     fig_dir=fig_dir,
-    num_res=2,
-    pix_per_res=64,
+    num_res=30,
+    pix_per_res=48,
+    save_dirty_img_dict=True,
+    dirty_img_dict_path=os.path.expandvars("$DOWNLOADS/img_dirty_psf.pkl")
 )

@@ -10,9 +10,11 @@ import distroi
 import distroi.auxiliary
 
 # set properties for run
-data_dir = "./data/IRAS15469-5311/PIONIER/"
+# data_dir = "./data/IW_Car/PIONIER/"
+data_dir = "/home/toond/Documents/collabs/wr57_imaging/data/all-reduced/"
+copy_dir = None
 data_file = "*.fits"
-init_time_window = 20  # initial time window width in days
+init_time_window = 80 # initial time window width in days
 
 # alternative call where I copy the resulting OIFITS files withim the plot's time window to a folder in my downloads
-filenames = distroi.auxiliary.oifits_time_window_plot(data_dir, data_file, init_time_window, copy_dir=None)
+filenames = distroi.auxiliary.oifits_time_window_plot(data_dir, data_file, init_time_window, copy_dir=copy_dir)

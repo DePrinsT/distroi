@@ -9,6 +9,9 @@ import fnmatch
 import numpy as np
 import matplotlib.pyplot as plt
 
+import logging
+logger = logging.getLogger(__name__)
+
 
 # OIFITS READING MODULE
 
@@ -27,38 +30,38 @@ class bcolors:
 
 # Define some functions to print out messages in different colours
 def header(msg):
-    print(bcolors.HEADER + msg + bcolors.ENDC)
+    logger.info(bcolors.HEADER + msg + bcolors.ENDC)
 
 
 def bold(msg):
-    print(bcolors.BOLD + msg + bcolors.ENDC)
+    logger.info(bcolors.BOLD + msg + bcolors.ENDC)
 
 
 def underline(msg):
-    print(bcolors.UNDERLINE + msg + bcolors.ENDC)
+    logger.info(bcolors.UNDERLINE + msg + bcolors.ENDC)
 
 
 def inform(msg):
-    print(bcolors.OKBLUE + msg + bcolors.ENDC)
+    logger.info(bcolors.OKBLUE + msg + bcolors.ENDC)
 
 
 def inform2(msg):
-    print(bcolors.OKGREEN + msg + bcolors.ENDC)
+    logger.info(bcolors.OKGREEN + msg + bcolors.ENDC)
 
 
 def warn(msg):
-    print(bcolors.WARNING + msg + bcolors.ENDC)
+    logger.warning(bcolors.WARNING + msg + bcolors.ENDC)
 
 
 def fail(msg):
-    print(bcolors.FAIL + msg + bcolors.ENDC)
+    logger.error(bcolors.FAIL + msg + bcolors.ENDC)
 
 
 # Function to write out stuff to a log text file.
-def log(msg, dir):
-    f = open(dir + "log.txt", "a")
-    f.write(msg + "\n")
-    f.close()
+#def log(msg, dir):
+#    f = open(dir + "log.txt", "a")
+#    f.write(msg + "\n")
+#    f.close()
 
 
 # Function that calls the constructor of the 'data' class, which will itself properly read in the data in the argument
@@ -865,7 +868,7 @@ class data:
             i += 1
             try:
                 extname = hdul[i].header["EXTNAME"]
-                print("Reading " + extname)
+                logger.info("Reading " + extname)
                 if extname == "OI_TARGET":
                     self.readTARGET(hdul[i])
                 elif extname == "OI_ARRAY":
@@ -1396,7 +1399,7 @@ def ListCP(data):
             tmpv3.append(v3[i])
             tmpwave.append(wavecp[i])
 
-    print(np.array(tmpCP).shape, np.array(tmpu1).shape)
+    #print(np.array(tmpCP).shape, np.array(tmpu1).shape)
     newCP.extend([tmpCP])
     newCPerr.extend([tmpCPerr])
     newu1.extend([tmpu1])

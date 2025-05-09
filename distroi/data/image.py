@@ -40,7 +40,7 @@ class Image:
     dictionary : dict
         Dictionary containing keys and values representing several instance variables described below. Should include
         `wavelength`, `pixelscale_x/y`, `num_pix_x/y`, `img`, and `ftot`. The other required instance variables
-        (related to the FFT) are set automatically through `perform_fft`.
+        (related to the FFT) are set automatically through `do_fft`.
     sp_dep : SpecDep, optional
         Optional spectral dependence of the image. This will only be used if this `Image` is used on its own in methods
         calculating interferometric observables. If instead multiple `Image` objects or an `SED` are passed along as 
@@ -147,7 +147,7 @@ class Image:
             self.img = dictionary["img"]
             self.ftot = dictionary["ftot"]
             # perform the fft to set the other instance variables
-            self.perform_fft(padding=padding)
+            self.do_fft(padding=padding)
 
         # set spectral dependency
         if sp_dep is not None:
@@ -157,7 +157,7 @@ class Image:
 
         return
 
-    def perform_fft(self, padding: tuple[int, int] | None = None) -> None:
+    def do_fft(self, padding: tuple[int, int] | None = None) -> None:
         """Perform an FFT on the image.
 
         Perform the numpy FFT on the `img` property and set the other required attributes related to the
@@ -929,6 +929,10 @@ def image_fft_comp_vis_interpolator(
 
     Warnings
     --------
+    The interpolators order of arguments for `u` and `v` is reversed compared to their normal order, and the
+    interpolator should be called upon as interpolator(v, u). This is because the 'first index' of an array
+    representing an image in the ordinary python convention represents the y-axis, not the x-axis.
+
     The interpolator will throw errors if arguments outside their bounds are supplied! Expects, in case of multiple
     model images, that every image included has the same pixelscale and amount of pixels (in both x- and y-direction).
     """

@@ -201,8 +201,8 @@ class OIContainer:
 
         # plot uv coverage
         fig, ax = plt.subplots(1, 1, figsize=(8, 8))
-        fig.subplots_adjust(right=0.8)
-        cax = fig.add_axes([0.82, 0.15, 0.02, 0.7])
+        fig.subplots_adjust(right=0.8, bottom=0.2)
+        cax = fig.add_axes([0.82, 0.20, 0.02, 0.68])
         ax.set_aspect("equal", adjustable="datalim")  # make plot axes have same scale
         ax.scatter(uf / 1e6, vf / 1e6, c=wave, s=1, cmap=constants.PLOT_CMAP)
         sc = ax.scatter(

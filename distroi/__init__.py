@@ -2,6 +2,16 @@
 A package allowing for the calculation of optical interferometry (OI) and other observables from 
 models including a radiative transfer component.
 """
+import sys
+
+# set logger to be available on standard output
+import logging
+logger = logging.getLogger(__name__)
+stdout_handler = logging.StreamHandler(stream=sys.stdout)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s: %(message)s')
+stdout_handler.setFormatter(formatter)
+logger.addHandler(stdout_handler)
+logger.setLevel(logging.DEBUG)
 
 # Use imports in the __init__.py files to 'expose' classes & methods defined in the (sub)package modules (.py files) to
 # the user at a higher level . For example using 'from .image_fft import Image' in this file, the user can just

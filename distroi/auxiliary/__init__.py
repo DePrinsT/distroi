@@ -3,6 +3,9 @@
 Some modules are originally written by A. Corporaal and J. Kluska.
 """
 
+import logging
+logger = logging.getLogger(__name__)
+
 # Imports here will become available at the level of the subpackage.
 # E.g. distroi.auxiliary.beam.oi_container_calc_gaussian_beam will be available as
 # 'distroi.auxiliary.oi_container_calc_gaussian_beam'.

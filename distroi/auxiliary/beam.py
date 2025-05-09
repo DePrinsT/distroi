@@ -8,6 +8,8 @@ from distroi.auxiliary import constants
 from distroi.data import oi_container
 
 import os
+import logging
+import pickle
 
 import numpy as np
 from scipy.optimize import curve_fit
@@ -18,6 +20,8 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Ellipse
 
 constants.set_matplotlib_params()  # set project matplotlib parameters
+
+logger = logging.getLogger(__name__)  # set logger
 
 
 class Beam:
@@ -73,6 +77,8 @@ def oi_container_calc_gaussian_beam(
     show_plots: bool = False,
     num_res: int = 3,
     pix_per_res: int = 32,
+    save_dirty_img_dict: bool = False,
+    dirty_img_dict_path: str = "./dirty_img.pkl"
 ) -> Beam:
     """Calculate the beam from an `OIContainer` object.
 
@@ -103,6 +109,12 @@ def oi_container_calc_gaussian_beam(
     pix_per_res : int, optional
         Amount of dirty beam pixels used per resolution element. This should be even. Set to 32 by default.
         Increasing this can significantly increase computation time (scales as O(n^2)).
+    save_dirty_img_dict: bool, optional
+        Save dirty beam to pickled dictionary file in order to be read in and plotted. Contains keys `image`, `xcoords`
+        and `ycoords`, containing the image and sky coordinates as 2D numpy arrays. Additionally,
+        contains number of pixels and pixelscale as `num_pix` and `pixelscale`.
+    dirty_img_dict_path: str, optional
+        Path to file to save pickled dirty image dictionary in. Recommended to save with .pkl file extension.
 
     Returns
     -------
@@ -129,6 +141,8 @@ def oi_container_calc_gaussian_beam(
         u = container.v_uf
         v = container.v_vf
 
+    logger.info("Calculating dirty beam.")
+
     max_uv_dist = np.max(np.sqrt(u**2 + v**2))  # max distance in 1/rad from origin, sets pixelscale for image space
     pix_res = (0.5 / max_uv_dist) * constants.RAD2MAS  # smallest resolution element (at Nyquist sampling)
     pixelscale = pix_res / pix_per_res  # overresolve the dirty beam so the image is clearer
@@ -148,6 +162,12 @@ def oi_container_calc_gaussian_beam(
             img_dirty[i][j] = np.sum(np.real(np.exp(2j * np.pi * ((x[i][j] * u) + (y[i][j] * v)) * constants.MAS2RAD)))
     # normalize dirty image to maximum value (makes fitting easier)
     img_dirty /= np.max(img_dirty)
+
+    if save_dirty_img_dict:
+        dirty_img_dict =  {"image": img_dirty, "xcoords": x, "ycoords": y,
+                           "num_pix": num_pix, "pixelscale": pixelscale}
+        with open(dirty_img_dict_path, "wb") as handle:
+            pickle.dump(dirty_img_dict, handle)
 
     # Fit a 2D Gaussian to the dirty beam
     # Initial guesses for amplitude, x0, y0, sig_min, sig_maj_min_sig_min, position angle and offset
