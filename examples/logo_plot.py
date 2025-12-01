@@ -8,9 +8,10 @@ import matplotlib.pyplot as plt
 
 def logo_plot(image, img_path):
     fig, ax = plt.subplots(1, 1, figsize=(8, 8))
+    fig.set_facecolor("k")
     img_plot = ax.imshow(
         image.img,
-        cmap="gist_heat",
+        cmap="magma",
         aspect="auto",
         extent=(
             (image.num_pix_x / 2) * image.pixelscale_x * distroi.auxiliary.constants.RAD2MAS,
@@ -20,7 +21,7 @@ def logo_plot(image, img_path):
         ),
         interpolation="bicubic",
     )
-    ax.set_aspect(2.5)
+    ax.set_aspect(1.2)
     ax.set_xlim(-20, 20)
     ax.set_ylim(-20, 20)
     plt.axis("off")

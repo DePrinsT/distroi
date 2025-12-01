@@ -5,7 +5,7 @@ stored in the OIFITS format. Currently supports the following combinations of ob
 Closure phases; Visibilities - Closure phases; Correlated fluxes (formally stored as visibilities) - Closure phases.
 """
 
-from distroi.auxiliary import constants
+from distroi.auxiliary import constants, nan_filter_arrays
 from distroi.data import image
 from distroi.data import sed
 from distroi.model.geom_comp import geom_comp
@@ -153,6 +153,7 @@ class OIContainer:
         log_plotv: bool = False,
         plot_vistype: Literal["vis2", "vis", "fcorr"] = "vis2",
         show_plots: bool = True,
+        data_figsize: tuple = (10, 5),
     ) -> None:
         """
         Plots the data included in the OIContainer instance. Currently, plots uv coverage, a (squared) visibility curve
@@ -227,7 +228,7 @@ class OIContainer:
             )
 
         # plot (squared) visibilities
-        fig, ax = plt.subplots(1, 1, figsize=(10, 5))
+        fig, ax = plt.subplots(1, 1, figsize=data_figsize)
         sc = ax.scatter(base, vis, c=wave, s=2, cmap=constants.PLOT_CMAP)
         ax.errorbar(
             base,
@@ -266,7 +267,7 @@ class OIContainer:
             )
 
         # plot phi_closure
-        fig, ax = plt.subplots(1, 1, figsize=(10, 5))
+        fig, ax = plt.subplots(1, 1, figsize=data_figsize)
         sc = ax.scatter(
             self.t3_bmax,
             self.t3_phi,
@@ -429,6 +430,17 @@ def read_oi_container_from_oifits(
             np.maximum(np.sqrt(uf1dat**2 + vf1dat**2), np.sqrt(uf2dat**2 + vf2dat**2)),
         )
         / 1e6
+    )
+
+    # Filter 1D arrays further based on NaN values
+    vdat, verr, vufdat, vvfdat, vwavedat, v_base = nan_filter_arrays(
+        vdat, verr, vufdat, vvfdat, vwavedat, v_base, filter_ref=True
+    )
+    v2dat, v2err, v2ufdat, v2vfdat, v2wavedat, v2_base = nan_filter_arrays(
+        v2dat, v2err, v2ufdat, v2vfdat, v2wavedat, v2_base, filter_ref=True
+    )
+    t3phidat, t3phierr, uf1dat, vf1dat, uf2dat, vf2dat, uf3dat, vf3dat, t3wavedat, t3_bmax = nan_filter_arrays(
+        t3phidat, t3phierr, uf1dat, vf1dat, uf2dat, vf2dat, uf3dat, vf3dat, t3wavedat, t3_bmax, filter_ref=True
     )
 
     # NOTE: wavelengths are read in in units of meter, but OIContainer objects work with wavelengths in units micron,

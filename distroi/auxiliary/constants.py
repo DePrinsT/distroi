@@ -17,22 +17,27 @@ PROJECT_ROOT: str = os.path.dirname(os.path.dirname(os.path.dirname(os.path.absp
 """
 Root filepath of the project.
 """
+
 FIG_OUTPUT_TYPE: str = "png"
 """
 Output type of the figures (e.g. `'pdf'` or `'png'`).
 """
+
 FIG_DPI: int = 200
 """
 DPI of the output figures.
 """
+
 IMG_CMAP = "inferno"
 """
 Matplotlib colour map used for general images.
 """
+
 IMG_CMAP_DIVERGING = "bwr"
 """
 Matplotlib colour map used for images needing a diverging colourmap.
 """
+
 PLOT_CMAP = "rainbow"
 """
 colour map used for other line/scatter plots.
@@ -43,18 +48,22 @@ SPEED_OF_LIGHT: float = 299792458.0
 """
 Speed of light in SI units (m s^-1).
 """
+
 K_BOLTZMANN: float = 1.380649e-23
 """
 Boltzmann's constant in SI unis (J K^-1).
 """
+
 H_PLANCK: float = 6.62607015e-34
 """
 Planck constant in SI units (J Hz^-1).
 """
+
 B_WIEN: float = 2.897771955e-3
 """
 Wien's displacement constant in SI units (m K).
 """
+
 SIG_STEFAN_BOLTZMANN: float = 5.670374419e-8
 """
 Stefan-Boltzmann constant in SI units (W m^-2 K^-4).
@@ -65,57 +74,90 @@ DEG2RAD: float = np.pi / 180
 """
 Degree to radian conversion factor.
 """
+
 RAD2DEG: float = 1 / DEG2RAD
 """
 Radian to degree conversion factor.
 """
+
 MAS2RAD: float = 1e-3 / 3600 * DEG2RAD
 """
 Milli-arcsecond to radian conversion factor.
 """
+
 RAD2MAS: float = 1 / MAS2RAD
 """
 Radian to milli-arcsecond conversion factor.
 """
+
 MICRON2M: float = 1e-6
 """
 Micrometer to meter conversion factor.
 """
+
 M2MICRON: float = 1 / MICRON2M
 """
 Meter to micron conversion factor.
 """
+
+AU2METER = 1.496e11
+"""
+Astronomical unit to meter conversion factor.
+"""
+
+METER2AU = 1 / AU2METER
+"""
+Meter to astronomical unit conversion factor.
+"""
+
 HZ2GHZ: float = 1e-9
 """
 Hertz to gigaHertz conversion factor.
 """
+
 GHZ2HZ: float = 1 / HZ2GHZ
 """
 gigaHertz to Hertz conversion factor.
 """
+
 MICRON2AA: float = 1e4
 """
 Micron to Angstrom conversion factor.
 """
+
 AA2MICRON: float = 1 / MICRON2AA
 """
 Angstrom to Micron conversion factor.
 """
+
 WATT_PER_M2_HZ_2JY: float = 1e26
 """
 Spectral flux density (F_nu) from SI (W m^-2 Hz^-1) to Jansky conversion factor.
 """
+
 JY_2WATT_PER_M2_HZ: float = 1 / WATT_PER_M2_HZ_2JY
 """
 Spectral flux density (F_nu) from Jansky to SI (W m^-2 Hz^-1) conversion factor.
 """
+
 ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M: float = 1e3
 """
 Spectral flux density (F_lam) from erg s^-1 cm^-2 micron^-1 to SI (W m^-2 m^-1)
 """
+
 WATT_PER_M2_M_2ERG_PER_S_CM2_MICRON: float = 1 / ERG_PER_S_CM2_MICRON_2WATT_PER_M2_M
 """
 Spectral flux density (F_lam) from SI (W m^-2 m^-1) to erg s^-1 cm^-2 micron^-1
+"""
+
+LSOL2WATT: float = 3.828e26
+"""
+Flux solar luminosity to Watt conversion factor.
+"""
+
+WATT2LSOL: float = 1 / LSOL2WATT
+"""
+Flux Watt to solar luminosity conversion factor.
 """
 
 
@@ -148,7 +190,8 @@ def set_matplotlib_params() -> None:
     plt.rc("figure", titlesize=14)  # fontsize of the figure title
     return
 
-#utility functions
+
+# utility functions
 def redden_flux(
     wavelength: np.ndarray | float,
     flux: np.ndarray | float,
@@ -358,3 +401,39 @@ def gaussian_2d_elliptical_ravel(
     values = np.array(values).ravel()  # ravel to a 1D array, so it can be used in scipy curve fitting
 
     return values
+
+
+def nan_filter_arrays(ref_array, *args, filter_ref=False):
+    """
+    Filter arrays based on NaN values of reference array.
+
+    Parameters
+    ----------
+    ref_array : np.ndarray
+        Reference array based on whose values NaN filtering will occur.
+    *args : tuple(np.ndarray)
+        Extra arrays which will be filtered. Must have same shape as ref_array.
+    filter_ref : Bool
+        Whether to filter `ref_array` itself. `ref_array` is not filtered in place
+        but the filtered array is included in the returned tuple.
+
+    Returns
+    -------
+    filtered_arrays : tuple(np.ndarray)
+        Tuple of the filtered arrays in order, including the filtered reference array
+        if `filter_ref` flag is used.
+    """
+    nan_mask = np.isnan(ref_array)
+    non_nan_mask = ~nan_mask  # invert NaN mask
+
+    filtered_arrays = []  # convert to tuple later
+
+    if filter_ref:
+        filtered_arrays.append(ref_array[non_nan_mask])  # add filtered reference array
+
+    for target_array in args:
+        filtered_arrays.append(target_array[non_nan_mask])  # filter other arrays based on mask
+
+    filtered_arrays = tuple(filtered_arrays)  # cast to tuple
+
+    return filtered_arrays

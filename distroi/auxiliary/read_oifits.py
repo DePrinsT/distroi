@@ -175,7 +175,7 @@ class data:
             hdr["DATE-OBS"] = self.vis[i].dateobs
             # print(self.vis[i].targetid)
             targetid = fits.Column(name="TARGET_ID", format="1I", array=self.vis[i].targetid)
-            mjd = fits.Column(name="MJD", format="1D", array=self.vis[i].mjd[:, 0])
+            mjd = fits.Column(name="MJD", format="1D", array=self.vis[i].mjd[0])
             nw = self.vis[i].visamp.shape[1]
             visamp = fits.Column(name="VISAMP", format=str(nw) + "D", array=self.vis[i].visamp)
             visamperr = fits.Column(name="VISAMPERR", format=str(nw) + "D", array=self.vis[i].visamperr)
@@ -210,8 +210,8 @@ class data:
             hdr["ARRNAME"] = self.vis2[i].arrname
             hdr["DATE-OBS"] = self.vis2[i].dateobs
             targetid = fits.Column(name="TARGET_ID", format="1I", array=self.vis2[i].targetid)
-            mjd = fits.Column(name="MJD", format="1D", array=self.vis2[i].mjd[:, 0])
-            nw = self.vis2[i].vis2data.shape[1]
+            mjd = fits.Column(name="MJD", format="1D", array=self.vis2[i].mjd[0])
+            nw = self.vis2[i].vis2data.shape[0]
             vis2 = fits.Column(name="VIS2DATA", format=str(nw) + "D", array=self.vis2[i].vis2data)
             vis2err = fits.Column(name="VIS2ERR", format=str(nw) + "D", array=self.vis2[i].vis2err)
             ucoord = fits.Column(name="UCOORD", format="1D", array=self.vis2[i].ucoord)
@@ -230,7 +230,7 @@ class data:
             hdr["ARRNAME"] = self.t3[i].arrname
             hdr["DATE-OBS"] = self.t3[i].dateobs
             targetid = fits.Column(name="TARGET_ID", format="1I", array=self.t3[i].targetid)
-            mjd = fits.Column(name="MJD", format="1D", array=self.t3[i].mjd[:, 0])
+            mjd = fits.Column(name="MJD", format="1D", array=self.t3[i].mjd[0])
             nw = self.t3[i].t3phi.shape[1]
             t3amp = fits.Column(name="T3AMP", format=str(nw) + "D", array=self.t3[i].t3amp)
             t3amperr = fits.Column(name="T3AMPERR", format=str(nw) + "D", array=self.t3[i].t3amperr)

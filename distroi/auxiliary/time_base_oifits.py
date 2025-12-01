@@ -303,17 +303,11 @@ def oifits_time_window_plot(
         files_within_window.extend(sorted(set(file_name_selection)))  # remake the files within window list
 
         t_begin_span = timestamp_to_plt_float(np.min(date_times)) + val  # set beginning of vspan
-        # adapt polygon vertices accordingly
-        vspan.set_xy(
-            np.array(
-                [
-                    [t_begin_span, 0],
-                    [t_begin_span + window_width_slider.val, 0],
-                    [t_begin_span + window_width_slider.val, 1],
-                    [t_begin_span, 1],
-                ]
-            )
-        )
+
+        vspan.set_xy((t_begin_span, 0.0))
+        vspan.set_width(window_width_slider.val)
+        vspan.set_height(1.0)
+
         # fig.canvas.draw_idle()  # redraw matplotlib figure
         # main_ax.redraw_in_frame()
         return

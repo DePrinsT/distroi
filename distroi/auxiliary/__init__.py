@@ -12,6 +12,9 @@ logger = logging.getLogger(__name__)
 
 # IMPORTS FROM AUXILIARY SUBPACKAGE
 
+# imports from constants module
+from distroi.auxiliary.constants import nan_filter_arrays
+
 # imports from beam module
 from distroi.auxiliary.beam import Beam
 from distroi.auxiliary.beam import oi_container_calc_gaussian_beam

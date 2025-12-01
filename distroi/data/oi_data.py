@@ -65,7 +65,7 @@ class OIData:
         self.vis: OIVis | None = None  # OIVis object
         self.vis2: OIVis2 | None = None  # OIVis2 object
         self.t3: OIT3 | None = None  # OIT3 object
-        self.flux = None  # OIFlux object
+        self.flux = OIFlux | None  # OIFlux object
 
     def from_oifits(self, data_dir: str, data_file: str, ft_only: bool = False) -> None:
         """Read in data from OIFITS files.
@@ -1218,7 +1218,7 @@ if __name__ == "__main__":
     )
     data_file = "2019-04-29T012641_IRAS08544-4431_K0G2D0J3_IR-LM_LOW_cal_oifits_0.fits"
 
-    oidata = OIData.from_oifits(data_dir=data_dir, data_file=data_file)
+    oidata = OIData().from_oifits(data_dir=data_dir, data_file=data_file)
     oidata.plot_data(
         dname="vis",
         xname="spat_freq",

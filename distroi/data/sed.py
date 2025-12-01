@@ -315,8 +315,8 @@ def read_sed_repo_phot(sed_path: str, wave_lims: tuple[float, float] = None) -> 
     dictionary["flam"] = np.array(flam)
     dictionary["flam_err"] = np.array(flam_err)
 
-    dictionary["bands"] = photband
-    dictionary["sources"] = source
+    dictionary["bands"] = list(photband)
+    dictionary["sources"] = list(source)
 
     # Return an SED object
     sed = SED(dictionary=dictionary)

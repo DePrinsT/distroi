@@ -78,7 +78,9 @@ def oi_container_calc_gaussian_beam(
     num_res: int = 3,
     pix_per_res: int = 32,
     save_dirty_img_dict: bool = False,
-    dirty_img_dict_path: str = "./dirty_img.pkl"
+    dirty_img_dict_path: str = "./dirty_img.pkl",
+    save_uv_coverage_dict: bool = False,
+    uv_coverage_dict_path: str = "./uv_coverage.pkl",
 ) -> Beam:
     """Calculate the beam from an `OIContainer` object.
 
@@ -137,9 +139,11 @@ def oi_container_calc_gaussian_beam(
     if vistype == "vis2":
         u = container.v2_uf
         v = container.v2_vf
+        wave = container.v2_wave
     elif vistype == "vis" or vistype == "fcorr":
         u = container.v_uf
         v = container.v_vf
+        wave = container.v_wave
 
     logger.info("Calculating dirty beam.")
 
@@ -164,10 +168,16 @@ def oi_container_calc_gaussian_beam(
     img_dirty /= np.max(img_dirty)
 
     if save_dirty_img_dict:
-        dirty_img_dict =  {"image": img_dirty, "xcoords": x, "ycoords": y,
-                           "num_pix": num_pix, "pixelscale": pixelscale}
+        logger.info(f"Saving pickled dirty beam information to: {dirty_img_dict_path}")
+        dirty_img_dict = {"image": img_dirty, "xcoords": x, "ycoords": y, "num_pix": num_pix, "pixelscale": pixelscale}
         with open(dirty_img_dict_path, "wb") as handle:
             pickle.dump(dirty_img_dict, handle)
+
+    if save_uv_coverage_dict:
+        logger.info(f"Saving pickled uv coverage information to: {uv_coverage_dict_path}")
+        uv_cov_dict = {"uf": u, "vf": v, "wave": wave}
+        with open(uv_coverage_dict_path, "wb") as handle:
+            pickle.dump(uv_cov_dict, handle)
 
     # Fit a 2D Gaussian to the dirty beam
     # Initial guesses for amplitude, x0, y0, sig_min, sig_maj_min_sig_min, position angle and offset

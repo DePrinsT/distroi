@@ -6,13 +6,16 @@ sliders. Uses VLTI/PIONIER observational data of the IRAS08544-4431 system.
 Data taken from Corporaal et al. 2023 (A&A 671, A15: https://doi.org/10.1051/0004-6361/202245689).
 """
 
+import os
 import distroi
 import distroi.auxiliary
 
 # set properties for run
 # data_dir = "./data/IW_Car/PIONIER/"
-data_dir = "/home/toond/Documents/collabs/wr57_imaging/data/all-reduced/"
-copy_dir = None
+data_dir = os.path.expandvars("$MATISSE_DR/reduced/HR4049/non_chopped_selected_filtered/")
+copy_dir = os.path.expandvars("$MATISSE_DR/reduced/HR4049/non_chopped_selected_filtered_time_windowed/")
+#data_dir = os.path.expandvars("$PHD/umon_modelling/data/PIONIER_ALL/")
+#copy_dir = os.path.expandvars("$DOWNLOADS/data_test/")
 data_file = "*.fits"
 init_time_window = 80 # initial time window width in days
 

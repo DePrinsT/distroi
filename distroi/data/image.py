@@ -24,15 +24,17 @@ from typing import Literal
 
 import matplotlib.pyplot as plt
 
+from distroi.model.geom_comp.geom_comp import GeomComp
+
 constants.set_matplotlib_params()  # set project matplotlib parameters
 
 
 class Image:
     """Contains information on an image and its FFT.
 
-    Contains all attributes in order to fully describe both a regular grid image and its FFT. Note that all these 
+    Contains all attributes in order to fully describe both a regular grid image and its FFT. Note that all these
     attributes are expected if all class methods are to work. It can easily be generalized to different RT codes by
-    defining a corresponding image reader function analogous to `read_image_fft_mcfost`. Can handle any amount 
+    defining a corresponding image reader function analogous to `read_image_fft_mcfost`. Can handle any amount
     of pixels in an image, as long as the amount of pixels in each dimension is even.
 
     Parameters
@@ -43,8 +45,8 @@ class Image:
         (related to the FFT) are set automatically through `do_fft`.
     sp_dep : SpecDep, optional
         Optional spectral dependence of the image. This will only be used if this `Image` is used on its own in methods
-        calculating interferometric observables. If instead multiple `Image` objects or an `SED` are passed along as 
-        well, this property of the image will be ignored. By default, the spectral dependency will be assumed to be 
+        calculating interferometric observables. If instead multiple `Image` objects or an `SED` are passed along as
+        well, this property of the image will be ignored. By default, the spectral dependency will be assumed to be
         flat in F_lam across wavelengths.
     padding : tuple of int, optional
         Number of (x, y)-pixels to which an image should be 0-padded before performing the FFT. I.e.
@@ -199,7 +201,7 @@ class Image:
             else:
                 self.num_pix_fft_x = self.num_pix_x
             if padding[1] > self.num_pix_y:
-                self.num_pix_fft_y = padding[0]
+                self.num_pix_fft_y = padding[1]
             else:
                 self.num_pix_fft_y = self.num_pix_y
 
@@ -214,7 +216,7 @@ class Image:
                 constant_values=(0, 0),
             )
 
-        self.fft = np.fft.fftshift(np.fft.fft2(np.fft.fftshift(image)))  # perform complex fft in Jansky
+        self.fft = np.fft.ifftshift(np.fft.fft2(np.fft.fftshift(image)))  # perform complex fft in Jansky
 
         # extract info on the frequencies, note this is in units of 1/pixel
         # !!! NOTE: the first axis in a numpy array is the y-axis of the img, the second axis is the x-axis
@@ -231,7 +233,7 @@ class Image:
     def redden(
         self,
         ebminv: float,
-        reddening_law: str = constants.PROJECT_ROOT + "/utils/ISM_reddening" "/ISMreddening_law_Cardelli1989.dat",
+        reddening_law: str = constants.PROJECT_ROOT + "/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat",
     ) -> None:
         """Redden the image.
 
@@ -336,9 +338,9 @@ class Image:
             f"Maximum projected baseline resolvable under current pixel sampling S-N [m]: "
             f"{((np.max(self.w_y) * 1 / self.pixelscale_y) * self.wavelength * constants.MICRON2M):.4E} \n"
             f"Spacing in projected baseline length corresponding to frequency sampling E-W [m]: "
-            f"{abs(((self.w_x[1] - self.w_x[0]) * 1 / self.pixelscale_x) * self.wavelength *constants.MICRON2M):.4E} \n"
+            f"{abs(((self.w_x[1] - self.w_x[0]) * 1 / self.pixelscale_x) * self.wavelength * constants.MICRON2M):.4E} \n"
             f"Spacing in projected baseline length corresponding to frequency sampling S-N [m]: "
-            f"{abs(((self.w_y[1] - self.w_y[0]) * 1 / self.pixelscale_y) * self.wavelength *constants.MICRON2M):.4E} \n"
+            f"{abs(((self.w_y[1] - self.w_y[0]) * 1 / self.pixelscale_y) * self.wavelength * constants.MICRON2M):.4E} \n"
             f"================================================================ \n"
         )
         return info_str
@@ -819,13 +821,40 @@ def read_image_mcfost(img_path: str, padding: tuple[int, int] | None = None, dis
     return image
 
 
+def read_image_organic(img_path: str, padding: tuple[int, int] | None = None) -> tuple[Image, list[GeomComp]]:
+    """Read in image from the ORGANIC image reconstruction code.
+
+    Retrieve image data from an ORGANIC reconstructed image file and return it as a `Image` class instance and a
+    list of geometric components (representing the SPARCO components in ORGANIC). Reads in the PCA filtered median
+    image if present.
+
+    Parameters
+    ----------
+    img_path : str
+        Path to an MCFOST output RT.fits.gz model image file.
+    padding : tuple of int, optional
+        Number of (x, y)-pixels to which an image should be 0-padded before performing the FFT. I.e.
+        ``padding=(680, 540)`` will 0-pad an image to 680 and 540 pixels in the x and y dimensions, respectively.
+        If smaller than the number of pixels already in the `img` array, no padding will be added in the respective
+        dimension. These should both be even numbers!
+
+    Returns
+    -------
+    organic_model : tuple(Image, list(GeomComp))
+        Returns a tuple containing the ORGANIC image and a list of Geometric components representing the
+        SPARCO components used in ORGANIC.
+
+    """
+    return
+
+
 def read_image_list(
     mod_dir: str,
     img_dir: str,
     read_method: Literal["mcfost"] = "mcfost",
     padding: tuple[int, int] | None = None,
     ebminv: float = 0.0,
-    reddening_law: str = f"{constants.PROJECT_ROOT}" f"/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat",
+    reddening_law: str = f"{constants.PROJECT_ROOT}/utils/ISM_reddening/ISMreddening_law_Cardelli1989.dat",
 ) -> list[Image] | None:
     """Read in multiple model image files into a list of `Image` objects.
 
@@ -841,8 +870,8 @@ def read_image_list(
         Subdirectory containing RT model images. All image files recursively found in the subdirectories of
         ``mod_dir+img_dir`` are read.
     read_method : {'mcfost'}, optional
-        Type of method used to read in RT model images when creating `Image` class instances. Currently only supports
-        `'mcfost'`, in which case all files ending on the suffix 'RT.fits.gz' are read in.
+        Type of method used to read in RT model images when creating `Image` class instances. Currently supports
+        `'mcfost'`, in which case all files ending on the suffix 'RT.fits.gz' are read in, and `'organic'`.
     padding : tuple of int, optional
         Number of (x, y)-pixels to which an image should be 0-padded before performing the FFT. I.e.
         ``padding=(680, 540)`` will 0-pad an image to 680 and 540 pixels in the x and y dimensions, respectively.
@@ -865,7 +894,7 @@ def read_image_list(
     ValueError
         If an invalid `read_method` is provided.
     """
-    valid_read_methods = ["mcfost"]
+    valid_read_methods = ["mcfost", "organic"]
     if read_method not in valid_read_methods:
         raise ValueError(f"Warning: Invalid read_method '{read_method}'. Valid options are: {valid_read_methods}.")
 
