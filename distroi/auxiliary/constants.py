@@ -28,7 +28,7 @@ FIG_DPI: int = 200
 DPI of the output figures.
 """
 
-IMG_CMAP = "inferno"
+IMG_CMAP = "hot"
 """
 Matplotlib colour map used for general images.
 """

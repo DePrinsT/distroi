@@ -55,9 +55,16 @@ import matplotlib.pyplot as plt
 #    )
 
 data_dir, data_file = (
-    os.path.expandvars(f"$MATISSE_PAPER/data/reduced/HR4049/non_chopped_selected_filtered/"),
+    os.path.expandvars(f"$MATISSE_PAPER/data/reduced/HR4049/non_chopped_selected_filtered_time_windowed/"),
     "*.fits",
 )
+
+#data_dir, data_file = (
+#    os.path.expandvars(f"$DATA_ARCHIVE/IRAS08544-4431/radiative_transfer_modelling_corporaal_et_al2023/GRAVITY/"),
+#    "*.fits",
+#)
+
+
 
 
 #data_dir, data_file = (
@@ -95,8 +102,8 @@ beam = oi_container_calc_gaussian_beam(
     make_plots=True,
     show_plots=True,
     fig_dir=None,
-    num_res=3,
-    pix_per_res=32,
+    num_res=48,
+    pix_per_res=4,
     save_uv_coverage_dict=False,
     uv_coverage_dict_path=None,
 )

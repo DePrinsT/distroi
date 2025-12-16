@@ -401,6 +401,7 @@ class Image:
         log_plotv: bool = False,
         log_ploti: bool = False,
         show_plots: bool = True,
+        plot_prefix: str = "",
     ) -> None:
         """Create diagnostic plots.
 
@@ -420,6 +421,8 @@ class Image:
         show_plots : bool, optional
             Set to False if you do not want the plots to be shown during your script run. Note that if True, this
             freezes further code execution until the plot windows are closed.
+        plot_prefix: str, optional
+            Prefix to add to the names of the plots to be saved.
 
         Returns
         -------
@@ -675,7 +678,7 @@ class Image:
 
         if fig_dir is not None:
             plt.savefig(
-                os.path.join(fig_dir, f"fft2d_maps_{self.wavelength}mum.{constants.FIG_OUTPUT_TYPE}"),
+                os.path.join(fig_dir, f"{plot_prefix}fft2d_maps_{self.wavelength}mum.{constants.FIG_OUTPUT_TYPE}"),
                 dpi=constants.FIG_DPI,
                 bbox_inches="tight",
             )
@@ -745,12 +748,15 @@ class Image:
 
         if fig_dir is not None:
             plt.savefig(
-                os.path.join(fig_dir, f"fft1d_cuts_{self.wavelength}mum.{constants.FIG_OUTPUT_TYPE}"),
+                os.path.join(fig_dir, f"{plot_prefix}fft1d_cuts_{self.wavelength}mum.{constants.FIG_OUTPUT_TYPE}"),
                 dpi=constants.FIG_DPI,
                 bbox_inches="tight",
             )
         if show_plots:
             plt.show()
+        else:
+            plt.close(fig)  # close figure 1
+            plt.close(fig2)  # close figure 2
         return
 
 
