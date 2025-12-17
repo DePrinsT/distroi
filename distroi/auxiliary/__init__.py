@@ -4,6 +4,7 @@ Some modules are originally written by A. Corporaal and J. Kluska.
 """
 
 import logging
+
 logger = logging.getLogger(__name__)
 
 # Imports here will become available at the level of the subpackage.

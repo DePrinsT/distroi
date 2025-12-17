@@ -13,6 +13,11 @@ from distroi.auxiliary.beam import oi_container_calc_gaussian_beam
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+import logging
+import sys
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s: %(message)s", stream=sys.stdout)
+
 
 # Read in the data to an OIContainer object
 # data_dir, data_file = "./data/IRAS08544-4431/PIONIER/", "*.fits"

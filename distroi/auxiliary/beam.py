@@ -247,9 +247,9 @@ def oi_container_calc_gaussian_beam(
             0.05,
             0.05,
             r"$\mathrm{FWHM}_{min}/2 = $"
-            + f"{gauss_beam.fwhm_min/2:.3g} mas ; "
+            + f"{gauss_beam.fwhm_min / 2:.3g} mas ; "
             + r"$\mathrm{FWHM}_{maj}/2 = $"
-            + f"{gauss_beam.fwhm_maj/2:.3g} mas ; "
+            + f"{gauss_beam.fwhm_maj / 2:.3g} mas ; "
             + "\n"
             + "PA = "
             + f"{gauss_beam.pa:.4g}"

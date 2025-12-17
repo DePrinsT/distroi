@@ -10,6 +10,12 @@ import os
 import distroi
 import distroi.auxiliary
 
+import logging
+import sys
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s: %(message)s", stream=sys.stdout)
+
+
 # set properties for run
 # data_dir = "./data/IW_Car/PIONIER/"
 data_dir = os.path.expandvars("$MATISSE_DR/reduced/HR4049/non_chopped_selected_filtered/")

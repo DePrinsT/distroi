@@ -10,6 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 import logging
+
 logger = logging.getLogger(__name__)
 
 
@@ -58,7 +59,7 @@ def fail(msg):
 
 
 # Function to write out stuff to a log text file.
-#def log(msg, dir):
+# def log(msg, dir):
 #    f = open(dir + "log.txt", "a")
 #    f.write(msg + "\n")
 #    f.close()
@@ -1399,7 +1400,7 @@ def ListCP(data):
             tmpv3.append(v3[i])
             tmpwave.append(wavecp[i])
 
-    #print(np.array(tmpCP).shape, np.array(tmpu1).shape)
+    # print(np.array(tmpCP).shape, np.array(tmpu1).shape)
     newCP.extend([tmpCP])
     newCPerr.extend([tmpCPerr])
     newu1.extend([tmpu1])

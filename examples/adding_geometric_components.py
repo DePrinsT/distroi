@@ -6,6 +6,10 @@ Data taken from Corporaal et al. 2023 (A&A 671, A15: https://doi.org/10.1051/000
 """
 
 import distroi
+import logging
+import sys
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s: %(message)s", stream=sys.stdout)
 
 # Read in the data to an OIContainer object
 data_dir, data_file = "./data/IRAS08544-4431/PIONIER/", "*.fits"
@@ -34,7 +38,6 @@ distroi.oi_container_plot_data_vs_model(container_data, container_model, fig_dir
 secondary = distroi.UniformDisk(diameter=0.1, coords=(0, 0), sp_dep=distroi.FlatSpecDep(flux_form="flam"))
 
 container_model = distroi.oi_container_calc_image_fft_observables(
-    container_data, img_ffts, geom_comps=[background, secondary], geom_comp_flux_fracs=[0.01, 0.98],
-    ref_wavelength=1.65
+    container_data, img_ffts, geom_comps=[background, secondary], geom_comp_flux_fracs=[0.01, 0.98], ref_wavelength=1.65
 )
 distroi.oi_container_plot_data_vs_model(container_data, container_model, fig_dir=f"{fig_dir}", show_plots=True)
